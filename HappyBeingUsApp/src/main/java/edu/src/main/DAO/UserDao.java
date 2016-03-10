@@ -1,6 +1,7 @@
-package neu.cs5500.HBU.DAO;
+package edu.src.main.DAO;
 
-import neu.cs5500.HBU.MODEL.User;
+import edu.src.main.MODEL.User;
+
 import java.util.ArrayList;
 import java.util.List;
 
