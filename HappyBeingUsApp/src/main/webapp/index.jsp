@@ -6,6 +6,7 @@
 <title>Personal Home Page</title>
 
 <body>
+<<<<<<< HEAD
 
 <head>
 hello
@@ -18,5 +19,10 @@ hello
 	<%//user.getUsername() %>
 	<%//user.getPassword() %>
 	<%//user.getuId()%>
+=======
+<h2>Hello World!</h2>
+
+<a href="adminHome.action">Admin Home</a>
+>>>>>>> refs/remotes/origin/harsh-works
 </body>
 </html>
