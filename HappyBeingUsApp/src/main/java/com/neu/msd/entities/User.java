@@ -17,7 +17,10 @@ public class User {
 	private String lastName;
 	private Date birthdate;
 	private String email;
+<<<<<<< HEAD
 	private User parent;
+=======
+>>>>>>> refs/remotes/origin/nisha-on-web
 	private boolean isDiagnosticTaken;
 	private Version version;
 	private Score score;
@@ -110,6 +113,7 @@ public class User {
 		this.email = email;
 	}
 
+<<<<<<< HEAD
 	/**
 	 * @return the parent
 	 */
@@ -123,6 +127,8 @@ public class User {
 	public void setParent(User parent) {
 		this.parent = parent;
 	}
+=======
+>>>>>>> refs/remotes/origin/nisha-on-web
 
 	/**
 	 * @return the isDiagnosticTaken
@@ -166,9 +172,13 @@ public class User {
 		this.score = score;
 	}
 
+<<<<<<< HEAD
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
+=======
+
+>>>>>>> refs/remotes/origin/nisha-on-web
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -179,16 +189,22 @@ public class User {
 		result = prime * result + id;
 		result = prime * result + (isDiagnosticTaken ? 1231 : 1237);
 		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
+<<<<<<< HEAD
 		result = prime * result + ((parent == null) ? 0 : parent.hashCode());
+=======
+>>>>>>> refs/remotes/origin/nisha-on-web
 		result = prime * result + ((score == null) ? 0 : score.hashCode());
 		result = prime * result + ((userType == null) ? 0 : userType.hashCode());
 		result = prime * result + ((version == null) ? 0 : version.hashCode());
 		return result;
 	}
 
+<<<<<<< HEAD
 	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
+=======
+>>>>>>> refs/remotes/origin/nisha-on-web
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -222,11 +238,14 @@ public class User {
 				return false;
 		} else if (!lastName.equals(other.lastName))
 			return false;
+<<<<<<< HEAD
 		if (parent == null) {
 			if (other.parent != null)
 				return false;
 		} else if (!parent.equals(other.parent))
 			return false;
+=======
+>>>>>>> refs/remotes/origin/nisha-on-web
 		if (score == null) {
 			if (other.score != null)
 				return false;
@@ -245,6 +264,7 @@ public class User {
 		return true;
 	}
 
+<<<<<<< HEAD
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
@@ -254,5 +274,14 @@ public class User {
 				+ ", birthdate=" + birthdate + ", email=" + email + ", parent=" + parent + ", isDiagnosticTaken="
 				+ isDiagnosticTaken + ", version=" + version + ", score=" + score + "]";
 	}
+=======
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", userType=" + userType + ", firstName=" + firstName + ", lastName=" + lastName
+				+ ", birthdate=" + birthdate + ", email=" + email + ", isDiagnosticTaken=" + isDiagnosticTaken
+				+ ", version=" + version + ", score=" + score + "]";
+	}
+
+>>>>>>> refs/remotes/origin/nisha-on-web
 	
 }
