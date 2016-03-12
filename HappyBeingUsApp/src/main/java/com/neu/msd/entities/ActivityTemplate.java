@@ -43,16 +43,47 @@ public class ActivityTemplate {
 	public void setTemplateName(String templateName) {
 		this.templateName = templateName;
 	}
-	
-	@Override
-	public boolean equals(Object obj) {
-		// TODO Auto-generated method stub
-		return super.equals(obj);
-	}
-	
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	@Override
 	public int hashCode() {
-		// TODO Auto-generated method stub
-		return super.hashCode();
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		result = prime * result + ((templateName == null) ? 0 : templateName.hashCode());
+		return result;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ActivityTemplate other = (ActivityTemplate) obj;
+		if (id != other.id)
+			return false;
+		if (templateName == null) {
+			if (other.templateName != null)
+				return false;
+		} else if (!templateName.equals(other.templateName))
+			return false;
+		return true;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "ActivityTemplate [id=" + id + ", templateName=" + templateName + "]";
+	}
+	
 }

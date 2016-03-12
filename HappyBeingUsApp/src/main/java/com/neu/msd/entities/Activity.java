@@ -14,7 +14,6 @@ public class Activity {
 	private int orderNo;
 	private ActivityType activityType;
 	private ActivityTemplate activityTemplate;
-	private Topic topic;
 	
 	public Activity() {
 		// TODO Auto-generated constructor stub
@@ -90,29 +89,61 @@ public class Activity {
 		this.activityTemplate = activityTemplate;
 	}
 
-	/**
-	 * @return the topic
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
 	 */
-	public Topic getTopic() {
-		return topic;
-	}
-
-	/**
-	 * @param topic the topic to set
-	 */
-	public void setTopic(Topic topic) {
-		this.topic = topic;
-	}
-	
-	@Override
-	public boolean equals(Object obj) {
-		// TODO Auto-generated method stub
-		return super.equals(obj);
-	}
-	
 	@Override
 	public int hashCode() {
-		// TODO Auto-generated method stub
-		return super.hashCode();
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((activityTemplate == null) ? 0 : activityTemplate.hashCode());
+		result = prime * result + ((activityText == null) ? 0 : activityText.hashCode());
+		result = prime * result + ((activityType == null) ? 0 : activityType.hashCode());
+		result = prime * result + id;
+		result = prime * result + orderNo;
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Activity other = (Activity) obj;
+		if (activityTemplate == null) {
+			if (other.activityTemplate != null)
+				return false;
+		} else if (!activityTemplate.equals(other.activityTemplate))
+			return false;
+		if (activityText == null) {
+			if (other.activityText != null)
+				return false;
+		} else if (!activityText.equals(other.activityText))
+			return false;
+		if (activityType == null) {
+			if (other.activityType != null)
+				return false;
+		} else if (!activityType.equals(other.activityType))
+			return false;
+		if (id != other.id)
+			return false;
+		if (orderNo != other.orderNo)
+			return false;
+		return true;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Activity [id=" + id + ", activityText=" + activityText + ", orderNo=" + orderNo + ", activityType="
+				+ activityType + ", activityTemplate=" + activityTemplate + "]";
 	}
 }

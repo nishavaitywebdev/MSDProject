@@ -10,7 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.neu.msd.entities.ActivityContainer;
 import com.neu.msd.entities.Topic;
 import com.neu.msd.exception.AdminException;
 import com.neu.msd.service.AdminServie;
@@ -26,15 +28,27 @@ public class AdminController {
 	private AdminServie adminService;
 	
 	@RequestMapping(value="/adminHome.action", method=RequestMethod.GET)
-	public String loadAdminHome(Model model){
+	public String loadHome(Model model){
 		
 		try {
 			List<Topic> topics = adminService.loadTopics();
 			model.addAttribute("topics", topics);
+			return "adminHome";
 		} catch (AdminException e) {
 			return "errorPage";
 		}
+	}
+	
+	@RequestMapping(value="/editActivityContainer.action", method=RequestMethod.POST)
+	public String loadContainerById(@RequestParam("id") String activityContainerId, Model model){
 		
-		return "adminHome";
+		ActivityContainer activityContainer = new ActivityContainer();
+		try {
+			activityContainer = adminService.getActivityContainerById(Integer.valueOf(activityContainerId));
+			model.addAttribute("activityContainer", activityContainer);
+			return "activityContainer";
+		} catch (AdminException e) {
+			return "errorPage";
+		}
 	}
 }

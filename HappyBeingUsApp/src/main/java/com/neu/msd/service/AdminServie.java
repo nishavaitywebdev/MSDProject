@@ -5,6 +5,7 @@ package com.neu.msd.service;
 
 import java.util.List;
 
+import com.neu.msd.entities.ActivityContainer;
 import com.neu.msd.entities.Topic;
 import com.neu.msd.exception.AdminException;
 
@@ -15,4 +16,6 @@ import com.neu.msd.exception.AdminException;
 public interface AdminServie {
 	
 	public List<Topic> loadTopics() throws AdminException;
+
+	public ActivityContainer getActivityContainerById(int activityContainerId) throws AdminException;
 }
