@@ -1,24 +1,30 @@
-F:\Eclipse\HappyBeingUsApp\src\main\java\com\neu\msd\entities\ActivityAnswer.java
-F:\Eclipse\HappyBeingUsApp\src\main\java\com\neu\msd\exception\AdminException.java
-F:\Eclipse\HappyBeingUsApp\src\main\java\com\neu\msd\entities\ActivityTemplate.java
-F:\Eclipse\HappyBeingUsApp\src\main\java\com\neu\msd\entities\Activity.java
-F:\Eclipse\HappyBeingUsApp\src\main\java\com\neu\msd\entities\UserAuthentication.java
-F:\Eclipse\HappyBeingUsApp\src\main\java\com\neu\msd\entities\AdminActivityAnswer.java
-F:\Eclipse\HappyBeingUsApp\src\main\java\com\neu\msd\entities\User.java
-F:\Eclipse\HappyBeingUsApp\src\main\java\com\neu\msd\entities\DaughterRegistration.java
-F:\Eclipse\HappyBeingUsApp\src\main\java\com\neu\msd\entities\Mother.java
-F:\Eclipse\HappyBeingUsApp\src\main\java\com\neu\msd\entities\Score.java
-F:\Eclipse\HappyBeingUsApp\src\main\java\com\neu\msd\controllers\AuthenticationController.java
-F:\Eclipse\HappyBeingUsApp\src\main\java\com\neu\msd\entities\Topic.java
-F:\Eclipse\HappyBeingUsApp\src\main\java\com\neu\msd\entities\UserType.java
-F:\Eclipse\HappyBeingUsApp\src\main\java\com\neu\msd\service\AdminServiceImpl.java
-F:\Eclipse\HappyBeingUsApp\src\main\java\com\neu\msd\entities\Daughter.java
-F:\Eclipse\HappyBeingUsApp\src\main\java\com\neu\msd\entities\ActivityContainer.java
-F:\Eclipse\HappyBeingUsApp\src\main\java\com\neu\msd\dao\AdminDaoImpl.java
-F:\Eclipse\HappyBeingUsApp\src\main\java\com\neu\msd\entities\ActivityType.java
-F:\Eclipse\HappyBeingUsApp\src\main\java\com\neu\msd\service\AdminServie.java
-F:\Eclipse\HappyBeingUsApp\src\main\java\com\neu\msd\dao\AdminDao.java
-F:\Eclipse\HappyBeingUsApp\src\main\java\com\neu\msd\controllers\AdminController.java
-F:\Eclipse\HappyBeingUsApp\src\main\java\com\neu\msd\entities\Answer.java
-F:\Eclipse\HappyBeingUsApp\src\main\java\com\neu\msd\entities\TopicStatus.java
-F:\Eclipse\HappyBeingUsApp\src\main\java\com\neu\msd\entities\Version.java
+G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\main\java\com\neu\msd\dao\AdminDaoImpl.java
+G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\main\java\com\neu\msd\entities\UserAuthentication.java
+G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\main\java\com\neu\msd\entities\DaughterRegistration.java
+G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\main\java\com\neu\msd\entities\AdminActivityAnswer.java
+G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\main\java\com\neu\msd\entities\TopicStatus.java
+G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\main\java\com\neu\msd\exception\AuthenticationException.java
+G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\main\java\com\neu\msd\entities\ActivityAnswer.java
+G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\main\java\com\neu\msd\entities\Topic.java
+G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\main\java\com\neu\msd\entities\Mother.java
+G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\main\java\com\neu\msd\entities\ActivityTemplate.java
+G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\main\java\com\neu\msd\service\AdminServie.java
+G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\main\java\com\neu\msd\service\AuthenticateService.java
+G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\main\java\com\neu\msd\entities\ActivityContainer.java
+G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\main\java\com\neu\msd\entities\Activity.java
+G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\main\java\com\neu\msd\exception\AdminException.java
+G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\main\java\com\neu\msd\entities\Version.java
+G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\main\java\com\neu\msd\entities\ActivityType.java
+G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\main\java\com\neu\msd\dao\AuthenticateDaoImpl.java
+G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\main\java\com\neu\msd\controllers\AuthenticationController.java
+G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\main\java\com\neu\msd\entities\User.java
+G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\main\java\com\neu\msd\entities\MotherRegistration.java
+G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\main\java\com\neu\msd\entities\Score.java
+G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\main\java\com\neu\msd\service\AdminServiceImpl.java
+G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\main\java\com\neu\msd\service\AuthenticateServiceImpl.java
+G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\main\java\com\neu\msd\dao\AuthenticateDao.java
+G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\main\java\com\neu\msd\dao\AdminDao.java
+G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\main\java\com\neu\msd\entities\Daughter.java
+G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\main\java\com\neu\msd\controllers\AdminController.java
+G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\main\java\com\neu\msd\entities\Answer.java
+G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\main\java\com\neu\msd\entities\UserType.java
