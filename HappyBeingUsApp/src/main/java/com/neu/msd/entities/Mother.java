@@ -14,6 +14,9 @@ public class Mother extends User {
 	private List<User> daughters;
 	
 	public Mother() {
+		UserType userType = new UserType();
+		userType.setUserType("Mother");
+		this.setUserType(userType);
 	}
 
 	/**

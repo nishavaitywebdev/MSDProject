@@ -3,20 +3,23 @@
  */
 package com.neu.msd.controllers;
 
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.neu.msd.entities.Daughter;
 import com.neu.msd.entities.DaughterRegistration;
-import com.neu.msd.entities.Topic;
-import com.neu.msd.entities.User;
 import com.neu.msd.entities.UserAuthentication;
-import com.neu.msd.exception.AdminException;
+import com.neu.msd.exception.AuthenticationException;
+import com.neu.msd.service.AuthenticateService;
 
 /**
  * @author NISHA
@@ -24,6 +27,9 @@ import com.neu.msd.exception.AdminException;
  */
 @Controller
 public class AuthenticationController {
+	
+	@Autowired
+	private AuthenticateService authenticateService;
 
 	@RequestMapping(value="/landingPage.action", method=RequestMethod.GET)
 	public String loadLandingPage(Model model){
@@ -40,6 +46,18 @@ public class AuthenticationController {
 	@RequestMapping(value="/signUp.action", method=RequestMethod.POST)
 	public String registerDaughter(@ModelAttribute("daughterRegistration") DaughterRegistration daughterRegistration, Model model){
 		
-		return "landingPage";
+		try {
+			authenticateService.registerDaughter(daughterRegistration);
+			return "landingPage";
+		} catch (AuthenticationException e) {
+			return "errorPage";
+		}
+	}
+	
+	@InitBinder
+	public void anyNameHere(WebDataBinder binder) {
+		binder.registerCustomEditor(Date.class, new CustomDateEditor(
+				new SimpleDateFormat("yyyy-MM-dd"), true));
+		
 	}
 }

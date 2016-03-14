@@ -1,4 +1,4 @@
-<%@ taglib prefix="forms" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -214,8 +214,7 @@
 		<div class="modal-dialog">
 			<div class="modal-content col-lg-10">
 
-				<forms:form action="signUp.action" method="post"
-					commandName="daughterRegistration">
+				<form:form action="signUp.action" method="post" modelAttribute="daughterRegistration">
 					<div class="modal-header">
 						<h4>Sign Up</h4>
 					</div>
@@ -223,11 +222,11 @@
 					<div class="modal-body">
 						<div class="form-group">
 							<div class="col-lg-5">
-								<forms:input type="text" path="daughter.firstName"
+								<form:input type="text" path="daughter.firstName"
 									class="form-control" name="Firstname" placeholder="First name" required="true"/>
 							</div>
 							<div class="col-lg-5">
-								<forms:input type="text" path="daughter.lastName"
+								<form:input type="text" path="daughter.lastName"
 									class="form-control" name="Lastname" placeholder="Last Name" required="true"/>
 							</div>
 							<br></br>
@@ -235,7 +234,7 @@
 						<div class="form-group left-inner-addon ">
 							<div class="col-lg-10 ">
 								<i class="glyphicon glyphicon-envelope"></i>
-								<forms:input type="email" path="daughter.email"
+								<form:input type="email" path="daughter.email"
 									class="form-control" name="emailID" placeholder="Email"
 									required="true" />
 							</div>
@@ -244,7 +243,7 @@
 						<div class="form-group left-inner-addon ">
 							<div class="col-lg-7 ">
 								<i class="glyphicon glyphicon-calendar"></i>
-								<forms:input type="date" path="daughter.birthdate"
+								<form:input type="date" path="daughter.birthdate"
 									class="form-control" name="birthDate" placeholder="Birth Date"
 									required="true" />
 							</div>
@@ -253,7 +252,7 @@
 						<div id="MGEmail" class="form-group left-inner-addon">
 							<div class="col-lg-10">
 								<i class="glyphicon glyphicon-envelope"></i>
-								<forms:input type="email" path="daughter.mother.email"
+								<form:input type="email" path="daughter.mother.email"
 									class="form-control" id="MomEmailID" name="momEmail"
 									placeholder="EmailID of Mommy" required="true" />
 							</div>
@@ -262,7 +261,7 @@
 						<div class="form-group left-inner-addon">
 							<div class="col-lg-10">
 								<i class="glyphicon glyphicon-user"></i>
-								<forms:input type="text" path="username" class="form-control"
+								<form:input type="text" path="username" class="form-control"
 									name="userName" placeholder="User name" required="true" />
 							</div>
 							<br></br>
@@ -270,7 +269,7 @@
 						<div class="form-group left-inner-addon">
 							<div class="col-lg-10">
 								<i class="glyphicon glyphicon-lock"></i>
-								<forms:input type="password" path="password"
+								<form:input type="password" path="password"
 									class="form-control" name="password" placeholder="password"
 									required="true" />
 							</div>
@@ -282,7 +281,7 @@
 
 						</div>
 					</div>
-				</forms:form>
+				</form:form>
 
 				<!-- form action="SignUp.nisha" method="post">
 					<div class="modal-header">
