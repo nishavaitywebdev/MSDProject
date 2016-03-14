@@ -12,6 +12,9 @@ public class Daughter extends User {
 	private Mother mother = new Mother();
 	
 	public Daughter() {
+		UserType userType = new UserType();
+		userType.setUserType("Daughter");
+		this.setUserType(userType);
 	}
 
 	/**
