@@ -1,4 +1,5 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ page isELIgnored="false"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -77,7 +78,7 @@
 				<ul class="nav navbar-nav navbar-right navbar-hover-pink">
 					<li><a href="#SignUpDaughter" data-toggle="modal"><span
 							class="glyphicon glyphicon-user"></span> Sign Up Daughter</a></li>
-					<li><a href="#SignUpMom" data-toggle="modal"><span
+					<li><a href="#SignUpMom" data-toggle="modal" id="signUpMomLink"><span
 							class="glyphicon glyphicon-user"></span> Sign Up Mom </a></li>
 					<li><a href="#Login" data-toggle="modal"><span
 							class="glyphicon glyphicon-log-in"></span> Login </a></li>
@@ -364,10 +365,10 @@
 								<input type="email" path="daughter.email"
 									class="form-control" name="emailID" placeholder="Email"
 									required/>
-								<span id="motherEmailErr" style="display:none">Please check the emailid you have entered.</span>
 							</div>
 							<br></br>
 						</div>
+						<span id="motherEmailErr" style="display:none">Please check the emailid you have entered.</span>
 						<div class="modal-footer">
 							<a class="btn btn-default" data-dismiss="modal">Cancel</a>
 							<input class="btn btn-primary" type="submit" value="Register"/>
@@ -452,7 +453,8 @@
 		</div>
 	</div>
 	<span>${motherRegister}</span>
-	<input type="hidden" name="check" value="${sessionScope.motherRegister}" />
+	<span>${1+2}</span>
+	<input type="hidden" id="check" name="check" value="${motherRegister}" />
 
 
 	<!-- /.container -->
@@ -471,13 +473,19 @@
 		})
 		
 		$( document ).ready(function() {
-		if($( "#check" ).value){
-			$('#SignUpDaughter').modal('toggle');
-		}else if($("#check").value == false){
-			$('#SignUpMom').modal('toggle');
-			$('#motherEmailErr').css('diaplay', 'block');
-		}
-	});
+			
+			$("#signUpMomLink").click(
+		            function () {
+		    			$('#motherEmailErr').css('display', 'none');
+		            }            
+		        );
+			if($( "#check" )[0].value == 'true'){
+				$('#SignUpDaughter').modal('toggle');
+			}else if($("#check")[0].value == 'false'){
+				$('#SignUpMom').modal('toggle');
+				$('#motherEmailErr').css('display', 'block');
+			}
+		});	
 	</script>
 
 </body>

@@ -74,8 +74,7 @@ public class AuthenticationController {
 				Daughter daughter = new Daughter();
 				daughterRegistration.setDaughter(daughter);
 				model.addAttribute("daughterRegistration", daughterRegistration);
-				session.setAttribute("motherRegister", false);
-//				model.addAttribute("motherRegister", false);
+				model.addAttribute("motherRegister", "false");
 				return "landingPage";
 			}
 			
@@ -89,8 +88,7 @@ public class AuthenticationController {
 			model.addAttribute("daughterRegistration", daughterRegistration);
 
 			model.addAttribute("motherRegistration", motherRegistration);
-			session.setAttribute("motherRegiter", true);
-//			model.addAttribute("motherRegister", true);
+			model.addAttribute("motherRegister", "true");
 			return "landingPage";
 		} catch (AuthenticationException e) {
 			return "errorPage";
