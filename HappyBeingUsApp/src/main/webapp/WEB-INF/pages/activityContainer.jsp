@@ -44,6 +44,8 @@
 		</c:forEach>
 	</table>
 	
+	<a href="#" id="addNewActivity" name="${activityContainer.activityContainerId}">Add New Activity</a>
+	
 	<form name="editForm" id="editForm" action="#" method="post">
 		<inupt type="hidden" name="id" value=""/>
 	</form>
