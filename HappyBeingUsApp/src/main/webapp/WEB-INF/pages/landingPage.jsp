@@ -4,12 +4,6 @@
 
 <head>
 
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="">
-<meta name="author" content="">
-
 <title>Landing page</title>
 
 <!-- Bootstrap Core CSS -->
@@ -55,13 +49,6 @@
 	pointer-events: none;
 }
 </style>
-<script>
-	$(document).ready(function() {
-		$("checkbox").click(function() {
-			$("MGEmail").toggle();
-		});
-	});
-</script>
 </head>
 
 <body>
@@ -88,10 +75,12 @@
 					<li><a href="#">Contact</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right navbar-hover-pink">
-					<li><a href="#SignUp" data-toggle="modal"><span
-							class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+					<li><a href="#SignUpDaughter" data-toggle="modal"><span
+							class="glyphicon glyphicon-user"></span> Sign Up Daughter</a></li>
+					<li><a href="#SignUpMom" data-toggle="modal"><span
+							class="glyphicon glyphicon-user"></span> Sign Up Mom </a></li>
 					<li><a href="#Login" data-toggle="modal"><span
-							class="glyphicon glyphicon-log-in"></span> Login</a></li>
+							class="glyphicon glyphicon-log-in"></span> Login </a></li>
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->
@@ -210,7 +199,7 @@
 		</div>
 	</div>
 
-	<div class="modal fade" id="SignUp" role="dialog">
+	<div class="modal fade" id="SignUpDaughter" role="dialog">
 		<div class="modal-dialog">
 			<div class="modal-content col-lg-10">
 
@@ -358,6 +347,113 @@
 			</div>
 		</div>
 	</div>
+	
+	<div class="modal fade" id="SignUpMom" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content col-lg-10">
+
+				<form action="getMotherByEmail.action" method="post">
+					<div class="modal-header">
+						<h4>Sign Up</h4>
+					</div>
+
+					<div class="modal-body">
+						<div class="form-group left-inner-addon ">
+							<div class="col-lg-10 ">
+								<i class="glyphicon glyphicon-envelope"></i>
+								<input type="email" path="daughter.email"
+									class="form-control" name="emailID" placeholder="Email"
+									required/>
+								<span id="motherEmailErr" style="display:none">Please check the emailid you have entered.</span>
+							</div>
+							<br></br>
+						</div>
+						<div class="modal-footer">
+							<a class="btn btn-default" data-dismiss="modal">Cancel</a>
+							<input class="btn btn-primary" type="submit" value="Register"/>
+
+						</div>
+					</div>
+				</form>
+
+				<!-- form action="SignUp.nisha" method="post">
+					<div class="modal-header">
+						<h4>Sign Up</h4>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<div class="col-lg-5">
+								<input type="text" class="form-control" name="Firstname"
+									placeholder="First name" required>
+							</div>
+							<div class="col-lg-5">
+								<input type="text" class="form-control" name="Lastname"
+									placeholder="Last Name" required>
+							</div>
+						</div>
+						<br></br>
+						<div class="form-group left-inner-addon ">
+							<div class="col-lg-10 ">
+								<i class="glyphicon glyphicon-envelope"></i> <input type="email"
+									class="form-control" name="emailID" placeholder="Email"
+									required>
+							</div>
+						</div>
+						<br></br>
+						<div class="form-group left-inner-addon ">
+							<div class="col-lg-7 ">
+								<i class="glyphicon glyphicon-calendar"></i> <input type="date"
+									class="form-control" name="birthDate" placeholder="Birth Date"
+									required> <input type="checkbox" name="check1" />
+								Login as Mother
+							</div>
+						</div>
+						<br></br>
+						<div id="MGEmail" class="form-group left-inner-addon">
+							<div class="col-lg-10 ">
+								<i class="glyphicon glyphicon-envelope"></i> <input type="email"
+									class="form-control" name="emailIDdaughter"
+									placeholder="Email of Daughter" required>
+							</div>
+						</div>
+						<br></br>
+						<div id="MGEmail" class="form-group left-inner-addon">
+							<div class="col-lg-10">
+								<i class="glyphicon glyphicon-envelope"></i> <input type="email"
+									class="form-control" id="MomEmailID"
+									placeholder="EmailID of Mommy" required>
+							</div>
+						</div>
+						<br></br>
+						<div class="form-group left-inner-addon">
+							<div class="col-lg-10">
+								<i class="glyphicon glyphicon-user"></i> <input type="text"
+									class="form-control" name="userName" placeholder="User name"
+									required>
+							</div>
+						</div>
+						<br></br>
+						<div class="form-group left-inner-addon">
+							<div class="col-lg-10">
+								<i class="glyphicon glyphicon-lock"></i> <input type="password"
+									class="form-control" name="password" placeholder="password"
+									required>
+							</div>
+						</div>
+					</div>
+					<br></br>
+					<div class="modal-footer">
+						<a class="btn btn-default" data-dismiss="modal">Cancel</a>
+						<button class="btn btn-primary" type="submit">Register</button>
+
+					</div>
+				</form-->
+			</div>
+		</div>
+	</div>
+	<span>${motherRegister}</span>
+	<input type="hidden" name="check" value="${sessionScope.motherRegister}" />
+
 
 	<!-- /.container -->
 
@@ -373,6 +469,15 @@
 			interval : 5000
 		//changes the speed
 		})
+		
+		$( document ).ready(function() {
+		if($( "#check" ).value){
+			$('#SignUpDaughter').modal('toggle');
+		}else if($("#check").value == false){
+			$('#SignUpMom').modal('toggle');
+			$('#motherEmailErr').css('diaplay', 'block');
+		}
+	});
 	</script>
 
 </body>
