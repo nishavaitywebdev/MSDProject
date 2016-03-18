@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.neu.msd.dao;
+package com.neu.msd.dao.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,7 +14,9 @@ import java.util.Map;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
+import com.neu.msd.dao.AdminDao;
 import com.neu.msd.entities.Activity;
 import com.neu.msd.entities.ActivityContainer;
 import com.neu.msd.entities.ActivityTemplate;
@@ -26,6 +28,7 @@ import com.neu.msd.exception.AdminException;
  * @author Harsh
  *
  */
+@Repository("adminDao")
 public class AdminDaoImpl implements AdminDao {
 	
 	@Autowired
