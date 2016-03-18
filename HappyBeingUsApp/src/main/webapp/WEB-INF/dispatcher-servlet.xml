@@ -13,6 +13,9 @@
 
 	<mvc:annotation-driven />
 	<context:component-scan base-package="com.neu.msd.controllers" />
+	<context:component-scan base-package="com.neu.msd.service" />
+	<context:component-scan base-package="com.neu.msd.dao" />
+	
 	<mvc:view-controller path="/" view-name="home" />
 	
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -28,13 +31,13 @@
 		<property name="suffix" value=".jsp" />
 	</bean>
 	
-	<!-- Service Beans Start -->
-	<bean id="adminService" class="com.neu.msd.service.AdminServiceImpl"/>
-	<bean id="authenticateService" class="com.neu.msd.service.AuthenticateServiceImpl"/>
+	<!-- Service Beans Start-->
+	<!-- bean id="adminService" class="com.neu.msd.service.AdminServiceImpl"/>
+	<bean id="authenticateService" class="com.neu.msd.service.AuthenticateServiceImpl"/-->
 	<!-- Service Beans End -->
 
 	<!-- Dao Beans Start -->
-	<bean id="adminDao" class="com.neu.msd.dao.AdminDaoImpl"/>
-	<bean id="authenticateDao" class="com.neu.msd.dao.AuthenticateDaoImpl"/>
+	<!-- bean id="adminDao" class="com.neu.msd.dao.AdminDaoImpl"/>
+	<bean id="authenticateDao" class="com.neu.msd.dao.AuthenticateDaoImpl"/-->
 	<!-- Dao Beans End -->	
 </beans>
