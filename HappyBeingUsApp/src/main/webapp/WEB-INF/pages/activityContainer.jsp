@@ -8,7 +8,18 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Admin Home Page</title>
 
+	<!-- jQuery -->	
+	<script src="js/jquery.js"></script>
+
 <script type="text/javascript">
+	
+	$(document).ready(function() {
+		
+		$("#addNewActivity").click(function() {
+			$("MGEmail").toggle();
+		});
+	});
+
 	function editActivity(id){
 		
 		var form = document.getElementById("editForm");
@@ -16,6 +27,8 @@
 		form.children.namedItem("id").value=id;
 		form.submit();
 	}
+	
+	
 </script>
 </head>
 <body>
