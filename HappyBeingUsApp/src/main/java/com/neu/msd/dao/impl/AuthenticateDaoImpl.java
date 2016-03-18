@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.neu.msd.dao;
+package com.neu.msd.dao.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,8 +12,10 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.mysql.jdbc.Statement;
+import com.neu.msd.dao.AuthenticateDao;
 import com.neu.msd.entities.ActivityContainer;
 import com.neu.msd.entities.Daughter;
 import com.neu.msd.entities.DaughterRegistration;
@@ -26,6 +28,7 @@ import com.neu.msd.exception.AuthenticationException;
  * @author Harsh
  *
  */
+@Repository("authenticateDao")
 public class AuthenticateDaoImpl implements AuthenticateDao {
 	
 	@Autowired
