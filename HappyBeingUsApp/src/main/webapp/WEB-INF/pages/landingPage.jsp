@@ -1,4 +1,5 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -173,7 +174,7 @@
 	<div class="modal fade" id="Login" role="dialog">
 		<div class="modal-dialog">
 			<div class="modal-content col-lg-10">
-				<form action="Login.nisha" method="post">
+				<form action="Login.action" method="post" modelAttribute="userAuthentication">
 					<div class="modal-header">
 						<h4>Login</h4>
 					</div>
@@ -181,8 +182,13 @@
 						<div class="form-group left-inner-addon">
 							<div class="col-lg-8">
 								<i class="glyphicon glyphicon-user"></i> <input type="text"
-									class="form-control" name="userName" placeholder="User name"
+									class="form-control" name="username" placeholder="User name"
 									required>
+									<% if (${id}==-1)
+									{
+										out.println("error");
+									}
+									%>hi
 							</div>
 						</div>
 						<br></br>

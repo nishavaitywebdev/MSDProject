@@ -21,5 +21,6 @@ public interface AuthenticateDao {
 	public Mother createMotherWithEmail(String email) throws AuthenticationException;
 
 	public int registerDaughterAuthentication(int daughterId, DaughterRegistration daughterRegistration) throws AuthenticationException;
-
+	
+	public int validUser(String username, String password) throws AuthenticationException;
 }

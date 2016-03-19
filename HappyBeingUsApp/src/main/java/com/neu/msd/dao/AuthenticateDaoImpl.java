@@ -1,4 +1,4 @@
-/**
+	/**
  * 
  */
 package com.neu.msd.dao;
@@ -35,7 +35,7 @@ public class AuthenticateDaoImpl implements AuthenticateDao {
 	 * @see com.neu.msd.dao.AuthenticateDao#registerDaughter(com.neu.msd.entities.DaughterRegistration)
 	 */
 	public int registerDaughter(Daughter daughter) throws AuthenticationException {
-		
+			
 		try {
 			Connection connection = dataSource.getConnection();
 			String sql = "insert into user (user_type_id, first_name, last_name, birthdate, email_id, parent_id, is_diagnostic_taken) "
@@ -147,6 +147,26 @@ public class AuthenticateDaoImpl implements AuthenticateDao {
 			e.printStackTrace();
 			throw new AuthenticationException(e);
 		}
+	
 	}
-
+	public int validUser(String username, String password) throws AuthenticationException {
+		try {
+			int id;
+			Connection connection = dataSource.getConnection();
+			String sql = "select user_id from user_authentication where username=? and password=?";
+			PreparedStatement stmt = connection.prepareStatement(sql);
+			stmt.setString(1, username);
+			stmt.setString(2, password);
+			ResultSet rs = stmt.executeQuery();
+			if(rs.next()==true){
+			id=rs.getInt("user_id");
+			return id;
+			}
+			else
+				return -1;	
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new AuthenticationException(e);
+		}
+	}
 }

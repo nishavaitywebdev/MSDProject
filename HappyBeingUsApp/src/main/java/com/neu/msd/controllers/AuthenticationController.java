@@ -5,6 +5,7 @@ package com.neu.msd.controllers;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -17,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.neu.msd.entities.DaughterRegistration;
+import com.neu.msd.entities.Topic;
 import com.neu.msd.entities.UserAuthentication;
+import com.neu.msd.exception.AdminException;
 import com.neu.msd.exception.AuthenticationException;
 import com.neu.msd.service.AuthenticateService;
 
@@ -49,6 +52,22 @@ public class AuthenticationController {
 		try {
 			authenticateService.registerDaughter(daughterRegistration);
 			return "landingPage";
+		} catch (AuthenticationException e) {
+			return "errorPage";
+		}
+	}
+	@RequestMapping(value="/Login.action", method=RequestMethod.POST)
+	public String loginUser(@ModelAttribute("userAuthentication") UserAuthentication userAuthentication, Model model){
+		try {
+			int id=authenticateService.validUser(userAuthentication);
+			model.addAttribute("id", id);
+			if (id==-1)
+			{
+				return null;
+			}
+			else
+			return "userHome";
+			
 		} catch (AuthenticationException e) {
 			return "errorPage";
 		}

@@ -16,10 +16,10 @@
 	<mvc:view-controller path="/" view-name="home" />
 	
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="url" value="jdbc:mysql://localhost/hbu" />
+		<property name="url" value="jdbc:mysql://localhost/HBU" />
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="username" value="root" />
-		<property name="password" value="welcome123" />
+		<property name="password" value="889966" />
 	</bean>
 	
 	<bean id="viewResolver"
