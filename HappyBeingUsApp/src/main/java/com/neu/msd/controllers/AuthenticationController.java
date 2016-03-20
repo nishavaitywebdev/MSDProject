@@ -62,8 +62,8 @@ public class AuthenticationController {
 			int id=authenticateService.validUser(userAuthentication);
 			model.addAttribute("id", id);
 			if (id==-1)
-			{
-				return null;
+			{model.addAttribute("usernameerr", false);
+				return "landingPage";
 			}
 			else
 			return "userHome";

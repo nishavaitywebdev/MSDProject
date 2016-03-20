@@ -174,7 +174,8 @@
 	<div class="modal fade" id="Login" role="dialog">
 		<div class="modal-dialog">
 			<div class="modal-content col-lg-10">
-				<form action="Login.action" method="post" modelAttribute="userAuthentication">
+				<form action="Login.action" method="post"
+					modelAttribute="userAuthentication">
 					<div class="modal-header">
 						<h4>Login</h4>
 					</div>
@@ -184,11 +185,7 @@
 								<i class="glyphicon glyphicon-user"></i> <input type="text"
 									class="form-control" name="username" placeholder="User name"
 									required>
-									<% if (${id}==-1)
-									{
-										out.println("error");
-									}
-									%>hi
+
 							</div>
 						</div>
 						<br></br>
@@ -203,6 +200,7 @@
 
 						<div class="col-lg-6">
 							<a href="#ForgotPassword">Forgot Password</a>
+							<span id="checkusername" style="display:none">dismatch! check username or password.</span>
 						</div>
 						<br></br>
 					</div>
@@ -220,7 +218,8 @@
 		<div class="modal-dialog">
 			<div class="modal-content col-lg-10">
 
-				<form:form action="signUp.action" method="post" modelAttribute="daughterRegistration">
+				<form:form action="signUp.action" method="post"
+					modelAttribute="daughterRegistration">
 					<div class="modal-header">
 						<h4>Sign Up</h4>
 					</div>
@@ -229,11 +228,13 @@
 						<div class="form-group">
 							<div class="col-lg-5">
 								<form:input type="text" path="daughter.firstName"
-									class="form-control" name="Firstname" placeholder="First name" required="true"/>
+									class="form-control" name="Firstname" placeholder="First name"
+									required="true" />
 							</div>
 							<div class="col-lg-5">
 								<form:input type="text" path="daughter.lastName"
-									class="form-control" name="Lastname" placeholder="Last Name" required="true"/>
+									class="form-control" name="Lastname" placeholder="Last Name"
+									required="true" />
 							</div>
 							<br></br>
 						</div>
@@ -275,20 +276,18 @@
 						<div class="form-group left-inner-addon">
 							<div class="col-lg-10">
 								<i class="glyphicon glyphicon-lock"></i>
-								<form:input type="password" path="password"
-									class="form-control" name="password" placeholder="password"
-									required="true" />
+								<form:input type="password" path="password" class="form-control"
+									name="password" placeholder="password" required="true" />
 							</div>
 						</div>
 						<br></br>
 						<div class="modal-footer">
-							<a class="btn btn-default" data-dismiss="modal">Cancel</a>
-							<input class="btn btn-primary" type="submit" value="Register"/>
+							<a class="btn btn-default" data-dismiss="modal">Cancel</a> <input
+								class="btn btn-primary" type="submit" value="Register" />
 
 						</div>
 					</div>
 				</form:form>
-
 				<!-- form action="SignUp.nisha" method="post">
 					<div class="modal-header">
 						<h4>Sign Up</h4>
@@ -364,7 +363,8 @@
 			</div>
 		</div>
 	</div>
-
+	<input type="hidden" id="usernameerr" name="usernameerr"
+		value="${usernameerr}" />
 	<!-- /.container -->
 
 	<!-- jQuery -->
@@ -379,6 +379,18 @@
 			interval : 5000
 		//changes the speed
 		})
+
+		$(document).ready(function() {
+
+			$("#Login").click(function() {
+				$('#checkusername').css('display', 'none');
+			});
+
+			if ($("#usernameerr").value == 'false') {
+				$('#Login').modal('toggle');
+				$('#checkusername').css('display', 'block');
+			}
+		});
 	</script>
 
 </body>
