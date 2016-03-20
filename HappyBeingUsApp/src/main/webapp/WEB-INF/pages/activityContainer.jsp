@@ -39,13 +39,14 @@
 				<td></td>
 				<td></td>
 				<td>${activity.activityText}</td>
-				<td><a id="${activity.id}" href="#" onclick="editActivity(id)">Edit</a>&nbsp &nbsp <a href="#">Delete</a></td>
+				<td><a id="${activity.id}" href="#" onclick="editActivity(id)">Edit</a>&nbsp
+					&nbsp <a href="#">Delete</a></td>
 			</tr>
 		</c:forEach>
 	</table>
-	
+
 	<form name="editForm" id="editForm" action="#" method="post">
-		<inupt type="hidden" name="id" value=""/>
+		<inupt type="hidden" name="id" value="" />
 	</form>
 </body>
 </html>
