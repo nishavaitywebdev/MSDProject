@@ -1,12 +1,32 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> 
 <%@ page isELIgnored="false"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Admin Home Page</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script
+	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<style>
+/* Remove the navbar's default margin-bottom and rounded borders */
+.navbar {
+	margin-bottom: 0;
+	border-radius: 0;
+}
+
+/* Add a gray background color and some padding to the footer */
+footer {
+	background-color: #f2f2f2;
+	padding: 25px;
+}
+</style>
+
 
 <script type="text/javascript">
 	function editContainer(id){
@@ -17,39 +37,128 @@
 		form.submit();
 	}
 </script>
+
 </head>
 <body>
-	<table border="1">
-		<tr>
-			<td><b>Topic Name</b></td>
-			<td><b>Action</b></td>
-		</tr>
-		<c:forEach items="${topics}" var="topic">
-			<tr>
-				<td>${topic.topicName}</td>
-				<td><a href="#">Edit</a>&nbsp &nbsp <a href="#">Delete</a></td>
-			</tr>
-			<tr>
-				<td></td>
-				<td></td>
-				<td><b>Block Name</b></td>
-				<td><b>Action</b></td>
-			</tr>
-			<c:forEach items="${topic.activityContainers}"
-				var="activityContainer">
-				<tr>
-					<td></td>
-					<td></td>
-					<td>${activityContainer.containerName}</td>
-					<td><a id="${activityContainer.activityContainerId}" href="#"
-						onclick="editContainer(id)">Edit</a>&nbsp &nbsp <a href="#">Delete</a></td>
-				</tr>
-			</c:forEach>
-		</c:forEach>
-	</table>
 
-	<form name="editForm" id="editForm" action="#" method="post">
-		<input type="hidden" name="id" value="" />
-	</form>
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target="#myNavbar">
+					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">Admin</a>
+			</div>
+			<div class="collapse navbar-collapse" id="myNavbar">
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="#">Topics and Blocks</a></li>
+					<li><a href="#">Add New Admin</a></li>
+					<li><a href="#">Detect Inactive Users</a></li>
+					<li><a href="#">Statistics</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="#"><span class="glyphicon glyphicon-log-in"></span>
+							Logout</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<div class="jumbotron">
+		<div class="container text-center">
+			<h1>Topics and Blocks</h1>
+			<p>Add-Remove-Edit Topics and Blocks, all at one place.</p>
+		</div>
+	</div>
+
+	<div class="container-fluid bg-3 text-left">
+
+		<div class="row">
+			<div class="col-sm-8">
+				<div class="jumbotron">
+				<c:choose>
+					<c:when test="${fn:length(topics)>0}">
+					
+					</c:when>
+					<c:otherwise>
+						<h2>No topics available right now. You might want to add topics first.</h2>
+					</c:otherwise>
+				</c:choose>
+				<c:forEach items="${topics}" var="topic">
+				
+				</c:forEach>
+					<h2>
+						${topic.topicName}
+						<button type="button" class="btn btn-success" data-toggle="modal"
+							data-target="#myModal">Rename Topic 1</button>
+						<div class="modal fade" id="myModal" role="dialog">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal">&times;</button>
+										<h4 class="modal-title">Rename Topic</h4>
+									</div>
+									<div class="modal-body">
+										<input type="text" class="form-control" id="email"
+											placeholder="Enter new topic name" value="${topic.topicName}"/>
+									</div>
+									<div class="modal-footer">
+										<a href="#" class="btn btn-success" role="button">Change
+											Name!</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						<a href="#" class="btn btn-danger" role="button">Delete</a>
+					</h2>
+
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th></th>
+								<th></th>
+								<th></th>
+								<th>Last Date Modified</th>
+							</tr>
+						</thead>
+						<tbody>
+						<c:forEach items="${topic.activityContainers}" var="activityContainer">
+							<tr>
+								<td><a href="#" class="btn btn-primary" role="button">${activityContainer.containerName}</a></td>
+									<td><a href="#" class="btn btn-success" role="button"
+										id="${activityContainer.activityContainerId}"
+										onclick="editContainer(id)">Edit</a></td>
+									<td><a href="#" class="btn btn-danger" role="button">Delete</a></td>
+									<td>3/9/2016</td>
+								</tr>
+						</c:forEach>	
+							<tr>
+								<td></td>
+								<td></td>
+								<td><a href="#" class="btn btn-warning"
+									role="button">Add New Activity </a></td>
+							</tr>
+						</tbody>
+
+					</table>
+				</div>
+			</div>
+			<!-- 			<div class="col-sm-4"></div> -->
+		</div>
+	</div>
+	<div class="container-fluid bg-3 text-right">
+
+		<div class="row">
+			<div class="col-sm-8">
+				<a href="#" class="btn btn-warning" role="button">Add New Topic</a>
+
+			</div>
+		</div>
+	</div>
+	<footer class="container-fluid text-center">
+		<p>Designed By Group 11 3/9/2016</p>
+	</footer>
 </body>
 </html>

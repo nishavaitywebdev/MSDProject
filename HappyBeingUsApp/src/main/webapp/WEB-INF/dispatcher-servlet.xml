@@ -30,27 +30,4 @@
 		<property name="prefix" value="/WEB-INF/pages/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
-<<<<<<< HEAD
-	
-	<!-- Service Beans Start-->
-	<!-- bean id="adminService" class="com.neu.msd.service.AdminServiceImpl"/>
-	<bean id="authenticateService" class="com.neu.msd.service.AuthenticateServiceImpl"/-->
-	<!-- Service Beans End -->
-
-	<!-- Dao Beans Start -->
-	<!-- bean id="adminDao" class="com.neu.msd.dao.AdminDaoImpl"/>
-	<bean id="authenticateDao" class="com.neu.msd.dao.AuthenticateDaoImpl"/-->
-	<!-- Dao Beans End -->	
-=======
-
-	<!-- Service Beans Start -->
-	<bean id="adminService" class="com.neu.msd.service.AdminServiceImpl" />
-	<bean id="authenticateService" class="com.neu.msd.service.AuthenticateServiceImpl" />
-	<!-- Service Beans End -->
-
-	<!-- Dao Beans Start -->
-	<bean id="adminDao" class="com.neu.msd.dao.AdminDaoImpl" />
-	<bean id="authenticateDao" class="com.neu.msd.dao.AuthenticateDaoImpl" />
-	<!-- Dao Beans End -->
->>>>>>> refs/remotes/origin/Mohsen_dev
 </beans>

@@ -1,7 +1,9 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%> <%@ page
+isELIgnored="false"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Admin</title>
+<title>Admin Home Page</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
@@ -23,6 +25,18 @@ footer {
 	padding: 25px;
 }
 </style>
+
+
+<script type="text/javascript">
+	function editContainer(id){
+		
+		var form = document.getElementById("editForm");
+		form.action="editActivityContainer.action";
+		form.children.namedItem("id").value=id;
+		form.submit();
+	}
+</script>
+
 </head>
 <body>
 
@@ -38,7 +52,7 @@ footer {
 			</div>
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="#">Topics and Activities</a></li>
+					<li class="active"><a href="#">Topics and Blocks</a></li>
 					<li><a href="#">Add New Admin</a></li>
 					<li><a href="#">Detect Inactive Users</a></li>
 					<li><a href="#">Statistics</a></li>
@@ -53,21 +67,21 @@ footer {
 
 	<div class="jumbotron">
 		<div class="container text-center">
-			<h1>Topics and Activities</h1>
-			<p>Adding/Removing Topics and Activities are easy..</p>
+			<h1>Topics and Blocks</h1>
+			<p>Add-Remove-Edit Topics and Blocks, all at one place.</p>
 		</div>
 	</div>
-
-
-
 
 	<div class="container-fluid bg-3 text-left">
 
 		<div class="row">
 			<div class="col-sm-8">
 				<div class="jumbotron">
+				<c:forEach items="${topics}" var="topic">
+				
+				</c:forEach>
 					<h2>
-						Topic 1
+						${topic.topicName}
 						<button type="button" class="btn btn-success" data-toggle="modal"
 							data-target="#myModal">Rename Topic 1</button>
 						<div class="modal fade" id="myModal" role="dialog">
@@ -78,8 +92,8 @@ footer {
 										<h4 class="modal-title">Rename Topic</h4>
 									</div>
 									<div class="modal-body">
-										<input type="email" class="form-control" id="email"
-											placeholder="Enter new topic name">
+										<input type="text" class="form-control" id="email"
+											placeholder="Enter new topic name" value="${topic.topicName}"/>
 									</div>
 									<div class="modal-footer">
 										<a href="#" class="btn btn-success" role="button">Change
@@ -88,14 +102,8 @@ footer {
 								</div>
 							</div>
 						</div>
-
-
-
-
 						<a href="#" class="btn btn-danger" role="button">Delete</a>
 					</h2>
-
-
 
 					<table class="table table-hover">
 						<thead>
@@ -107,66 +115,41 @@ footer {
 							</tr>
 						</thead>
 						<tbody>
+						<c:forEach items="${topic.activityContainers}" var="activityContainer">
 							<tr>
-								<td><a href="#" class="btn btn-primary" role="button">Activity
-										Container 1</a></td>
-								<td><a href="#" class="btn btn-success" role="button">Edit</a></td>
-								<td><a href="#" class="btn btn-danger" role="button">Delete</a></td>
-								<td>3/9/2016</td>
-							</tr>
+								<td><a href="#" class="btn btn-primary" role="button">${activityContainer.containerName}</a></td>
+									<td><a href="#" class="btn btn-success" role="button"
+										id="${activityContainer.activityContainerId}"
+										onclick="editContainer(id)">Edit</a></td>
+									<td><a href="#" class="btn btn-danger" role="button">Delete</a></td>
+									<td>3/9/2016</td>
+								</tr>
+						</c:forEach>	
 							<tr>
-								<td><a href="#" class="btn btn-primary" role="button">Activity
-										Container 2</a></td>
-								<td><a href="#" class="btn btn-success" role="button">Edit</a></td>
-								<td><a href="#" class="btn btn-danger" role="button">Delete</a></td>
-								<td>3/9/2016</td>
-							</tr>
-							<tr>
-								<td><a href="#" class="btn btn-primary" role="button">Activity
-										Container 3</a></td>
-								<td><a href="#" class="btn btn-success" role="button">Edit</a></td>
-								<td><a href="#" class="btn btn-danger" role="button">Delete</a></td>
-								<td>3/9/2016</td>
-							</tr>
-							<tr>
-								<td><a href="#" class="btn btn-warning" role="button">Add
-										New Activity </a></td>
 								<td></td>
 								<td></td>
+								<td><a href="#" class="btn btn-warning"
+									role="button">Add New Activity </a></td>
 							</tr>
 						</tbody>
 
 					</table>
 				</div>
 			</div>
-			<div class="col-sm-4"></div>
+			<!-- 			<div class="col-sm-4"></div> -->
 		</div>
+	</div>
+	<div class="container-fluid bg-3 text-right">
 
+		<div class="row">
+			<div class="col-sm-8">
+				<a href="#" class="btn btn-warning" role="button">Add New Topic</a>
 
-
-
-
-
-
-
-
-		<div class="container-fluid bg-3 text-right">
-
-			<div class="row">
-				<div class="col-sm-8">
-					<a href="#" class="btn btn-warning" role="button">Add New Topic</a>
-
-				</div>
 			</div>
-
-
-
-
-
-
-
-			<footer class="container-fluid text-center">
-				<p>Designed By Group 11 3/9/2016</p>
-			</footer>
+		</div>
+	</div>
+	<footer class="container-fluid text-center">
+		<p>Designed By Group 11 3/9/2016</p>
+	</footer>
 </body>
 </html>
