@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.neu.msd.service.Impl;
+package com.neu.msd.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -13,7 +13,6 @@ import com.neu.msd.entities.MotherRegistration;
 import com.neu.msd.entities.User;
 import com.neu.msd.entities.UserAuthentication;
 import com.neu.msd.exception.AuthenticationException;
-import com.neu.msd.service.AuthenticateService;
 
 /**
  * @author Harsh

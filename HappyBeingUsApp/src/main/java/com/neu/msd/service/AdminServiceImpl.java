@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.neu.msd.service.Impl;
+package com.neu.msd.service;
 
 import java.util.List;
 
@@ -13,7 +13,6 @@ import com.neu.msd.entities.Activity;
 import com.neu.msd.entities.ActivityContainer;
 import com.neu.msd.entities.Topic;
 import com.neu.msd.exception.AdminException;
-import com.neu.msd.service.AdminServie;
 
 /**
  * @author Harsh
