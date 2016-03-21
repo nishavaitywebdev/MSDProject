@@ -62,7 +62,11 @@ public class AuthenticationController {
 			int id=authenticateService.validUser(userAuthentication);
 			model.addAttribute("id", id);
 			if (id==-1)
-			{model.addAttribute("usernameerr", false);
+			{
+				DaughterRegistration daughterRegistration = new DaughterRegistration();
+				
+				model.addAttribute("daughterRegistration", daughterRegistration); 
+				model.addAttribute("usernameerr", "false");
 				return "landingPage";
 			}
 			else

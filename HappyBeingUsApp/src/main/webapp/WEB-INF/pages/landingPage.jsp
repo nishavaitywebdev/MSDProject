@@ -1,5 +1,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page isELIgnored="false"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -386,7 +387,7 @@
 				$('#checkusername').css('display', 'none');
 			});
 
-			if ($("#usernameerr").value == 'false') {
+			if ($("#usernameerr")[0].value == 'false') {
 				$('#Login').modal('toggle');
 				$('#checkusername').css('display', 'block');
 			}
