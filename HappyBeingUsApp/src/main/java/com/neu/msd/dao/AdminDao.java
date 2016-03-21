@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.neu.msd.entities.Activity;
 import com.neu.msd.entities.ActivityContainer;
+import com.neu.msd.entities.ActivityTemplate;
 import com.neu.msd.entities.Topic;
 import com.neu.msd.exception.AdminException;
 
@@ -23,4 +24,6 @@ public interface AdminDao {
 	public List<Activity> loadActivitiesByActivityContainerId(int activityContainerId) throws AdminException;
 
 	public ActivityContainer loadActivityContainerById(int activityContainerId) throws AdminException;
+
+	public List<ActivityTemplate> getAllActivityTemplates() throws AdminException;
 }

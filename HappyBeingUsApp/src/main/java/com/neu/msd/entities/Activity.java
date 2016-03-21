@@ -14,6 +14,7 @@ public class Activity {
 	private int orderNo;
 	private ActivityType activityType;
 	private ActivityTemplate activityTemplate;
+	private ActivityContainer activityContainer = new ActivityContainer();
 	
 	public Activity() {
 		// TODO Auto-generated constructor stub
@@ -89,6 +90,20 @@ public class Activity {
 		this.activityTemplate = activityTemplate;
 	}
 
+	/**
+	 * @return the activityContainer
+	 */
+	public ActivityContainer getActivityContainer() {
+		return activityContainer;
+	}
+
+	/**
+	 * @param activityContainer the activityContainer to set
+	 */
+	public void setActivityContainer(ActivityContainer activityContainer) {
+		this.activityContainer = activityContainer;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
@@ -96,6 +111,7 @@ public class Activity {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((activityContainer == null) ? 0 : activityContainer.hashCode());
 		result = prime * result + ((activityTemplate == null) ? 0 : activityTemplate.hashCode());
 		result = prime * result + ((activityText == null) ? 0 : activityText.hashCode());
 		result = prime * result + ((activityType == null) ? 0 : activityType.hashCode());
@@ -116,6 +132,11 @@ public class Activity {
 		if (getClass() != obj.getClass())
 			return false;
 		Activity other = (Activity) obj;
+		if (activityContainer == null) {
+			if (other.activityContainer != null)
+				return false;
+		} else if (!activityContainer.equals(other.activityContainer))
+			return false;
 		if (activityTemplate == null) {
 			if (other.activityTemplate != null)
 				return false;
@@ -144,6 +165,8 @@ public class Activity {
 	@Override
 	public String toString() {
 		return "Activity [id=" + id + ", activityText=" + activityText + ", orderNo=" + orderNo + ", activityType="
-				+ activityType + ", activityTemplate=" + activityTemplate + "]";
+				+ activityType + ", activityTemplate=" + activityTemplate + ", activityContainer=" + activityContainer
+				+ "]";
 	}
+
 }

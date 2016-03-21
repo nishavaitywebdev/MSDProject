@@ -16,7 +16,12 @@
 	$(document).ready(function() {
 		
 		$("#addNewActivity").click(function() {
-			$("MGEmail").toggle();
+// 			var id = $("#addNewActivity").attr("name");
+			$("#editForm").attr('action', 'newActivityLink.action');
+			$('#id').val($("#addNewActivity").attr("name"));
+// 			var form = $("#editForm")[0];
+// 			form.children.namedItem("id").value=id;
+			$("#editForm").submit();
 		});
 	});
 
@@ -60,7 +65,7 @@
 	<a href="#" id="addNewActivity" name="${activityContainer.activityContainerId}">Add New Activity</a>
 	
 	<form name="editForm" id="editForm" action="#" method="post">
-		<inupt type="hidden" name="id" value=""/>
+		<input type="hidden" id="id" name="id" value=""/>
 	</form>
 </body>
 </html>

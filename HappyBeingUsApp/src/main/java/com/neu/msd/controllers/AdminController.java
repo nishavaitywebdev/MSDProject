@@ -3,16 +3,22 @@
  */
 package com.neu.msd.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.neu.msd.entities.Activity;
 import com.neu.msd.entities.ActivityContainer;
+import com.neu.msd.entities.ActivityTemplate;
+import com.neu.msd.entities.ActivityType;
+import com.neu.msd.entities.DaughterRegistration;
 import com.neu.msd.entities.Topic;
 import com.neu.msd.exception.AdminException;
 import com.neu.msd.service.AdminServie;
@@ -50,5 +56,31 @@ public class AdminController {
 		} catch (AdminException e) {
 			return "errorPage";
 		}
+	}
+	
+	@RequestMapping(value="/newActivityLink.action", method=RequestMethod.POST)
+	public String goToNewActivity(@RequestParam("id") String activityContainerId, Model model){
+		
+		Activity activity = new Activity();
+		ActivityType activityType = new ActivityType();
+		activityType.setId(3);
+		activity.setActivityType(activityType);
+		activity.getActivityContainer().setActivityContainerId(Integer.valueOf(activityContainerId));
+		
+		try {
+			List<ActivityTemplate> activityTemplates = adminService.getAllActivityTemplates();
+			model.addAttribute("activityTemplates", activityTemplates);
+			model.addAttribute("activity", activity);
+			return "newActivity";
+		} catch (AdminException e1) {
+			return "errorPage";
+		}
+	}
+	
+	@RequestMapping(value="/addActivity.action", method=RequestMethod.POST)
+	public String addNewActivity(@ModelAttribute("activity") Activity activity, Model model){
+		
+		System.out.println(activity);
+		return "activityContainer";
 	}
 }

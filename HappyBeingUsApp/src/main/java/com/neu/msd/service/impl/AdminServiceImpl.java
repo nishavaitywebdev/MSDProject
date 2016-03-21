@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.neu.msd.dao.AdminDao;
 import com.neu.msd.entities.Activity;
 import com.neu.msd.entities.ActivityContainer;
+import com.neu.msd.entities.ActivityTemplate;
 import com.neu.msd.entities.Topic;
 import com.neu.msd.exception.AdminException;
 import com.neu.msd.service.AdminServie;
@@ -70,6 +71,11 @@ public class AdminServiceImpl implements AdminServie {
 	public ActivityContainer getActivityContainerById(int activityContainerId) throws AdminException {
 		
 		return adminDao.loadActivityContainerById(activityContainerId);
+	}
+
+	public List<ActivityTemplate> getAllActivityTemplates() throws AdminException {
+		
+		return adminDao.getAllActivityTemplates();
 	}
 
 }

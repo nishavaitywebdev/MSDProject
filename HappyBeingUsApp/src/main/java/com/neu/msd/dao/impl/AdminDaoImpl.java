@@ -148,22 +148,10 @@ public class AdminDaoImpl implements AdminDao {
 	 */
 	private void loadActivityTemplate(Map<Integer, ActivityTemplate> activityTemplateMap) throws AdminException {
 		
-		try {
-			Connection connection = dataSource.getConnection();
-			String sql = "select * from activity_template";
-			PreparedStatement stmt = connection.prepareStatement(sql);
-			ResultSet rs = stmt.executeQuery();
-			while(rs.next()){
-				ActivityTemplate activityTemplate = new ActivityTemplate();
-				int activityTemplateId = rs.getInt("activity_template_id");
-				activityTemplate.setId(activityTemplateId);
-				activityTemplate.setTemplateName(rs.getString("activity_template_desc"));
-				activityTemplateMap.put(activityTemplateId, activityTemplate);
-			}
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new AdminException(e);
+		List<ActivityTemplate> activityTemaplates = getAllActivityTemplates();
+		
+		for(ActivityTemplate activityTemplate : activityTemaplates){
+			activityTemplateMap.put(activityTemplate.getId(), activityTemplate);
 		}
 	}
 
@@ -191,6 +179,30 @@ public class AdminDaoImpl implements AdminDao {
 			throw new AdminException(e);
 		}
 		
+	}
+
+	public List<ActivityTemplate> getAllActivityTemplates() throws AdminException {
+		
+		List<ActivityTemplate> activityTemplates = new ArrayList<ActivityTemplate>();
+		try {
+			Connection connection = dataSource.getConnection();
+			String sql = "select * from activity_template";
+			PreparedStatement stmt = connection.prepareStatement(sql);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()){
+				ActivityTemplate activityTemplate = new ActivityTemplate();
+				int activityTemplateId = rs.getInt("activity_template_id");
+				activityTemplate.setId(activityTemplateId);
+				activityTemplate.setTemplateName(rs.getString("activity_template_desc"));
+				activityTemplates.add(activityTemplate);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new AdminException(e);
+		}
+		
+		return activityTemplates;
 	}
 
 
