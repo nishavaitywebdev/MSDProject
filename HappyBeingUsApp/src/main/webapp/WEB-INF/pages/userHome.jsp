@@ -6,11 +6,11 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Userhome page</title>
 </head>
 <body>
 <div >
-${id}
+${user.firstName}
 </div>
 </body>
 </html>

@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.neu.msd.entities.Daughter;
 import com.neu.msd.entities.DaughterRegistration;
 import com.neu.msd.entities.Topic;
+import com.neu.msd.entities.User;
 import com.neu.msd.entities.Mother;
 import com.neu.msd.entities.MotherRegistration;
 import com.neu.msd.entities.UserAuthentication;
@@ -102,11 +103,11 @@ public class AuthenticationController {
 		}
 	}
 	@RequestMapping(value="/Login.action", method=RequestMethod.POST)
-	public String loginUser(@ModelAttribute("userAuthentication") UserAuthentication userAuthentication, Model model){
+	public String loginUser(@ModelAttribute("userAuthentication") UserAuthentication userAuthentication, Model model, HttpSession session){
 		try {
-			int id=authenticateService.validUser(userAuthentication);
-			model.addAttribute("id", id);
-			if (id==-1)
+			User user=authenticateService.validUser(userAuthentication);
+			session.setAttribute("user", user);
+			if (user==null)
 			{
 				DaughterRegistration daughterRegistration = new DaughterRegistration();
 				MotherRegistration motherRegistration = new MotherRegistration();

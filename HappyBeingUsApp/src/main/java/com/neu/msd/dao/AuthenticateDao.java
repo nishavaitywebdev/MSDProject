@@ -7,6 +7,7 @@ import com.neu.msd.entities.Daughter;
 import com.neu.msd.entities.DaughterRegistration;
 import com.neu.msd.entities.Mother;
 import com.neu.msd.entities.MotherRegistration;
+import com.neu.msd.entities.User;
 import com.neu.msd.exception.AuthenticationException;
 
 /**
@@ -24,7 +25,7 @@ public interface AuthenticateDao {
 	public int registerDaughterAuthentication(int daughterId, DaughterRegistration daughterRegistration) throws AuthenticationException;
 
 	
-	public int validUser(String username, String password) throws AuthenticationException;
+	public User validUser(String username, String password) throws AuthenticationException;
 
 
 	public int updateMotherDetails(MotherRegistration motherRegistration) throws AuthenticationException;

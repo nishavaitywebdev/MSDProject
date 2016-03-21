@@ -66,10 +66,10 @@ public class AuthenticateServiceImpl implements AuthenticateService {
 		return mother;
 	}
 	@Transactional(rollbackFor={AuthenticationException.class})
-	public int validUser(UserAuthentication userAuthentication) throws AuthenticationException {
+	public User validUser(UserAuthentication userAuthentication) throws AuthenticationException {
 
-		int id = authenticateDao.validUser(userAuthentication.getUsername(), userAuthentication.getPassword());
-		return id;
+		User user = authenticateDao.validUser(userAuthentication.getUsername(), userAuthentication.getPassword());
+		return user;
 	}
 
 

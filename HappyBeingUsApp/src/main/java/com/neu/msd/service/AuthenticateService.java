@@ -22,7 +22,7 @@ public interface AuthenticateService {
 	
 	public Mother getMotherByEmail(String motherEmail) throws AuthenticationException;
 	
-	public int validUser(UserAuthentication userAuthentication) throws AuthenticationException;
+	public User validUser(UserAuthentication userAuthentication) throws AuthenticationException;
 
 	public int updateMotherDetails(MotherRegistration motherRegistration) throws AuthenticationException;
 
