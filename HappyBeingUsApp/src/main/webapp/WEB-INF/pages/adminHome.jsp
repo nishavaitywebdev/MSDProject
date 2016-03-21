@@ -25,29 +25,31 @@
 			<td><b>Action</b></td>
 		</tr>
 		<c:forEach items="${topics}" var="topic">
-		<tr>
-			<td>${topic.topicName}</td>
-			<td><a href="#">Edit</a>&nbsp &nbsp <a href="#">Delete</a></td>
-		</tr>
+			<tr>
+				<td>${topic.topicName}</td>
+				<td><a href="#">Edit</a>&nbsp &nbsp <a href="#">Delete</a></td>
+			</tr>
 			<tr>
 				<td></td>
 				<td></td>
 				<td><b>Block Name</b></td>
 				<td><b>Action</b></td>
 			</tr>
-		<c:forEach items="${topic.activityContainers}" var="activityContainer">
-			<tr>
-				<td></td>
-				<td></td>
-				<td>${activityContainer.containerName}</td>
-				<td><a id="${activityContainer.activityContainerId}" href="#" onclick="editContainer(id)">Edit</a>&nbsp &nbsp <a href="#">Delete</a></td>
-			</tr>
-		</c:forEach>
+			<c:forEach items="${topic.activityContainers}"
+				var="activityContainer">
+				<tr>
+					<td></td>
+					<td></td>
+					<td>${activityContainer.containerName}</td>
+					<td><a id="${activityContainer.activityContainerId}" href="#"
+						onclick="editContainer(id)">Edit</a>&nbsp &nbsp <a href="#">Delete</a></td>
+				</tr>
+			</c:forEach>
 		</c:forEach>
 	</table>
-	
+
 	<form name="editForm" id="editForm" action="#" method="post">
-		<input type="hidden" name="id" value=""/>
+		<input type="hidden" name="id" value="" />
 	</form>
 </body>
 </html>

@@ -204,7 +204,8 @@
 		<div class="modal-dialog">
 			<div class="modal-content col-lg-10">
 
-				<form:form action="signUp.action" method="post" modelAttribute="daughterRegistration">
+				<form:form action="signUp.action" method="post"
+					modelAttribute="daughterRegistration">
 					<div class="modal-header">
 						<h4>Sign Up</h4>
 					</div>
@@ -213,11 +214,13 @@
 						<div class="form-group">
 							<div class="col-lg-5">
 								<form:input type="text" path="daughter.firstName"
-									class="form-control" name="Firstname" placeholder="First name" required="true"/>
+									class="form-control" name="Firstname" placeholder="First name"
+									required="true" />
 							</div>
 							<div class="col-lg-5">
 								<form:input type="text" path="daughter.lastName"
-									class="form-control" name="Lastname" placeholder="Last Name" required="true"/>
+									class="form-control" name="Lastname" placeholder="Last Name"
+									required="true" />
 							</div>
 							<br></br>
 						</div>
@@ -259,15 +262,14 @@
 						<div class="form-group left-inner-addon">
 							<div class="col-lg-10">
 								<i class="glyphicon glyphicon-lock"></i>
-								<form:input type="password" path="password"
-									class="form-control" name="password" placeholder="password"
-									required="true" />
+								<form:input type="password" path="password" class="form-control"
+									name="password" placeholder="password" required="true" />
 							</div>
 						</div>
 						<br></br>
 						<div class="modal-footer">
-							<a class="btn btn-default" data-dismiss="modal">Cancel</a>
-							<input class="btn btn-primary" type="submit" value="Register"/>
+							<a class="btn btn-default" data-dismiss="modal">Cancel</a> <input
+								class="btn btn-primary" type="submit" value="Register" />
 
 						</div>
 					</div>
