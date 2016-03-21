@@ -43,9 +43,12 @@ public class AuthenticationController {
 		
 		UserAuthentication userAuthentication = new UserAuthentication();
 		DaughterRegistration daughterRegistration = new DaughterRegistration();
+		MotherRegistration motherRegistration = new MotherRegistration();
+		
 		
 		model.addAttribute("userAuthentication", userAuthentication);
 		model.addAttribute("daughterRegistration", daughterRegistration);
+		model.addAttribute("motherRegistration", motherRegistration);
 		
 		return "landingPage";
 	}
@@ -55,7 +58,7 @@ public class AuthenticationController {
 		
 		try {
 			authenticateService.registerDaughter(daughterRegistration);
-			return "landingPage";
+			return "topics";
 		} catch (AuthenticationException e) {
 			return "errorPage";
 		}
@@ -80,16 +83,29 @@ public class AuthenticationController {
 			
 			MotherRegistration motherRegistration = new MotherRegistration();
 			motherRegistration.setMother(mother);
-			
+
 //			Delete when landing page has mother registration form.
 			DaughterRegistration daughterRegistration = new DaughterRegistration();
 			Daughter daughter = new Daughter();
 			daughterRegistration.setDaughter(daughter);
 			model.addAttribute("daughterRegistration", daughterRegistration);
 
+
 			model.addAttribute("motherRegistration", motherRegistration);
 			model.addAttribute("motherRegister", "true");
 			return "landingPage";
+		} catch (AuthenticationException e) {
+			return "errorPage";
+		}
+	}
+	
+	@RequestMapping(value="/topicPage.action", method=RequestMethod.POST)
+	public String registerMother(@ModelAttribute("motherRegistration") MotherRegistration motherRegistration, Model model){
+		
+		try {
+			int records = authenticateService.updateMotherDetails(motherRegistration);
+			model.addAttribute("records", records);
+			return "topics";
 		} catch (AuthenticationException e) {
 			return "errorPage";
 		}

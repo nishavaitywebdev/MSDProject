@@ -20,4 +20,6 @@ public interface AuthenticateService {
 	
 	public Mother getMotherByEmail(String motherEmail) throws AuthenticationException;
 
+	public int updateMotherDetails(MotherRegistration motherRegistration) throws AuthenticationException;
+
 }

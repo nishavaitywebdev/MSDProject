@@ -62,4 +62,9 @@ public class AuthenticateServiceImpl implements AuthenticateService {
 		return authenticateDao.getMotherByEmail(motherEmail);
 	}
 
+	public int updateMotherDetails(MotherRegistration motherRegistration) throws AuthenticationException {
+		return authenticateDao.updateMotherDetails(motherRegistration);
+		
+	}
+
 }
