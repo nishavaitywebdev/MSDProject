@@ -1,7 +1,7 @@
 	/**
  * 
  */
-package com.neu.msd.dao;
+package com.neu.msd.dao.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,6 +14,7 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.mysql.jdbc.Statement;
+import com.neu.msd.dao.AuthenticateDao;
 import com.neu.msd.entities.ActivityContainer;
 import com.neu.msd.entities.Daughter;
 import com.neu.msd.entities.DaughterRegistration;
