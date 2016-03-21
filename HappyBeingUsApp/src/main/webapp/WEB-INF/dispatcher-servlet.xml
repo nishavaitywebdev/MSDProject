@@ -29,12 +29,12 @@
 	</bean>
 	
 	<!-- Service Beans Start -->
-	<bean id="adminService" class="com.neu.msd.service.AdminServiceImpl"/>
-	<bean id="authenticateService" class="com.neu.msd.service.AuthenticateServiceImpl"/>
+	<bean id="adminService" class="com.neu.msd.service.impl.AdminServiceImpl"/>
+	<bean id="authenticateService" class="com.neu.msd.service.impl.AuthenticateServiceImpl"/>
 	<!-- Service Beans End -->
 
 	<!-- Dao Beans Start -->
-	<bean id="adminDao" class="com.neu.msd.dao.AdminDaoImpl"/>
-	<bean id="authenticateDao" class="com.neu.msd.dao.AuthenticateDaoImpl"/>
+	<bean id="adminDao" class="com.neu.msd.dao.impl.AdminDaoImpl"/>
+	<bean id="authenticateDao" class="com.neu.msd.dao.impl.AuthenticateDaoImpl"/>
 	<!-- Dao Beans End -->	
 </beans>
