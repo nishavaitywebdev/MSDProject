@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.neu.msd.dao.AdminDao;
 import com.neu.msd.entities.Activity;
@@ -19,7 +20,7 @@ import com.neu.msd.service.AdminServie;
  * @author Harsh
  *
  */
-@Service
+@Service("authenticateService")
 public class AdminServiceImpl implements AdminServie {
 
 	@Autowired
@@ -28,6 +29,7 @@ public class AdminServiceImpl implements AdminServie {
 	/* (non-Javadoc)
 	 * @see com.neu.msd.service.AdminServie#loadTopics()
 	 */
+	@Transactional
 	public List<Topic> loadTopics() throws AdminException {
 		
 		List<Topic> allTopics = adminDao.loadTopics();

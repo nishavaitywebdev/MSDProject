@@ -36,3 +36,265 @@
 2016-03-08 16:41:40,847 [Worker-12] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of HappyBeingUsApp
 2016-03-08 16:41:40,848 [Worker-12] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for HappyBeingUsApp
 2016-03-08 16:41:41,173 [Worker-12] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 20:54:43,432 [Worker-2] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.maven.ide.eclipse.wtp.WarLifecycleMapping lifecycle mapping for MavenProject: com.neu.msd:HappyBeingUsApp:0.0.1-SNAPSHOT @ G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\pom.xml.
+2016-03-17 20:54:45,479 [Worker-2] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/javax/servlet/servlet-api/2.5/servlet-api-2.5.pom
+2016-03-17 20:54:45,576 [Worker-2] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/javax/servlet/servlet-api/2.5/servlet-api-2.5.pom
+2016-03-17 20:54:46,136 [Worker-2] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/javax/servlet/servlet-api/2.5/servlet-api-2.5.jar
+2016-03-17 20:54:46,265 [Worker-2] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/javax/servlet/servlet-api/2.5/servlet-api-2.5.jar
+2016-03-17 20:54:50,894 [Worker-2] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 20:54:50,944 [Worker-2] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2016-03-17 20:54:50,947 [Worker-2] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 20:54:50,948 [Worker-2] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\test\resources
+2016-03-17 20:54:50,960 [Worker-2] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of HappyBeingUsApp
+2016-03-17 20:54:50,962 [Worker-2] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for HappyBeingUsApp
+2016-03-17 20:54:50,971 [Worker-2] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 20:54:53,529 [Worker-10] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 20:54:53,543 [Worker-10] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2016-03-17 20:54:53,552 [Worker-10] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 20:54:53,555 [Worker-10] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\test\resources
+2016-03-17 20:54:53,555 [Worker-10] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of HappyBeingUsApp
+2016-03-17 20:54:53,555 [Worker-10] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for HappyBeingUsApp
+2016-03-17 20:54:53,564 [Worker-10] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 20:55:53,082 [Worker-7] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Update started
+2016-03-17 20:55:54,676 [Worker-7] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.maven.ide.eclipse.wtp.WarLifecycleMapping lifecycle mapping for MavenProject: com.neu.msd:HappyBeingUsApp:0.0.1-SNAPSHOT @ G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\pom.xml.
+2016-03-17 20:55:56,954 [Worker-7] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /HappyBeingUsApp/src/main/java
+2016-03-17 20:55:56,955 [Worker-7] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding resource folder /HappyBeingUsApp/src/main/resources
+2016-03-17 20:55:56,957 [Worker-7] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /HappyBeingUsApp/src/test/java
+2016-03-17 20:55:59,819 [Worker-7] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Update completed: 6 sec
+2016-03-17 20:56:01,922 [Worker-1] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 20:56:01,925 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2016-03-17 20:56:01,929 [Worker-1] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 20:56:01,930 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\test\resources
+2016-03-17 20:56:01,931 [Worker-1] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of HappyBeingUsApp
+2016-03-17 20:56:01,931 [Worker-1] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for HappyBeingUsApp
+2016-03-17 20:56:01,943 [Worker-1] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 20:56:15,856 [main] INFO  o.e.m2e.actions.ExecutePomAction - Creating new launch configuration
+2016-03-17 20:56:18,953 [Worker-7] INFO  o.e.m.i.launch.MavenLaunchDelegate - G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp
+2016-03-17 20:56:18,954 [Worker-7] INFO  o.e.m.i.launch.MavenLaunchDelegate -  mvn  -B clean
+2016-03-17 20:56:27,334 [main] INFO  o.e.m2e.actions.ExecutePomAction - Creating new launch configuration
+2016-03-17 20:56:33,298 [Worker-0] INFO  o.e.m.i.launch.MavenLaunchDelegate - G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp
+2016-03-17 20:56:33,299 [Worker-0] INFO  o.e.m.i.launch.MavenLaunchDelegate -  mvn  -B clean install
+2016-03-17 20:57:48,600 [Worker-12] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 20:57:48,605 [Worker-12] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2016-03-17 20:57:48,607 [Worker-12] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 20:57:48,609 [Worker-12] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\test\resources
+2016-03-17 20:57:48,615 [Worker-12] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of HappyBeingUsApp
+2016-03-17 20:57:48,615 [Worker-12] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for HappyBeingUsApp
+2016-03-17 20:57:48,685 [Worker-12] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 20:57:53,071 [main] INFO  o.e.m2e.actions.ExecutePomAction - Creating new launch configuration
+2016-03-17 20:57:56,830 [Worker-12] INFO  o.e.m.i.launch.MavenLaunchDelegate - G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp
+2016-03-17 20:57:56,850 [Worker-12] INFO  o.e.m.i.launch.MavenLaunchDelegate -  mvn  -B clean install
+2016-03-17 20:58:02,599 [Worker-13] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 20:58:02,601 [Worker-13] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2016-03-17 20:58:02,604 [Worker-13] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 20:58:02,605 [Worker-13] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\test\resources
+2016-03-17 20:58:02,606 [Worker-13] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of HappyBeingUsApp
+2016-03-17 20:58:02,606 [Worker-13] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for HappyBeingUsApp
+2016-03-17 20:58:02,613 [Worker-13] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 20:58:28,418 [Worker-21] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 20:58:28,421 [Worker-21] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2016-03-17 20:58:28,423 [Worker-21] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 20:58:28,425 [Worker-21] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\test\resources
+2016-03-17 20:58:28,425 [Worker-21] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of HappyBeingUsApp
+2016-03-17 20:58:28,425 [Worker-21] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for HappyBeingUsApp
+2016-03-17 20:58:28,433 [Worker-21] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 21:01:58,495 [Worker-15] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 21:01:58,500 [Worker-15] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2016-03-17 21:01:58,503 [Worker-15] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 21:01:58,504 [Worker-15] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\test\resources
+2016-03-17 21:01:58,505 [Worker-15] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of HappyBeingUsApp
+2016-03-17 21:01:58,505 [Worker-15] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for HappyBeingUsApp
+2016-03-17 21:01:58,577 [Worker-15] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 22:39:13,290 [Worker-23] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 22:39:13,335 [Worker-23] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2016-03-17 22:39:13,337 [Worker-23] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 22:39:13,339 [Worker-23] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\test\resources
+2016-03-17 22:39:13,340 [Worker-23] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of HappyBeingUsApp
+2016-03-17 22:39:13,340 [Worker-23] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for HappyBeingUsApp
+2016-03-17 22:39:13,347 [Worker-23] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 22:39:21,079 [Worker-23] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 22:39:21,081 [Worker-23] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2016-03-17 22:39:21,084 [Worker-23] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 22:39:21,085 [Worker-23] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\test\resources
+2016-03-17 22:39:21,098 [Worker-23] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of HappyBeingUsApp
+2016-03-17 22:39:21,098 [Worker-23] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for HappyBeingUsApp
+2016-03-17 22:39:21,108 [Worker-23] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 22:39:22,601 [Worker-13] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 22:39:22,603 [Worker-13] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2016-03-17 22:39:22,624 [Worker-13] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 22:39:22,626 [Worker-13] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\test\resources
+2016-03-17 22:39:22,626 [Worker-13] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of HappyBeingUsApp
+2016-03-17 22:39:22,627 [Worker-13] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for HappyBeingUsApp
+2016-03-17 22:39:22,635 [Worker-13] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 22:39:29,186 [Worker-10] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 22:39:29,188 [Worker-10] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2016-03-17 22:39:29,196 [Worker-10] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 22:39:29,197 [Worker-10] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\test\resources
+2016-03-17 22:39:29,198 [Worker-10] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of HappyBeingUsApp
+2016-03-17 22:39:29,198 [Worker-10] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for HappyBeingUsApp
+2016-03-17 22:39:29,208 [Worker-10] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 22:39:32,550 [Worker-26] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 22:39:32,551 [Worker-26] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2016-03-17 22:39:32,553 [Worker-26] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 22:39:32,555 [Worker-26] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\test\resources
+2016-03-17 22:39:32,555 [Worker-26] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of HappyBeingUsApp
+2016-03-17 22:39:32,555 [Worker-26] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for HappyBeingUsApp
+2016-03-17 22:39:32,579 [Worker-26] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 22:39:47,835 [Worker-27] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 22:39:47,837 [Worker-27] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2016-03-17 22:39:47,839 [Worker-27] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 22:39:47,841 [Worker-27] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\test\resources
+2016-03-17 22:39:47,841 [Worker-27] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of HappyBeingUsApp
+2016-03-17 22:39:47,841 [Worker-27] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for HappyBeingUsApp
+2016-03-17 22:39:47,849 [Worker-27] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 22:40:23,954 [Worker-10] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Update started
+2016-03-17 22:40:32,245 [Worker-10] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.maven.ide.eclipse.wtp.WarLifecycleMapping lifecycle mapping for MavenProject: com.neu.msd:HappyBeingUsApp:0.0.1-SNAPSHOT @ G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\pom.xml.
+2016-03-17 22:40:37,026 [Worker-10] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /HappyBeingUsApp/src/main/java
+2016-03-17 22:40:37,027 [Worker-10] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding resource folder /HappyBeingUsApp/src/main/resources
+2016-03-17 22:40:37,028 [Worker-10] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /HappyBeingUsApp/src/test/java
+2016-03-17 22:40:42,137 [Worker-10] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Update completed: 18 sec
+2016-03-17 22:40:48,426 [Worker-28] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 22:40:48,429 [Worker-28] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2016-03-17 22:40:48,433 [Worker-28] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 22:40:48,434 [Worker-28] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\test\resources
+2016-03-17 22:40:48,435 [Worker-28] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of HappyBeingUsApp
+2016-03-17 22:40:48,435 [Worker-28] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for HappyBeingUsApp
+2016-03-17 22:40:48,446 [Worker-28] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 22:40:50,242 [main] INFO  o.e.m2e.actions.ExecutePomAction - Creating new launch configuration
+2016-03-17 22:41:00,043 [Worker-31] INFO  o.e.m.i.launch.MavenLaunchDelegate - G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp
+2016-03-17 22:41:00,043 [Worker-31] INFO  o.e.m.i.launch.MavenLaunchDelegate -  mvn  -B clean install
+2016-03-17 22:45:35,216 [Worker-10] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 22:45:35,309 [Worker-10] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2016-03-17 22:45:35,312 [Worker-10] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 22:45:35,313 [Worker-10] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\test\resources
+2016-03-17 22:45:35,314 [Worker-10] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of HappyBeingUsApp
+2016-03-17 22:45:35,314 [Worker-10] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for HappyBeingUsApp
+2016-03-17 22:45:35,349 [Worker-10] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 22:51:14,755 [Worker-33] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 22:51:14,757 [Worker-33] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2016-03-17 22:51:14,761 [Worker-33] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 22:51:14,762 [Worker-33] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\test\resources
+2016-03-17 22:51:14,763 [Worker-33] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of HappyBeingUsApp
+2016-03-17 22:51:14,763 [Worker-33] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for HappyBeingUsApp
+2016-03-17 22:51:14,772 [Worker-33] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 22:52:14,023 [Worker-23] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 22:52:14,025 [Worker-23] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2016-03-17 22:52:14,027 [Worker-23] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 22:52:14,029 [Worker-23] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\test\resources
+2016-03-17 22:52:14,029 [Worker-23] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of HappyBeingUsApp
+2016-03-17 22:52:14,029 [Worker-23] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for HappyBeingUsApp
+2016-03-17 22:52:14,039 [Worker-23] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 22:52:36,254 [Worker-23] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 22:52:36,257 [Worker-23] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2016-03-17 22:52:36,284 [Worker-23] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 22:52:36,285 [Worker-23] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\test\resources
+2016-03-17 22:52:36,286 [Worker-23] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of HappyBeingUsApp
+2016-03-17 22:52:36,286 [Worker-23] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for HappyBeingUsApp
+2016-03-17 22:52:36,293 [Worker-23] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 22:52:37,391 [Worker-20] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 22:52:37,393 [Worker-20] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2016-03-17 22:52:37,395 [Worker-20] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 22:52:37,396 [Worker-20] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\test\resources
+2016-03-17 22:52:37,397 [Worker-20] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of HappyBeingUsApp
+2016-03-17 22:52:37,397 [Worker-20] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for HappyBeingUsApp
+2016-03-17 22:52:37,404 [Worker-20] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 22:52:45,621 [Worker-32] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Update started
+2016-03-17 22:52:51,825 [Worker-32] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.maven.ide.eclipse.wtp.WarLifecycleMapping lifecycle mapping for MavenProject: com.neu.msd:HappyBeingUsApp:0.0.1-SNAPSHOT @ G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\pom.xml.
+2016-03-17 22:52:54,986 [Worker-32] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /HappyBeingUsApp/src/main/java
+2016-03-17 22:52:54,987 [Worker-32] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding resource folder /HappyBeingUsApp/src/main/resources
+2016-03-17 22:52:54,988 [Worker-32] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /HappyBeingUsApp/src/test/java
+2016-03-17 22:52:57,410 [Worker-32] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Update completed: 11 sec
+2016-03-17 22:52:59,871 [Worker-23] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 22:52:59,874 [Worker-23] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2016-03-17 22:52:59,878 [Worker-23] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 22:52:59,880 [Worker-23] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\test\resources
+2016-03-17 22:52:59,880 [Worker-23] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of HappyBeingUsApp
+2016-03-17 22:52:59,880 [Worker-23] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for HappyBeingUsApp
+2016-03-17 22:52:59,890 [Worker-23] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 22:53:09,665 [main] INFO  o.e.m2e.actions.ExecutePomAction - Creating new launch configuration
+2016-03-17 22:53:17,898 [Worker-23] INFO  o.e.m.i.launch.MavenLaunchDelegate - G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp
+2016-03-17 22:53:17,899 [Worker-23] INFO  o.e.m.i.launch.MavenLaunchDelegate -  mvn  -B clean install
+2016-03-17 22:56:14,147 [Worker-10] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 22:56:14,205 [Worker-10] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2016-03-17 22:56:14,207 [Worker-10] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 22:56:14,208 [Worker-10] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\test\resources
+2016-03-17 22:56:14,210 [Worker-10] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of HappyBeingUsApp
+2016-03-17 22:56:14,210 [Worker-10] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for HappyBeingUsApp
+2016-03-17 22:56:14,216 [Worker-10] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 22:57:54,476 [Worker-10] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 22:57:54,478 [Worker-10] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2016-03-17 22:57:54,479 [Worker-10] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 22:57:54,480 [Worker-10] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\test\resources
+2016-03-17 22:57:54,481 [Worker-10] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of HappyBeingUsApp
+2016-03-17 22:57:54,481 [Worker-10] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for HappyBeingUsApp
+2016-03-17 22:57:54,520 [Worker-10] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 22:59:30,951 [Worker-37] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 22:59:30,953 [Worker-37] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2016-03-17 22:59:30,955 [Worker-37] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 22:59:30,956 [Worker-37] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\test\resources
+2016-03-17 22:59:30,956 [Worker-37] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of HappyBeingUsApp
+2016-03-17 22:59:30,957 [Worker-37] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for HappyBeingUsApp
+2016-03-17 22:59:30,966 [Worker-37] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 22:59:32,294 [Worker-23] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 22:59:32,298 [Worker-23] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2016-03-17 22:59:32,309 [Worker-23] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 22:59:32,313 [Worker-23] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\test\resources
+2016-03-17 22:59:32,314 [Worker-23] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of HappyBeingUsApp
+2016-03-17 22:59:32,314 [Worker-23] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for HappyBeingUsApp
+2016-03-17 22:59:32,325 [Worker-23] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 22:59:58,405 [Worker-23] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 22:59:58,406 [Worker-23] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2016-03-17 22:59:58,409 [Worker-23] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 22:59:58,410 [Worker-23] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\test\resources
+2016-03-17 22:59:58,411 [Worker-23] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of HappyBeingUsApp
+2016-03-17 22:59:58,411 [Worker-23] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for HappyBeingUsApp
+2016-03-17 22:59:58,420 [Worker-23] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 23:01:18,356 [Worker-42] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 23:01:18,357 [Worker-42] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2016-03-17 23:01:18,359 [Worker-42] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 23:01:18,368 [Worker-42] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\test\resources
+2016-03-17 23:01:18,369 [Worker-42] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of HappyBeingUsApp
+2016-03-17 23:01:18,374 [Worker-42] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for HappyBeingUsApp
+2016-03-17 23:01:18,408 [Worker-42] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 23:04:19,225 [Worker-23] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 23:04:19,227 [Worker-23] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2016-03-17 23:04:19,228 [Worker-23] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 23:04:19,229 [Worker-23] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\test\resources
+2016-03-17 23:04:19,230 [Worker-23] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of HappyBeingUsApp
+2016-03-17 23:04:19,230 [Worker-23] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for HappyBeingUsApp
+2016-03-17 23:04:19,237 [Worker-23] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 23:05:35,370 [Worker-23] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 23:05:35,372 [Worker-23] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2016-03-17 23:05:35,375 [Worker-23] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 23:05:35,376 [Worker-23] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\test\resources
+2016-03-17 23:05:35,431 [Worker-23] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of HappyBeingUsApp
+2016-03-17 23:05:35,434 [Worker-23] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for HappyBeingUsApp
+2016-03-17 23:05:35,451 [Worker-23] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 23:08:30,601 [Worker-44] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 23:08:30,623 [Worker-44] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2016-03-17 23:08:30,626 [Worker-44] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 23:08:30,627 [Worker-44] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\test\resources
+2016-03-17 23:08:30,628 [Worker-44] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of HappyBeingUsApp
+2016-03-17 23:08:30,628 [Worker-44] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for HappyBeingUsApp
+2016-03-17 23:08:30,637 [Worker-44] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 23:08:43,745 [Worker-45] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 23:08:43,746 [Worker-45] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2016-03-17 23:08:43,748 [Worker-45] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 23:08:43,750 [Worker-45] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\test\resources
+2016-03-17 23:08:43,750 [Worker-45] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of HappyBeingUsApp
+2016-03-17 23:08:43,750 [Worker-45] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for HappyBeingUsApp
+2016-03-17 23:08:43,759 [Worker-45] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 23:09:20,437 [Worker-43] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 23:09:20,439 [Worker-43] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2016-03-17 23:09:20,441 [Worker-43] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 23:09:20,442 [Worker-43] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\test\resources
+2016-03-17 23:09:20,443 [Worker-43] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of HappyBeingUsApp
+2016-03-17 23:09:20,443 [Worker-43] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for HappyBeingUsApp
+2016-03-17 23:09:20,450 [Worker-43] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 23:13:09,392 [Worker-48] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 23:13:09,422 [Worker-48] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2016-03-17 23:13:09,424 [Worker-48] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-03-17 23:13:09,426 [Worker-48] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory G:\NortheasternUniversity\Semester 2\Managing Software Development\Development\Github\happybeingus\HappyBeingUsApp\src\test\resources
+2016-03-17 23:13:09,426 [Worker-48] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of HappyBeingUsApp
+2016-03-17 23:13:09,426 [Worker-48] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for HappyBeingUsApp
+2016-03-17 23:13:09,433 [Worker-48] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!

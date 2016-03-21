@@ -12,6 +12,7 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.mysql.jdbc.Statement;
 import com.neu.msd.dao.AuthenticateDao;
@@ -19,6 +20,7 @@ import com.neu.msd.entities.ActivityContainer;
 import com.neu.msd.entities.Daughter;
 import com.neu.msd.entities.DaughterRegistration;
 import com.neu.msd.entities.Mother;
+import com.neu.msd.entities.MotherRegistration;
 import com.neu.msd.entities.Topic;
 import com.neu.msd.exception.AdminException;
 import com.neu.msd.exception.AuthenticationException;
@@ -27,6 +29,7 @@ import com.neu.msd.exception.AuthenticationException;
  * @author Harsh
  *
  */
+@Repository("authenticateDao")
 public class AuthenticateDaoImpl implements AuthenticateDao {
 	
 	@Autowired
@@ -138,7 +141,6 @@ public class AuthenticateDaoImpl implements AuthenticateDao {
 			stmt.setString(3, daughterRegistration.getPassword());
 			stmt.setInt(4, 3);
 			
-			
 			int records = stmt.executeUpdate();
 			
 			System.out.println("No. of records inserted: "+records);
@@ -170,4 +172,47 @@ public class AuthenticateDaoImpl implements AuthenticateDao {
 			throw new AuthenticationException(e);
 		}
 	}
+
+
+	/* (non-Javadoc)
+	 * @see com.neu.msd.dao.AuthenticateDao#updateMotherDetails(com.neu.msd.entities.MotherRegistration)
+	 */
+	public int updateMotherDetails(MotherRegistration motherRegistration) throws AuthenticationException {
+		try {
+			Connection connection = dataSource.getConnection();
+			String sql = "update user set first_name = ?, last_name = ? where user_id = ?";
+					
+			PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			
+			stmt.setString(1, motherRegistration.getMother().getFirstName());
+			stmt.setString(2, motherRegistration.getMother().getLastName());
+			stmt.setInt(3, motherRegistration.getMother().getId());
+
+			int records = stmt.executeUpdate();
+			System.out.println("No. of records updated in the user table: "+records);
+			
+			String sqlUpdateUserAuth = "insert into user_authentication(user_id, username, password, user_type_id) "
+					+ "values (?, ?, ?, ?)";
+			
+			PreparedStatement stmtUpdateUserAuth = connection.prepareStatement(sqlUpdateUserAuth, Statement.RETURN_GENERATED_KEYS);
+			
+			stmtUpdateUserAuth.setInt(1, motherRegistration.getMother().getId());
+			stmtUpdateUserAuth.setString(2, motherRegistration.getUsername());
+			stmtUpdateUserAuth.setString(3, motherRegistration.getPassword());
+			stmtUpdateUserAuth.setInt(4, 2);
+			
+			records = stmtUpdateUserAuth.executeUpdate();
+			
+			System.out.println("No. of records inserted in the user_authentication table: "+records);
+			return records;
+			
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new AuthenticationException(e);
+		}
+		
+	}
+
+
 }

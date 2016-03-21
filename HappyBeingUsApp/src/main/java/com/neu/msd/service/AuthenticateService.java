@@ -24,4 +24,6 @@ public interface AuthenticateService {
 	
 	public int validUser(UserAuthentication userAuthentication) throws AuthenticationException;
 
+	public int updateMotherDetails(MotherRegistration motherRegistration) throws AuthenticationException;
+
 }
