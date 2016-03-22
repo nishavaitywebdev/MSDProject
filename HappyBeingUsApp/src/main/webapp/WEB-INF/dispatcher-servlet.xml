@@ -16,7 +16,7 @@
 	<context:component-scan base-package="com.neu.msd.service" />
 	<context:component-scan base-package="com.neu.msd.dao" />
 	
-	<mvc:view-controller path="/" view-name="home" />
+	<mvc:view-controller path="/" view-name="landingPage" />
 	
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="url" value="jdbc:mysql://localhost/hbu" />

@@ -46,7 +46,7 @@
 			<div class="form-group left-inner-addon">
 				<div class="col-lg-8">
 					<i class="glyphicon glyphicon-user"></i> <input type="text"
-						class="form-control" name="userName" placeholder="User name"
+						class="form-control" name="username" placeholder="User name"
 						required>
 				</div>
 			</div>
@@ -59,7 +59,7 @@
 				</div>
 			</div>
 			<br></br>
-
+			<span id="AdminErr" style="display:none">Please check the Username/Password you have entered.</span>
 			<div class="col-lg-6">
 				<a href="#ForgotPassword">Forgot Password</a>
 			</div>
@@ -82,8 +82,17 @@
 		<!-- /.row -->
 	</footer>
 	<script src="js/jquery.js"></script>
+<input type="hidden" id="check" name="checkAdmin" value="${adminLogonErr}" />
 
 	<!-- Bootstrap Core JavaScript -->
 	<script src="js/bootstrap.min.js"></script>
+	<script>
+	$(document).ready(function() {
+
+		if ($("#checkAdmin")[0].value == 'false') {
+			$('#AdminErr').css('display', 'block');
+		}
+	});
+	</script>
 </body>
 </html>

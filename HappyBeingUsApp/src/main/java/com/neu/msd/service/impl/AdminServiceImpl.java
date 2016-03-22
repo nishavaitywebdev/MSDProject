@@ -13,6 +13,8 @@ import com.neu.msd.dao.AdminDao;
 import com.neu.msd.entities.Activity;
 import com.neu.msd.entities.ActivityContainer;
 import com.neu.msd.entities.Topic;
+import com.neu.msd.entities.User;
+import com.neu.msd.entities.UserAuthentication;
 import com.neu.msd.exception.AdminException;
 import com.neu.msd.service.AdminServie;
 
@@ -70,6 +72,11 @@ public class AdminServiceImpl implements AdminServie {
 	public ActivityContainer getActivityContainerById(int activityContainerId) throws AdminException {
 		
 		return adminDao.loadActivityContainerById(activityContainerId);
+	}
+
+	public User adminAuthenticate(UserAuthentication userAuthentication) throws AdminException {
+		// TODO Auto-generated method stub
+		return adminDao.authenticateAdminByUsernamePassword(userAuthentication);
 	}
 
 }

@@ -42,17 +42,21 @@ public class AuthenticateDaoImpl implements AuthenticateDao {
 		
 		try {
 			Connection connection = dataSource.getConnection();
-			String sql = "insert into user (user_type_id, first_name, last_name, birthdate, email_id, parent_id, is_diagnostic_taken) "
-					+ " values (?, ?, ?, ?, ?, ?, ?)";
+			
+			int nextUserId = getNextUserId();
+			
+			String sql = "insert into user (user_id, user_type_id, first_name, last_name, birthdate, email_id, parent_id, is_diagnostic_taken) "
+					+ " values (?, ?, ?, ?, ?, ?, ?, ?)";
 			PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			
-			stmt.setInt(1, 3);
-			stmt.setString(2, daughter.getFirstName());
-			stmt.setString(3, daughter.getLastName());
-			stmt.setDate(4, new java.sql.Date(daughter.getBirthdate().getTime()));
-			stmt.setString(5, daughter.getEmail());
-			stmt.setInt(6, daughter.getMother().getId());
-			stmt.setBoolean(7, false);
+			stmt.setInt(1, nextUserId);
+			stmt.setInt(2, 3);
+			stmt.setString(3, daughter.getFirstName());
+			stmt.setString(4, daughter.getLastName());
+			stmt.setDate(5, new java.sql.Date(daughter.getBirthdate().getTime()));
+			stmt.setString(6, daughter.getEmail());
+			stmt.setInt(7, daughter.getMother().getId());
+			stmt.setBoolean(8, false);
 			
 			int records = stmt.executeUpdate();
 			
@@ -62,6 +66,27 @@ public class AuthenticateDaoImpl implements AuthenticateDao {
 			
 			if (keys.next()) {
 				return keys.getInt(1);
+			}
+			
+			throw new Exception();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new AuthenticationException(e);
+		}
+	}
+
+	private int getNextUserId() throws AuthenticationException{
+		try {
+			Connection connection = dataSource.getConnection();
+			
+			String sql = "SELECT MAX(USER_ID) AS USER_ID FROM USER";
+
+			PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			
+			ResultSet rs = stmt.executeQuery();
+			
+			if (rs.next()) {
+				return rs.getInt(1) + 1;
 			}
 			
 			throw new Exception();
@@ -103,12 +128,14 @@ public class AuthenticateDaoImpl implements AuthenticateDao {
 		
 		try {
 			Connection connection = dataSource.getConnection();
-			String sql = "insert into user (user_type_id, email_id) "
-					+ " values (?, ?)";
+			int nextUserId = getNextUserId();
+			String sql = "insert into user (user_id, user_type_id, email_id) "
+					+ " values (?, ?, ?)";
 			PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			
-			stmt.setInt(1, 2);
-			stmt.setString(2, email);
+			stmt.setInt(1, nextUserId);
+			stmt.setInt(2, 2);
+			stmt.setString(3, email);
 			
 			int records = stmt.executeUpdate();
 			
@@ -117,9 +144,10 @@ public class AuthenticateDaoImpl implements AuthenticateDao {
 			ResultSet keys = stmt.getGeneratedKeys();
 			
 			Mother mother = new Mother();
-			mother.setId(keys.getInt("user_id"));
+//			mother.setId(keys.getInt("user_id"));
+			mother.setId(nextUserId);
 			mother.setEmail(email);
-			mother.getUserType().setId(keys.getInt("user_type_id"));
+			mother.getUserType().setId(2);
 			
 			return mother;
 		} catch (Exception e) {
