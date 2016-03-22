@@ -6,6 +6,8 @@ package com.neu.msd.service;
 import com.neu.msd.entities.DaughterRegistration;
 import com.neu.msd.entities.Mother;
 import com.neu.msd.entities.MotherRegistration;
+import com.neu.msd.entities.User;
+import com.neu.msd.entities.UserAuthentication;
 import com.neu.msd.exception.AuthenticationException;
 
 /**
@@ -19,6 +21,8 @@ public interface AuthenticateService {
 	public Mother registerMother(MotherRegistration motherRegistration) throws AuthenticationException;
 	
 	public Mother getMotherByEmail(String motherEmail) throws AuthenticationException;
+	
+	public User validUser(UserAuthentication userAuthentication) throws AuthenticationException;
 
 	public int updateMotherDetails(MotherRegistration motherRegistration) throws AuthenticationException;
 

@@ -1,4 +1,4 @@
-/**
+	/**
  * 
  */
 package com.neu.msd.dao.impl;
@@ -22,6 +22,7 @@ import com.neu.msd.entities.DaughterRegistration;
 import com.neu.msd.entities.Mother;
 import com.neu.msd.entities.MotherRegistration;
 import com.neu.msd.entities.Topic;
+import com.neu.msd.entities.User;
 import com.neu.msd.exception.AdminException;
 import com.neu.msd.exception.AuthenticationException;
 
@@ -39,7 +40,7 @@ public class AuthenticateDaoImpl implements AuthenticateDao {
 	 * @see com.neu.msd.dao.AuthenticateDao#registerDaughter(com.neu.msd.entities.DaughterRegistration)
 	 */
 	public int registerDaughter(Daughter daughter) throws AuthenticationException {
-		
+			
 		try {
 			Connection connection = dataSource.getConnection();
 			
@@ -178,7 +179,43 @@ public class AuthenticateDaoImpl implements AuthenticateDao {
 			e.printStackTrace();
 			throw new AuthenticationException(e);
 		}
+	
 	}
+	public User validUser(String username, String password) throws AuthenticationException {
+		try {
+			User user= new User();
+			int id;
+			Connection connection = dataSource.getConnection();
+			String sql = "select user_id from user_authentication where username=? and password=?";
+			PreparedStatement stmt = connection.prepareStatement(sql);
+			stmt.setString(1, username);
+			stmt.setString(2, password);
+			ResultSet rs = stmt.executeQuery();
+			if(rs.next()==true){
+			id=rs.getInt("user_id");
+			String sql2 = "select * from user where user_id=?";
+			PreparedStatement stmt1 = connection.prepareStatement(sql2);
+			stmt1.setInt(1, id);
+			ResultSet rs1 = stmt1.executeQuery();
+			while(rs1.next()){
+				user.setId(rs1.getInt("user_id"));
+				rs1.getInt("user_type_id");
+				user.setFirstName(rs1.getString("first_name"));
+				user.setLastName(rs1.getString("last_name"));
+				user.setBirthdate(rs1.getDate("birthdate"));
+				user.setEmail(rs1.getString("email_id"));
+			}
+			
+			return user;
+			}
+			else
+				return null;	
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new AuthenticationException(e);
+		}
+	}
+
 
 	/* (non-Javadoc)
 	 * @see com.neu.msd.dao.AuthenticateDao#updateMotherDetails(com.neu.msd.entities.MotherRegistration)
@@ -219,5 +256,6 @@ public class AuthenticateDaoImpl implements AuthenticateDao {
 		}
 		
 	}
+
 
 }

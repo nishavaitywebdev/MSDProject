@@ -1,4 +1,5 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page isELIgnored="false"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -166,7 +167,8 @@
 	<div class="modal fade" id="Login" role="dialog">
 		<div class="modal-dialog">
 			<div class="modal-content col-lg-10">
-				<form action="Login.nisha" method="post">
+				<form action="Login.action" method="post"
+					modelAttribute="userAuthentication">
 					<div class="modal-header">
 						<h4>Login</h4>
 					</div>
@@ -174,8 +176,9 @@
 						<div class="form-group left-inner-addon">
 							<div class="col-lg-8">
 								<i class="glyphicon glyphicon-user"></i> <input type="text"
-									class="form-control" name="userName" placeholder="User name"
+									class="form-control" name="username" placeholder="User name"
 									required>
+
 							</div>
 						</div>
 						<br></br>
@@ -190,6 +193,7 @@
 
 						<div class="col-lg-6">
 							<a href="#ForgotPassword">Forgot Password</a>
+							<span id="checkusername" style="display:none">dismatch! check username or password.</span>
 						</div>
 						<br></br>
 					</div>
@@ -277,7 +281,12 @@
 						</div>
 					</div>
 				</form:form>
+<<<<<<< HEAD
 			</div>
+=======
+
+				</div>
+>>>>>>> refs/remotes/origin/dahang-from-hasha
 		</div>
 	</div>
 
@@ -373,9 +382,15 @@
 			</div>
 		</div>
 	</div>
+<<<<<<< HEAD
 
 	<input type="hidden" id="check" name="check" value="${motherRegister}" />
+=======
+>>>>>>> refs/remotes/origin/dahang-from-hasha
 
+	<input type="hidden" id="usernameerr" name="usernameerr"
+		value="${usernameerr}" />
+	<input type="hidden" id="check" name="check" value="${motherRegister}" />
 
 	<!-- /.container -->
 
@@ -394,16 +409,42 @@
 
 		$(document).ready(function() {
 
+<<<<<<< HEAD
 			$("#signUpMomLink").click(function() {
 				$('#motherEmailErr').css('display', 'none');
 			});
 			if ($("#check")[0].value == 'true') {
+=======
+			
+		});
+		
+		$( document ).ready(function() {
+			$("#Login").click(function() {
+				$('#checkusername').css('display', 'none');
+			});
+
+			if ($("#usernameerr")[0].value == 'false') {
+				$('#Login').modal('toggle');
+				$('#checkusername').css('display', 'block');
+			}
+			$("#signUpMomLink").click(
+		            function () {
+		    			$('#motherEmailErr').css('display', 'none');
+		            }            
+		        );
+			if($( "#check" )[0].value == 'true'){
+>>>>>>> refs/remotes/origin/dahang-from-hasha
 				$('#UpdateMomDetails').modal('toggle');
 			} else if ($("#check")[0].value == 'false') {
 				$('#SignUpMom').modal('toggle');
 				$('#motherEmailErr').css('display', 'block');
 			}
+<<<<<<< HEAD
 		});
+=======
+		});	
+
+>>>>>>> refs/remotes/origin/dahang-from-hasha
 	</script>
 
 </body>
