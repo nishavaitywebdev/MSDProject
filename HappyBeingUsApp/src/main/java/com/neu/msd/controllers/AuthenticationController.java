@@ -72,31 +72,28 @@ public class AuthenticationController {
 	public String getMotherByEmail(@RequestParam("emailID") String emailID, Model model, HttpSession session){
 		
 		try {
-			Mother mother = new Mother();
-			mother = authenticateService.getMotherByEmail(emailID);
+			MotherRegistration motherRegistration = authenticateService.getMotherRegistrationByEmail(emailID);
 			
-			if(mother.getId() == 0){
-//			Delete when landing page has mother registration form.
-				DaughterRegistration daughterRegistration = new DaughterRegistration();
-				Daughter daughter = new Daughter();
-				daughterRegistration.setDaughter(daughter);
-				model.addAttribute("daughterRegistration", daughterRegistration);
-				model.addAttribute("motherRegister", "false");
-				return "landingPage";
-			}
-			
-			MotherRegistration motherRegistration = new MotherRegistration();
-			motherRegistration.setMother(mother);
-
-//			Delete when landing page has mother registration form.
 			DaughterRegistration daughterRegistration = new DaughterRegistration();
-			Daughter daughter = new Daughter();
-			daughterRegistration.setDaughter(daughter);
 			model.addAttribute("daughterRegistration", daughterRegistration);
-
-
 			model.addAttribute("motherRegistration", motherRegistration);
-			model.addAttribute("motherRegister", "true");
+
+			String invalidMotherEmailErr ="";
+
+			if(motherRegistration.getMother().getId() == 0){
+				invalidMotherEmailErr ="Please check the emailId you have entered.";
+				model.addAttribute("motherRegister", "false");
+				model.addAttribute("motherRegisterErr", invalidMotherEmailErr);
+			}else if(null == motherRegistration.getUsername()){
+				invalidMotherEmailErr ="The account already exists, please log in...";
+			model.addAttribute("motherRegister", "false");
+				model.addAttribute("motherRegisterErr", invalidMotherEmailErr);
+			}
+			else{
+				
+				model.addAttribute("motherRegister", "true");
+			}
+		
 			return "landingPage";
 		} catch (AuthenticationException e) {
 			return "errorPage";
@@ -117,7 +114,7 @@ public class AuthenticationController {
 				return "landingPage";
 			}
 			else
-			return "userHome";
+			return "topics";
 			
 		} catch (AuthenticationException e) {
 			return "errorPage";
@@ -135,7 +132,22 @@ public class AuthenticationController {
 			return "errorPage";
 		}
 	}
-	
+	@RequestMapping(value="/forgotPassword.action", method=RequestMethod.POST)
+	public String resetUnamePassword(@RequestParam("emailID") String emailID, @RequestParam("username") String username, 
+			@RequestParam("password") String password, Model model){
+		
+		try {
+			DaughterRegistration daughterRegistration = new DaughterRegistration();
+			MotherRegistration motherRegistration = new MotherRegistration();
+			model.addAttribute("daughterRegistration", daughterRegistration); 
+			model.addAttribute("motherRegistration", motherRegistration); 
+
+			String status = authenticateService.resetUnamePassword(emailID,username,password);
+			return "landingPage";
+		} catch (AuthenticationException e) {
+			return "errorPage";
+		}
+	}
 	@InitBinder
 	public void anyNameHere(WebDataBinder binder) {
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(

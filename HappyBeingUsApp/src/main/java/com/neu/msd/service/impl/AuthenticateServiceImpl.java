@@ -72,16 +72,25 @@ public class AuthenticateServiceImpl implements AuthenticateService {
 		return user;
 	}
 
+	private Mother getMotherByEmail(String motherEmail) throws AuthenticationException{
+		return getMotherRegistrationByEmail(motherEmail).getMother();
+	}
 
 	
 	@Transactional(rollbackFor={AuthenticationException.class})
-	public Mother getMotherByEmail(String motherEmail) throws AuthenticationException {
-		return authenticateDao.getMotherByEmail(motherEmail);
+	public MotherRegistration getMotherRegistrationByEmail(String motherEmail) throws AuthenticationException {
+		return authenticateDao.getMotherRegistrationByEmail(motherEmail);
 	}
 
 	public int updateMotherDetails(MotherRegistration motherRegistration) throws AuthenticationException {
 		return authenticateDao.updateMotherDetails(motherRegistration);
 		
 	}
+
+	public String resetUnamePassword(String emailID, String username, String password) throws AuthenticationException {
+		return authenticateDao.resetUnamePassword(emailID,username,password);
+		
+	}
+
 
 }

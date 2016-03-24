@@ -50,6 +50,18 @@
 	padding: 10px 12px;
 	pointer-events: none;
 }
+.flable {  
+ color: gray;  
+}  
+  
+.status {  
+ font-family: verdana;  
+ font-size: 12px;  
+}  
+  
+.uname {  
+ color: blue;  
+}  
 </style>
 </head>
 
@@ -175,7 +187,7 @@
 					<div class="modal-body">
 						<div class="form-group left-inner-addon">
 							<div class="col-lg-8">
-								<i class="glyphicon glyphicon-user"></i> <input type="text"
+								<i class="glyphicon glyphicon-user"></i> <input type="text" maxlength = "80"
 									class="form-control" name="username" placeholder="User name"
 									required>
 
@@ -184,7 +196,7 @@
 						<br></br>
 						<div class="form-group left-inner-addon">
 							<div class="col-lg-8">
-								<i class="glyphicon glyphicon-lock"></i> <input type="password"
+								<i class="glyphicon glyphicon-lock"></i> <input type="password" maxlength = "80"
 									class="form-control" name="password" placeholder="password"
 									required>
 							</div>
@@ -192,8 +204,9 @@
 						<br></br>
 
 						<div class="col-lg-6">
-							<a href="#ForgotPassword">Forgot Password</a>
-							<span id="checkusername" style="display:none">dismatch! check username or password.</span>
+							<a href="#ForgotPassword" data-toggle = "modal">Forgot Password</a> <span
+								id="checkusername" style="display: none">Error! Please check
+								username or password entered.</span>
 						</div>
 						<br></br>
 					</div>
@@ -220,12 +233,12 @@
 					<div class="modal-body">
 						<div class="form-group">
 							<div class="col-lg-5">
-								<form:input type="text" path="daughter.firstName"
+								<form:input type="text" path="daughter.firstName" maxlength = "80"
 									class="form-control" name="Firstname" placeholder="First name"
 									required="true" />
 							</div>
 							<div class="col-lg-5">
-								<form:input type="text" path="daughter.lastName"
+								<form:input type="text" path="daughter.lastName" maxlength = "80"
 									class="form-control" name="Lastname" placeholder="Last Name"
 									required="true" />
 							</div>
@@ -233,10 +246,10 @@
 						</div>
 						<div class="form-group left-inner-addon ">
 							<div class="col-lg-10 ">
-								<i class="glyphicon glyphicon-envelope"></i>
-								<form:input type="email" path="daughter.email"
+								<i class="glyphicon glyphicon-envelope uname"></i>
+								<form:input type="email" path="daughter.email" maxlength = "80"
 									class="form-control" name="emailID" placeholder="Email"
-									required="true" />
+									required="true" /><span class="status"></span>
 							</div>
 							<br></br>
 						</div>
@@ -244,7 +257,7 @@
 							<div class="col-lg-7 ">
 								<i class="glyphicon glyphicon-calendar"></i>
 								<form:input type="date" path="daughter.birthdate"
-									class="form-control" name="birthDate" placeholder="Birth Date"
+									class="form-control" name="birthDate" max="2008-12-31" min="2000-01-02" placeholder="Birth Date"
 									required="true" />
 							</div>
 							<br></br>
@@ -253,7 +266,7 @@
 							<div class="col-lg-10">
 								<i class="glyphicon glyphicon-envelope"></i>
 								<form:input type="email" path="daughter.mother.email"
-									class="form-control" id="MomEmailID" name="momEmail"
+									class="form-control" id="MomEmailID" name="momEmail" maxlength = "80"
 									placeholder="EmailID of Mommy" required="true" />
 							</div>
 							<br></br>
@@ -261,7 +274,7 @@
 						<div class="form-group left-inner-addon">
 							<div class="col-lg-10">
 								<i class="glyphicon glyphicon-user"></i>
-								<form:input type="text" path="username" class="form-control"
+								<form:input type="text" path="username" class="form-control" maxlength = "80" minlength = "6"
 									name="userName" placeholder="User name" required="true" />
 							</div>
 							<br></br>
@@ -269,7 +282,7 @@
 						<div class="form-group left-inner-addon">
 							<div class="col-lg-10">
 								<i class="glyphicon glyphicon-lock"></i>
-								<form:input type="password" path="password" class="form-control"
+								<form:input type="password" path="password" class="form-control" maxlength = "80" minlength = "6"
 									name="password" placeholder="password" required="true" />
 							</div>
 						</div>
@@ -281,172 +294,186 @@
 						</div>
 					</div>
 				</form:form>
-<<<<<<< HEAD
-			</div>
-=======
-
-				</div>
->>>>>>> refs/remotes/origin/dahang-from-hasha
-		</div>
-	</div>
-
-	<div class="modal fade" id="SignUpMom" role="dialog">
-		<div class="modal-dialog">
-			<div class="modal-content col-lg-10">
-
-				<form action="getMotherByEmail.action" method="post">
-					<div class="modal-header">
-						<h4>Sign Up</h4>
-					</div>
-
-					<div class="modal-body">
-						<div class="form-group left-inner-addon ">
-							<div class="col-lg-10 ">
-								<i class="glyphicon glyphicon-envelope"></i> <input type="email"
-									path="daughter.email" class="form-control" name="emailID"
-									placeholder="Email" required />
-							</div>
-							<br></br>
-						</div>
-						<span id="motherEmailErr" style="display: none">Please
-							check the emailid you have entered.</span>
-						<div class="modal-footer">
-							<a class="btn btn-default" data-dismiss="modal">Cancel</a> <input
-								class="btn btn-primary" type="submit" value="Register" />
-
-						</div>
-					</div>
-				</form>
-
 			</div>
 		</div>
-	</div>
-	<div class="modal fade" id="UpdateMomDetails" role="dialog">
-		<div class="modal-dialog">
-			<div class="modal-content col-lg-10">
+</div>
+		<div class="modal fade" id="SignUpMom" role="dialog" style = "dispaly:block">
+			<div class="modal-dialog">
+				<div class="modal-content col-lg-10">
 
-				<form:form action="topicPage.action" method="post"
-					modelAttribute="motherRegistration">
-					<div class="modal-header">
-						<h4>Sign Up</h4>
-					</div>
-
-					<div class="modal-body">
-						<div class="form-group">
-							<div class="col-lg-5">
-								<form:input type="text" path="mother.firstName"
-									class="form-control" name="Firstname" placeholder="First name"
-									required="true" />
-							</div>
-							<div class="col-lg-5">
-								<form:input type="text" path="mother.lastName"
-									class="form-control" name="Lastname" placeholder="Last Name"
-									required="true" />
-							</div>
-							<br></br>
+					<form action="getMotherByEmail.action" method="post">
+						<div class="modal-header">
+							<h4>Sign Up</h4>
 						</div>
-						<form:input type="hidden" path="mother.id" />
-						<div class="form-group left-inner-addon ">
-							<div class="col-lg-10 ">
-								<i class="glyphicon glyphicon-envelope"></i>
-								<form:input type="email" path="mother.email" readonly="true"
-									class="form-control" name="emailID" placeholder="Email"
-									required="true" />
-							</div>
-							<br></br>
-							<div class="form-group left-inner-addon">
-								<div class="col-lg-10">
-									<i class="glyphicon glyphicon-user"></i>
-									<form:input type="text" path="username" class="form-control"
-										name="userName" placeholder="User name" required="true" />
+
+						<div class="modal-body">
+							<div class="form-group left-inner-addon ">
+								<div class="col-lg-10 ">
+									<i class="glyphicon glyphicon-envelope"></i> <input
+										type="email" path="daughter.email" class="form-control" maxlength = "80"
+										name="emailID" placeholder="Email" required />
 								</div>
 								<br></br>
 							</div>
-							<div class="form-group left-inner-addon">
-								<div class="col-lg-10">
-									<i class="glyphicon glyphicon-lock"></i>
-									<form:input type="password" path="password"
-										class="form-control" name="password" placeholder="password"
-										required="true" />
-								</div>
-							</div>
-							<br></br>
+							<span id="motherEmailErr" style="display: none">${motherRegisterErr}</span>
 							<div class="modal-footer">
 								<a class="btn btn-default" data-dismiss="modal">Cancel</a> <input
 									class="btn btn-primary" type="submit" value="Register" />
 
 							</div>
 						</div>
+					</form>
+
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="UpdateMomDetails" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content col-lg-10">
+
+					<form:form action="topicPage.action" method="post"
+						modelAttribute="motherRegistration">
+						<div class="modal-header">
+							<h4>Sign Up</h4>
+						</div>
+
+						<div class="modal-body">
+							<div class="form-group">
+								<div class="col-lg-5">
+									<form:input type="text" path="mother.firstName" maxlength = "80"
+										class="form-control" name="Firstname" placeholder="First name"
+										required="true" />
+								</div>
+								<div class="col-lg-5">
+									<form:input type="text" path="mother.lastName" maxlength = "80"
+										class="form-control" name="Lastname" placeholder="Last Name"
+										required="true" />
+								</div>
+								<br></br>
+							</div>
+							<form:input type="hidden" path="mother.id" />
+							<div class="form-group left-inner-addon ">
+								<div class="col-lg-10 ">
+									<i class="glyphicon glyphicon-envelope"></i>
+									<form:input type="email" path="mother.email" readonly="true" maxlength = "80"
+										class="form-control" name="emailID" placeholder="Email"
+										required="true" />
+								</div>
+								<br></br>
+								<div class="form-group left-inner-addon">
+									<div class="col-lg-10">
+										<i class="glyphicon glyphicon-user"></i>
+										<form:input type="text" path="username" class="form-control" maxlength = "80" minlength = "6"
+											name="userName" placeholder="User name" required="true" />
+									</div>
+									<br></br>
+								</div>
+								<div class="form-group left-inner-addon">
+									<div class="col-lg-10">
+										<i class="glyphicon glyphicon-lock"></i>
+										<form:input type="password" path="password" maxlength = "80" minlength = "6"
+											class="form-control" name="password" placeholder="password"
+											required="true" />
+									</div>
+								</div>
+								<br></br>
+								<div class="modal-footer">
+									<a class="btn btn-default" data-dismiss="modal">Cancel</a> <input
+										class="btn btn-primary" type="submit" value="Register" />
+
+								</div>
+							</div>
+						</div>
+					</form:form>
+				</div>
+			</div>
+		</div>
+<div class="modal fade" id="ForgotPassword" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content col-lg-10">
+				<form action="forgotPassword.action" method="post">
+					<div class="modal-header">
+						<h4>Reset Username Password</h4>
 					</div>
-				</form:form>
+					
+					<div class="modal-body">
+					<div class="form-group left-inner-addon">
+					<div class="col-lg-8">
+									<i class="glyphicon glyphicon-envelope"></i> <input
+										type="email" path="daughter.email" class="form-control" maxlength = "80"
+										name="emailID" placeholder="Email" required />
+								</div>
+								</div>
+								<br></br>
+						<div class="form-group left-inner-addon">
+							<div class="col-lg-8">
+								<i class="glyphicon glyphicon-user"></i> <input type="text" maxlength = "80"
+									class="form-control" name="username" placeholder="User name"
+									required>
+
+							</div>
+						</div>
+						<br></br>
+						<div class="form-group left-inner-addon">
+							<div class="col-lg-8">
+								<i class="glyphicon glyphicon-lock"></i> <input type="password" maxlength = "80"
+									class="form-control" name="password" placeholder="password"
+									required>
+							</div>
+						</div>
+						
+						<br></br>
+					</div>
+					<div class="modal-footer">
+						<a class="btn btn-default" data-dismiss="modal">Cancel</a>
+						<button class="btn btn-primary" type="submit">Login</button>
+
+					</div>
+				</form>
 			</div>
 		</div>
 	</div>
-<<<<<<< HEAD
+		<input type="hidden" id="usernameerr" name="usernameerr"
+			value="${usernameerr}" /> 
+		<input type="hidden" id="check"
+			name="check" value="${motherRegister}" />
 
-	<input type="hidden" id="check" name="check" value="${motherRegister}" />
-=======
->>>>>>> refs/remotes/origin/dahang-from-hasha
+		<!-- /.container -->
 
-	<input type="hidden" id="usernameerr" name="usernameerr"
-		value="${usernameerr}" />
-	<input type="hidden" id="check" name="check" value="${motherRegister}" />
-
-	<!-- /.container -->
-
-	<!-- jQuery -->
-	<script src="js/jquery.js"></script>
-
-	<!-- Bootstrap Core JavaScript -->
-	<script src="js/bootstrap.min.js"></script>
-
-	<!-- Script to Activate the Carousel -->
-	<script>
-		$('.carousel').carousel({
-			interval : 5000
-		//changes the speed
-		})
-
-		$(document).ready(function() {
-
-<<<<<<< HEAD
-			$("#signUpMomLink").click(function() {
-				$('#motherEmailErr').css('display', 'none');
-			});
-			if ($("#check")[0].value == 'true') {
-=======
-			
-		});
+		<!-- jQuery -->
+		<script src="js/jquery.js"></script>
 		
-		$( document ).ready(function() {
-			$("#Login").click(function() {
-				$('#checkusername').css('display', 'none');
-			});
+		<!-- Bootstrap Core JavaScript -->
+		<script src="js/bootstrap.min.js"></script>
 
-			if ($("#usernameerr")[0].value == 'false') {
-				$('#Login').modal('toggle');
-				$('#checkusername').css('display', 'block');
-			}
-			$("#signUpMomLink").click(
-		            function () {
-		    			$('#motherEmailErr').css('display', 'none');
-		            }            
-		        );
-			if($( "#check" )[0].value == 'true'){
->>>>>>> refs/remotes/origin/dahang-from-hasha
-				$('#UpdateMomDetails').modal('toggle');
-			} else if ($("#check")[0].value == 'false') {
-				$('#SignUpMom').modal('toggle');
-				$('#motherEmailErr').css('display', 'block');
-			}
-<<<<<<< HEAD
-		});
-=======
-		});	
+		<!-- Script to Activate the Carousel -->
+		<script>
+		
+			$('.carousel').carousel({
+				interval : 5000
+			//changes the speed
+			})
 
->>>>>>> refs/remotes/origin/dahang-from-hasha
-	</script>
+			$(document).ready(function() {
+				$("#Login").click(function() {
+					$('#checkusername').css('display', 'none');
+				})
 
+				if ($("#usernameerr")[0].value == 'false') {
+					$('#Login').modal('toggle');
+					$('#checkusername').css('display', 'block');
+				}
+				$('#SignUpMom').click(function() {
+					$('#motherEmailErr').css('display', 'none');
+				})
+				if ($("#check")[0].value == 'true') {
+					$('#UpdateMomDetails').modal('toggle');
+				} else if ($("#check")[0].value == 'false') {
+					$('#SignUpMom').modal('toggle');
+					$('#motherEmailErr').css('display', 'block');
+				}
+			}); 
+		</script>
 </body>
 
 </html>

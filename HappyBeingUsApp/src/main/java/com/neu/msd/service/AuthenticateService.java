@@ -20,10 +20,12 @@ public interface AuthenticateService {
 	
 	public Mother registerMother(MotherRegistration motherRegistration) throws AuthenticationException;
 	
-	public Mother getMotherByEmail(String motherEmail) throws AuthenticationException;
+	public MotherRegistration getMotherRegistrationByEmail(String motherEmail) throws AuthenticationException;
 	
 	public User validUser(UserAuthentication userAuthentication) throws AuthenticationException;
 
 	public int updateMotherDetails(MotherRegistration motherRegistration) throws AuthenticationException;
 
+	public String resetUnamePassword(String emailID, String username, String password)throws AuthenticationException;
+	
 }

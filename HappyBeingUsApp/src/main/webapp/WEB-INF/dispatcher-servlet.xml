@@ -19,10 +19,10 @@
 	<mvc:view-controller path="/" view-name="landingPage" />
 	
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="url" value="jdbc:mysql://localhost/HBU" />
+		<property name="url" value="jdbc:mysql://localhost/hbu" />
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="username" value="root" />
-		<property name="password" value="889966" />
+		<property name="password" value="Nisha@7989" />
 	</bean>
 	
 	<bean id="viewResolver"
@@ -32,12 +32,12 @@
 	</bean>
 	
 	<!-- Service Beans Start -->
-	<bean id="adminService" class="com.neu.msd.service.impl.AdminServiceImpl"/>
-	<bean id="authenticateService" class="com.neu.msd.service.impl.AuthenticateServiceImpl"/>
+<!-- 	<bean id="adminService" class="com.neu.msd.service.impl.AdminServiceImpl"/> -->
+<!-- 	<bean id="authenticateService" class="com.neu.msd.service.impl.AuthenticateServiceImpl"/> -->
 	<!-- Service Beans End -->
 
 	<!-- Dao Beans Start -->
-	<bean id="adminDao" class="com.neu.msd.dao.impl.AdminDaoImpl"/>
-	<bean id="authenticateDao" class="com.neu.msd.dao.impl.AuthenticateDaoImpl"/>
+<!-- 	<bean id="adminDao" class="com.neu.msd.dao.impl.AdminDaoImpl"/> -->
+<!-- 	<bean id="authenticateDao" class="com.neu.msd.dao.impl.AuthenticateDaoImpl"/> -->
 	<!-- Dao Beans End -->	
 </beans>

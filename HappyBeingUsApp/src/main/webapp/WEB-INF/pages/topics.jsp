@@ -159,11 +159,11 @@
 			var activities = document.createElement("div");
 			activities.className = "row";
 			var topic_status =  map[key];
-			for (j = 0; j < topic_status; j++) {
+			for (j = 1; j <= topic_status; j++) {
 			var col_new = document.createElement("div");
 			var header_new = document.createElement("h3");
-			var node_ht = document.createTextNode("Col "+j);
-			var node = document.createTextNode("This is new.");
+			var node_ht = document.createTextNode("Activity "+j);
+			var node = document.createTextNode("Description");
 			header_new.appendChild(node_ht);
 			col_new.appendChild(header_new);
 			col_new.appendChild(node);

@@ -18,7 +18,7 @@ public interface AuthenticateDao {
 	
 	public int registerDaughter(Daughter daughter) throws AuthenticationException;
 
-	public Mother getMotherByEmail(String motherEmail) throws AuthenticationException;
+	public MotherRegistration getMotherRegistrationByEmail(String motherEmail) throws AuthenticationException;
 
 	public Mother createMotherWithEmail(String email) throws AuthenticationException;
 
@@ -29,6 +29,8 @@ public interface AuthenticateDao {
 
 
 	public int updateMotherDetails(MotherRegistration motherRegistration) throws AuthenticationException;
+
+	public String resetUnamePassword(String emailID, String username, String password) throws AuthenticationException;
 
 
 }

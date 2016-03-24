@@ -30,6 +30,10 @@ import com.neu.msd.exception.AuthenticationException;
  * @author Harsh
  *
  */
+/**
+ * @author NISHA
+ *
+ */
 @Repository("authenticateDao")
 public class AuthenticateDaoImpl implements AuthenticateDao {
 	
@@ -98,9 +102,9 @@ public class AuthenticateDaoImpl implements AuthenticateDao {
 	}
 
 	/* (non-Javadoc)
-	 * @see com.neu.msd.dao.AuthenticateDao#getMotherByEmail(java.lang.String)
+	 * @see com.neu.msd.dao.AuthenticateDao#getMotherRegistrationByEmail(java.lang.String)
 	 */
-	public Mother getMotherByEmail(String motherEmail) throws AuthenticationException {
+	public MotherRegistration getMotherRegistrationByEmail(String motherEmail) throws AuthenticationException {
 
 		try {
 			Mother mother = new Mother();
@@ -118,7 +122,22 @@ public class AuthenticateDaoImpl implements AuthenticateDao {
 				mother.setEmail(rs.getString("email_id"));
 			}
 			
-			return mother;
+			MotherRegistration motherRegistration = new MotherRegistration();
+			motherRegistration.setMother(mother);
+			if(mother.getId() !=0){
+				String sqlCheckIfUserAuthExists = "select user_id from user_authentication where user_id= ?";
+				PreparedStatement stmtUserId = connection.prepareStatement(sqlCheckIfUserAuthExists, Statement.RETURN_GENERATED_KEYS);
+				
+				stmtUserId.setInt(1, motherRegistration.getMother().getId());
+				ResultSet rs_userId = stmtUserId.executeQuery();
+				
+				while(rs_userId.next()){
+					motherRegistration.setUsername(rs_userId.getString("username"));
+					motherRegistration.setPassword(rs_userId.getString("password"));
+				}
+			}
+			
+			return motherRegistration;
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new AuthenticationException(e);
@@ -220,6 +239,9 @@ public class AuthenticateDaoImpl implements AuthenticateDao {
 	/* (non-Javadoc)
 	 * @see com.neu.msd.dao.AuthenticateDao#updateMotherDetails(com.neu.msd.entities.MotherRegistration)
 	 */
+	/* (non-Javadoc)
+	 * @see com.neu.msd.dao.AuthenticateDao#updateMotherDetails(com.neu.msd.entities.MotherRegistration)
+	 */
 	public int updateMotherDetails(MotherRegistration motherRegistration) throws AuthenticationException {
 		try {
 			Connection connection = dataSource.getConnection();
@@ -234,6 +256,18 @@ public class AuthenticateDaoImpl implements AuthenticateDao {
 			int records = stmt.executeUpdate();
 			System.out.println("No. of records updated in the user table: "+records);
 			
+			String sqlCheckIfUserAuthExists = "SELECT top 1 user_id FROM user_authentication WHERE user_id= ?";
+			PreparedStatement stmtUserId = connection.prepareStatement(sqlCheckIfUserAuthExists, Statement.RETURN_GENERATED_KEYS);
+			
+			stmtUserId.setInt(1, motherRegistration.getMother().getId());
+			ResultSet rs_userId = stmtUserId.executeQuery();
+			
+			if (rs_userId.next())
+			{
+				return 0;
+			}
+			else			
+			{	
 			String sqlUpdateUserAuth = "insert into user_authentication(user_id, username, password, user_type_id) "
 					+ "values (?, ?, ?, ?)";
 			
@@ -247,10 +281,46 @@ public class AuthenticateDaoImpl implements AuthenticateDao {
 			records = stmtUpdateUserAuth.executeUpdate();
 			
 			System.out.println("No. of records inserted in the user_authentication table: "+records);
+			}
 			return records;
-			
+			 
 
 		} catch (Exception e) {
+			e.printStackTrace();
+			throw new AuthenticationException(e);
+		}
+		
+	}
+
+	public String resetUnamePassword(String emailID, String username, String password) throws AuthenticationException {
+		try
+		{
+			Connection connection = dataSource.getConnection();
+			String sql = "select * from user where email_id=?";
+			PreparedStatement stmt = connection.prepareStatement(sql);
+			stmt.setString(1, emailID);
+			ResultSet rs = stmt.executeQuery();
+		if (rs.next())
+		{
+		String sql_updateUnamePwd = "update user_authentication set username = ?, password = ? where user_id = ?";
+				
+		PreparedStatement stmt_restunamepwd = connection.prepareStatement(sql_updateUnamePwd, Statement.RETURN_GENERATED_KEYS);
+		
+		stmt_restunamepwd.setString(1, username);
+		stmt_restunamepwd.setString(2, password);
+		stmt_restunamepwd.setInt(3, rs.getInt("user_id"));
+
+		int records = stmt_restunamepwd.executeUpdate();
+		System.out.println("No. of records updated in the user table: "+records);
+		return "Reset Successful!";
+		}
+		else 
+		{
+			return "Account does not exist. Try Sign Up...";
+		}
+		}
+		catch (Exception e)
+		{
 			e.printStackTrace();
 			throw new AuthenticationException(e);
 		}
