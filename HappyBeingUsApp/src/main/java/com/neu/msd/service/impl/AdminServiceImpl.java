@@ -78,4 +78,8 @@ public class AdminServiceImpl implements AdminServie {
 		return adminDao.getAllActivityTemplates();
 	}
 
+	public int renameTopic(String topicName, String topicId) throws AdminException {
+		return adminDao.renameTopic(topicName, topicId);
+	}
+
 }

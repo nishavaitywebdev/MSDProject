@@ -26,4 +26,6 @@ public interface AdminDao {
 	public ActivityContainer loadActivityContainerById(int activityContainerId) throws AdminException;
 
 	public List<ActivityTemplate> getAllActivityTemplates() throws AdminException;
+
+	public int renameTopic(String topicName, String topicId) throws AdminException;
 }

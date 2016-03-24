@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.neu.msd.entities.Activity;
 import com.neu.msd.entities.ActivityContainer;
@@ -82,5 +83,16 @@ public class AdminController {
 		
 		System.out.println(activity);
 		return "activityContainer";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/renameTopic.action", method=RequestMethod.POST)
+	public String renameTopic(@RequestParam("topicName") String topicName, @RequestParam("topicId") String topicId, Model model){
+		
+		try {
+			return String.valueOf(adminService.renameTopic(topicName, topicId));
+		} catch (AdminException e) {
+			return "error";
+		}
 	}
 }

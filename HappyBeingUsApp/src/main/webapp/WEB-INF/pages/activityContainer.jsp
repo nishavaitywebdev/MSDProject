@@ -62,17 +62,11 @@
 			</tr>
 		</c:forEach>
 	</table>
-<<<<<<< HEAD
 	
 	<a href="#" id="addNewActivity" name="${activityContainer.activityContainerId}">Add New Activity</a>
 	
 	<form name="editForm" id="editForm" action="#" method="post">
 		<input type="hidden" id="id" name="id" value=""/>
-=======
-
-	<form name="editForm" id="editForm" action="#" method="post">
-		<inupt type="hidden" name="id" value="" />
->>>>>>> refs/remotes/origin/Mohsen_dev
 	</form>
 </body>
 </html>

@@ -21,4 +21,6 @@ public interface AdminServie {
 	public ActivityContainer getActivityContainerById(int activityContainerId) throws AdminException;
 
 	public List<ActivityTemplate> getAllActivityTemplates() throws AdminException;
+
+	public int renameTopic(String topicName, String topicId) throws AdminException;
 }

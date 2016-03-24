@@ -16,6 +16,7 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.mysql.jdbc.Statement;
 import com.neu.msd.dao.AdminDao;
 import com.neu.msd.entities.Activity;
 import com.neu.msd.entities.ActivityContainer;
@@ -23,6 +24,7 @@ import com.neu.msd.entities.ActivityTemplate;
 import com.neu.msd.entities.ActivityType;
 import com.neu.msd.entities.Topic;
 import com.neu.msd.exception.AdminException;
+import com.neu.msd.exception.AuthenticationException;
 
 /**
  * @author Harsh
@@ -203,6 +205,26 @@ public class AdminDaoImpl implements AdminDao {
 		}
 		
 		return activityTemplates;
+	}
+
+	public int renameTopic(String topicName, String topicId) throws AdminException {
+		try {
+			Connection connection = dataSource.getConnection();
+//			update topic set topic_name = ? where topic_id = ?
+			String sql = "update topic set topic_name = ? where topic_id = ?";
+			PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			
+			stmt.setString(1, topicName);
+			stmt.setInt(2, Integer.valueOf(topicId));
+			
+			int records = stmt.executeUpdate();
+			
+			System.out.println("No. of records updated: "+records);
+			return records;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new AdminException(e);
+		}
 	}
 
 
