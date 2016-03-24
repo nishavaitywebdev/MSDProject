@@ -125,7 +125,7 @@ public class AuthenticateDaoImpl implements AuthenticateDao {
 			MotherRegistration motherRegistration = new MotherRegistration();
 			motherRegistration.setMother(mother);
 			if(mother.getId() !=0){
-				String sqlCheckIfUserAuthExists = "select user_id from user_authentication where user_id= ?";
+				String sqlCheckIfUserAuthExists = "select * from user_authentication where user_id= ?";
 				PreparedStatement stmtUserId = connection.prepareStatement(sqlCheckIfUserAuthExists, Statement.RETURN_GENERATED_KEYS);
 				
 				stmtUserId.setInt(1, motherRegistration.getMother().getId());
@@ -325,6 +325,56 @@ public class AuthenticateDaoImpl implements AuthenticateDao {
 			throw new AuthenticationException(e);
 		}
 		
+	}
+
+	public String checkUname(String uname) throws AuthenticationException {
+		try
+		{
+			Connection connection = dataSource.getConnection();
+			String sql = "select * from user_authentication where username=?";
+			PreparedStatement stmt = connection.prepareStatement(sql);
+			stmt.setString(1, uname);
+			ResultSet rs = stmt.executeQuery();
+			
+			if (!rs.next())
+			{
+				return uname+", this username available";
+			}
+			else 
+			{
+				return uname+", This username is taken.";
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			throw new AuthenticationException(e);
+		}
+	}
+
+	public String checkEmail(String email) throws AuthenticationException {
+		try
+		{
+			Connection connection = dataSource.getConnection();
+			String sql = "select * from user where email_id=?";
+			PreparedStatement stmt = connection.prepareStatement(sql);
+			stmt.setString(1, email);
+			ResultSet rs = stmt.executeQuery();
+			
+			if (!rs.next())
+			{
+				return "";
+			}
+			else 
+			{
+				return email+", The account already exists";
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			throw new AuthenticationException(e);
+		}
 	}
 
 

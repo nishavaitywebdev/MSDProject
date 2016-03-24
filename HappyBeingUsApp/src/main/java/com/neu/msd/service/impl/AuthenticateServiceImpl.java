@@ -92,5 +92,14 @@ public class AuthenticateServiceImpl implements AuthenticateService {
 		
 	}
 
+	public String checkUname(String uname) throws AuthenticationException {
+		// TODO Auto-generated method stub
+		return authenticateDao.checkUname(uname);
+	}
+
+	public String checkEmail(String email) throws AuthenticationException {
+		return authenticateDao.checkEmail(email);
+	}
+
 
 }

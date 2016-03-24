@@ -32,5 +32,9 @@ public interface AuthenticateDao {
 
 	public String resetUnamePassword(String emailID, String username, String password) throws AuthenticationException;
 
+	public String checkUname(String uname)throws AuthenticationException;
+
+	public String checkEmail(String email)throws AuthenticationException;
+
 
 }

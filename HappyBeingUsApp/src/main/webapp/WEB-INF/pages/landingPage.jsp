@@ -78,14 +78,13 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#">Happy Being Us</a>
+				<a class="navbar-brand" href="landingPage.action">Happy Being Us</a>
 			</div>
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse"
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
 					<li><a href="#">About</a></li>
-					<li><a href="#">Activities</a></li>
 					<li><a href="#">Contact</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right navbar-hover-pink">
@@ -246,11 +245,12 @@
 						</div>
 						<div class="form-group left-inner-addon ">
 							<div class="col-lg-10 ">
-								<i class="glyphicon glyphicon-envelope uname"></i>
+								<i class="glyphicon glyphicon-envelope"></i>
 								<form:input type="email" path="daughter.email" maxlength = "80"
-									class="form-control" name="emailID" placeholder="Email"
-									required="true" /><span class="status"></span>
+									class="form-control" id = "daughterEmail"  name="emailID" placeholder="Email"
+									required="true" />
 							</div>
+							<span id="dauEmailMsg"></span>
 							<br></br>
 						</div>
 						<div class="form-group left-inner-addon ">
@@ -275,7 +275,11 @@
 							<div class="col-lg-10">
 								<i class="glyphicon glyphicon-user"></i>
 								<form:input type="text" path="username" class="form-control" maxlength = "80" minlength = "6"
-									name="userName" placeholder="User name" required="true" />
+									name="userName" id = "daughterUname" placeholder="User name" required="true" />
+									<div id="loadingDiv" class="modal">
+									<img alt="loading" src="Images/loading.gif">
+									</div>
+								<span id="usernameMsg"></span>
 							</div>
 							<br></br>
 						</div>
@@ -364,9 +368,12 @@
 									<div class="col-lg-10">
 										<i class="glyphicon glyphicon-user"></i>
 										<form:input type="text" path="username" class="form-control" maxlength = "80" minlength = "6"
-											name="userName" placeholder="User name" required="true" />
+											name="userName" id = "motherUname"  placeholder="User name" required="true" />
+									</div>
+									<div id="loadingDiv" class="modal">
 									</div>
 									<br></br>
+								<span id="momusernameMsg"></span>
 								</div>
 								<div class="form-group left-inner-addon">
 									<div class="col-lg-10">
@@ -472,6 +479,69 @@
 					$('#SignUpMom').modal('toggle');
 					$('#motherEmailErr').css('display', 'block');
 				}
+				
+				$("#daughterUname").change(function() {
+					userName = $('#daughterUname').val();
+					$("#loadingDiv").modal("toggle");
+					$("#usernameMsg")[0].innerHTML = "Checking username availability.";
+					$.ajax({
+			            type : "POST",
+			            url : "checkUsernameAvailability.action",
+			            data : "userName=" + userName,
+			            success : function(data) {
+			            	$("#loadingDiv").modal("toggle");
+			            	$("#usernameMsg")[0].innerHTML = data;
+			            	
+			            	if(data.indexOf('available') == -1){
+			            		$("#daughterUname").val('');
+			            	}else{
+			            		
+			            	}
+			            }
+			        })
+			    });
+				$("#motherUname").change(function() {
+					userName = $('#motherUname').val();
+					$("#loadingDiv").modal("toggle");
+					$("#momusernameMsg")[0].innerHTML = "Checking username availability.";
+					$.ajax({
+			            type : "POST",
+			            url : "checkUsernameAvailability.action",
+			            data : "userName=" + userName,
+			            success : function(data) {
+			            	$("#loadingDiv").modal("toggle");
+			            	$("#momusernameMsg")[0].innerHTML = data;
+			            	
+			            	if(data.indexOf('available') == -1){
+			            		$("#motherUname").val('');
+			            	}else{
+			            		
+			            	}
+			            }
+			        })
+			    });
+				
+				$("#daughterEmail").change(function() {
+					email = $('#daughterEmail').val();
+					$("#loadingDiv").modal("toggle");
+					$("#dauEmailMsg")[0].innerHTML = "";
+					$.ajax({
+			            type : "POST",
+			            url : "checkEmailExists.action",
+			            data : "email=" + email,
+			            success : function(data) {
+			            	$("#loadingDiv").modal("toggle");
+			            	$("#dauEmailMsg")[0].innerHTML = data;
+			            	
+			            	if(data.indexOf('not') == -1){
+			            		$("#daughterEmail").val('');
+			            	}else{
+			            		
+			            	}
+			            }
+			        })
+			    });
+				
 			}); 
 		</script>
 </body>

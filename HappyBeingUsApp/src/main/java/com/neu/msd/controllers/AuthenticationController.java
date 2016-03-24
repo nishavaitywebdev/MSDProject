@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.neu.msd.entities.Daughter;
 import com.neu.msd.entities.DaughterRegistration;
@@ -84,7 +85,7 @@ public class AuthenticationController {
 				invalidMotherEmailErr ="Please check the emailId you have entered.";
 				model.addAttribute("motherRegister", "false");
 				model.addAttribute("motherRegisterErr", invalidMotherEmailErr);
-			}else if(null == motherRegistration.getUsername()){
+			}else if(null != motherRegistration.getUsername()){
 				invalidMotherEmailErr ="The account already exists, please log in...";
 			model.addAttribute("motherRegister", "false");
 				model.addAttribute("motherRegisterErr", invalidMotherEmailErr);
@@ -148,6 +149,29 @@ public class AuthenticationController {
 			return "errorPage";
 		}
 	}
+	
+	@ResponseBody
+	@RequestMapping(value="/checkUsernameAvailability.action", method = RequestMethod.POST)
+	public String checkUsernameAvailability(@RequestParam("userName") String uname)
+	{
+		try {
+			return authenticateService.checkUname(uname);
+		} catch (AuthenticationException e) {
+			return "error";
+		}
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/checkEmailExists.action", method = RequestMethod.POST)
+	public String checkEmailExists(@RequestParam("email") String email)
+	{
+		try {
+			return authenticateService.checkEmail(email);
+		} catch (AuthenticationException e) {
+			return "error";
+		}
+	}
+	
 	@InitBinder
 	public void anyNameHere(WebDataBinder binder) {
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(
