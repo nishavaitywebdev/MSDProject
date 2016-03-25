@@ -240,19 +240,17 @@ public class AdminDaoImpl implements AdminDao {
 			ResultSet rs = stmt.executeQuery();
 			List<Answer> answers = new ArrayList<Answer>();
 			while(rs.next()){
-				ActivityTemplate activityTemplate = new ActivityTemplate();
-				int activityTemplateId = rs.getInt("activity_template_id");
-				activityTemplate.setId(activityTemplateId);
-				activityTemplate.setTemplateName(rs.getString("activity_template_desc"));
-//				activityTemplates.add(activityTemplate);
+				Answer answer = new Answer();
+				answer.setId(rs.getInt("answer_id"));
+				answers.add(answer);
 			}
+			adminActivityAnswer.setAnswers(answers);
+			return adminActivityAnswer;
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new AdminException(e);
 		}
-		
-		return null;
 	}
 
 

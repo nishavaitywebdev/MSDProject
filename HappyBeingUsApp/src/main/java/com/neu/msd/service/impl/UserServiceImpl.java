@@ -39,8 +39,7 @@ public class UserServiceImpl implements UserService {
 			AdminActivityAnswer adminActivityAnswer = adminDao.getAdminActivityAnswerByActivityId(activity.getId());
 			List<Answer> answers = adminActivityAnswer.getAnswers();
 			for(Answer answer : answers){
-				String answerText = "";//userDao.getAnswerTextById(answer.getId());
-				answer.setAnswerText(answerText);
+				answer = userDao.getAnswerById(answer.getId());
 			}
 			adminActivityAnswer.setActivity(activity);
 			adminActivityAnswers.add(adminActivityAnswer);

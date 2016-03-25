@@ -22,6 +22,7 @@ import com.neu.msd.dao.UserDao;
 import com.neu.msd.entities.Activity;
 import com.neu.msd.entities.ActivityTemplate;
 import com.neu.msd.entities.ActivityType;
+import com.neu.msd.entities.Answer;
 import com.neu.msd.exception.AdminException;
 import com.neu.msd.exception.UserException;
 
@@ -29,7 +30,6 @@ import com.neu.msd.exception.UserException;
  * @author Harsh
  *
  */
-
 @Repository("userDao")
 public class UserDaoImpl implements UserDao {
 	
@@ -41,15 +41,6 @@ public class UserDaoImpl implements UserDao {
 	
 	Map<Integer, ActivityTemplate> activityTemplateMap = new HashMap<Integer, ActivityTemplate>();
 	Map<Integer, ActivityType> activityTypeMap = new HashMap<Integer, ActivityType>();
-	
-	public UserDaoImpl() {
-		try {
-			adminDao.loadActivityTemplate(activityTemplateMap);
-			adminDao.loadActivityType(activityTypeMap);
-		} catch (AdminException e) {
-			e.printStackTrace();
-		}
-	}
 	
 	
 	public int getDiagnosticType() throws UserException {
@@ -73,6 +64,13 @@ public class UserDaoImpl implements UserDao {
 
 	public List<Activity> getActivitiesByType(int activityType) throws UserException {
 		
+		try {
+			adminDao.loadActivityTemplate(activityTemplateMap);
+			adminDao.loadActivityType(activityTypeMap);
+		} catch (AdminException e) {
+			e.printStackTrace();
+		}
+		
 		List<Activity> activities = new ArrayList<Activity>();
 		try {
 			Connection connection = dataSource.getConnection();
@@ -91,6 +89,31 @@ public class UserDaoImpl implements UserDao {
 				activities.add(activity);
 			}
 			return activities;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new UserException(e);
+		}
+	}
+
+
+	public Answer getAnswerById(int answerId) throws UserException {
+		
+		try {
+			Connection connection = dataSource.getConnection();
+			String sql = "select * from answer where answer_id = ?";
+			PreparedStatement stmt = connection.prepareStatement(sql);
+			stmt.setInt(1, answerId);
+			
+			ResultSet rs = stmt.executeQuery();
+			
+			Answer answer = new Answer();
+			while(rs.next()){
+				
+				answer.setId(rs.getInt("answer_id"));
+				answer.setAnswerText(rs.getString("answer_desc"));
+				answer.setOrderNo(rs.getInt("order_no"));
+			}
+			return answer;
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new UserException(e);
