@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.neu.msd.entities.AdminActivityAnswer;
+import com.neu.msd.exception.AdminException;
 import com.neu.msd.exception.UserException;
 import com.neu.msd.service.UserService;
 
@@ -33,6 +34,8 @@ public class UserController {
 			model.addAttribute("activityAnswers", activityAnswers);
 			return "diagnostic";
 		} catch (UserException e) {
+			return "errorPage";
+		} catch (AdminException e) {
 			return "errorPage";
 		}
 	}

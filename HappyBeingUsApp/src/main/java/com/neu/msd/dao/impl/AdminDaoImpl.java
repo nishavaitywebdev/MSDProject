@@ -7,11 +7,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 
 import javax.sql.DataSource;
 
@@ -25,6 +23,7 @@ import com.neu.msd.entities.ActivityContainer;
 import com.neu.msd.entities.ActivityTemplate;
 import com.neu.msd.entities.ActivityType;
 import com.neu.msd.entities.AdminActivityAnswer;
+import com.neu.msd.entities.Answer;
 import com.neu.msd.entities.Topic;
 import com.neu.msd.exception.AdminException;
 
@@ -231,18 +230,21 @@ public class AdminDaoImpl implements AdminDao {
 	
 	public AdminActivityAnswer getAdminActivityAnswerByActivityId(int activityId) throws AdminException {
 		
-		List<ActivityTemplate> activityTemplates = new ArrayList<ActivityTemplate>();
+		AdminActivityAnswer adminActivityAnswer = new AdminActivityAnswer();
 		try {
 			Connection connection = dataSource.getConnection();
-			String sql = "select * from activity_template";
+			String sql = "select * from admin_activity_answer where activity_id=?";
 			PreparedStatement stmt = connection.prepareStatement(sql);
+			stmt.setInt(1, activityId);
+
 			ResultSet rs = stmt.executeQuery();
+			List<Answer> answers = new ArrayList<Answer>();
 			while(rs.next()){
 				ActivityTemplate activityTemplate = new ActivityTemplate();
 				int activityTemplateId = rs.getInt("activity_template_id");
 				activityTemplate.setId(activityTemplateId);
 				activityTemplate.setTemplateName(rs.getString("activity_template_desc"));
-				activityTemplates.add(activityTemplate);
+//				activityTemplates.add(activityTemplate);
 			}
 			
 		} catch (Exception e) {

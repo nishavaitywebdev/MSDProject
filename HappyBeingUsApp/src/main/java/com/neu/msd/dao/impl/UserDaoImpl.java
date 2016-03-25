@@ -54,11 +54,8 @@ public class UserDaoImpl implements UserDao {
 	
 	public int getDiagnosticType() throws UserException {
 		
-		
-
 		try {
 			
-			String temp [] = {"a"};
 			Connection connection = dataSource.getConnection();
 			String sql = "select activity_type_id from activity_type where activity_type_desc = 'Diagnostic'";
 			PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
