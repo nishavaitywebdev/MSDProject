@@ -11,6 +11,8 @@ public class Answer {
 
 	private int id;
 	private String answerText;
+	private int orderNo;
+	private boolean isCorrect;
 	
 	public Answer() {
 		// TODO Auto-generated constructor stub
@@ -44,6 +46,34 @@ public class Answer {
 		this.answerText = answerText;
 	}
 
+	/**
+	 * @return the orderNo
+	 */
+	public int getOrderNo() {
+		return orderNo;
+	}
+
+	/**
+	 * @param orderNo the orderNo to set
+	 */
+	public void setOrderNo(int orderNo) {
+		this.orderNo = orderNo;
+	}
+
+	/**
+	 * @return the isCorrect
+	 */
+	public boolean isCorrect() {
+		return isCorrect;
+	}
+
+	/**
+	 * @param isCorrect the isCorrect to set
+	 */
+	public void setCorrect(boolean isCorrect) {
+		this.isCorrect = isCorrect;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
@@ -53,6 +83,8 @@ public class Answer {
 		int result = 1;
 		result = prime * result + ((answerText == null) ? 0 : answerText.hashCode());
 		result = prime * result + id;
+		result = prime * result + (isCorrect ? 1231 : 1237);
+		result = prime * result + orderNo;
 		return result;
 	}
 
@@ -75,6 +107,10 @@ public class Answer {
 			return false;
 		if (id != other.id)
 			return false;
+		if (isCorrect != other.isCorrect)
+			return false;
+		if (orderNo != other.orderNo)
+			return false;
 		return true;
 	}
 
@@ -83,7 +119,8 @@ public class Answer {
 	 */
 	@Override
 	public String toString() {
-		return "Answer [id=" + id + ", answerText=" + answerText + "]";
+		return "Answer [id=" + id + ", answerText=" + answerText + ", orderNo=" + orderNo + ", isCorrect=" + isCorrect
+				+ "]";
 	}
-	
+
 }

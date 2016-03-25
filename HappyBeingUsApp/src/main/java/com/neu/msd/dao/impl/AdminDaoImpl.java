@@ -7,9 +7,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 import javax.sql.DataSource;
 
@@ -22,9 +24,9 @@ import com.neu.msd.entities.Activity;
 import com.neu.msd.entities.ActivityContainer;
 import com.neu.msd.entities.ActivityTemplate;
 import com.neu.msd.entities.ActivityType;
+import com.neu.msd.entities.AdminActivityAnswer;
 import com.neu.msd.entities.Topic;
 import com.neu.msd.exception.AdminException;
-import com.neu.msd.exception.AuthenticationException;
 
 /**
  * @author Harsh
@@ -148,7 +150,7 @@ public class AdminDaoImpl implements AdminDao {
 	 * @param activityTemplateMap
 	 * @throws AdminException
 	 */
-	private void loadActivityTemplate(Map<Integer, ActivityTemplate> activityTemplateMap) throws AdminException {
+	public void loadActivityTemplate(Map<Integer, ActivityTemplate> activityTemplateMap) throws AdminException {
 		
 		List<ActivityTemplate> activityTemaplates = getAllActivityTemplates();
 		
@@ -161,7 +163,7 @@ public class AdminDaoImpl implements AdminDao {
 	 * @param activityTypeMap
 	 * @throws AdminException
 	 */
-	private void loadActivityType(Map<Integer, ActivityType> activityTypeMap) throws AdminException {
+	public void loadActivityType(Map<Integer, ActivityType> activityTypeMap) throws AdminException {
 
 		try {
 			Connection connection = dataSource.getConnection();
@@ -225,6 +227,30 @@ public class AdminDaoImpl implements AdminDao {
 			e.printStackTrace();
 			throw new AdminException(e);
 		}
+	}
+	
+	public AdminActivityAnswer getAdminActivityAnswerByActivityId(int activityId) throws AdminException {
+		
+		List<ActivityTemplate> activityTemplates = new ArrayList<ActivityTemplate>();
+		try {
+			Connection connection = dataSource.getConnection();
+			String sql = "select * from activity_template";
+			PreparedStatement stmt = connection.prepareStatement(sql);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()){
+				ActivityTemplate activityTemplate = new ActivityTemplate();
+				int activityTemplateId = rs.getInt("activity_template_id");
+				activityTemplate.setId(activityTemplateId);
+				activityTemplate.setTemplateName(rs.getString("activity_template_desc"));
+				activityTemplates.add(activityTemplate);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new AdminException(e);
+		}
+		
+		return null;
 	}
 
 

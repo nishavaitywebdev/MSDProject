@@ -4,10 +4,13 @@
 package com.neu.msd.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.neu.msd.entities.Activity;
 import com.neu.msd.entities.ActivityContainer;
 import com.neu.msd.entities.ActivityTemplate;
+import com.neu.msd.entities.ActivityType;
+import com.neu.msd.entities.AdminActivityAnswer;
 import com.neu.msd.entities.Topic;
 import com.neu.msd.exception.AdminException;
 
@@ -28,4 +31,10 @@ public interface AdminDao {
 	public List<ActivityTemplate> getAllActivityTemplates() throws AdminException;
 
 	public int renameTopic(String topicName, String topicId) throws AdminException;
+
+	public void loadActivityTemplate(Map<Integer, ActivityTemplate> activityTemplateMap) throws AdminException;
+	
+	public void loadActivityType(Map<Integer, ActivityType> activityTypeMap) throws AdminException;
+
+	public AdminActivityAnswer getAdminActivityAnswerByActivityId(int activityId) throws AdminException;
 }

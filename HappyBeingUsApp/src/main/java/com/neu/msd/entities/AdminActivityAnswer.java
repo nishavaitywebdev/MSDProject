@@ -3,7 +3,7 @@
  */
 package com.neu.msd.entities;
 
-import java.util.Map;
+import java.util.List;
 
 /**
  * @author Harsh
@@ -12,7 +12,7 @@ import java.util.Map;
 public class AdminActivityAnswer {
 
 	private Activity activity;
-	private Map<Answer, Boolean> answers;
+	private List<Answer> answers;
 	
 	public AdminActivityAnswer() {
 		// TODO Auto-generated constructor stub
@@ -35,14 +35,14 @@ public class AdminActivityAnswer {
 	/**
 	 * @return the answers
 	 */
-	public Map<Answer, Boolean> getAnswers() {
+	public List<Answer> getAnswers() {
 		return answers;
 	}
 
 	/**
 	 * @param answers the answers to set
 	 */
-	public void setAnswers(Map<Answer, Boolean> answers) {
+	public void setAnswers(List<Answer> answers) {
 		this.answers = answers;
 	}
 
@@ -90,4 +90,5 @@ public class AdminActivityAnswer {
 	public String toString() {
 		return "AdminActivityAnswer [activity=" + activity + ", answers=" + answers + "]";
 	}
+
 }
