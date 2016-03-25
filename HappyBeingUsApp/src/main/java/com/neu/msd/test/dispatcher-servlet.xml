@@ -19,7 +19,7 @@
 	<mvc:view-controller path="/" view-name="landingPage" />
 	
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="url" value="jdbc:mysql://54.218.22.126:3306/hbu" />
+		<property name="url" value="jdbc:mysql://54.218.22.126/hbu" />
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="username" value="root" />
 		<property name="password" value="password" />
