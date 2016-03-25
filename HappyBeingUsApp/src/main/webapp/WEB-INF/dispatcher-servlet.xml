@@ -22,7 +22,7 @@
 		<property name="url" value="jdbc:mysql://localhost/hbu" />
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="username" value="root" />
-		<property name="password" value="Nisha@7989" />
+		<property name="password" value="password" />
 	</bean>
 	
 	<bean id="viewResolver"
