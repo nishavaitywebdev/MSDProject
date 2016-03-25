@@ -22,7 +22,7 @@ import com.neu.msd.service.AdminServie;
  * @author Harsh
  *
  */
-@Service("authenticateService")
+@Service("adminService")
 public class AdminServiceImpl implements AdminServie {
 
 	@Autowired

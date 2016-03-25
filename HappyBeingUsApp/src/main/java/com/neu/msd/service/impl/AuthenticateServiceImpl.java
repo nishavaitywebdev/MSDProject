@@ -21,7 +21,7 @@ import com.neu.msd.service.AuthenticateService;
  * @author Harsh
  *
  */
-@Service("adminService")
+@Service("authenticateService")
 public class AuthenticateServiceImpl implements AuthenticateService {
 
 	@Autowired
