@@ -216,7 +216,7 @@ public class AdminDaoImpl implements AdminDao {
 				stmt_get_admin.setInt(1, admin.getId());
 				ResultSet rs_get_admin = stmt_get_admin.executeQuery();
 				while(rs_get_admin.next()){
-					admin.setFirstName(rs_get_admin.getString("firstName"));
+					admin.setFirstName(rs_get_admin.getString("first_name"));
 				}
 			}
 
