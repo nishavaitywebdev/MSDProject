@@ -1,4 +1,5 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page isELIgnored="false"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -49,6 +50,18 @@
 	padding: 10px 12px;
 	pointer-events: none;
 }
+.flable {  
+ color: gray;  
+}  
+  
+.status {  
+ font-family: verdana;  
+ font-size: 12px;  
+}  
+  
+.uname {  
+ color: blue;  
+}  
 </style>
 </head>
 
@@ -65,21 +78,21 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#">Happy Being Us</a>
+				<a class="navbar-brand" href="landingPage.action">Happy Being Us</a>
 			</div>
 			<!-- Collect the nav links, forms, and other content for toggling -->
 			<div class="collapse navbar-collapse"
 				id="bs-example-navbar-collapse-1">
 				<ul class="nav navbar-nav">
 					<li><a href="#">About</a></li>
-					<li><a href="#">Activities</a></li>
 					<li><a href="#">Contact</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right navbar-hover-pink">
 					<li><a href="#SignUpDaughter" data-toggle="modal"><span
 							class="glyphicon glyphicon-user"></span> Sign Up Daughter</a></li>
-					<li><a href="#SignUpMom" data-toggle="modal" id="signUpMomLink"><span
-							class="glyphicon glyphicon-user"></span> Sign Up Mom </a></li>
+					<li><a href="#SignUpMom" data-toggle="modal"
+						id="signUpMomLink"><span class="glyphicon glyphicon-user"></span>
+							Sign Up Mom </a></li>
 					<li><a href="#Login" data-toggle="modal"><span
 							class="glyphicon glyphicon-log-in"></span> Login </a></li>
 				</ul>
@@ -145,40 +158,44 @@
 		</div>
 
 		<hr>
-
-		<!-- Footer -->
-		<footer>
-			<div class="row" style="background-color: #FF5733; height: 20px;"></div>
-			<div class="row">
-				<div class="col-lg-12">
-					<p>Copyright &copy; HappyBeingUs.com 2016</p>
-					<img src="Images/Logo.png" align="right">
-				</div>
-			</div>
-			<!-- /.row -->
-		</footer>
-
 	</div>
+
+	<!-- Footer -->
+	<footer>
+		<div class="row" style="background-color: #ff6666; height: 20px;"></div>
+		<div class="row">
+			<div class="col-lg-12">
+				<p style="margin-left: 50px;">Copyright &copy; HappyBeingUs.com
+					2016</p>
+				<img src="Images/Logo.png" align="right">
+			</div>
+		</div>
+		<!-- /.row -->
+	</footer>
+
+
 
 	<div class="modal fade" id="Login" role="dialog">
 		<div class="modal-dialog">
 			<div class="modal-content col-lg-10">
-				<form action="Login.nisha" method="post">
+				<form action="Login.action" method="post"
+					modelAttribute="userAuthentication">
 					<div class="modal-header">
 						<h4>Login</h4>
 					</div>
 					<div class="modal-body">
 						<div class="form-group left-inner-addon">
 							<div class="col-lg-8">
-								<i class="glyphicon glyphicon-user"></i> <input type="text"
-									class="form-control" name="userName" placeholder="User name"
+								<i class="glyphicon glyphicon-user"></i> <input type="text" maxlength = "80"
+									class="form-control" name="username" placeholder="User name"
 									required>
+
 							</div>
 						</div>
 						<br></br>
 						<div class="form-group left-inner-addon">
 							<div class="col-lg-8">
-								<i class="glyphicon glyphicon-lock"></i> <input type="password"
+								<i class="glyphicon glyphicon-lock"></i> <input type="password" maxlength = "80"
 									class="form-control" name="password" placeholder="password"
 									required>
 							</div>
@@ -186,7 +203,9 @@
 						<br></br>
 
 						<div class="col-lg-6">
-							<a href="#ForgotPassword">Forgot Password</a>
+							<a href="#ForgotPassword" data-toggle = "modal">Forgot Password</a> <span
+								id="checkusername" style="display: none">Error! Please check
+								username or password entered.</span>
 						</div>
 						<br></br>
 					</div>
@@ -213,12 +232,12 @@
 					<div class="modal-body">
 						<div class="form-group">
 							<div class="col-lg-5">
-								<form:input type="text" path="daughter.firstName"
+								<form:input type="text" path="daughter.firstName" maxlength = "80"
 									class="form-control" name="Firstname" placeholder="First name"
 									required="true" />
 							</div>
 							<div class="col-lg-5">
-								<form:input type="text" path="daughter.lastName"
+								<form:input type="text" path="daughter.lastName" maxlength = "80"
 									class="form-control" name="Lastname" placeholder="Last Name"
 									required="true" />
 							</div>
@@ -227,17 +246,18 @@
 						<div class="form-group left-inner-addon ">
 							<div class="col-lg-10 ">
 								<i class="glyphicon glyphicon-envelope"></i>
-								<form:input type="email" path="daughter.email"
-									class="form-control" name="emailID" placeholder="Email"
+								<form:input type="email" path="daughter.email" maxlength = "80"
+									class="form-control" id = "daughterEmail"  name="emailID" placeholder="Email"
 									required="true" />
 							</div>
+							<span id="dauEmailMsg"></span>
 							<br></br>
 						</div>
 						<div class="form-group left-inner-addon ">
 							<div class="col-lg-7 ">
 								<i class="glyphicon glyphicon-calendar"></i>
 								<form:input type="date" path="daughter.birthdate"
-									class="form-control" name="birthDate" placeholder="Birth Date"
+									class="form-control" name="birthDate" max="2008-12-31" min="2000-01-02" placeholder="Birth Date"
 									required="true" />
 							</div>
 							<br></br>
@@ -246,7 +266,7 @@
 							<div class="col-lg-10">
 								<i class="glyphicon glyphicon-envelope"></i>
 								<form:input type="email" path="daughter.mother.email"
-									class="form-control" id="MomEmailID" name="momEmail"
+									class="form-control" id="MomEmailID" name="momEmail" maxlength = "80"
 									placeholder="EmailID of Mommy" required="true" />
 							</div>
 							<br></br>
@@ -254,15 +274,19 @@
 						<div class="form-group left-inner-addon">
 							<div class="col-lg-10">
 								<i class="glyphicon glyphicon-user"></i>
-								<form:input type="text" path="username" class="form-control"
-									name="userName" placeholder="User name" required="true" />
+								<form:input type="text" path="username" class="form-control" maxlength = "80" minlength = "6"
+									name="userName" id = "daughterUname" placeholder="User name" required="true" />
+									<div id="loadingDiv" class="modal">
+									<img alt="loading" src="Images/loading.gif">
+									</div>
+								<span id="usernameMsg"></span>
 							</div>
 							<br></br>
 						</div>
 						<div class="form-group left-inner-addon">
 							<div class="col-lg-10">
 								<i class="glyphicon glyphicon-lock"></i>
-								<form:input type="password" path="password" class="form-control"
+								<form:input type="password" path="password" class="form-control" maxlength = "80" minlength = "6"
 									name="password" placeholder="password" required="true" />
 							</div>
 						</div>
@@ -274,222 +298,252 @@
 						</div>
 					</div>
 				</form:form>
-
-				<!-- form action="SignUp.nisha" method="post">
-					<div class="modal-header">
-						<h4>Sign Up</h4>
-					</div>
-					<div class="modal-body">
-						<div class="form-group">
-							<div class="col-lg-5">
-								<input type="text" class="form-control" name="Firstname"
-									placeholder="First name" required>
-							</div>
-							<div class="col-lg-5">
-								<input type="text" class="form-control" name="Lastname"
-									placeholder="Last Name" required>
-							</div>
-						</div>
-						<br></br>
-						<div class="form-group left-inner-addon ">
-							<div class="col-lg-10 ">
-								<i class="glyphicon glyphicon-envelope"></i> <input type="email"
-									class="form-control" name="emailID" placeholder="Email"
-									required>
-							</div>
-						</div>
-						<br></br>
-						<div class="form-group left-inner-addon ">
-							<div class="col-lg-7 ">
-								<i class="glyphicon glyphicon-calendar"></i> <input type="date"
-									class="form-control" name="birthDate" placeholder="Birth Date"
-									required> <input type="checkbox" name="check1" />
-								Login as Mother
-							</div>
-						</div>
-						<br></br>
-						<div id="MGEmail" class="form-group left-inner-addon">
-							<div class="col-lg-10 ">
-								<i class="glyphicon glyphicon-envelope"></i> <input type="email"
-									class="form-control" name="emailIDdaughter"
-									placeholder="Email of Daughter" required>
-							</div>
-						</div>
-						<br></br>
-						<div id="MGEmail" class="form-group left-inner-addon">
-							<div class="col-lg-10">
-								<i class="glyphicon glyphicon-envelope"></i> <input type="email"
-									class="form-control" id="MomEmailID"
-									placeholder="EmailID of Mommy" required>
-							</div>
-						</div>
-						<br></br>
-						<div class="form-group left-inner-addon">
-							<div class="col-lg-10">
-								<i class="glyphicon glyphicon-user"></i> <input type="text"
-									class="form-control" name="userName" placeholder="User name"
-									required>
-							</div>
-						</div>
-						<br></br>
-						<div class="form-group left-inner-addon">
-							<div class="col-lg-10">
-								<i class="glyphicon glyphicon-lock"></i> <input type="password"
-									class="form-control" name="password" placeholder="password"
-									required>
-							</div>
-						</div>
-					</div>
-					<br></br>
-					<div class="modal-footer">
-						<a class="btn btn-default" data-dismiss="modal">Cancel</a>
-						<button class="btn btn-primary" type="submit">Register</button>
-
-					</div>
-				</form-->
 			</div>
 		</div>
-	</div>
-	
-	<div class="modal fade" id="SignUpMom" role="dialog">
+</div>
+		<div class="modal fade" id="SignUpMom" role="dialog" style = "dispaly:block">
+			<div class="modal-dialog">
+				<div class="modal-content col-lg-10">
+
+					<form action="getMotherByEmail.action" method="post">
+						<div class="modal-header">
+							<h4>Sign Up</h4>
+						</div>
+
+						<div class="modal-body">
+							<div class="form-group left-inner-addon ">
+								<div class="col-lg-10 ">
+									<i class="glyphicon glyphicon-envelope"></i> <input
+										type="email" path="daughter.email" class="form-control" maxlength = "80"
+										name="emailID" placeholder="Email" required />
+								</div>
+								<br></br>
+							</div>
+							<span id="motherEmailErr" style="display: none">${motherRegisterErr}</span>
+							<div class="modal-footer">
+								<a class="btn btn-default" data-dismiss="modal">Cancel</a> <input
+									class="btn btn-primary" type="submit" value="Register" />
+
+							</div>
+						</div>
+					</form>
+
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="UpdateMomDetails" role="dialog">
+			<div class="modal-dialog">
+				<div class="modal-content col-lg-10">
+
+					<form:form action="topicPage.action" method="post"
+						modelAttribute="motherRegistration">
+						<div class="modal-header">
+							<h4>Sign Up</h4>
+						</div>
+
+						<div class="modal-body">
+							<div class="form-group">
+								<div class="col-lg-5">
+									<form:input type="text" path="mother.firstName" maxlength = "80"
+										class="form-control" name="Firstname" placeholder="First name"
+										required="true" />
+								</div>
+								<div class="col-lg-5">
+									<form:input type="text" path="mother.lastName" maxlength = "80"
+										class="form-control" name="Lastname" placeholder="Last Name"
+										required="true" />
+								</div>
+								<br></br>
+							</div>
+							<form:input type="hidden" path="mother.id" />
+							<div class="form-group left-inner-addon ">
+								<div class="col-lg-10 ">
+									<i class="glyphicon glyphicon-envelope"></i>
+									<form:input type="email" path="mother.email" readonly="true" maxlength = "80"
+										class="form-control" name="emailID" placeholder="Email"
+										required="true" />
+								</div>
+								<br></br>
+								<div class="form-group left-inner-addon">
+									<div class="col-lg-10">
+										<i class="glyphicon glyphicon-user"></i>
+										<form:input type="text" path="username" class="form-control" maxlength = "80" minlength = "6"
+											name="userName" id = "motherUname"  placeholder="User name" required="true" />
+									</div>
+									<div id="loadingDiv" class="modal">
+									</div>
+									<br></br>
+								<span id="momusernameMsg"></span>
+								</div>
+								<div class="form-group left-inner-addon">
+									<div class="col-lg-10">
+										<i class="glyphicon glyphicon-lock"></i>
+										<form:input type="password" path="password" maxlength = "80" minlength = "6"
+											class="form-control" name="password" placeholder="password"
+											required="true" />
+									</div>
+								</div>
+								<br></br>
+								<div class="modal-footer">
+									<a class="btn btn-default" data-dismiss="modal">Cancel</a> <input
+										class="btn btn-primary" type="submit" value="Register" />
+
+								</div>
+							</div>
+						</div>
+					</form:form>
+				</div>
+			</div>
+		</div>
+<div class="modal fade" id="ForgotPassword" role="dialog">
 		<div class="modal-dialog">
 			<div class="modal-content col-lg-10">
-
-				<form action="getMotherByEmail.action" method="post">
+				<form action="forgotPassword.action" method="post">
 					<div class="modal-header">
-						<h4>Sign Up</h4>
+						<h4>Reset Username Password</h4>
 					</div>
-
+					
 					<div class="modal-body">
-						<div class="form-group left-inner-addon ">
-							<div class="col-lg-10 ">
-								<i class="glyphicon glyphicon-envelope"></i>
-								<input type="email" path="daughter.email"
-									class="form-control" name="emailID" placeholder="Email"
-									required/>
-							</div>
-							<br></br>
-						</div>
-						<span id="motherEmailErr" style="display:none">Please check the emailid you have entered.</span>
-						<div class="modal-footer">
-							<a class="btn btn-default" data-dismiss="modal">Cancel</a>
-							<input class="btn btn-primary" type="submit" value="Register"/>
-
-						</div>
-					</div>
-				</form>
-
-				<!-- form action="SignUp.nisha" method="post">
-					<div class="modal-header">
-						<h4>Sign Up</h4>
-					</div>
-					<div class="modal-body">
-						<div class="form-group">
-							<div class="col-lg-5">
-								<input type="text" class="form-control" name="Firstname"
-									placeholder="First name" required>
-							</div>
-							<div class="col-lg-5">
-								<input type="text" class="form-control" name="Lastname"
-									placeholder="Last Name" required>
-							</div>
-						</div>
-						<br></br>
-						<div class="form-group left-inner-addon ">
-							<div class="col-lg-10 ">
-								<i class="glyphicon glyphicon-envelope"></i> <input type="email"
-									class="form-control" name="emailID" placeholder="Email"
+					<div class="form-group left-inner-addon">
+					<div class="col-lg-8">
+									<i class="glyphicon glyphicon-envelope"></i> <input
+										type="email" path="daughter.email" class="form-control" maxlength = "80"
+										name="emailID" placeholder="Email" required />
+								</div>
+								</div>
+								<br></br>
+						<div class="form-group left-inner-addon">
+							<div class="col-lg-8">
+								<i class="glyphicon glyphicon-user"></i> <input type="text" maxlength = "80"
+									class="form-control" name="username" placeholder="User name"
 									required>
-							</div>
-						</div>
-						<br></br>
-						<div class="form-group left-inner-addon ">
-							<div class="col-lg-7 ">
-								<i class="glyphicon glyphicon-calendar"></i> <input type="date"
-									class="form-control" name="birthDate" placeholder="Birth Date"
-									required> <input type="checkbox" name="check1" />
-								Login as Mother
-							</div>
-						</div>
-						<br></br>
-						<div id="MGEmail" class="form-group left-inner-addon">
-							<div class="col-lg-10 ">
-								<i class="glyphicon glyphicon-envelope"></i> <input type="email"
-									class="form-control" name="emailIDdaughter"
-									placeholder="Email of Daughter" required>
-							</div>
-						</div>
-						<br></br>
-						<div id="MGEmail" class="form-group left-inner-addon">
-							<div class="col-lg-10">
-								<i class="glyphicon glyphicon-envelope"></i> <input type="email"
-									class="form-control" id="MomEmailID"
-									placeholder="EmailID of Mommy" required>
+
 							</div>
 						</div>
 						<br></br>
 						<div class="form-group left-inner-addon">
-							<div class="col-lg-10">
-								<i class="glyphicon glyphicon-user"></i> <input type="text"
-									class="form-control" name="userName" placeholder="User name"
-									required>
-							</div>
-						</div>
-						<br></br>
-						<div class="form-group left-inner-addon">
-							<div class="col-lg-10">
-								<i class="glyphicon glyphicon-lock"></i> <input type="password"
+							<div class="col-lg-8">
+								<i class="glyphicon glyphicon-lock"></i> <input type="password" maxlength = "80"
 									class="form-control" name="password" placeholder="password"
 									required>
 							</div>
 						</div>
+						
+						<br></br>
 					</div>
-					<br></br>
 					<div class="modal-footer">
 						<a class="btn btn-default" data-dismiss="modal">Cancel</a>
-						<button class="btn btn-primary" type="submit">Register</button>
+						<button class="btn btn-primary" type="submit">Login</button>
 
 					</div>
-				</form-->
+				</form>
 			</div>
 		</div>
 	</div>
-	<span>${motherRegister}</span>
-	<span>${1+2}</span>
-	<input type="hidden" id="check" name="check" value="${motherRegister}" />
+		<input type="hidden" id="usernameerr" name="usernameerr"
+			value="${usernameerr}" /> 
+		<input type="hidden" id="check"
+			name="check" value="${motherRegister}" />
 
+		<!-- /.container -->
 
-	<!-- /.container -->
-
-	<!-- jQuery -->
-	<script src="js/jquery.js"></script>
-
-	<!-- Bootstrap Core JavaScript -->
-	<script src="js/bootstrap.min.js"></script>
-
-	<!-- Script to Activate the Carousel -->
-	<script>
-		$('.carousel').carousel({
-			interval : 5000
-		//changes the speed
-		})
+		<!-- jQuery -->
+		<script src="js/jquery.js"></script>
 		
-		$( document ).ready(function() {
-			
-			$("#signUpMomLink").click(
-		            function () {
-		    			$('#motherEmailErr').css('display', 'none');
-		            }            
-		        );
-			if($( "#check" )[0].value == 'true'){
-				$('#SignUpDaughter').modal('toggle');
-			}else if($("#check")[0].value == 'false'){
-				$('#SignUpMom').modal('toggle');
-				$('#motherEmailErr').css('display', 'block');
-			}
-		});	
-	</script>
+		<!-- Bootstrap Core JavaScript -->
+		<script src="js/bootstrap.min.js"></script>
 
+		<!-- Script to Activate the Carousel -->
+		<script>
+		
+			$('.carousel').carousel({
+				interval : 5000
+			//changes the speed
+			})
+
+			$(document).ready(function() {
+				$("#Login").click(function() {
+					$('#checkusername').css('display', 'none');
+				})
+
+				if ($("#usernameerr")[0].value == 'false') {
+					$('#Login').modal('toggle');
+					$('#checkusername').css('display', 'block');
+				}
+				$('#SignUpMom').click(function() {
+					$('#motherEmailErr').css('display', 'none');
+				})
+				if ($("#check")[0].value == 'true') {
+					$('#UpdateMomDetails').modal('toggle');
+				} else if ($("#check")[0].value == 'false') {
+					$('#SignUpMom').modal('toggle');
+					$('#motherEmailErr').css('display', 'block');
+				}
+				
+				$("#daughterUname").change(function() {
+					userName = $('#daughterUname').val();
+					$("#loadingDiv").modal("toggle");
+					$("#usernameMsg")[0].innerHTML = "Checking username availability.";
+					$.ajax({
+			            type : "POST",
+			            url : "checkUsernameAvailability.action",
+			            data : "userName=" + userName,
+			            success : function(data) {
+			            	$("#loadingDiv").modal("toggle");
+			            	$("#usernameMsg")[0].innerHTML = data;
+			            	
+			            	if(data.indexOf('available') == -1){
+			            		$("#daughterUname").val('');
+			            	}else{
+			            		
+			            	}
+			            }
+			        })
+			    });
+				$("#motherUname").change(function() {
+					userName = $('#motherUname').val();
+					$("#loadingDiv").modal("toggle");
+					$("#momusernameMsg")[0].innerHTML = "Checking username availability.";
+					$.ajax({
+			            type : "POST",
+			            url : "checkUsernameAvailability.action",
+			            data : "userName=" + userName,
+			            success : function(data) {
+			            	$("#loadingDiv").modal("toggle");
+			            	$("#momusernameMsg")[0].innerHTML = data;
+			            	
+			            	if(data.indexOf('available') == -1){
+			            		$("#motherUname").val('');
+			            	}else{
+			            		
+			            	}
+			            }
+			        })
+			    });
+				
+				$("#daughterEmail").change(function() {
+					email = $('#daughterEmail').val();
+					$("#loadingDiv").modal("toggle");
+					$("#dauEmailMsg")[0].innerHTML = "";
+					$.ajax({
+			            type : "POST",
+			            url : "checkEmailExists.action",
+			            data : "email=" + email,
+			            success : function(data) {
+			            	$("#loadingDiv").modal("toggle");
+			            	$("#dauEmailMsg")[0].innerHTML = data;
+			            	
+			            	if(data.indexOf('not') == -1){
+			            		$("#daughterEmail").val('');
+			            	}else{
+			            		
+			            	}
+			            }
+			        })
+			    });
+				
+			}); 
+		</script>
 </body>
 
 </html>

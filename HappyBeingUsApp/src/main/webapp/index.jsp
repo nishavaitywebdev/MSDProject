@@ -1,8 +1,21 @@
 <html>
-<body>
-	<h2>Hello World!</h2>
+<head>
+<title>Loading</title>
+	<!-- jQuery -->
+	<script src="js/jquery.js"></script>
 
-	<a href="adminHome.action">Admin Home</a>
-	<a href="landingPage.action">Landing Page Home</a>
+	<script>
+		$(document).ready(function() {
+			 window.open("landingPage.action", "_self");
+		});
+	</script>
+</head>
+<body>
+<h2>Loading...</h2>
+
+<!-- <a href="adminHome.action">Admin Home</a> 
+-->
+<!-- <a href="landingPage.action">Landing Page Home</a> -->
 </body>
+
 </html>

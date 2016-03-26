@@ -3,7 +3,6 @@
  */
 package com.neu.msd.controllers;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +18,9 @@ import com.neu.msd.entities.Activity;
 import com.neu.msd.entities.ActivityContainer;
 import com.neu.msd.entities.ActivityTemplate;
 import com.neu.msd.entities.ActivityType;
-import com.neu.msd.entities.DaughterRegistration;
 import com.neu.msd.entities.Topic;
+import com.neu.msd.entities.User;
+import com.neu.msd.entities.UserAuthentication;
 import com.neu.msd.exception.AdminException;
 import com.neu.msd.service.AdminServie;
 
@@ -34,18 +34,32 @@ public class AdminController {
 	@Autowired
 	private AdminServie adminService;
 	
-	@RequestMapping(value="/adminHome.action", method=RequestMethod.GET)
-	public String loadHome(Model model){
+	@RequestMapping(value="/adminHome.action", method=RequestMethod.POST)
+	public String loadHome(@RequestParam("username") String username, 
+			@RequestParam("password") String password, Model model){
 		
 		try {
-			List<Topic> topics = adminService.loadTopics();
-			model.addAttribute("topics", topics);
-			return "adminHome";
+			UserAuthentication userAuthentication = new UserAuthentication();
+			userAuthentication.setUsername(username);
+			userAuthentication.setPassword(password);
+			model.addAttribute("userAuthentication", userAuthentication);
+			User admin = adminService.adminAuthenticate(userAuthentication);
+			if (admin.getId()!=0)
+			{
+				List<Topic> topics = adminService.loadTopics();
+				model.addAttribute("topics", topics);
+				return "adminHome";
+			}
+			else
+			{
+				model.addAttribute("adminLogonErr", "false");
+				return "AdminLogon";
+			}
 		} catch (AdminException e) {
 			return "errorPage";
 		}
 	}
-	
+
 	@RequestMapping(value="/editActivityContainer.action", method=RequestMethod.POST)
 	public String loadContainerById(@RequestParam("id") String activityContainerId, Model model){
 		

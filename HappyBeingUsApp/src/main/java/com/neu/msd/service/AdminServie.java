@@ -8,6 +8,8 @@ import java.util.List;
 import com.neu.msd.entities.ActivityContainer;
 import com.neu.msd.entities.ActivityTemplate;
 import com.neu.msd.entities.Topic;
+import com.neu.msd.entities.User;
+import com.neu.msd.entities.UserAuthentication;
 import com.neu.msd.exception.AdminException;
 
 /**
@@ -23,4 +25,6 @@ public interface AdminServie {
 	public List<ActivityTemplate> getAllActivityTemplates() throws AdminException;
 
 	public int renameTopic(String topicName, String topicId) throws AdminException;
+	
+	public User adminAuthenticate(UserAuthentication userAuthentication) throws AdminException;
 }

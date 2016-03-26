@@ -12,6 +12,8 @@ import com.neu.msd.entities.ActivityTemplate;
 import com.neu.msd.entities.ActivityType;
 import com.neu.msd.entities.AdminActivityAnswer;
 import com.neu.msd.entities.Topic;
+import com.neu.msd.entities.User;
+import com.neu.msd.entities.UserAuthentication;
 import com.neu.msd.exception.AdminException;
 
 /**
@@ -19,7 +21,10 @@ import com.neu.msd.exception.AdminException;
  *
  */
 public interface AdminDao {
-
+	
+	
+	public User authenticateAdminByUsernamePassword(UserAuthentication userAuthentication) throws AdminException;
+	
 	public List<Topic> loadTopics() throws AdminException;
 
 	public List<ActivityContainer> loadActivityContainersByTopicId(int topicId) throws AdminException;
