@@ -57,7 +57,7 @@ public class AuthenticationController {
 		
 		try {
 			authenticateService.registerDaughter(daughterRegistration);
-			return "landingPage";
+			return "topics";
 		} catch (AuthenticationException e) {
 			return "errorPage";
 		}
@@ -94,7 +94,7 @@ public class AuthenticationController {
 			return "errorPage";
 		}
 	}
-	
+
 	@RequestMapping(value="/Login.action", method=RequestMethod.POST)
 	public String loginUser(@ModelAttribute("userAuthentication") UserAuthentication userAuthentication, Model model, HttpSession session){
 		try {

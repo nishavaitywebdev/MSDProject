@@ -22,9 +22,6 @@ import com.neu.msd.exception.AdminException;
  */
 public interface AdminDao {
 	
-	
-	public User authenticateAdminByUsernamePassword(UserAuthentication userAuthentication) throws AdminException;
-	
 	public List<Topic> loadTopics() throws AdminException;
 
 	public List<ActivityContainer> loadActivityContainersByTopicId(int topicId) throws AdminException;
@@ -42,4 +39,6 @@ public interface AdminDao {
 	public void loadActivityType(Map<Integer, ActivityType> activityTypeMap) throws AdminException;
 
 	public AdminActivityAnswer getAdminActivityAnswerByActivityId(int activityId) throws AdminException;
+
+	public User authenticateAdminByUsernamePassword(UserAuthentication userAuthentication) throws AdminException;
 }

@@ -210,37 +210,6 @@ public class AdminDaoImpl implements AdminDao {
 		return activityTemplates;
 	}
 	
-	public User authenticateAdminByUsernamePassword(UserAuthentication userAuthentication) throws AdminException {
-		try {
-			User admin = new User();
-			Connection connection = dataSource.getConnection();
-			String sql = "select * from user_authentication where username=? and password = ? and user_type_id = 1";
-			PreparedStatement stmt = connection.prepareStatement(sql);
-			stmt.setString(1, userAuthentication.getUsername());
-			stmt.setString(2, userAuthentication.getPassword());
-			ResultSet rs = stmt.executeQuery();
-			while(rs.next())
-			{
-				admin.setId(rs.getInt("user_id"));
-			}
-			
-			if (admin.getId()!=0)
-			{
-				String sql_get_admin = "select * from user where user_id = ?";
-				PreparedStatement stmt_get_admin = connection.prepareStatement(sql_get_admin);
-				stmt_get_admin.setInt(1, admin.getId());
-				ResultSet rs_get_admin = stmt_get_admin.executeQuery();
-				while(rs_get_admin.next()){
-					admin.setFirstName(rs_get_admin.getString("first_name"));
-				}
-			}
-
-			return admin;
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new AdminException(e);
-		}
-	}
 
 	public int renameTopic(String topicName, String topicId) throws AdminException {
 		try {
@@ -281,6 +250,38 @@ public class AdminDaoImpl implements AdminDao {
 			adminActivityAnswer.setAnswers(answers);
 			return adminActivityAnswer;
 			
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new AdminException(e);
+		}
+	}
+
+	public User authenticateAdminByUsernamePassword(UserAuthentication userAuthentication) throws AdminException {
+		try {
+			User admin = new User();
+			Connection connection = dataSource.getConnection();
+			String sql = "select * from user_authentication where username=? and password = ? and user_type_id = 1";
+			PreparedStatement stmt = connection.prepareStatement(sql);
+			stmt.setString(1, userAuthentication.getUsername());
+			stmt.setString(2, userAuthentication.getPassword());
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next())
+			{
+				admin.setId(rs.getInt("user_id"));
+			}
+			
+			if (admin.getId()!=0)
+			{
+				String sql_get_admin = "select * from user where user_id = ?";
+				PreparedStatement stmt_get_admin = connection.prepareStatement(sql_get_admin);
+				stmt_get_admin.setInt(1, admin.getId());
+				ResultSet rs_get_admin = stmt_get_admin.executeQuery();
+				while(rs_get_admin.next()){
+					admin.setFirstName(rs_get_admin.getString("first_name"));
+				}
+			}
+
+			return admin;
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new AdminException(e);

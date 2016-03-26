@@ -1,4 +1,4 @@
-/**
+	/**
  * 
  */
 package com.neu.msd.dao.impl;
@@ -18,11 +18,17 @@ import com.neu.msd.entities.Daughter;
 import com.neu.msd.entities.DaughterRegistration;
 import com.neu.msd.entities.Mother;
 import com.neu.msd.entities.MotherRegistration;
+import com.neu.msd.entities.Topic;
 import com.neu.msd.entities.User;
+import com.neu.msd.exception.AdminException;
 import com.neu.msd.exception.AuthenticationException;
 
 /**
  * @author Harsh
+ *
+ */
+/**
+ * @author NISHA
  *
  */
 @Repository("authenticateDao")
@@ -180,7 +186,6 @@ public class AuthenticateDaoImpl implements AuthenticateDao {
 			stmt.setString(3, daughterRegistration.getPassword());
 			stmt.setInt(4, 3);
 			
-			
 			int records = stmt.executeUpdate();
 			
 			System.out.println("No. of records inserted: "+records);
@@ -190,6 +195,7 @@ public class AuthenticateDaoImpl implements AuthenticateDao {
 			e.printStackTrace();
 			throw new AuthenticationException(e);
 		}
+	
 	}
 	
 	public User validUser(String username, String password) throws AuthenticationException {
@@ -368,5 +374,7 @@ public class AuthenticateDaoImpl implements AuthenticateDao {
 			throw new AuthenticationException(e);
 		}
 	}
+
+
 
 }

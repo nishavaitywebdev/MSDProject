@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.neu.msd.dao.AuthenticateDao;
+import com.neu.msd.entities.Daughter;
 import com.neu.msd.entities.DaughterRegistration;
 import com.neu.msd.entities.Mother;
 import com.neu.msd.entities.MotherRegistration;
@@ -20,9 +21,9 @@ import com.neu.msd.service.AuthenticateService;
  * @author Harsh
  *
  */
-@Service("adminService")
+@Service("authenticateService")
 public class AuthenticateServiceImpl implements AuthenticateService {
-	
+
 	@Autowired
 	private AuthenticateDao authenticateDao;
 
@@ -52,6 +53,7 @@ public class AuthenticateServiceImpl implements AuthenticateService {
 		int daughterId = authenticateDao.registerDaughter(daughterRegistration.getDaughter());
 		return authenticateDao.registerDaughterAuthentication(daughterId, daughterRegistration);
 	}
+
 	
 	@Transactional(rollbackFor={AuthenticationException.class})
 	public Mother registerMother(MotherRegistration motherRegistration) throws AuthenticationException {
@@ -63,7 +65,6 @@ public class AuthenticateServiceImpl implements AuthenticateService {
 		}
 		return mother;
 	}
-	
 	@Transactional(rollbackFor={AuthenticationException.class})
 	public User validUser(UserAuthentication userAuthentication) throws AuthenticationException {
 
@@ -99,5 +100,6 @@ public class AuthenticateServiceImpl implements AuthenticateService {
 	public String checkEmail(String email) throws AuthenticationException {
 		return authenticateDao.checkEmail(email);
 	}
+
 
 }

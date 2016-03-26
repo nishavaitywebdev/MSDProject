@@ -23,7 +23,7 @@ import com.neu.msd.service.AdminServie;
  * @author Harsh
  *
  */
-@Service("authenticateService")
+@Service("adminService")
 public class AdminServiceImpl implements AdminServie {
 
 	@Autowired
@@ -88,6 +88,5 @@ public class AdminServiceImpl implements AdminServie {
 		// TODO Auto-generated method stub
 		return adminDao.authenticateAdminByUsernamePassword(userAuthentication);
 	}
-
 
 }
