@@ -256,7 +256,7 @@ public class AuthenticateDaoImpl implements AuthenticateDao {
 			int records = stmt.executeUpdate();
 			System.out.println("No. of records updated in the user table: "+records);
 			
-			String sqlCheckIfUserAuthExists = "SELECT top 1 user_id FROM user_authentication WHERE user_id= ?";
+			String sqlCheckIfUserAuthExists = "SELECT user_id FROM user_authentication WHERE user_id= ?";
 			PreparedStatement stmtUserId = connection.prepareStatement(sqlCheckIfUserAuthExists, Statement.RETURN_GENERATED_KEYS);
 			
 			stmtUserId.setInt(1, motherRegistration.getMother().getId());
