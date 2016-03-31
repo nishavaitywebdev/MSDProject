@@ -20,7 +20,7 @@ import com.neu.msd.service.AuthenticateService;
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations={"classpath:/dispatcher-servlet.xml"})
+@ContextConfiguration(locations={"classpath:/dispatcher.xml"})
 public class AuthenticationTest {
 
 	@Autowired
