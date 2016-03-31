@@ -26,6 +26,13 @@ public class UserController {
 	@Autowired
 	UserService userService;
 	
+//	TODO render the diagnostic page with the data from the database.
+	
+	
+	/**
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value="/redirectToDiagnostic.action", method=RequestMethod.GET)
 	public String redirectToDiagnostic(Model model){
 		

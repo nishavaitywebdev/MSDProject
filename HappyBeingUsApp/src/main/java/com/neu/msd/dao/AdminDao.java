@@ -32,7 +32,7 @@ public interface AdminDao {
 
 	public List<ActivityTemplate> getAllActivityTemplates() throws AdminException;
 
-	public int renameTopic(String topicName, String topicId) throws AdminException;
+	public int renameTopic(String topicName, int topicId) throws AdminException;
 
 	public void loadActivityTemplate(Map<Integer, ActivityTemplate> activityTemplateMap) throws AdminException;
 	
@@ -41,4 +41,16 @@ public interface AdminDao {
 	public AdminActivityAnswer getAdminActivityAnswerByActivityId(int activityId) throws AdminException;
 
 	public User authenticateAdminByUsernamePassword(UserAuthentication userAuthentication) throws AdminException;
+
+	public int addTopic(String topicName) throws AdminException;
+
+	public int deleteTopic(int deletableId) throws AdminException;
+	
+	public int deleteActivityContainer(int deletableId) throws AdminException;
+
+	public ActivityContainer addNewActivityContainer(String containerName, int topicId) throws AdminException;
+
+	public int deleteActivity(Integer deletableId) throws AdminException;
+
+	public int renameActivityContainer(String containerName, int containerId) throws AdminException;
 }
