@@ -149,13 +149,23 @@ public class UserDaoImpl implements UserDao {
 			if (score > 52)
 				versionid = 2;
 			Connection connection = dataSource.getConnection();
+			String sql = "insert into score (score_id, score_range) "
+					+ " values (?, ?)";
+			PreparedStatement stmt = connection.prepareStatement(sql);
+			int id=getNextScoreId();
+			stmt.setInt(1,id );
+			stmt.setInt(2, (int)score);
+			
+			int records = stmt.executeUpdate();
+			
+			System.out.println("No. of records inserted: "+records);
 
-			String sql = "update user set version_id = ?, score = ? where user_id = ?";
+			sql = "update user set version_id = ?, score_id = ? where user_id = ?";
 			PreparedStatement stmt3 = connection.prepareStatement(sql);
 			stmt3.setInt(1, versionid);
-			stmt3.setInt(2, (int) score);
+			stmt3.setInt(2, id);
 			stmt3.setInt(3, user.getId());
-			int records = stmt3.executeUpdate();
+			records = stmt3.executeUpdate();
 			System.out.println("No. of records inserted: " + records);
 
 		} catch (Exception e) {
