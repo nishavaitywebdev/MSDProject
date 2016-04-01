@@ -5,6 +5,8 @@ package com.neu.msd.controllers;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,9 +43,14 @@ public class UserController {
 			return "errorPage";
 		}
 	}
+	
+	
+	
+	
+	
 	@RequestMapping(value="/dg.action", method=RequestMethod.POST)
-	public String redirectToUserhome(Scoremodel scores){
-		
+	public String redirectToUserhome(Scoremodel scores,HttpSession session){
+		User user=(User) session.getAttribute("user");
 		
 	
 		
@@ -58,12 +65,11 @@ public class UserController {
 			b++;
 		}
 		score=score/5*100;
-		User user=new User();
 		userService.addscore(user,score);
-		System.out.println(score);
+		
 		//List<AdminActivityAnswer> activityAnswers = userService.getDiagnosticQuestions();
 		//model.addAttribute("activityAnswers", activityAnswers);
-		return "userhome";
+		return "userHome";
 	}
 
 }

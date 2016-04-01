@@ -16,6 +16,7 @@ import com.neu.msd.dao.AdminDao;
 import com.neu.msd.entities.Activity;
 import com.neu.msd.entities.AdminActivityAnswer;
 import com.neu.msd.entities.Answer;
+import com.neu.msd.entities.User;
 import com.neu.msd.exception.AdminException;
 import com.neu.msd.exception.UserException;
 import com.neu.msd.service.UserService;
@@ -58,6 +59,12 @@ public class UserServiceImpl implements UserService {
 		
 		Collections.sort(adminActivityAnswers,new SortByorder());
 		return adminActivityAnswers;
+	}
+
+	@Override
+	public void addscore(User user, double score) {
+		userDao.addscoreforuser(user, score);
+		
 	}
 
 

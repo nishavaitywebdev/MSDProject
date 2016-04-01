@@ -53,11 +53,16 @@ public class AuthenticationController {
 	}
 
 	@RequestMapping(value="/signUp.action", method=RequestMethod.POST)
-	public String registerDaughter(@ModelAttribute("daughterRegistration") DaughterRegistration daughterRegistration, Model model){
+	public String registerDaughter(@ModelAttribute("daughterRegistration") DaughterRegistration daughterRegistration, Model model,HttpSession session){
 		
 		try {
 			authenticateService.registerDaughter(daughterRegistration);
-			return "topics";
+			UserAuthentication userAuthentication=new UserAuthentication();
+			userAuthentication.setUsername(daughterRegistration.getUsername());
+			userAuthentication.setPassword(userAuthentication.getPassword());
+			User user=authenticateService.validUser(userAuthentication);
+			session.setAttribute("user", user);
+			return "redirect:/redirectToDiagnostic.action";
 		} catch (AuthenticationException e) {
 			return "errorPage";
 		}
@@ -110,7 +115,11 @@ public class AuthenticationController {
 				return "landingPage";
 			}
 			else
-			return "topics";
+				if(user.getVersion()==null)
+				{
+					return "redirect:/redirectToDiagnostic.action";
+				}
+			return "userhome";
 			
 		} catch (AuthenticationException e) {
 			return "errorPage";
