@@ -50,7 +50,7 @@ public class UserController {
 			User user = new User();
 			user = (User) session.getAttribute("user");
 			if (user.isDiagnosticTaken()== false){
-				return "diagnostic";
+				return redirectToDiagnostic(model);
 			}
 			else{
 				List<Topic> topics = new ArrayList<Topic>();
