@@ -46,7 +46,7 @@ public class AdminServiceImpl implements AdminServie {
 	 * @param allTopics
 	 * @throws AdminException
 	 */
-	private void loadTopicsWithActivityContainers(List<Topic> allTopics) throws AdminException {
+	public void loadTopicsWithActivityContainers(List<Topic> allTopics) throws AdminException {
 			
 		for(Topic topic : allTopics){
 			List<ActivityContainer> activityContainers = adminDao.loadActivityContainersByTopicId(topic.getId());

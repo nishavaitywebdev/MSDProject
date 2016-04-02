@@ -6,6 +6,8 @@ package com.neu.msd.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,8 @@ import com.neu.msd.dao.AdminDao;
 import com.neu.msd.entities.Activity;
 import com.neu.msd.entities.AdminActivityAnswer;
 import com.neu.msd.entities.Answer;
+import com.neu.msd.entities.Topic;
+import com.neu.msd.entities.User;
 import com.neu.msd.exception.AdminException;
 import com.neu.msd.exception.UserException;
 import com.neu.msd.service.UserService;
@@ -27,6 +31,9 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	UserDao userDao;
+	
+	@Autowired
+	AdminServiceImpl adminServiceImpl;
 	
 	@Autowired
 	AdminDao adminDao;
@@ -46,5 +53,18 @@ public class UserServiceImpl implements UserService {
 		}
 		return adminActivityAnswers;
 	}
+
+	public List<Topic> getTopicsOfUser(User user) throws UserException {
+		List<Topic> topics = new ArrayList<Topic>();
+		topics = userDao.getTopicsOfUser(user.getId());
+		try {
+			adminServiceImpl.loadTopicsWithActivityContainers(topics);
+		} catch (AdminException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return topics;
+	}
+
 
 }

@@ -66,11 +66,7 @@ public class AuthenticateDaoImpl implements AuthenticateDao {
 			
 			ResultSet keys = stmt.getGeneratedKeys();
 			
-			if (keys.next()) {
-				return keys.getInt(1);
-			}
-			
-			throw new Exception();
+			return nextUserId;
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new AuthenticationException(e);
@@ -161,8 +157,8 @@ public class AuthenticateDaoImpl implements AuthenticateDao {
 			ResultSet keys = stmt.getGeneratedKeys();
 			
 			Mother mother = new Mother();
-			mother.setId(keys.getInt("user_id"));
-//			mother.setId(nextUserId);
+			//mother.setId(keys.getInt("user_id"));
+			mother.setId(nextUserId);
 			mother.setEmail(email);
 			mother.getUserType().setId(2);
 			
@@ -221,6 +217,7 @@ public class AuthenticateDaoImpl implements AuthenticateDao {
 				user.setLastName(rs1.getString("last_name"));
 				user.setBirthdate(rs1.getDate("birthdate"));
 				user.setEmail(rs1.getString("email_id"));
+				user.setDiagnosticTaken(rs1.getBoolean("is_diagnostic_taken"));
 			}
 			
 			return user;

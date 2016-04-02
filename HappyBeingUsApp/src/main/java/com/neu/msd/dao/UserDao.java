@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.neu.msd.entities.Activity;
 import com.neu.msd.entities.Answer;
+import com.neu.msd.entities.Topic;
 import com.neu.msd.exception.UserException;
 
 /**
@@ -20,5 +21,7 @@ public interface UserDao {
 	List<Activity> getActivitiesByType(int diagnosticType) throws UserException;
 
 	Answer getAnswerById(int answerId) throws UserException;
+
+	List<Topic> getTopicsOfUser(int id);
 
 }
