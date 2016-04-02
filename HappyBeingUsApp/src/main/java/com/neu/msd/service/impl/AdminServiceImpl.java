@@ -18,15 +18,16 @@ import com.neu.msd.entities.ActivityTemplate;
 import com.neu.msd.entities.Topic;
 import com.neu.msd.entities.User;
 import com.neu.msd.entities.UserAuthentication;
+import com.neu.msd.entities.Version;
 import com.neu.msd.exception.AdminException;
-import com.neu.msd.service.AdminServie;
+import com.neu.msd.service.AdminService;
 
 /**
  * @author Harsh
  *
  */
 @Service("adminService")
-public class AdminServiceImpl implements AdminServie {
+public class AdminServiceImpl implements AdminService {
 	
 	Logger LOGGER = Logger.getLogger(AdminServiceImpl.class);
 
@@ -38,13 +39,13 @@ public class AdminServiceImpl implements AdminServie {
 	 */
 	@Transactional
 	public List<Topic> loadTopics(Map<Integer, ActivityContainer> containerMap) throws AdminException {
-		LOGGER.debug("	AdminServiceImpl: loadTopics: START");
+		LOGGER.debug("AdminServiceImpl: loadTopics: START");
 		
 		List<Topic> allTopics = adminDao.loadTopics();
 		
 		loadTopicsWithActivityContainers(containerMap, allTopics);
 		
-		LOGGER.debug("	AdminServiceImpl: loadTopics: END");
+		LOGGER.debug("AdminServiceImpl: loadTopics: END");
 		return allTopics;
 	}
 
@@ -55,14 +56,14 @@ public class AdminServiceImpl implements AdminServie {
 	 * @throws AdminException
 	 */
 	private void loadTopicsWithActivityContainers(Map<Integer, ActivityContainer> containerMap, List<Topic> allTopics) throws AdminException {
-		LOGGER.debug("	AdminServiceImpl: loadTopicsWithActivityContainers: START");
+		LOGGER.debug("AdminServiceImpl: loadTopicsWithActivityContainers: START");
 			
 		for(Topic topic : allTopics){
 			List<ActivityContainer> activityContainers = adminDao.loadActivityContainersByTopicId(topic.getId());
 			topic.setActivityContainers(activityContainers);
 			loadActivityContainersWithActivities(containerMap, activityContainers);
 		}
-		LOGGER.debug("	AdminServiceImpl: loadTopicsWithActivityContainers: END");
+		LOGGER.debug("AdminServiceImpl: loadTopicsWithActivityContainers: END");
 	}
 
 	/**
@@ -71,14 +72,14 @@ public class AdminServiceImpl implements AdminServie {
 	 * @throws AdminException
 	 */
 	private void loadActivityContainersWithActivities(Map<Integer, ActivityContainer> containerMap, List<ActivityContainer> activityContainers) throws AdminException {
-		LOGGER.debug("	AdminServiceImpl: loadActivityContainersWithActivities: START");
+		LOGGER.debug("AdminServiceImpl: loadActivityContainersWithActivities: START");
 
 		for(ActivityContainer activityContainer : activityContainers){
 			List<Activity> activities = adminDao.loadActivitiesByActivityContainerId(activityContainer.getActivityContainerId());
 			activityContainer.setActivities(activities);
 			containerMap.put(activityContainer.getActivityContainerId(), activityContainer);
 		}
-		LOGGER.debug("	AdminServiceImpl: loadActivityContainersWithActivities: END");
+		LOGGER.debug("AdminServiceImpl: loadActivityContainersWithActivities: END");
 	}
 
 	/* (non-Javadoc)
@@ -124,5 +125,13 @@ public class AdminServiceImpl implements AdminServie {
 	
 	public int renameActivityContainer(String containerName, int containerId) throws AdminException {
 		return adminDao.renameActivityContainer(containerName, containerId);
+	}
+
+	public List<Version> loadAllVersion() throws AdminException {
+		return adminDao.loadAllVersion();
+	}
+
+	public int assignTopicToVersion(int topicId, int versionId) throws AdminException {
+		return adminDao.assignTopicToVersion(topicId, versionId);
 	}
 }

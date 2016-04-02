@@ -6,19 +6,19 @@ package com.neu.msd.service;
 import java.util.List;
 import java.util.Map;
 
-import com.neu.msd.entities.Activity;
 import com.neu.msd.entities.ActivityContainer;
 import com.neu.msd.entities.ActivityTemplate;
 import com.neu.msd.entities.Topic;
 import com.neu.msd.entities.User;
 import com.neu.msd.entities.UserAuthentication;
+import com.neu.msd.entities.Version;
 import com.neu.msd.exception.AdminException;
 
 /**
  * @author Harsh
  *
  */
-public interface AdminServie {
+public interface AdminService {
 	
 	public List<Topic> loadTopics(Map<Integer, ActivityContainer> containerMap) throws AdminException;
 
@@ -41,4 +41,8 @@ public interface AdminServie {
 	public int deleteActivityContainer(Integer deletableId) throws AdminException;
 
 	public int renameActivityContainer(String containerName, int containerId) throws AdminException;
+
+	public List<Version> loadAllVersion() throws AdminException;
+
+	public int assignTopicToVersion(int topicId, int versionId) throws AdminException;
 }

@@ -278,6 +278,11 @@ footer {
 								<input type="text" class="form-control" id="topicName"
 									name="topicName" placeholder="Enter new topic name" required />
 							</div>
+							<select name="versionId" id="activityTemplate">
+								<c:forEach items="${versions}" var="version">
+									<option value="${version.id}">${version.versionName}</option>
+								</c:forEach>
+							</select>
 							<div class="modal-footer">
 								<input type="submit" class="btn btn-success" role="button"
 									value="Add!" />

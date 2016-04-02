@@ -161,8 +161,8 @@ public class AuthenticateDaoImpl implements AuthenticateDao {
 			ResultSet keys = stmt.getGeneratedKeys();
 			
 			Mother mother = new Mother();
-			mother.setId(keys.getInt("user_id"));
-//			mother.setId(nextUserId);
+//			mother.setId(keys.getInt("user_id"));
+			mother.setId(nextUserId);
 			mother.setEmail(email);
 			mother.getUserType().setId(2);
 			

@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
@@ -27,8 +28,9 @@ import com.neu.msd.entities.ActivityType;
 import com.neu.msd.entities.Topic;
 import com.neu.msd.entities.User;
 import com.neu.msd.entities.UserAuthentication;
+import com.neu.msd.entities.Version;
 import com.neu.msd.exception.AdminException;
-import com.neu.msd.service.AdminServie;
+import com.neu.msd.service.AdminService;
 
 /**
  * @author Harsh
@@ -47,7 +49,7 @@ public class AdminController {
 	
 	
 	@Autowired
-	private AdminServie adminService;
+	private AdminService adminService;
 	
 	@RequestMapping(value="/adminHome.action", method=RequestMethod.POST)
 	public String adminLogin(@RequestParam("username") String username, 
@@ -86,9 +88,10 @@ public class AdminController {
 		if(null == topics){
 			Map<Integer, ActivityContainer> containerMap = new HashMap<Integer, ActivityContainer>();
 			topics = adminService.loadTopics(containerMap);
+			List<Version> versions = adminService.loadAllVersion();
 			session.setAttribute("topics", topics);
 			session.setAttribute("containerMap", containerMap);
-			
+			session.setAttribute("versions", versions);
 		}
 		session.removeAttribute("activityContainer");
 		LOGGER.debug("AdminController: loadHome: END");
@@ -147,11 +150,14 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value="/addActivity.action", method=RequestMethod.POST)
-	public String addNewActivity(@ModelAttribute("activity") Activity activity, Model model, HttpSession session){
+	public String addNewActivity(@ModelAttribute("activity") Activity activity, Model model, HttpSession session, 
+			HttpServletRequest request){
+		
 		
 		LOGGER.debug("AdminController: addNewActivity: START");
 //		TODO insert the activity into the database.
 //		code goes here---
+		
 		
 //		TODO update the objects in the session accordingly
 //		code goes here---
@@ -198,12 +204,13 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value="/addNewTopic.action", method=RequestMethod.POST)
-	public String addNewTopic(@RequestParam("topicName") String topicName, HttpSession session, Model model){
+	public String addNewTopic(@RequestParam("topicName") String topicName, @RequestParam("versionId") int versionId, HttpSession session, Model model){
 		
 		LOGGER.debug("AdminController: addNewTopic: START");
 		try {
 			int topicId = adminService.addNewTopic(topicName);
 			Topic topic = new Topic(topicId, topicName);
+			int records = adminService.assignTopicToVersion(topicId, versionId);
 			List<Topic> topics = (List<Topic>) session.getAttribute("topics");
 			topics.add(topic);
 			session.setAttribute("topics", topics);
