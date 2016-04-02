@@ -6,11 +6,7 @@ package com.neu.msd.test;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.neu.msd.exception.AuthenticationException;
 import com.neu.msd.service.AuthenticateService;
@@ -19,8 +15,8 @@ import com.neu.msd.service.AuthenticateService;
  * @author Harsh
  *
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(value="dispatcher-servlet.xml")
+//@RunWith(SpringJUnit4ClassRunner.class)
+//@ContextConfiguration(locations={"classpath:/dispatcher-servlet.xml"})
 public class AuthenticationTest {
 
 	@Autowired

@@ -5,8 +5,6 @@ package com.neu.msd.service;
 
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
 import com.neu.msd.entities.AdminActivityAnswer;
 import com.neu.msd.entities.Topic;
 import com.neu.msd.entities.User;

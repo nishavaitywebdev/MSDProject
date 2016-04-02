@@ -4,12 +4,8 @@
 package com.neu.msd.controllers;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,13 +22,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.neu.msd.entities.Daughter;
 import com.neu.msd.entities.DaughterRegistration;
-import com.neu.msd.entities.Mother;
 import com.neu.msd.entities.MotherRegistration;
-import com.neu.msd.entities.Topic;
 import com.neu.msd.entities.User;
 import com.neu.msd.entities.UserAuthentication;
 import com.neu.msd.exception.AuthenticationException;
-import com.neu.msd.exception.UserException;
 import com.neu.msd.service.AuthenticateService;
 import com.neu.msd.service.UserService;
 

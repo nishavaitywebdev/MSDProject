@@ -22,6 +22,13 @@ public class Topic {
 	public Topic() {
 		// TODO Auto-generated constructor stub
 	}
+	
+	
+	public Topic(int id, String topicName) {
+		this.id = id;
+		this.topicName = topicName;
+	}
+	
 
 	/**
 	 * @return the id

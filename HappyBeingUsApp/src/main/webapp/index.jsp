@@ -13,8 +13,7 @@
 <body>
 <h2>Loading...</h2>
 
-<!-- <a href="adminHome.action">Admin Home</a> 
--->
+<!-- <a href="adminHome.action">Admin Home</a>-->
 <!-- <a href="landingPage.action">Landing Page Home</a> -->
 </body>
 
