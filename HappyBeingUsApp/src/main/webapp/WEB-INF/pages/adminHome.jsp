@@ -66,36 +66,65 @@ footer {
 		form.children.namedItem("id").value = id;
 		form.submit();
 	}
-	
-	function renameTopic(button){
-		
+
+	function renameTopic(button) {
+
 		var topicName = button.name;
 		var topicId = button.id;
-		
+
 		$('#renameTopic input[name=renameTopicName]').val(topicName);
 		$('#renameTopic input[name=renameTopicId]').val(topicId);
 	}
 	
+	function addContainer(button) {
+
+		var topicId = button.id.split("-")[1];
+		$('#topicId').val(topicId);
+	}
 	
+	function deleteTopic(deletedTag){
+		
+		var deleteId = deletedTag.id.split("_")[1];
+		var topicNotEmpty = $("#topicNotEmpty_"+deleteId).val();
+		
+		if(topicNotEmpty=="true"){
+			$("#warningDialog").modal("toggle");
+		}else{
+			var form = document.getElementById("confirmationForm");
+			form.action = "deleteTopic.action";
+			$("#deletableId").val(deleteId);
+			$("#confirmationDialog").modal("toggle");
+		}
+	}
+	
+	function deleteActivityContainer(deletedTag){
+		
+		var deleteId = deletedTag.id.split("_")[1];
+		var form = document.getElementById("confirmationForm");
+		form.action = "deleteActivityContainer.action";
+		$("#deletableId").val(deleteId);
+	}
 
 	$(document).ready(function() {
 
+// 		Ajax for renaming the topic name
 		$("#changeTopicName").click(function() {
 			topicName = $('#renameTopic input[name=renameTopicName]').val();
 			topicId = $('#renameTopic input[name=renameTopicId]').val();
 			$("#loadingDiv").modal("toggle");
 			$("#renameTopic").modal("toggle");
-	        $.ajax({
-	            type : "POST",
-	            url : "renameTopic.action",
-	            data : "topicName=" + topicName + "&topicId=" + topicId,
-	            success : function(data) {
-	            	$("#loadingDiv").modal("toggle");
-	            	$("#topic_name_"+topicId)[0].innerHTML=topicName;
-	            	
-	            }
-	        });
-	    });     
+			$.ajax({
+				type : "POST",
+				url : "renameTopic.action",
+				data : "topicName=" + topicName + "&topicId=" + topicId,
+				success : function(data) {
+					$("#loadingDiv").modal("toggle");
+					$("#topic_name_" + topicId)[0].innerHTML = topicName;
+
+				}
+			});
+		});
+		
 	});
 </script>
 
@@ -120,8 +149,7 @@ footer {
 					<li><a href="#">Statistics</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="#"><span class="glyphicon glyphicon-log-in"></span>
-							Logout</a></li>
+					<li><a href="#"><span class="glyphicon glyphicon-log-in"></span>Logout</a></li>
 				</ul>
 			</div>
 		</div>
@@ -148,45 +176,59 @@ footer {
 									<h2>
 										<span
 											class="topic_name ${topicNo.index+1 == 1?'':'collapsed'}"
-											data-toggle="collapse" data-target="#container_for_${topic.id}"
+											data-toggle="collapse"
+											data-target="#container_for-${topic.id}"
 											id="topic_name_${topic.id}">${topic.topicName}</span>
 
 										<button type="button" class="btn btn-success"
 											data-toggle="modal" data-target="#renameTopic"
 											id="${topic.id}" name="${topic.topicName}"
 											onclick="renameTopic(this)">Rename</button>
-										<a href="#" class="btn btn-danger" role="button">Delete</a>
+										<a class="btn btn-danger" id="deleteId_${topic.id}" 
+										 role="button" onclick="deleteTopic(this)">Delete</a>
+										 <input type="hidden" id="topicNotEmpty_${topic.id}" value="${fn:length(topic.activityContainers)>0}"/>
 									</h2>
 								</div>
-								<div
-									class="panel-collapse collapse ${topicNo.index+1 == 1?'in':''}"
-									id="container_for_${topic.id}">
+								<div class="panel-collapse collapse ${topicNo.index+1 == 1?'in':''}"
+									id="container_for-${topic.id}">
 									<table class="table table-hover">
+										<c:if test="${fn:length(topic.activityContainers)>0}">
 										<thead>
 											<tr>
 												<th></th>
 												<th></th>
-												<th></th>
+<!-- 												<th></th> -->
 												<th>Last Date Modified</th>
 											</tr>
 										</thead>
+										</c:if>
 										<tbody>
-											<c:forEach items="${topic.activityContainers}"
-												var="activityContainer">
+										<c:choose> 
+										<c:when test="${fn:length(topic.activityContainers)>0}">
+											<c:forEach items="${topic.activityContainers}" var="activityContainer">
 												<tr>
-													<td><a href="#" class="btn btn-primary" role="button">${activityContainer.containerName}</a></td>
+													<td><a class="btn btn-primary">${activityContainer.containerName}</a></td>
 													<td><a href="#" class="btn btn-success" role="button"
 														id="${activityContainer.activityContainerId}"
 														onclick="editContainer(id)">Edit</a></td>
-													<td><a href="#" class="btn btn-danger" role="button">Delete</a></td>
+<!-- 													<td><a href="#" class="btn btn-danger" data-toggle="modal" -->
+<%-- 										 					data-target="#confirmationDialog" id="deleteId_${activityContainer.activityContainerId}"  --%>
+<!-- 										 					role="button" onclick="deleteActivityContainer(this)">Delete</a></td> -->
 													<td>3/9/2016</td>
 												</tr>
 											</c:forEach>
+											</c:when>
+											<c:otherwise>
+												<div class="jumbotron">
+													<h4>No activity containers available right now. You might want to add some activity container first.</h4>
+												</div>
+											</c:otherwise>
+										</c:choose>
 											<tr>
 												<td></td>
 												<td></td>
-												<td><a href="#" class="btn btn-warning" role="button">Add
-														New Activity </a></td>
+												<td><a class="btn btn-warning" role="button" data-toggle="modal"
+										 					data-target="#addNewContainer" id="new_container_under-${topic.id}" onclick="addContainer(this)">Add New Activity Container</a></td>
 											</tr>
 										</tbody>
 
@@ -196,49 +238,142 @@ footer {
 						</c:forEach>
 					</c:when>
 					<c:otherwise>
-					<div class="jumbotron">
-						<h2>No topics available right now. You might want to add topics first.</h2>
-					</div>
+						<div class="jumbotron">
+							<h2>No topics available right now. You might want to add topics first.</h2>
+						</div>
 					</c:otherwise>
 				</c:choose>
 			</div>
 			<!-- 			<div class="col-sm-4"></div> -->
-				<div class="modal fade" id="renameTopic" role="dialog">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h4 class="modal-title">Rename Topic</h4>
-							</div>
-							<div class="modal-body">
-								<input type="text" class="form-control" id="renameTopicName"  name="renameTopicName" placeholder="Enter new topic name" />
-								<input type="hidden" name="renameTopicId" id="renameTopicId" />
-							</div>
-							<div class="modal-footer">
-								<input type="button" id="changeTopicName" class="btn btn-success" role="button" value="Change Name!"/>
-							</div>
+			<!-- 			Renaming the topic pop up modal  START-->
+			<div class="modal fade" id="renameTopic" role="dialog">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title">Rename Topic</h4>
+						</div>
+						<div class="modal-body">
+							<input type="text" class="form-control" id="renameTopicName"
+								name="renameTopicName" placeholder="Enter new topic name" /> <input
+								type="hidden" name="renameTopicId" id="renameTopicId" />
+						</div>
+						<div class="modal-footer">
+							<input type="button" id="changeTopicName" class="btn btn-success"
+								role="button" value="Change Name!" />
 						</div>
 					</div>
 				</div>
-<!-- 			Loading image Under progress -->
-		<div id="loadingDiv" class="modal">
-		<img alt="loading" src="Images/loading.gif">
-		</div>
+			</div>
+			<!-- 			Renaming the topic pop up modal  END-->
+
+			<!-- 			Adding new Topic START -->
+			<div class="modal fade" id="addNewTopic" role="dialog">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title">Add New Topic</h4>
+						</div>
+						<form action="addNewTopic.action" method="post">
+							<div class="modal-body">
+								<input type="text" class="form-control" id="topicName"
+									name="topicName" placeholder="Enter new topic name" required />
+							</div>
+							<div class="modal-footer">
+								<input type="submit" class="btn btn-success" role="button"
+									value="Add!" />
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<!-- 			Adding new Topic END -->
+
+			<!-- 			Adding new Activity container START -->
+			<div class="modal fade" id="addNewContainer" role="dialog">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title">Add New Activity Container</h4>
+						</div>
+						<form action="addNewActivityContainer.action" method="post">
+							<div class="modal-body">
+								<input type="text" class="form-control" id="containerName"
+									name="containerName" placeholder="Enter new Activity container name" required />
+								<input type="hidden" name="topicId" id="topicId" />
+							</div>
+							<div class="modal-footer">
+								<input type="submit" class="btn btn-success" role="button" value="Add!" />
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<!-- 			Adding new Activity container END -->
+
+<!-- 			Confirmation dialog before delete START -->
+			<div class="modal fade" id="confirmationDialog" role="dialog">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title">Please confirm!</h4>
+						</div>
+						<form id="confirmationForm" name="confirmationForm" method="post">
+							<div class="modal-body">
+								<h4 class="modal-title">Do you really want to remove this?</h4>
+								<input type="hidden" class="form-control" id="deletableId"  name="deletableId" />
+							</div>
+							<div class="modal-footer">
+								<a class="btn btn-default" data-dismiss="modal">No</a>
+								<input type="submit" class="btn btn-success" role="button" value="Yes"/>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+<!-- 			Confirmation dialog before delete END -->
+
+<!-- 		Cannot delete warning START -->
+			<div class="modal fade" id="warningDialog" role="dialog">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title">No can do!!!</h4>
+						</div>
+						<div class="modal-body">
+							<h4 class="modal-title">It seems that the topic is not empty. You cannot delete this topic.</h4>
+						</div>
+						<div class="modal-footer">
+							<a class="btn btn-danger" data-dismiss="modal">OK</a>
+						</div>
+					</div>
+				</div>
+			</div>
+<!-- 		Cannot delete warning  END -->
+
+
+
+			<!-- 			Loading image Under progress -->
+			<div id="loadingDiv" class="modal">
+				<img alt="loading" src="Images/loading.gif">
+			</div>
 		</div>
 	</div>
 	<form name="editForm" id="editForm" action="#" method="post">
 		<input type="hidden" id="id" name="id" value="" />
 	</form>
+
 	<div class="container-fluid bg-3 text-right">
 
 		<div class="row">
 			<div class="col-sm-8">
-				<a href="#" class="btn btn-warning" role="button">Add New Topic</a>
+				<a class="btn btn-warning" data-toggle="modal" 
+					data-target="#addNewTopic" role="button">Add New Topic</a>
 
 			</div>
 		</div>
 	</div>
 	<footer class="container-fluid text-center">
-		<p>Designed By Group 11 3/9/2016</p>
+		<p>Designed By Students of Northeastern University.</p>
 	</footer>
 </body>
 </html>
