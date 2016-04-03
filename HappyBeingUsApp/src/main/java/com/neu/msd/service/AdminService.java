@@ -24,6 +24,8 @@ public interface AdminService {
 
 	public ActivityContainer getActivityContainerById(int activityContainerId) throws AdminException;
 
+	public void loadTopicsWithActivityContainers(Map<Integer, ActivityContainer> containerMap, List<Topic> allTopics) throws AdminException;
+
 	public List<ActivityTemplate> getAllActivityTemplates() throws AdminException;
 
 	public int renameTopic(String topicName, int topicId) throws AdminException;

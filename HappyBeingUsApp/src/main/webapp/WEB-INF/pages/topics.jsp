@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ page isELIgnored="false"%>
 <html>
@@ -52,138 +54,85 @@
 </head>
 
 <body>
-
-	<!-- Navigation -->
-	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-	<div class="container">
-		<!-- Brand and toggle get grouped for better mobile display -->
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle" data-toggle="collapse"
-				data-target="#bs-example-navbar-collapse-1">
-				<span class="sr-only">Toggle navigation</span> <span
-					class="icon-bar"></span> <span class="icon-bar"></span> <span
-					class="icon-bar"></span>
-			</button>
-			<a class="navbar-brand" href="landingPage.action">Happy Being Us</a>
-		</div>
-		<!-- Collect the nav links, forms, and other content for toggling -->
-		<div class="collapse navbar-collapse"
-			id="bs-example-navbar-collapse-1">
-			<ul class="nav navbar-nav">
-				<li><a href="#">About</a></li>
-				<li><a href="#">Contact</a></li>
-			</ul>
-		</div>
-		<!-- /.navbar-collapse -->
-	</div>
-	</nav>
+<%@ include file="header.jsp" %>
 	<!-- /.container -->
 	<br></br>
 	<div class="container">
 		<div class="jumbotron" style="">
 			<h1>My Topics</h1>
 		</div>
-		<div class="container" id="mytopics"></div>
-	</div>
-	<!-- Footer -->
-	<footer>
-	<div class="row" style="background-color: #ff6666; height: 20px;"></div>
-	<div class="row">
-		<div class="col-lg-12">
-			<p style="margin-left: 50px;">Copyright &copy; HappyBeingUs.com
-				2016</p>
-			<img src="Images/Logo.png" align="right">
+		<div class="container" id="mytopics">
+			<div class="container-fluid bg-3">
+				<div class="row jumbotron" id="In progress">
+				<h1 style = "font-size:300%;"> To do </h1>
+					<div class="col-sm-8">
+						<c:forEach items="${topics}" var="topic" varStatus="topicNo">
+							<c:if test="${topic.topicStatus.id <= 2}">
+							<div class="topic_holder" style="padding: 10px">
+								<div class="row">
+								<div class ="col-sm-4">
+								<h2 class="">
+									<span id="topic_name_${topic.id}">${topic.topicName}</span>
+								</h2>
+								</div>
+								<div class="col-sm-8" style="padding: 20px">
+								<div class="progress" style="width:100%">
+										<div class="progress-bar progress-bar-success"
+											role="progressbar" style="width: ${topic.progress}%">${topic.progress} % Complete
+											</div>
+									</div></div></div>
+									<br>
+									<table style="border-spacing: 10px">
+									<tbody>
+										<tr>
+											<c:forEach items="${topic.activityContainers}"
+												var="activityContainer" varStatus="currCount">
+												<td><a href="#" class="btn ${currCount.index+1 <= topic.completedActContainers+1?"btn-primary":"btn-primary disabled"}" role="button">  ${activityContainer.containerName}  </a></td>
+												<td style="width:25px"></td>
+											</c:forEach>
+										</tr>
+									</tbody>
+								</table>
+								<br>
+							</div>
+							</c:if>
+						</c:forEach>
+					</div>
+				</div>
+				<div class="row jumbotron" id="Completed">
+				<h2 style="font-size:300%;"> Completed </h2>
+					<div class="col-sm-8">
+					
+						<c:forEach items="${topics}" var="topic" varStatus="topicNo">
+							<c:if test="${topic.topicStatus.id == 3}">
+							<div class="topic_holder">
+								<h2>
+									<span id="topic_name_${topic.id}">${topic.topicName}</span>
+								</h2>
+								<table>
+								<tbody>
+									<tr>
+									<c:forEach items="${topic.activityContainers}"
+										var="activityContainer">
+										<td><a href="#" class="btn btn-primary" role="button">${activityContainer.containerName}</a></td>
+										<td style="width:25px"></td>
+									</c:forEach>
+									</tr>
+								</tbody>
+								</table>
+							</div>
+							</c:if>
+						</c:forEach>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
-	<!-- /.row --> </footer>
-	<!-- /.container -->
-
+	<%@ include file="footer.jsp" %>
 	<!-- jQuery -->
 	<script src="js/jquery.js"></script>
 
 	<!-- Bootstrap Core JavaScript -->
 	<script src="js/bootstrap.min.js"></script>
-	<script>
-		$(document).ready(function myFunction() {
-			var map = {};
-			map["Media"] = 2;
-			map["Eating Disorders"] = 3;
-
-			var all_topics = document.createElement("div");
-			all_topics.className = "row";
-
-			var todo_section = document.createElement("div");
-			todo_section.className = "row";
-			var section_todo_header = document.createElement("h3");
-			var sec_todo_text_node = document.createTextNode("To do");
-			section_todo_header.appendChild(sec_todo_text_node);
-			todo_section .appendChild(section_todo_header);
-
-			var completed_section = document.createElement("div");
-			completed_section.className = "row";
-			var section_com_header = document.createElement("h3");
-			var sec_com_text_node = document.createTextNode("Completed");
-			section_com_header.appendChild(sec_com_text_node);
-			completed_section .appendChild(section_com_header);
-
-			for (var key in map) {
-
-			var topic = document.createElement("div");
-			completed_section.className = "row";
-
-			var topic_name_pro = document.createElement("div");
-			topic_name_pro.className = "row";
-
-			var topic_name = document.createElement("div");
-			topic_name.className = "col-sm-4";
-
-			var topic_pro = document.createElement("div");
-			topic_pro.className = "progress";
-
-			var topic_pro_bar = document.createElement("div");
-			topic_pro_bar.className = "progress-bar progress-bar-success progress-bar-striped";
-			topic_pro_bar.style.width = "100px";
-			topic_pro.appendChild(topic_pro_bar);
-			topic_pro.style.width = "300px";
-			topic_pro.style.marginTop = "18px";
-
-
-			var topic_name_header = document.createElement("h3");
-			var name_text_node = document.createTextNode(key);
-			topic_name_header.appendChild(name_text_node);
-			topic_name.appendChild(topic_name_header);
-			topic_name_pro.appendChild(topic_name);
-			topic_name_pro.appendChild(topic_pro);
-
-			var activities = document.createElement("div");
-			activities.className = "row";
-			var topic_status =  map[key];
-			for (j = 1; j <= topic_status; j++) {
-			var col_new = document.createElement("div");
-			var header_new = document.createElement("h3");
-			var node_ht = document.createTextNode("Activity "+j);
-			var node = document.createTextNode("Description");
-			header_new.appendChild(node_ht);
-			col_new.appendChild(header_new);
-			col_new.appendChild(node);
-			col_new.className = "col-sm-4";
-			activities.appendChild(col_new);
-			}
-
-			topic.appendChild(topic_name_pro);
-			topic.appendChild(activities);
-
-
-			todo_section.appendChild(topic);
-
-			}
-
-			var element = document.getElementById("mytopics");
-			element.appendChild(todo_section);
-			element.appendChild(completed_section);
-			});
-			</script>
 </body>
-
-
 </html>

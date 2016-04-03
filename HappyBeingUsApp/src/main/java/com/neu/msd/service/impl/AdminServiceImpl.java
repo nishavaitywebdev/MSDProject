@@ -55,7 +55,7 @@ public class AdminServiceImpl implements AdminService {
 	 * @param allTopics
 	 * @throws AdminException
 	 */
-	private void loadTopicsWithActivityContainers(Map<Integer, ActivityContainer> containerMap, List<Topic> allTopics) throws AdminException {
+	public void loadTopicsWithActivityContainers(Map<Integer, ActivityContainer> containerMap, List<Topic> allTopics) throws AdminException {
 		LOGGER.debug("AdminServiceImpl: loadTopicsWithActivityContainers: START");
 			
 		for(Topic topic : allTopics){
