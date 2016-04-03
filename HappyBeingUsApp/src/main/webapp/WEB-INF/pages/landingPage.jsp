@@ -66,42 +66,7 @@
 </head>
 
 <body>
-
-	<!-- Navigation -->
-	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-		<div class="container">
-			<!-- Brand and toggle get grouped for better mobile display -->
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle" data-toggle="collapse"
-					data-target="#bs-example-navbar-collapse-1">
-					<span class="sr-only">Toggle navigation</span> <span
-						class="icon-bar"></span> <span class="icon-bar"></span> <span
-						class="icon-bar"></span>
-				</button>
-				<a class="navbar-brand" href="landingPage.action">Happy Being Us</a>
-			</div>
-			<!-- Collect the nav links, forms, and other content for toggling -->
-			<div class="collapse navbar-collapse"
-				id="bs-example-navbar-collapse-1">
-				<ul class="nav navbar-nav">
-					<li><a href="#">About</a></li>
-					<li><a href="#">Contact</a></li>
-				</ul>
-				<ul class="nav navbar-nav navbar-right navbar-hover-pink">
-					<li><a href="#SignUpDaughter" data-toggle="modal"><span
-							class="glyphicon glyphicon-user"></span> Sign Up Daughter</a></li>
-					<li><a href="#SignUpMom" data-toggle="modal"
-						id="signUpMomLink"><span class="glyphicon glyphicon-user"></span>
-							Sign Up Mom </a></li>
-					<li><a href="#Login" data-toggle="modal"><span
-							class="glyphicon glyphicon-log-in"></span> Login </a></li>
-				</ul>
-			</div>
-			<!-- /.navbar-collapse -->
-		</div>
-		<!-- /.container -->
-	</nav>
-
+<%@ include file="header.jsp" %>
 	<!-- Half Page Image Background Carousel Header -->
 	<header id="myCarousel" class="carousel slide">
 		<!-- Indicators -->
@@ -161,19 +126,7 @@
 	</div>
 
 	<!-- Footer -->
-	<footer>
-		<div class="row" style="background-color: #ff6666; height: 20px;"></div>
-		<div class="row">
-			<div class="col-lg-12">
-				<p style="margin-left: 50px;">Copyright &copy; HappyBeingUs.com
-					2016</p>
-				<img src="Images/Logo.png" align="right">
-			</div>
-		</div>
-		<!-- /.row -->
-	</footer>
-
-
+	<%@ include file="footer.jsp" %>
 
 	<div class="modal fade" id="Login" role="dialog">
 		<div class="modal-dialog">
@@ -415,11 +368,12 @@
 						<div class="form-group left-inner-addon">
 							<div class="col-lg-8">
 								<i class="glyphicon glyphicon-user"></i> <input type="text" maxlength = "80"
-									class="form-control" name="username" placeholder="User name"
+									class="form-control" name="username" placeholder="User name" id ="newUserName"
 									required>
 
 							</div>
 						</div>
+						<span id="newusernameMsg"></span>
 						<br></br>
 						<div class="form-group left-inner-addon">
 							<div class="col-lg-8">
@@ -521,6 +475,27 @@
 			        })
 			    });
 				
+				$("#newUserName").change(function() {
+					userName = $('#newUserName').val();
+					$("#loadingDiv").modal("toggle");
+					$("#newusernameMsg")[0].innerHTML = "Checking username availability.";
+					$.ajax({
+			            type : "POST",
+			            url : "checkUsernameAvailability.action",
+			            data : "userName=" + userName,
+			            success : function(data) {
+			            	$("#loadingDiv").modal("toggle");
+			            	$("#newusernameMsg")[0].innerHTML = data;
+			            	
+			            	if(data.indexOf('available') == -1){
+			            		$("#newUserName").val('');
+			            	}else{
+			            		
+			            	}
+			            }
+			        })
+			    });
+				
 				$("#daughterEmail").change(function() {
 					email = $('#daughterEmail').val();
 					$("#loadingDiv").modal("toggle");
@@ -533,7 +508,7 @@
 			            	$("#loadingDiv").modal("toggle");
 			            	$("#dauEmailMsg")[0].innerHTML = data;
 			            	
-			            	if(data.indexOf('not') == -1){
+			            	if(data != ""){
 			            		$("#daughterEmail").val('');
 			            	}else{
 			            		
