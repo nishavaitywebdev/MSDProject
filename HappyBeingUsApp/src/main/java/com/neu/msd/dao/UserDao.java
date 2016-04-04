@@ -3,6 +3,7 @@
  */
 package com.neu.msd.dao;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import com.neu.msd.entities.Activity;
@@ -23,5 +24,7 @@ public interface UserDao {
 	Answer getAnswerById(int answerId) throws UserException;
 
 	void addscoreforuser(User user, double score);
+
+	Integer[] getweigh() throws SQLException;
 
 }

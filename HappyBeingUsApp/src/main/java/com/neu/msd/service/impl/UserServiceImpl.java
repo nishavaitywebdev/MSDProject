@@ -3,6 +3,7 @@
  */
 package com.neu.msd.service.impl;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -65,6 +66,15 @@ public class UserServiceImpl implements UserService {
 	public void addscore(User user, double score) {
 		userDao.addscoreforuser(user, score);
 		
+	}
+
+	@Override
+	public Integer[] getweigh() throws SQLException {
+		// TODO Auto-generated method stub
+		Integer[] weighList=userDao.getweigh();
+		
+	   
+		return weighList;
 	}
 
 

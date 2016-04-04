@@ -6,6 +6,7 @@ package com.neu.msd.dao.impl;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -145,29 +146,75 @@ public class UserDaoImpl implements UserDao {
 	public void addscoreforuser(User user, double score) {
 		// TODO Auto-generated method stub
 		try {
-			int versionid = 1;
-			if (score > 52)
-				versionid = 2;
+			int sco=(int)score;
 			Connection connection = dataSource.getConnection();
-			String sql = "insert into score (score_id, score_range) "
-					+ " values (?, ?)";
+			String sql = "select score_range from score where usertype = ?";
 			PreparedStatement stmt = connection.prepareStatement(sql);
-			int id=getNextScoreId();
-			stmt.setInt(1,id );
-			stmt.setInt(2, (int)score);
-			
-			int records = stmt.executeUpdate();
-			
-			System.out.println("No. of records inserted: "+records);
+			stmt.setInt(1,2 );
+			ResultSet rs = stmt.executeQuery();
+			List<Integer> score_range=new ArrayList<Integer>();
+			while (rs.next()) {
 
-			sql = "update user set version_id = ?, score_id = ? where user_id = ?";
+				score_range.add(rs.getInt("score_range"));
+			
+			}
+			int score_id=1;
+		 for(Integer r:score_range)
+		 {
+			 if (sco<=r)
+			 {
+				 break;
+			 }
+			 score_id++;
+		 }
+		 
+			sql = "select version_id from version_score where score_id= ?";
+		    stmt = connection.prepareStatement(sql);
+			stmt.setInt(1,score_id);
+			rs = stmt.executeQuery();
+			int version_id = 0;
+			while (rs.next()) {
+
+				version_id=rs.getInt("version_id");
+			
+			}
+
+			sql = "update user set is_diagnostic_taken = ?, version_id = ?, score= ? where user_id = ?";
 			PreparedStatement stmt3 = connection.prepareStatement(sql);
-			stmt3.setInt(1, versionid);
-			stmt3.setInt(2, id);
-			stmt3.setInt(3, user.getId());
-			records = stmt3.executeUpdate();
+			stmt3.setInt(1, 1);
+			stmt3.setInt(2, version_id);
+			stmt3.setInt(3, sco);
+			stmt3.setInt(4, user.getId());
+			int records = stmt3.executeUpdate();
 			System.out.println("No. of records inserted: " + records);
+			 
+			sql = "select topic_id from version_topic where version_id= ?";
+		    stmt = connection.prepareStatement(sql);
+			stmt.setInt(1,version_id);
+			rs = stmt.executeQuery();
+			List<Integer> topics=new ArrayList<Integer>();
+			while (rs.next()) {
 
+				topics.add(rs.getInt("topic_id"));
+			
+			}
+                for(Integer topic_id:topics)
+                {
+                	sql = "insert into user_topic_status (user_id, topic_id, topic_status_id) "
+        					+ " values (?, ?, ?)";
+        			stmt = connection.prepareStatement(sql );
+        			
+        			stmt.setInt(1, user.getId());
+        			stmt.setInt(2, topic_id);
+        			stmt.setInt(3,1);
+        			
+        			records = stmt.executeUpdate();
+        			
+        			System.out.println("No. of records inserted: "+records);
+                }
+			
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			try {
@@ -178,6 +225,26 @@ public class UserDaoImpl implements UserDao {
 			}
 
 		}
+	}
+
+	@Override
+	public Integer[] getweigh() throws SQLException {
+		// TODO Auto-generated method stub
+		Connection connection = dataSource.getConnection();
+		String sql = "Select * from activity_score";
+		PreparedStatement stmt = connection.prepareStatement(sql);
+		ResultSet rs = stmt.executeQuery();
+		List<Integer> weighlist=new ArrayList<Integer>();
+		while (rs.next()) {
+
+			weighlist.add(rs.getInt("score"));
+		
+		}
+		Integer[] weighs=weighlist.toArray(new Integer[weighlist.size()]);
+		
+		
+		
+		return weighs;
 	}
 
 }

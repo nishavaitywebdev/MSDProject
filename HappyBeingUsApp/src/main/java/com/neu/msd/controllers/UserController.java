@@ -3,6 +3,7 @@
  */
 package com.neu.msd.controllers;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -49,19 +50,20 @@ public class UserController {
 	
 	
 	@RequestMapping(value="/dg.action", method=RequestMethod.POST)
-	public String redirectToUserhome(Scoremodel scores,HttpSession session){
+	public String redirectToUserhome(Scoremodel scores,HttpSession session) throws SQLException{
 		User user=(User) session.getAttribute("user");
 		
 	
+		Integer[] weigh=userService.getweigh();
 		
 		
-		int[] weigh={4,4,6,3,4};
+		
 		int b=-1;
 		double score=0;
 		for(Integer a:scores.getScores())
 		{
 			if (a!=null)
-		score+=(double)(((double)(a-1))/(double)weigh[b]);
+				score+=(double)(((double)(a-1))/(double)weigh[b]);
 			b++;
 		}
 		score=score/5*100;

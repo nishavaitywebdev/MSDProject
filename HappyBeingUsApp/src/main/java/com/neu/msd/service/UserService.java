@@ -3,6 +3,7 @@
  */
 package com.neu.msd.service;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import com.neu.msd.entities.AdminActivityAnswer;
@@ -19,5 +20,7 @@ public interface UserService {
 	List<AdminActivityAnswer> getDiagnosticQuestions() throws UserException, AdminException;
 
 	void addscore(User user, double score);
+
+	Integer[] getweigh() throws SQLException;
 
 }
