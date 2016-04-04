@@ -5,6 +5,8 @@ package com.neu.msd.service.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,12 +48,23 @@ public class UserServiceImpl implements UserService {
 		for(Activity activity : activities){
 			AdminActivityAnswer adminActivityAnswer = adminDao.getAdminActivityAnswerByActivityId(activity.getId());
 			List<Answer> answers = adminActivityAnswer.getAnswers();
+			List<Answer> answers1 = new ArrayList<Answer>();
 			for(Answer answer : answers){
-				answer = userDao.getAnswerById(answer.getId());
+				Answer answer1 = userDao.getAnswerById(answer.getId());
+			    answers1.add(answer1);
 			}
+			
+			
+			
+			Collections.sort(answers1,new SortByorder_answer());
 			adminActivityAnswer.setActivity(activity);
+		    adminActivityAnswer.setAnswers(answers1);
 			adminActivityAnswers.add(adminActivityAnswer);
 		}
+		
+		
+		
+		Collections.sort(adminActivityAnswers,new SortByorder());
 		return adminActivityAnswers;
 	}
 
@@ -65,6 +78,22 @@ public class UserServiceImpl implements UserService {
 			e.printStackTrace();
 		}
 		return topics;
+	}
+
+
+	@Override
+	public void addscore(User user, double score) {
+		userDao.addscoreforuser(user, score);
+		
+	}
+
+	@Override
+	public Integer[] getweigh() throws SQLException {
+		// TODO Auto-generated method stub
+		Integer[] weighList=userDao.getweigh();
+		
+	   
+		return weighList;
 	}
 
 
