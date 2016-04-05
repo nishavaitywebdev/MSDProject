@@ -77,7 +77,7 @@ public class AuthenticateDaoImpl implements AuthenticateDao {
 		try {
 			Connection connection = dataSource.getConnection();
 			
-			String sql = "SELECT MAX(USER_ID) AS USER_ID FROM USER";
+			String sql = "SELECT MAX(user_id) AS user_id FROM user";
 
 			PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			

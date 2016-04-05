@@ -102,7 +102,7 @@
 							class="glyphicon glyphicon-log-in"></span> Login </a></li>
 				</c:if>
 				<c:if test="${null!=user}">
-				<li><a><span class="glyphicon glyphicon-user"></span>  Welcome! <b> ${user.firstName}.</b></a></li>
+				<li><a><span class="glyphicon glyphicon-user"></span>  Welcome, <b> ${user.firstName}</b></a></li>
 				<li><a href="logout.action"><span
 							class="glyphicon glyphicon-log-out"></span> Logout </a></li>
 				</c:if>
