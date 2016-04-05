@@ -81,7 +81,7 @@ public class UserController {
 	
 	
 	@RequestMapping(value="/dg.action", method=RequestMethod.POST)
-	public String redirectToUserhome(Scoremodel scores,HttpSession session) throws SQLException{
+	public String redirectToUserhome(Scoremodel scores,Model model,HttpSession session) throws SQLException, UserException{
 		User user=(User) session.getAttribute("user");
 		
 	
@@ -102,7 +102,10 @@ public class UserController {
 		
 		//List<AdminActivityAnswer> activityAnswers = userService.getDiagnosticQuestions();
 		//model.addAttribute("activityAnswers", activityAnswers);
-		return "userHome";
+		List<Topic> topics = new ArrayList<Topic>();
+		topics = userService.getTopicsOfUser(user);
+		model.addAttribute("topics", topics);
+		return "topics";
 	}
 
 }
