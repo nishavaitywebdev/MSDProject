@@ -85,6 +85,59 @@ public class Topic {
 	public void setTopicStatus(TopicStatus topicStatus) {
 		this.topicStatus = topicStatus;
 	}
+	
+	public void setProgress() {
+		this.progress = (int)(((double)completedActContainers/ (double) maxActContainers) * 100);
+	}
+
+
+	/**
+	 * @return the completedActContainers
+	 */
+	public int getCompletedActContainers() {
+		return completedActContainers;
+	}
+
+
+	/**
+	 * @param completedActContainers the completedActContainers to set
+	 */
+	public void setCompletedActContainers(int completedActContainers) {
+		this.completedActContainers = completedActContainers;
+	}
+
+
+	/**
+	 * @return the maxActContainers
+	 */
+	public int getMaxActContainers() {
+		return maxActContainers;
+	}
+
+
+	/**
+	 * @param maxActContainers the maxActContainers to set
+	 */
+	public void setMaxActContainers(int maxActContainers) {
+		this.maxActContainers = maxActContainers;
+	}
+
+
+	/**
+	 * @return the progress
+	 */
+	public int getProgress() {
+		return progress;
+	}
+
+
+	/**
+	 * @param progress the progress to set
+	 */
+	public void setProgress(int progress) {
+		this.progress = progress;
+	}
+
 
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
@@ -94,11 +147,15 @@ public class Topic {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((activityContainers == null) ? 0 : activityContainers.hashCode());
+		result = prime * result + completedActContainers;
 		result = prime * result + id;
+		result = prime * result + maxActContainers;
+		result = prime * result + progress;
 		result = prime * result + ((topicName == null) ? 0 : topicName.hashCode());
 		result = prime * result + ((topicStatus == null) ? 0 : topicStatus.hashCode());
 		return result;
 	}
+
 
 	/* (non-Javadoc)
 	 * @see java.lang.Object#equals(java.lang.Object)
@@ -117,7 +174,13 @@ public class Topic {
 				return false;
 		} else if (!activityContainers.equals(other.activityContainers))
 			return false;
+		if (completedActContainers != other.completedActContainers)
+			return false;
 		if (id != other.id)
+			return false;
+		if (maxActContainers != other.maxActContainers)
+			return false;
+		if (progress != other.progress)
 			return false;
 		if (topicName == null) {
 			if (other.topicName != null)
@@ -132,49 +195,15 @@ public class Topic {
 		return true;
 	}
 
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return "Topic [id=" + id + ", topicName=" + topicName + ", topicStatus=" + topicStatus + ", activityContainers="
-				+ activityContainers + "]";
+		return "Topic [id=" + id + ", topicName=" + topicName + ", topicStatus=" + topicStatus
+				+ ", completedActContainers=" + completedActContainers + ", maxActContainers=" + maxActContainers
+				+ ", progress=" + progress + ", activityContainers=" + activityContainers + "]";
 	}
-
-	public int getProgress() {
-		return progress;
-	}
-
-	public void setProgress(int progress) {
-		this.progress = progress;
-	}
-	
-	public void setProgress() {
-		this.progress = (int)(((double)completedActContainers/ (double) maxActContainers) * 100);
-	}
-	
-	public int getMaxActContainers() {
-		return maxActContainers;
-	}
-
-	/**
-	 * @param id the id to set
-	 */
-	public void setMaxActContainers(int maxActContainers) {
-		this.maxActContainers = maxActContainers;
-	}
-	
-	public int getCompletedActContainers() {
-		return completedActContainers;
-	}
-
-	/**
-	 * @param id the id to set
-	 */
-	public void setCompletedActContainers(int completedActContainers) {
-		this.completedActContainers = completedActContainers;
-	}
-
-	
 
 }
