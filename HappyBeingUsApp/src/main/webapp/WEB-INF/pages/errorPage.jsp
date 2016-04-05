@@ -12,8 +12,11 @@
 <title>Error Page</title>
 </head>
 <body>
-<div class = "jumbotron">
-<h2>Oops!!..Something is not right..</h2>
+<div class="container" style="position: center">
+	<div class="jumbotron">
+		<h2 style="text-align: center">Oops!!</h2>
+		<h3 style="text-align: center">Something is not right..</h3>
+	</div>
 </div>
 </body>
 </html>
