@@ -4,6 +4,7 @@
 package com.neu.msd.controllers;
 
 import java.util.ArrayList;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.neu.msd.entities.AdminActivityAnswer;
 import com.neu.msd.entities.Topic;
+import com.neu.msd.entities.User;
+import com.neu.msd.entities.Scoremodel;
 import com.neu.msd.entities.User;
 import com.neu.msd.exception.AdminException;
 import com.neu.msd.exception.UserException;
@@ -72,5 +75,34 @@ public class UserController {
 		return "topics";
 	}
 	
+	
+	
+	
+	
+	
+	@RequestMapping(value="/dg.action", method=RequestMethod.POST)
+	public String redirectToUserhome(Scoremodel scores,HttpSession session) throws SQLException{
+		User user=(User) session.getAttribute("user");
+		
+	
+		Integer[] weigh=userService.getweigh();
+		
+		
+		
+		int b=-1;
+		double score=0;
+		for(Integer a:scores.getScores())
+		{
+			if (a!=null)
+				score+=(double)(((double)(a-1))/(double)weigh[b]);
+			b++;
+		}
+		score=score/5*100;
+		userService.addscore(user,score);
+		
+		//List<AdminActivityAnswer> activityAnswers = userService.getDiagnosticQuestions();
+		//model.addAttribute("activityAnswers", activityAnswers);
+		return "userHome";
+	}
 
 }

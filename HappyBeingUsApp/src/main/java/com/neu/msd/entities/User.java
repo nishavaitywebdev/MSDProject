@@ -19,7 +19,7 @@ public class User {
 	private String email;
 	private boolean isDiagnosticTaken;
 	private Version version;
-	private Score score;
+	private Integer score;
 	
 	public User() {
 		// TODO Auto-generated constructor stub
@@ -141,14 +141,14 @@ public class User {
 	/**
 	 * @return the score
 	 */
-	public Score getScore() {
+	public int getScore() {
 		return score;
 	}
 
 	/**
 	 * @param score the score to set
 	 */
-	public void setScore(Score score) {
+	public void setScore(int score) {
 		this.score = score;
 	}
 
