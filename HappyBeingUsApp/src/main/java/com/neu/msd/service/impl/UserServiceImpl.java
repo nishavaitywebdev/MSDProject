@@ -84,7 +84,7 @@ public class UserServiceImpl implements UserService {
 
 
 	@Override
-	public void addscore(User user, double score) {
+	public void addscore(User user, double score) throws UserException {
 		userDao.addscoreforuser(user, score);
 		
 	}
@@ -95,13 +95,15 @@ public class UserServiceImpl implements UserService {
 		Integer[] weighList;
 		try {
 			weighList = userDao.getweigh();
+			return weighList;
 		} catch (AuthenticationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return null;
 		
 	   
-		return weighList;
+		
 	}
 
 
