@@ -38,4 +38,44 @@ public class AuthenticationTest {
 			e.printStackTrace();
 		}
 	}
+	
+	@Test
+	public void test_emailExistCheck2(){
+		
+		String emailExistCheck;
+		
+		try {
+			emailExistCheck = authenticateService.checkEmail("itsnisha07@gmail.com");
+			assertEquals("", emailExistCheck);
+		} catch (AuthenticationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	@Test
+	public void test_emailExistCheck3(){
+		
+		String emailExistCheck;
+		
+		try {
+			emailExistCheck = authenticateService.checkEmail("itsnisha07@gmail.com");
+			assertEquals("", emailExistCheck);
+		} catch (AuthenticationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	@Test
+	public void test_emailExistCheck4(){
+		
+		String emailExistCheck;
+		
+		try {
+			emailExistCheck = authenticateService.checkEmail("itsnisha07@gmail.com");
+			assertEquals("", emailExistCheck);
+		} catch (AuthenticationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }
