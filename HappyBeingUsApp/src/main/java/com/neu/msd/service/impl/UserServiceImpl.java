@@ -22,6 +22,7 @@ import com.neu.msd.entities.Answer;
 import com.neu.msd.entities.Topic;
 import com.neu.msd.entities.User;
 import com.neu.msd.exception.AdminException;
+import com.neu.msd.exception.AuthenticationException;
 import com.neu.msd.exception.UserException;
 import com.neu.msd.service.AdminService;
 import com.neu.msd.service.UserService;
@@ -91,7 +92,13 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Integer[] getweigh() throws SQLException {
 		// TODO Auto-generated method stub
-		Integer[] weighList=userDao.getweigh();
+		Integer[] weighList;
+		try {
+			weighList = userDao.getweigh();
+		} catch (AuthenticationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	   
 		return weighList;

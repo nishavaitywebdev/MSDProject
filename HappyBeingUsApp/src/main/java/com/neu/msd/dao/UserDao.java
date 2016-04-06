@@ -10,6 +10,7 @@ import com.neu.msd.entities.Activity;
 import com.neu.msd.entities.Answer;
 import com.neu.msd.entities.Topic;
 import com.neu.msd.entities.User;
+import com.neu.msd.exception.AuthenticationException;
 import com.neu.msd.exception.UserException;
 
 /**
@@ -28,6 +29,6 @@ public interface UserDao {
 
 	void addscoreforuser(User user, double score);
 
-	Integer[] getweigh() throws SQLException;
+	Integer[] getweigh() throws SQLException, AuthenticationException;
 
 }

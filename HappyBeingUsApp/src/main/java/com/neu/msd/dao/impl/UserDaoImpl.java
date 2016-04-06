@@ -38,9 +38,10 @@ import com.neu.msd.exception.UserException;
  */
 @Repository("userDao")
 public class UserDaoImpl implements UserDao {
-
 	@Autowired
 	DataSource dataSource;
+	private Connection connection;
+	
 
 	@Autowired
 	AdminDao adminDao;
@@ -49,13 +50,14 @@ public class UserDaoImpl implements UserDao {
 	Map<Integer, ActivityType> activityTypeMap = new HashMap<Integer, ActivityType>();
 
 	public int getDiagnosticType() throws UserException {
-
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
 		try {
 
-			Connection connection = dataSource.getConnection();
+		    connection = dataSource.getConnection();
 			String sql = "select activity_type_id from activity_type where activity_type_desc = 'Diagnostic'";
-			PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			ResultSet rs = stmt.executeQuery();
+			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			rs = stmt.executeQuery();
 			if (rs.next()) {
 				return rs.getInt("activity_type_id");
 			}
@@ -64,6 +66,15 @@ public class UserDaoImpl implements UserDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new UserException(e);
+		}finally{
+			try {
+				if(null != keys) keys.close();
+				if(null != stmt) stmt.close();
+				if(null != connection) connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new AuthenticationException(e);
+			}
 		}
 	}
 
@@ -97,28 +108,18 @@ public class UserDaoImpl implements UserDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new UserException(e);
-		}
-	}
-
-	private int getNextScoreId() throws AuthenticationException {
-		try {
-			Connection connection = dataSource.getConnection();
-
-			String sql = "SELECT MAX(score_id) AS score_id FROM score";
-			PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-
-			ResultSet rs = stmt.executeQuery();
-
-			if (rs.next()) {
-				return rs.getInt(1) + 1;
+		}finally{
+			try {
+				if(null != keys) keys.close();
+				if(null != stmt) stmt.close();
+				if(null != connection) connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new AuthenticationException(e);
 			}
-
-			throw new Exception();
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new AuthenticationException(e);
 		}
 	}
+
 
 	public Answer getAnswerById(int answerId) throws UserException {
 
@@ -141,6 +142,15 @@ public class UserDaoImpl implements UserDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new UserException(e);
+		}finally{
+			try {
+				if(null != keys) keys.close();
+				if(null != stmt) stmt.close();
+				if(null != connection) connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new AuthenticationException(e);
+			}
 		}
 	}
 
@@ -211,6 +221,15 @@ public class UserDaoImpl implements UserDao {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally{
+			try {
+				if(null != keys) keys.close();
+				if(null != stmt) stmt.close();
+				if(null != connection) connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new AuthenticationException(e);
+			}
 		}
 
 		return list_of_topics;
@@ -298,11 +317,20 @@ public class UserDaoImpl implements UserDao {
 				e1.printStackTrace();
 			}
 
+		}finally{
+			try {
+				if(null != keys) keys.close();
+				if(null != stmt) stmt.close();
+				if(null != connection) connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new AuthenticationException(e);
+			}
 		}
 	}
 
 	@Override
-	public Integer[] getweigh() throws SQLException {
+	public Integer[] getweigh() throws SQLException, AuthenticationException  {
 		// TODO Auto-generated method stub
 		Connection connection = dataSource.getConnection();
 		String sql = "Select * from activity_score";
@@ -316,6 +344,15 @@ public class UserDaoImpl implements UserDao {
 		}
 		Integer[] weighs=weighlist.toArray(new Integer[weighlist.size()]);
 		
+			try {
+				if(null != rs) rs.close();
+				if(null != stmt) stmt.close();
+				if(null != connection) connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new AuthenticationException(e);
+			}
+	
 		
 		
 		return weighs;
