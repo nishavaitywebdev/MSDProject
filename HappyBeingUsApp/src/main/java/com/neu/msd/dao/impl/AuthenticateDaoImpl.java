@@ -6,6 +6,7 @@ package com.neu.msd.dao.impl;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
@@ -36,20 +37,25 @@ public class AuthenticateDaoImpl implements AuthenticateDao {
 	
 	@Autowired
 	DataSource dataSource;
+	
+	private Connection connection;
 
 	/* (non-Javadoc)
 	 * @see com.neu.msd.dao.AuthenticateDao#registerDaughter(com.neu.msd.entities.DaughterRegistration)
 	 */
 	public int registerDaughter(Daughter daughter) throws AuthenticationException {
+		
+		PreparedStatement stmt = null;
+		ResultSet keys = null;
 			
 		try {
-			Connection connection = dataSource.getConnection();
+			connection = dataSource.getConnection();
 			
 			int nextUserId = getNextUserId();
 			
 			String sql = "insert into user (user_id, user_type_id, first_name, last_name, birthdate, email_id, parent_id, is_diagnostic_taken) "
 					+ " values (?, ?, ?, ?, ?, ?, ?, ?)";
-			PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			
 			stmt.setInt(1, nextUserId);
 			stmt.setInt(2, 3);
@@ -64,33 +70,58 @@ public class AuthenticateDaoImpl implements AuthenticateDao {
 			
 			System.out.println("No. of records inserted: "+records);
 			
-			ResultSet keys = stmt.getGeneratedKeys();
+			keys = stmt.getGeneratedKeys();
+			
 			
 			return nextUserId;
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new AuthenticationException(e);
+		}finally{
+			try {
+				if(null != keys) keys.close();
+				if(null != stmt) stmt.close();
+				if(null != connection) connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new AuthenticationException(e);
+			}
 		}
 	}
 
 	private int getNextUserId() throws AuthenticationException{
+		
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
 		try {
-			Connection connection = dataSource.getConnection();
+			connection = dataSource.getConnection();
 			
-			String sql = "SELECT MAX(USER_ID) AS USER_ID FROM USER";
+			String sql = "SELECT MAX(user_id) AS user_id FROM user";
 
-			PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			
-			ResultSet rs = stmt.executeQuery();
+			rs = stmt.executeQuery();
+			
 			
 			if (rs.next()) {
 				return rs.getInt(1) + 1;
 			}
 			
+			if(null != stmt) stmt.close();
+			if(null != connection) connection.close();
 			throw new Exception();
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new AuthenticationException(e);
+		}finally{
+			try {
+				if(null != rs) rs.close();
+				if(null != stmt) stmt.close();
+				if(null != connection) connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new AuthenticationException(e);
+			}
 		}
 	}
 
@@ -98,14 +129,20 @@ public class AuthenticateDaoImpl implements AuthenticateDao {
 	 * @see com.neu.msd.dao.AuthenticateDao#getMotherRegistrationByEmail(java.lang.String)
 	 */
 	public MotherRegistration getMotherRegistrationByEmail(String motherEmail) throws AuthenticationException {
+		
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		
+		PreparedStatement stmtUserId = null;
+		ResultSet rs_userId = null;
 
 		try {
 			Mother mother = new Mother();
-			Connection connection = dataSource.getConnection();
+			connection = dataSource.getConnection();
 			String sql = "select * from user where email_id=?";
-			PreparedStatement stmt = connection.prepareStatement(sql);
+			stmt = connection.prepareStatement(sql);
 			stmt.setString(1, motherEmail);
-			ResultSet rs = stmt.executeQuery();
+			rs = stmt.executeQuery();
 			while(rs.next()){
 				mother.setId(rs.getInt("user_id"));
 				mother.getUserType().setId(rs.getInt("user_type_id"));
@@ -119,10 +156,10 @@ public class AuthenticateDaoImpl implements AuthenticateDao {
 			motherRegistration.setMother(mother);
 			if(mother.getId() !=0){
 				String sqlCheckIfUserAuthExists = "select * from user_authentication where user_id= ?";
-				PreparedStatement stmtUserId = connection.prepareStatement(sqlCheckIfUserAuthExists, Statement.RETURN_GENERATED_KEYS);
+				stmtUserId = connection.prepareStatement(sqlCheckIfUserAuthExists, Statement.RETURN_GENERATED_KEYS);
 				
 				stmtUserId.setInt(1, motherRegistration.getMother().getId());
-				ResultSet rs_userId = stmtUserId.executeQuery();
+				rs_userId = stmtUserId.executeQuery();
 				
 				while(rs_userId.next()){
 					motherRegistration.setUsername(rs_userId.getString("username"));
@@ -134,17 +171,30 @@ public class AuthenticateDaoImpl implements AuthenticateDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new AuthenticationException(e);
+		}finally{
+			try {
+				if(null != rs) rs.close();
+				if(null != stmt) stmt.close();
+				if(null != rs_userId) rs_userId.close();
+				if(null != stmtUserId) stmtUserId.close();
+				if(null != connection) connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new AuthenticationException(e);
+			}
 		}
 	}
 
 	public Mother createMotherWithEmail(String email) throws AuthenticationException {
 		
+		PreparedStatement stmt = null;
+		ResultSet keys = null;
 		try {
-			Connection connection = dataSource.getConnection();
+			connection = dataSource.getConnection();
 			int nextUserId = getNextUserId();
 			String sql = "insert into user (user_id, user_type_id, email_id) "
 					+ " values (?, ?, ?)";
-			PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			
 			stmt.setInt(1, nextUserId);
 			stmt.setInt(2, 2);
@@ -154,7 +204,7 @@ public class AuthenticateDaoImpl implements AuthenticateDao {
 			
 			System.out.println("No. of records inserted: "+records);
 			
-			ResultSet keys = stmt.getGeneratedKeys();
+			keys = stmt.getGeneratedKeys();
 			
 			Mother mother = new Mother();
 			//mother.setId(keys.getInt("user_id"));
@@ -166,16 +216,26 @@ public class AuthenticateDaoImpl implements AuthenticateDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new AuthenticationException(e);
+		}finally{
+			try {
+				if(null != keys) keys.close();
+				if(null != stmt) stmt.close();
+				if(null != connection) connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new AuthenticationException(e);
+			}
 		}
 	}
 
 	public int registerDaughterAuthentication(int daughterId, DaughterRegistration daughterRegistration) throws AuthenticationException {
 
+		PreparedStatement stmt = null;
 		try {
-			Connection connection = dataSource.getConnection();
+			connection = dataSource.getConnection();
 			String sql = "insert into user_authentication (user_id, username, password, user_type_id) "
 					+ " values (?, ?, ?, ?)";
-			PreparedStatement stmt = connection.prepareStatement(sql);
+			stmt = connection.prepareStatement(sql);
 			
 			stmt.setInt(1, daughterId);
 			stmt.setString(2, daughterRegistration.getUsername());
@@ -190,26 +250,42 @@ public class AuthenticateDaoImpl implements AuthenticateDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new AuthenticationException(e);
+		}finally{
+			try {
+				if(null != stmt) stmt.close();
+				if(null != connection) connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new AuthenticationException(e);
+			}
 		}
 	
 	}
 	
 	public User validUser(String username, String password) throws AuthenticationException {
+		
+		PreparedStatement stmt = null;
+		PreparedStatement stmt1 = null;
+		ResultSet rs = null;
+		ResultSet rs1 = null;
 		try {
 			User user= new User();
 			int id;
-			Connection connection = dataSource.getConnection();
+			connection = dataSource.getConnection();
 			String sql = "select user_id from user_authentication where username=? and password=?";
-			PreparedStatement stmt = connection.prepareStatement(sql);
+			stmt = connection.prepareStatement(sql);
 			stmt.setString(1, username);
 			stmt.setString(2, password);
-			ResultSet rs = stmt.executeQuery();
+			rs = stmt.executeQuery();
 			if(rs.next()==true){
 			id=rs.getInt("user_id");
+			
 			String sql2 = "select * from user where user_id=?";
-			PreparedStatement stmt1 = connection.prepareStatement(sql2);
+			
+			stmt1 = connection.prepareStatement(sql2);
 			stmt1.setInt(1, id);
-			ResultSet rs1 = stmt1.executeQuery();
+			rs1 = stmt1.executeQuery();
+			
 			while(rs1.next()){
 				user.setId(rs1.getInt("user_id"));
 				rs1.getInt("user_type_id");
@@ -227,6 +303,17 @@ public class AuthenticateDaoImpl implements AuthenticateDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new AuthenticationException(e);
+		}finally{
+			try {
+				if(null != rs) rs.close();
+				if(null != stmt) stmt.close();
+				if(null != rs1) rs1.close();
+				if(null != stmt1) stmt1.close();
+				if(null != connection) connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new AuthenticationException(e);
+			}
 		}
 	}
 
@@ -238,11 +325,16 @@ public class AuthenticateDaoImpl implements AuthenticateDao {
 	 * @see com.neu.msd.dao.AuthenticateDao#updateMotherDetails(com.neu.msd.entities.MotherRegistration)
 	 */
 	public int updateMotherDetails(MotherRegistration motherRegistration) throws AuthenticationException {
+		PreparedStatement stmt = null;
+		PreparedStatement stmtUserId = null;
+		ResultSet rs_userId = null;
+		PreparedStatement stmtUpdateUserAuth = null;
+		
 		try {
-			Connection connection = dataSource.getConnection();
+			connection = dataSource.getConnection();
 			String sql = "update user set first_name = ?, last_name = ? where user_id = ?";
 					
-			PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			
 			stmt.setString(1, motherRegistration.getMother().getFirstName());
 			stmt.setString(2, motherRegistration.getMother().getLastName());
@@ -250,12 +342,12 @@ public class AuthenticateDaoImpl implements AuthenticateDao {
 
 			int records = stmt.executeUpdate();
 			System.out.println("No. of records updated in the user table: "+records);
-			
-			String sqlCheckIfUserAuthExists = "SELECT top 1 user_id FROM user_authentication WHERE user_id= ?";
-			PreparedStatement stmtUserId = connection.prepareStatement(sqlCheckIfUserAuthExists, Statement.RETURN_GENERATED_KEYS);
+
+			String sqlCheckIfUserAuthExists = "SELECT user_id FROM user_authentication WHERE user_id= ?";
+			stmtUserId = connection.prepareStatement(sqlCheckIfUserAuthExists, Statement.RETURN_GENERATED_KEYS);
 			
 			stmtUserId.setInt(1, motherRegistration.getMother().getId());
-			ResultSet rs_userId = stmtUserId.executeQuery();
+			rs_userId = stmtUserId.executeQuery();
 			
 			if (rs_userId.next())
 			{
@@ -263,19 +355,19 @@ public class AuthenticateDaoImpl implements AuthenticateDao {
 			}
 			else			
 			{	
-			String sqlUpdateUserAuth = "insert into user_authentication(user_id, username, password, user_type_id) "
-					+ "values (?, ?, ?, ?)";
-			
-			PreparedStatement stmtUpdateUserAuth = connection.prepareStatement(sqlUpdateUserAuth, Statement.RETURN_GENERATED_KEYS);
-			
-			stmtUpdateUserAuth.setInt(1, motherRegistration.getMother().getId());
-			stmtUpdateUserAuth.setString(2, motherRegistration.getUsername());
-			stmtUpdateUserAuth.setString(3, motherRegistration.getPassword());
-			stmtUpdateUserAuth.setInt(4, 2);
-			
-			records = stmtUpdateUserAuth.executeUpdate();
-			
-			System.out.println("No. of records inserted in the user_authentication table: "+records);
+				String sqlUpdateUserAuth = "insert into user_authentication(user_id, username, password, user_type_id) "
+						+ "values (?, ?, ?, ?)";
+
+				stmtUpdateUserAuth = connection.prepareStatement(sqlUpdateUserAuth, Statement.RETURN_GENERATED_KEYS);
+
+				stmtUpdateUserAuth.setInt(1, motherRegistration.getMother().getId());
+				stmtUpdateUserAuth.setString(2, motherRegistration.getUsername());
+				stmtUpdateUserAuth.setString(3, motherRegistration.getPassword());
+				stmtUpdateUserAuth.setInt(4, 2);
+
+				records = stmtUpdateUserAuth.executeUpdate();
+
+				System.out.println("No. of records inserted in the user_authentication table: "+records);
 			}
 			return records;
 			 
@@ -283,23 +375,40 @@ public class AuthenticateDaoImpl implements AuthenticateDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new AuthenticationException(e);
+		}finally{
+			try {
+				if(null != stmt) stmt.close();
+				if(null != stmtUserId) stmtUserId.close();
+				if(null != rs_userId) rs_userId.close();
+				if(null != stmtUpdateUserAuth) stmtUpdateUserAuth.close();
+				if(null != connection) connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new AuthenticationException(e);
+			}
 		}
 		
 	}
 
 	public String resetUnamePassword(String emailID, String username, String password) throws AuthenticationException {
+		
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		PreparedStatement stmt_restunamepwd = null;
+		
 		try
 		{
-			Connection connection = dataSource.getConnection();
+			connection = dataSource.getConnection();
 			String sql = "select * from user where email_id=?";
-			PreparedStatement stmt = connection.prepareStatement(sql);
+			stmt = connection.prepareStatement(sql);
 			stmt.setString(1, emailID);
-			ResultSet rs = stmt.executeQuery();
+			rs = stmt.executeQuery();
+			
 		if (rs.next())
 		{
 		String sql_updateUnamePwd = "update user_authentication set username = ?, password = ? where user_id = ?";
 				
-		PreparedStatement stmt_restunamepwd = connection.prepareStatement(sql_updateUnamePwd, Statement.RETURN_GENERATED_KEYS);
+		stmt_restunamepwd = connection.prepareStatement(sql_updateUnamePwd, Statement.RETURN_GENERATED_KEYS);
 		
 		stmt_restunamepwd.setString(1, username);
 		stmt_restunamepwd.setString(2, password);
@@ -307,6 +416,7 @@ public class AuthenticateDaoImpl implements AuthenticateDao {
 
 		int records = stmt_restunamepwd.executeUpdate();
 		System.out.println("No. of records updated in the user table: "+records);
+		
 		return "Reset Successful!";
 		}
 		else 
@@ -318,19 +428,32 @@ public class AuthenticateDaoImpl implements AuthenticateDao {
 		{
 			e.printStackTrace();
 			throw new AuthenticationException(e);
+		}finally{
+			try {
+				if(null != stmt) stmt.close();
+				if(null != rs) rs.close();
+				if(null != stmt_restunamepwd) stmt_restunamepwd.close();
+				if(null != connection) connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new AuthenticationException(e);
+			}
 		}
 		
 	}
 
 	public String checkUname(String uname) throws AuthenticationException {
+		
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
 		try
 		{
-			Connection connection = dataSource.getConnection();
+			connection = dataSource.getConnection();
 			String sql = "select * from user_authentication where username=?";
-			PreparedStatement stmt = connection.prepareStatement(sql);
+			stmt = connection.prepareStatement(sql);
 			stmt.setString(1, uname);
-			ResultSet rs = stmt.executeQuery();
-			
+			rs = stmt.executeQuery();
+
 			if (!rs.next())
 			{
 				return uname+", this username available";
@@ -344,17 +467,32 @@ public class AuthenticateDaoImpl implements AuthenticateDao {
 		{
 			e.printStackTrace();
 			throw new AuthenticationException(e);
+		}finally{
+			try {
+				if(null != stmt) stmt.close();
+				if(null != rs) rs.close();
+				if(null != connection) connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new AuthenticationException(e);
+			}
 		}
 	}
 
 	public String checkEmail(String email) throws AuthenticationException {
+		
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
 		try
 		{
-			Connection connection = dataSource.getConnection();
+			connection = dataSource.getConnection();
 			String sql = "select * from user where email_id=?";
-			PreparedStatement stmt = connection.prepareStatement(sql);
+			stmt = connection.prepareStatement(sql);
 			stmt.setString(1, email);
-			ResultSet rs = stmt.executeQuery();
+			rs = stmt.executeQuery();
+			
+			if(null != stmt) stmt.close();
+			if(null != connection) connection.close();
 			
 			if (!rs.next())
 			{
@@ -369,6 +507,15 @@ public class AuthenticateDaoImpl implements AuthenticateDao {
 		{
 			e.printStackTrace();
 			throw new AuthenticationException(e);
+		}finally{
+			try {
+				if(null != stmt) stmt.close();
+				if(null != rs) rs.close();
+				if(null != connection) connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new AuthenticationException(e);
+			}
 		}
 	}
 
