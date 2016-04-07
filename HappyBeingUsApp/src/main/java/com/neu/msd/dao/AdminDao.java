@@ -73,6 +73,8 @@ public interface AdminDao {
 	public Activity loadActivityById(int activityId) throws AdminException;
 
 	public List<Answer> loadAnswersByActivityId(int activityId) throws AdminException;
+
+	public Activity updateActivity(Activity activity) throws AdminException;
 	
 	
 }

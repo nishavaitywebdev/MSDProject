@@ -87,8 +87,7 @@
 					name="mcqForm" id="mcqForm" modelAttribute="activity">
 					<div id="template_${template.id}" style="display: none">
 						<p>Type the question below</p>
-						<form:input style="width: 300px" type="text" name="Question"
-							path="activityText" />
+						<form:input style="width: 300px" type="text" name="Question" path="activityText" />
 						<p>Type the Options below</p>
 						<div id="mcqOptions">
 							<div class="mcqOption" id="mcqOption_1">

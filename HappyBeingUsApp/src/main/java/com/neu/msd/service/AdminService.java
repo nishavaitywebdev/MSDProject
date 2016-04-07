@@ -52,4 +52,6 @@ public interface AdminService {
 	public AdminActivityAnswer saveAdminActivityAnswer(AdminActivityAnswer adminActivityAnswer) throws AdminException;
 
 	public AdminActivityAnswer getAdminActivityAnswerByActivityId(int activityId) throws AdminException;
+
+	public AdminActivityAnswer updateAdminActivityAnswer(AdminActivityAnswer adminActivityAnswer) throws AdminException;
 }

@@ -123,8 +123,8 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	public int deleteActivity(Integer deletableId) throws AdminException {
-		adminDao.deleteFromAdminActivityAnswer(deletableId);
 		adminDao.deleteFromUserTopicContainerActivity(deletableId);
+		adminDao.deleteFromAdminActivityAnswer(deletableId);
 		return adminDao.deleteActivity(deletableId);
 	}
 	
@@ -150,7 +150,7 @@ public class AdminServiceImpl implements AdminService {
 		for(Answer a : adminActivityAnswer.getAnswers()){
 			Answer answer = adminDao.saveAnswer(a);
 			answers.add(answer);
-			adminDao.saveAdminActivityAnswer(activity.getId(), answer.getId(), answer.isCorrect());
+			adminDao.saveAdminActivityAnswer(activity.getId(), answer.getId(), answer.getIsCorrect());
 		}
 		
 		adminActivityAnswer.setActivity(activity);
@@ -169,5 +169,27 @@ public class AdminServiceImpl implements AdminService {
 			answers = adminDao.loadAnswersByActivityId(activityId);
 		
 		return new AdminActivityAnswer(activity, answers);
+	}
+
+	@Override
+	public AdminActivityAnswer updateAdminActivityAnswer(AdminActivityAnswer adminActivityAnswer)
+			throws AdminException {
+		
+		Activity activity = adminDao.updateActivity(adminActivityAnswer.getActivity());
+		adminDao.deleteFromUserTopicContainerActivity(adminActivityAnswer.getActivity().getId());
+		adminDao.deleteFromAdminActivityAnswer(adminActivityAnswer.getActivity().getId());
+		
+		List<Answer> answers = new ArrayList<Answer>();
+		for(Answer a : adminActivityAnswer.getAnswers()){
+			Answer answer = adminDao.saveAnswer(a);
+			answers.add(answer);
+			adminDao.saveAdminActivityAnswer(activity.getId(), answer.getId(), answer.getIsCorrect());
+		}
+		
+		adminActivityAnswer.setActivity(activity);
+		adminActivityAnswer.setAnswers(answers);
+		
+		// TODO Auto-generated method stub
+		return adminActivityAnswer;
 	}
 }

@@ -558,6 +558,8 @@ public class AdminDaoImpl implements AdminDao {
 			}
 			
 			reorderActivityContainers(connection, orderNo, topicId);
+			
+			connection = dataSource.getConnection();
 
 			sql = "delete from activity_container where activity_container_id=?";
 			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -593,6 +595,7 @@ public class AdminDaoImpl implements AdminDao {
 		try {
 			
 			List<ActivityContainer> activityContainers = loadActivityContainersByTopicId(topicId);
+			connection = dataSource.getConnection();
 			
 			for(ActivityContainer activityContainer : activityContainers){
 				if(activityContainer.getOrderNo() > orderNo){
@@ -760,6 +763,8 @@ public class AdminDaoImpl implements AdminDao {
 			
 			reorderActivites(connection, orderNo, containerId);
 			
+			connection = dataSource.getConnection();
+			
 			sql = "delete from activity where activity_id=?";
 			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			stmt.setInt(1, deletableId);
@@ -792,6 +797,8 @@ public class AdminDaoImpl implements AdminDao {
 		try {
 			
 			List<Activity> activities = loadActivitiesByActivityContainerId(containerId);
+			
+			connection = dataSource.getConnection();
 			
 			for(Activity activity : activities){
 				if(activity.getOrderNo() > orderNo){
@@ -1140,12 +1147,18 @@ public class AdminDaoImpl implements AdminDao {
 		PreparedStatement stmt = null;
 		try {
 			connection = dataSource.getConnection();
-
-			String sql = "delete from admin_activity_answer where activity_id=?";
+			
+			String sql = "delete answer, admin_activity_answer from answer join admin_activity_answer on answer.answer_id = admin_activity_answer.answer_id where  activity_id=?";
 			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			stmt.setInt(1, activityId);
 			
 			int records = stmt.executeUpdate();
+
+//			sql = "delete from admin_activity_answer where activity_id=?";
+//			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+//			stmt.setInt(1, activityId);
+//			
+//			records = stmt.executeUpdate();
 			
 			return records;
 			
@@ -1258,7 +1271,7 @@ public class AdminDaoImpl implements AdminDao {
 				answer.setId(rs.getInt("answer_id"));
 				answer.setAnswerText(rs.getString("answer_desc"));
 				answer.setOrderNo(rs.getInt("order_no"));
-				answer.setCorrect(rs.getBoolean("is_correct"));
+				answer.setIsCorrect(rs.getBoolean("is_correct"));
 				answers.add(answer);
 			}
 			
@@ -1272,6 +1285,37 @@ public class AdminDaoImpl implements AdminDao {
 				if(null != stmt) stmt.close();
 				if(null != connection) connection.close();
 				LOGGER.debug("AdminDaoImpl: loadAnswersByActivityId: END");
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new AdminException(e);
+			}
+		}
+	}
+
+	@Override
+	public Activity updateActivity(Activity activity) throws AdminException {
+		LOGGER.debug("AdminDaoImpl: updateActivity: START");
+
+		PreparedStatement stmt = null;
+		try {
+			connection = dataSource.getConnection();
+			
+			String sql = "update activity set activity_text = ? where activity_id =?";
+			stmt = connection.prepareStatement(sql);
+			stmt.setString(1, activity.getActivityText());
+			stmt.setInt(2, activity.getId());
+			
+			int records = stmt.executeUpdate();
+			
+			return activity;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new AdminException(e);
+		} finally{
+			try {
+				if(null != stmt) stmt.close();
+				if(null != connection) connection.close();
+				LOGGER.debug("AdminDaoImpl: updateActivity: END");
 			} catch (SQLException e) {
 				e.printStackTrace();
 				throw new AdminException(e);

@@ -113,6 +113,7 @@ public class AdminController {
 			Map<Integer, ActivityContainer> containerMap = (Map<Integer, ActivityContainer>) session.getAttribute("containerMap");
 			try {
 				if(null == containerMap){
+					System.out.println("Could not find the container map on the session. Hence throwing exception.");
 					throw new AdminException();
 				}else{
 					activityContainer = containerMap.get(activityContainerId);
@@ -147,7 +148,7 @@ public class AdminController {
 			model.addAttribute("activity", activity);
 			
 			LOGGER.debug("AdminController: goToNewActivity: END");
-			return "newActivity";
+			return "activity";
 		} catch (AdminException e1) {
 			return "errorPage";
 		}
@@ -188,6 +189,9 @@ public class AdminController {
 		
 		List<String> correctAnswers = new ArrayList<String>(Arrays.asList(request.getParameterValues("correctAnswer")));
 		
+		if(null == correctAnswers)
+			correctAnswers = new ArrayList<String>();
+		
 		Enumeration<String> parameters = request.getParameterNames();
 		List<Answer> answers = new ArrayList<Answer>();
 		while(parameters.hasMoreElements()){
@@ -196,7 +200,7 @@ public class AdminController {
 				Answer answer = new Answer();
 				answer.setAnswerText(request.getParameter(param));
 				answer.setOrderNo(Integer.valueOf(param.split("_")[1]));
-				answer.setCorrect(correctAnswers.contains(param));
+				answer.setIsCorrect(correctAnswers.contains(param)?true:false);
 				answers.add(answer);
 			}
 		}
@@ -337,7 +341,7 @@ public class AdminController {
 			adminService.deleteActivity(Integer.valueOf(deletableId));
 			containerMap.remove(activityContainer.getActivityContainerId());
 			session.removeAttribute("activityContainer");
-			session.removeAttribute("containerMap");
+			session.setAttribute("containerMap", containerMap);
 
 			LOGGER.debug("AdminController: deleteActivity: END");
 			return loadContainerById(activityContainer.getActivityContainerId(), session);
@@ -402,4 +406,66 @@ public class AdminController {
 		}
 		
 	}
+	
+	@RequestMapping(value="/updateActivity.action", method=RequestMethod.POST)
+	public String updateActivity(@ModelAttribute("activity") AdminActivityAnswer adminActivityAnswer, Model model, HttpSession session, 
+			HttpServletRequest request){
+		
+		
+		LOGGER.debug("AdminController: updateActivity: START");
+		Activity act = new Activity();
+		
+		if(adminActivityAnswer.getActivity().getActivityTemplate().getId() == 3){
+			act = updateMCQActivity(adminActivityAnswer.getActivity(), request);
+		}
+		
+		ActivityContainer activityContainer = (ActivityContainer) session.getAttribute("activityContainer");
+		Map<Integer, ActivityContainer> containerMap = (Map<Integer, ActivityContainer>) session.getAttribute("containerMap");
+		if(null==activityContainer || null == containerMap)
+			return "errorPage";
+		
+		containerMap.remove(activityContainer.getActivityContainerId());
+		session.removeAttribute("activityContainer");
+		session.setAttribute("containerMap", containerMap);
+		
+		LOGGER.debug(adminActivityAnswer);
+
+		LOGGER.debug("AdminController: updateActivity: END");
+		return loadContainerById(activityContainer.getActivityContainerId(), session);
+	}
+	
+	private Activity updateMCQActivity(Activity activity, HttpServletRequest request) {
+		
+		List<String> correctAnswers = new ArrayList<String>(Arrays.asList(request.getParameterValues("correctAnswer")));
+		
+		if(null == correctAnswers)
+			correctAnswers = new ArrayList<String>();
+		
+		Enumeration<String> parameters = request.getParameterNames();
+		List<Answer> answers = new ArrayList<Answer>();
+		while(parameters.hasMoreElements()){
+			String param = (String) parameters.nextElement();
+			if(param.contains("option")){
+				Answer answer = new Answer();
+				answer.setAnswerText(request.getParameter(param));
+				answer.setOrderNo(Integer.valueOf(param.split("_")[1]));
+				answer.setIsCorrect(correctAnswers.contains(param)?true:false);
+				answers.add(answer);
+			}
+		}
+		
+		AdminActivityAnswer adminActivityAnswer = new AdminActivityAnswer();
+		adminActivityAnswer.setActivity(activity);
+		adminActivityAnswer.setAnswers(answers);
+		
+		try {
+			adminActivityAnswer = adminService.updateAdminActivityAnswer(adminActivityAnswer);
+		} catch (AdminException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return adminActivityAnswer.getActivity();
+	}
+
 }
