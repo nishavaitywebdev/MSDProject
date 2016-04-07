@@ -3,6 +3,7 @@
  */
 package com.neu.msd.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,11 +13,17 @@ import java.util.List;
 public class AdminActivityAnswer {
 
 	private Activity activity;
-	private List<Answer> answers;
+	private List<Answer> answers = new ArrayList<Answer>();
 	
 	public AdminActivityAnswer() {
 		// TODO Auto-generated constructor stub
 	}
+	
+	public AdminActivityAnswer(Activity activity, List<Answer> answers) {
+		 this.activity = activity;
+		 this.answers = answers;
+	}
+	
 
 	/**
 	 * @return the activity
