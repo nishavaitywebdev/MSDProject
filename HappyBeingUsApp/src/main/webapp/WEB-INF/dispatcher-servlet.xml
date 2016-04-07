@@ -31,6 +31,12 @@
 		<property name="suffix" value=".jsp" />
 	</bean>
 	
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="1073741824"/> <!-- 1GB -->
+		<property name="maxInMemorySize" value="1048576"/> <!-- 1MB -->
+	</bean>
+	
 	<!-- Service Beans Start -->
 <!-- 	<bean id="adminService" class="com.neu.msd.service.impl.AdminServiceImpl"/> -->
 <!-- 	<bean id="authenticateService" class="com.neu.msd.service.impl.AuthenticateServiceImpl"/> -->
