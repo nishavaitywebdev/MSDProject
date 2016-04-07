@@ -8,6 +8,7 @@ import java.util.Map;
 
 import com.neu.msd.entities.ActivityContainer;
 import com.neu.msd.entities.ActivityTemplate;
+import com.neu.msd.entities.AdminActivityAnswer;
 import com.neu.msd.entities.Topic;
 import com.neu.msd.entities.User;
 import com.neu.msd.entities.UserAuthentication;
@@ -40,11 +41,15 @@ public interface AdminService {
 
 	public ActivityContainer addNewActivityContainer(String containerName, int topicId) throws AdminException;
 
-	public int deleteActivityContainer(Integer deletableId) throws AdminException;
+	public int deleteActivity(Integer deletableId) throws AdminException;
 
 	public int renameActivityContainer(String containerName, int containerId) throws AdminException;
 
 	public List<Version> loadAllVersion() throws AdminException;
 
-	public int assignTopicToVersion(int topicId, int versionId) throws AdminException;
+	public void assignTopicToVersion(int topicId, String[] versionIds) throws AdminException;
+
+	public AdminActivityAnswer saveAdminActivityAnswer(AdminActivityAnswer adminActivityAnswer) throws AdminException;
+
+	public AdminActivityAnswer getAdminActivityAnswerByActivityId(int activityId) throws AdminException;
 }

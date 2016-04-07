@@ -4,6 +4,8 @@
 package com.neu.msd.controllers;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +27,8 @@ import com.neu.msd.entities.Activity;
 import com.neu.msd.entities.ActivityContainer;
 import com.neu.msd.entities.ActivityTemplate;
 import com.neu.msd.entities.ActivityType;
+import com.neu.msd.entities.AdminActivityAnswer;
+import com.neu.msd.entities.Answer;
 import com.neu.msd.entities.Topic;
 import com.neu.msd.entities.User;
 import com.neu.msd.entities.UserAuthentication;
@@ -155,19 +159,19 @@ public class AdminController {
 		
 		
 		LOGGER.debug("AdminController: addNewActivity: START");
-//		TODO insert the activity into the database.
-//		code goes here---
+		Activity act = new Activity();
 		
+		if(activity.getActivityTemplate().getId() == 3){
+			act = addMCQActivity(activity, request);
+		}
 		
-//		TODO update the objects in the session accordingly
-//		code goes here---
 		ActivityContainer activityContainer = (ActivityContainer) session.getAttribute("activityContainer");
 		Map<Integer, ActivityContainer> containerMap = (Map<Integer, ActivityContainer>) session.getAttribute("containerMap");
 		if(null==activityContainer || null == containerMap)
 			return "errorPage";
 
 		List<Activity> activities = activityContainer.getActivities();
-//		activities.add(--the new activity--);
+		activities.add(act);
 		activityContainer.setActivities(activities);
 		containerMap.put(activityContainer.getActivityContainerId(), activityContainer);
 		
@@ -180,6 +184,37 @@ public class AdminController {
 		return loadContainerById(activityContainer.getActivityContainerId(), session);
 	}
 	
+	private Activity addMCQActivity(Activity activity, HttpServletRequest request) {
+		
+		List<String> correctAnswers = new ArrayList<String>(Arrays.asList(request.getParameterValues("correctAnswer")));
+		
+		Enumeration<String> parameters = request.getParameterNames();
+		List<Answer> answers = new ArrayList<Answer>();
+		while(parameters.hasMoreElements()){
+			String param = (String) parameters.nextElement();
+			if(param.contains("option")){
+				Answer answer = new Answer();
+				answer.setAnswerText(request.getParameter(param));
+				answer.setOrderNo(Integer.valueOf(param.split("_")[1]));
+				answer.setCorrect(correctAnswers.contains(param));
+				answers.add(answer);
+			}
+		}
+		
+		AdminActivityAnswer adminActivityAnswer = new AdminActivityAnswer();
+		adminActivityAnswer.setActivity(activity);
+		adminActivityAnswer.setAnswers(answers);
+		
+		try {
+			adminActivityAnswer = adminService.saveAdminActivityAnswer(adminActivityAnswer);
+		} catch (AdminException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return adminActivityAnswer.getActivity();
+	}
+
 	@ResponseBody
 	@RequestMapping(value="/renameTopic.action", method=RequestMethod.POST)
 	public String renameTopic(@RequestParam("topicName") String topicName, @RequestParam("topicId") int topicId, HttpSession session){
@@ -204,13 +239,15 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value="/addNewTopic.action", method=RequestMethod.POST)
-	public String addNewTopic(@RequestParam("topicName") String topicName, @RequestParam("versionId") int versionId, HttpSession session, Model model){
+	public String addNewTopic(@RequestParam("topicName") String topicName, HttpServletRequest request, HttpSession session, Model model){
 		
 		LOGGER.debug("AdminController: addNewTopic: START");
 		try {
 			int topicId = adminService.addNewTopic(topicName);
 			Topic topic = new Topic(topicId, topicName);
-			int records = adminService.assignTopicToVersion(topicId, versionId);
+			
+			String[] versionIds = request.getParameterValues("versionIds");
+			adminService.assignTopicToVersion(topicId, versionIds);
 			List<Topic> topics = (List<Topic>) session.getAttribute("topics");
 			topics.add(topic);
 			session.setAttribute("topics", topics);
@@ -297,7 +334,7 @@ public class AdminController {
 		ActivityContainer activityContainer = (ActivityContainer) session.getAttribute("activityContainer");
 		Map<Integer, ActivityContainer> containerMap = (Map<Integer, ActivityContainer>) session.getAttribute("containerMap");
 		try {
-			adminService.deleteActivityContainer(Integer.valueOf(deletableId));
+			adminService.deleteActivity(Integer.valueOf(deletableId));
 			containerMap.remove(activityContainer.getActivityContainerId());
 			session.removeAttribute("activityContainer");
 			session.removeAttribute("containerMap");
@@ -344,4 +381,25 @@ public class AdminController {
 		}
 	}
 	
+	@RequestMapping(value="/editActivity.action", method=RequestMethod.POST)
+	public String goToEditActivity(@RequestParam("id") String parameter, HttpSession session, Model model){
+		
+		LOGGER.debug("AdminController: goToEditActivity: START");
+		
+		int activityId = Integer.valueOf(parameter.split("_")[0]);
+		String templateId = parameter.split("_")[1];
+		
+		try {
+			AdminActivityAnswer adminActivityAnswer = adminService.getAdminActivityAnswerByActivityId(activityId);
+
+			model.addAttribute("adminActivity", adminActivityAnswer);
+			model.addAttribute("templateId", templateId);
+			
+			LOGGER.debug("AdminController: goToEditActivity: END");
+			return "editActivity";
+		} catch (AdminException e) {
+			return "errorPage";
+		}
+		
+	}
 }

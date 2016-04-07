@@ -30,7 +30,7 @@
 //		mcq template, update checkbox value with the input of user
 	$(document).on('change', '#mcqOptions .option', function() {
 		var num = this.id.split('_')[1];
-		$('#mcqOptions #checkBox_'+num).val(this.value);
+		$('#mcqOptions #checkBox_'+num).val(this.name);
 	});
 	
 
@@ -83,7 +83,7 @@
 	<div id="templateContainer">
 		<c:forEach items="${activityTemplates}" var="template">
 			<c:if test="${template.id==3}">
-				<form:form action="addActivity.action" method="get"
+				<form:form action="addActivity.action" method="post"
 					name="mcqForm" id="mcqForm" modelAttribute="activity">
 					<div id="template_${template.id}" style="display: none">
 						<p>Type the question below</p>

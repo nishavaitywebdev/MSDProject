@@ -216,7 +216,7 @@ footer {
 									<tr>
 										<td><a class="btn btn-primary">${activity.activityText}</a></td>
 										<td><a href="#" class="btn btn-success" role="button"
-											id="${activity.id}" onclick="editActivity(id)">Edit</a></td>
+											id="${activity.id}_${activity.activityTemplate.id}" onclick="editActivity(id)">Edit</a></td>
 										<td><a class="btn btn-danger" data-toggle="modal"
 							 					data-target="#confirmationDialog" id="deleteId_${activity.id}" 
 							 					role="button" onclick="deleteActivity(this)">Delete</a></td>
