@@ -12,7 +12,7 @@
 </head>
 <body>
 <footer>
-		<div class="row" style="background-color: #ff6666; height: 20px;"></div>
+		<div class="row" style="background-color: #952D54; height: 20px;"></div>
 		<div class="row">
 			<div class="col-lg-12">
 				<p style="margin-left: 50px;">Copyright &copy; HappyBeingUs.com

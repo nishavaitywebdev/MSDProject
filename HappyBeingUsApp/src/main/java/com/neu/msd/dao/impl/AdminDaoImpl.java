@@ -55,12 +55,14 @@ public class AdminDaoImpl implements AdminDao {
 		
 		LOGGER.debug("AdminDaoImpl: loadTopics: START");
 		
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
 		try {
 			List<Topic> topics = new ArrayList<Topic>();
-			Connection connection = dataSource.getConnection();
+			connection = dataSource.getConnection();
 			String sql = "select * from topic";
-			PreparedStatement stmt = connection.prepareStatement(sql);
-			ResultSet rs = stmt.executeQuery();
+			stmt = connection.prepareStatement(sql);
+			rs = stmt.executeQuery();
 			while(rs.next()){
 				Topic topic = new Topic();
 				topic.setId(rs.getInt("topic_id"));
@@ -68,11 +70,20 @@ public class AdminDaoImpl implements AdminDao {
 				topics.add(topic);
 			}
 			
-			LOGGER.debug("AdminDaoImpl: loadTopics: END");
 			return topics;
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new AdminException(e);
+		}finally{
+			try {
+				if(null != rs) rs.close();
+				if(null != stmt) stmt.close();
+				if(null != connection) connection.close();
+				LOGGER.debug("AdminDaoImpl: loadTopics: END");
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new AdminException(e);
+			}
 		}
 	}
 
@@ -82,12 +93,15 @@ public class AdminDaoImpl implements AdminDao {
 	public List<ActivityContainer> loadActivityContainersByTopicId(int topicId) throws AdminException {
 		
 		LOGGER.debug("AdminDaoImpl: loadActivityContainersByTopicId: START");
+		
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
 		try {
 			List<ActivityContainer> activityContainers = new ArrayList<ActivityContainer>();
-			Connection connection = dataSource.getConnection();
+			connection = dataSource.getConnection();
 			String sql = "select * from activity_container where topic_id="+topicId+" order by order_no";
-			PreparedStatement stmt = connection.prepareStatement(sql);
-			ResultSet rs = stmt.executeQuery();
+			stmt = connection.prepareStatement(sql);
+			rs = stmt.executeQuery();
 			while(rs.next()){
 				ActivityContainer activityContainer = new ActivityContainer();
 				activityContainer.setActivityContainerId(rs.getInt("activity_container_id"));
@@ -96,11 +110,20 @@ public class AdminDaoImpl implements AdminDao {
 				activityContainers.add(activityContainer);
 			}
 			
-			LOGGER.debug("AdminDaoImpl: loadActivityContainersByTopicId: END");
 			return activityContainers;
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new AdminException(e);
+		}finally{
+			try {
+				if(null != rs) rs.close();
+				if(null != stmt) stmt.close();
+				if(null != connection) connection.close();
+				LOGGER.debug("AdminDaoImpl: loadActivityContainersByTopicId: END");
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new AdminException(e);
+			}
 		}
 	}
 
@@ -110,12 +133,15 @@ public class AdminDaoImpl implements AdminDao {
 	public ActivityContainer loadActivityContainerById(int activityContainerId) throws AdminException {
 
 		LOGGER.debug("AdminDaoImpl: loadActivityContainerById: START");
+		
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
 		try {
 			ActivityContainer activityContainer = new ActivityContainer();
-			Connection connection = dataSource.getConnection();
+			connection = dataSource.getConnection();
 			String sql = "select * from activity_container where activity_container_id="+activityContainerId;
-			PreparedStatement stmt = connection.prepareStatement(sql);
-			ResultSet rs = stmt.executeQuery();
+			stmt = connection.prepareStatement(sql);
+			rs = stmt.executeQuery();
 			while(rs.next()){
 				activityContainer.setActivityContainerId(rs.getInt("activity_container_id"));
 				activityContainer.setContainerName(rs.getString("activity_container_name"));
@@ -123,11 +149,20 @@ public class AdminDaoImpl implements AdminDao {
 				activityContainer.setActivities(loadActivitiesByActivityContainerId(activityContainerId));
 			}
 			
-			LOGGER.debug("AdminDaoImpl: loadActivityContainerById: END");
 			return activityContainer;
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new AdminException(e);
+		}finally{
+			try {
+				if(null != rs) rs.close();
+				if(null != stmt) stmt.close();
+				if(null != connection) connection.close();
+				LOGGER.debug("AdminDaoImpl: loadActivityContainerById: END");
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new AdminException(e);
+			}
 		}
 	}
 
@@ -142,14 +177,17 @@ public class AdminDaoImpl implements AdminDao {
 		
 		loadActivityType(activityTypeMap);
 		loadActivityTemplate(activityTemplateMap);
+		
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
 		try {
 			List<Activity> activities= new ArrayList<Activity>();
-			Connection connection = dataSource.getConnection();
+			connection = dataSource.getConnection();
 			String sql = "select * from activity where activity_container_id=? order by order_no";
-			PreparedStatement stmt = connection.prepareStatement(sql);
+			stmt = connection.prepareStatement(sql);
 			stmt.setInt(1, activityContainerId);
 			
-			ResultSet rs = stmt.executeQuery();
+			rs = stmt.executeQuery();
 			while(rs.next()){
 				Activity activity = new Activity();
 				activity.setId(rs.getInt("activity_id"));
@@ -160,11 +198,20 @@ public class AdminDaoImpl implements AdminDao {
 				activities.add(activity);
 			}
 			
-			LOGGER.debug("AdminDaoImpl: loadActivitiesByActivityContainerId: END");
 			return activities;
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new AdminException(e);
+		}finally{
+			try {
+				if(null != rs) rs.close();
+				if(null != stmt) stmt.close();
+				if(null != connection) connection.close();
+				LOGGER.debug("AdminDaoImpl: loadActivitiesByActivityContainerId: END");
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new AdminException(e);
+			}
 		}
 	}
 
@@ -190,11 +237,14 @@ public class AdminDaoImpl implements AdminDao {
 	public void loadActivityType(Map<Integer, ActivityType> activityTypeMap) throws AdminException {
 
 		LOGGER.debug("AdminDaoImpl: loadActivityType: START");
+		
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
 		try {
-			Connection connection = dataSource.getConnection();
+			connection = dataSource.getConnection();
 			String sql = "select * from activity_type";
-			PreparedStatement stmt = connection.prepareStatement(sql);
-			ResultSet rs = stmt.executeQuery();
+			stmt = connection.prepareStatement(sql);
+			rs = stmt.executeQuery();
 			while(rs.next()){
 				ActivityType activityType = new ActivityType();
 				int activityTypeId = rs.getInt("activity_type_id");
@@ -203,23 +253,34 @@ public class AdminDaoImpl implements AdminDao {
 				activityTypeMap.put(activityTypeId, activityType);
 			}
 			
-			LOGGER.debug("AdminDaoImpl: loadActivityType: END");
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new AdminException(e);
+		}finally{
+			try {
+				if(null != rs) rs.close();
+				if(null != stmt) stmt.close();
+				if(null != connection) connection.close();
+				LOGGER.debug("AdminDaoImpl: loadActivityType: END");
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new AdminException(e);
+			}
 		}
-		
 	}
 
 	public List<ActivityTemplate> getAllActivityTemplates() throws AdminException {
 		
 		LOGGER.debug("AdminDaoImpl: getAllActivityTemplates: START");
 		List<ActivityTemplate> activityTemplates = new ArrayList<ActivityTemplate>();
+		
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
 		try {
-			Connection connection = dataSource.getConnection();
+			connection = dataSource.getConnection();
 			String sql = "select * from activity_template";
-			PreparedStatement stmt = connection.prepareStatement(sql);
-			ResultSet rs = stmt.executeQuery();
+			stmt = connection.prepareStatement(sql);
+			rs = stmt.executeQuery();
 			while(rs.next()){
 				ActivityTemplate activityTemplate = new ActivityTemplate();
 				int activityTemplateId = rs.getInt("activity_template_id");
@@ -228,23 +289,33 @@ public class AdminDaoImpl implements AdminDao {
 				activityTemplates.add(activityTemplate);
 			}
 			
+			return activityTemplates;
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new AdminException(e);
+		}finally{
+			try {
+				if(null != rs) rs.close();
+				if(null != stmt) stmt.close();
+				if(null != connection) connection.close();
+				LOGGER.debug("AdminDaoImpl: getAllActivityTemplates: END");
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new AdminException(e);
+			}
 		}
-		
-		LOGGER.debug("AdminDaoImpl: getAllActivityTemplates: END");
-		return activityTemplates;
 	}
 	
 
 	public int renameTopic(String topicName, int topicId) throws AdminException {
 		LOGGER.debug("AdminDaoImpl: renameTopic: START");
+		
+		PreparedStatement stmt = null;
 		try {
-			Connection connection = dataSource.getConnection();
+			connection = dataSource.getConnection();
 //			update topic set topic_name = ? where topic_id = ?
 			String sql = "update topic set topic_name = ? where topic_id = ?";
-			PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			
 			stmt.setString(1, topicName);
 			stmt.setInt(2, topicId);
@@ -253,11 +324,19 @@ public class AdminDaoImpl implements AdminDao {
 			
 			System.out.println("No. of records updated: "+records);
 
-			LOGGER.debug("AdminDaoImpl: renameTopic: END");
 			return records;
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new AdminException(e);
+		}finally{
+			try {
+				if(null != stmt) stmt.close();
+				if(null != connection) connection.close();
+				LOGGER.debug("AdminDaoImpl: renameTopic: END");
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new AdminException(e);
+			}
 		}
 	}
 	
@@ -265,13 +344,16 @@ public class AdminDaoImpl implements AdminDao {
 		
 		LOGGER.debug("AdminDaoImpl: getAdminActivityAnswerByActivityId: START");
 		AdminActivityAnswer adminActivityAnswer = new AdminActivityAnswer();
+		
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
 		try {
-			Connection connection = dataSource.getConnection();
+			connection = dataSource.getConnection();
 			String sql = "select * from admin_activity_answer where activity_id=?";
-			PreparedStatement stmt = connection.prepareStatement(sql);
+			stmt = connection.prepareStatement(sql);
 			stmt.setInt(1, activityId);
 
-			ResultSet rs = stmt.executeQuery();
+			rs = stmt.executeQuery();
 			List<Answer> answers = new ArrayList<Answer>();
 			while(rs.next()){
 				Answer answer = new Answer();
@@ -280,25 +362,39 @@ public class AdminDaoImpl implements AdminDao {
 			}
 			adminActivityAnswer.setAnswers(answers);
 
-			LOGGER.debug("AdminDaoImpl: getAdminActivityAnswerByActivityId: END");
 			return adminActivityAnswer;
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new AdminException(e);
+		}finally{
+			try {
+				if(null != rs) rs.close();
+				if(null != stmt) stmt.close();
+				if(null != connection) connection.close();
+				LOGGER.debug("AdminDaoImpl: getAdminActivityAnswerByActivityId: END");
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new AdminException(e);
+			}
 		}
 	}
 
 	public User authenticateAdminByUsernamePassword(UserAuthentication userAuthentication) throws AdminException {
 		LOGGER.debug("AdminDaoImpl: authenticateAdminByUsernamePassword: START");
+		
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		PreparedStatement stmt_get_admin = null;
+		ResultSet rs_get_admin = null;
 		try {
 			User admin = new User();
-			Connection connection = dataSource.getConnection();
+			connection = dataSource.getConnection();
 			String sql = "select * from user_authentication where username=? and password = ? and user_type_id = 1";
-			PreparedStatement stmt = connection.prepareStatement(sql);
+			stmt = connection.prepareStatement(sql);
 			stmt.setString(1, userAuthentication.getUsername());
 			stmt.setString(2, userAuthentication.getPassword());
-			ResultSet rs = stmt.executeQuery();
+			rs = stmt.executeQuery();
 			while(rs.next())
 			{
 				admin.setId(rs.getInt("user_id"));
@@ -307,31 +403,44 @@ public class AdminDaoImpl implements AdminDao {
 			if (admin.getId()!=0)
 			{
 				String sql_get_admin = "select * from user where user_id = ?";
-				PreparedStatement stmt_get_admin = connection.prepareStatement(sql_get_admin);
+				stmt_get_admin = connection.prepareStatement(sql_get_admin);
 				stmt_get_admin.setInt(1, admin.getId());
-				ResultSet rs_get_admin = stmt_get_admin.executeQuery();
+				rs_get_admin = stmt_get_admin.executeQuery();
 				while(rs_get_admin.next()){
 					admin.setFirstName(rs_get_admin.getString("first_name"));
 				}
 			}
 
-			LOGGER.debug("AdminDaoImpl: authenticateAdminByUsernamePassword: END");
 			return admin;
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new AdminException(e);
+		}finally{
+			try {
+				if(null != rs) rs.close();
+				if(null != stmt) stmt.close();
+				if(null != rs_get_admin) rs_get_admin.close();
+				if(null != stmt_get_admin) stmt_get_admin.close();
+				if(null != connection) connection.close();
+				LOGGER.debug("AdminDaoImpl: authenticateAdminByUsernamePassword: END");
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new AdminException(e);
+			}
 		}
 	}
 
 	public int addTopic(String topicName) throws AdminException {
 		
 		LOGGER.debug("AdminDaoImpl: addTopic: START");
+		
+		PreparedStatement stmt = null;
 		try {
-			Connection connection = dataSource.getConnection();
+			connection = dataSource.getConnection();
 			
 			int nextTopicId = getNextTopicId(connection);
 			String sql = "insert into topic values(?, ?)";
-			PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			
 			stmt.setInt(1, nextTopicId);
 			stmt.setString(2, topicName);
@@ -340,27 +449,37 @@ public class AdminDaoImpl implements AdminDao {
 			
 			System.out.println("New topic inserted, no. of records inserted: "+records);
 
-			LOGGER.debug("AdminDaoImpl: addTopic: END");
 			return nextTopicId;
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new AdminException(e);
+		}finally{
+			try {
+				if(null != stmt) stmt.close();
+				if(null != connection) connection.close();
+				LOGGER.debug("AdminDaoImpl: addTopic: END");
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new AdminException(e);
+			}
 		}
 	}
 	
 	private int getNextTopicId(Connection connection) throws AdminException{
 		LOGGER.debug("AdminDaoImpl: getNextTopicId: START");
+		
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
 		try {
 			
 			String sql = "select MAX(topic_id) as topic_id from topic";
 
-			PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			
-			ResultSet rs = stmt.executeQuery();
+			rs = stmt.executeQuery();
 			
 			if (rs.next()) {
 
-				LOGGER.debug("AdminDaoImpl: getNextTopicId: END");
 				return rs.getInt(1) + 1;
 			}
 			
@@ -368,17 +487,28 @@ public class AdminDaoImpl implements AdminDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new AdminException(e);
+		}finally{
+			try {
+				if(null != rs) rs.close();
+				if(null != stmt) stmt.close();
+				LOGGER.debug("AdminDaoImpl: getNextTopicId: END");
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new AdminException(e);
+			}
 		}
 	}
 
 	public int deleteTopic(int deletableId) throws AdminException {
 		
 		LOGGER.debug("AdminDaoImpl: deleteTopic: START");
+		
+		PreparedStatement stmt = null;
 		try {
-			Connection connection = dataSource.getConnection();
+			connection = dataSource.getConnection();
 			
 			String sql = "delete from topic where topic_id=?";
-			PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			
 			stmt.setInt(1, deletableId);
 			
@@ -391,6 +521,15 @@ public class AdminDaoImpl implements AdminDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new AdminException(e);
+		}finally{
+			try {
+				if(null != stmt) stmt.close();
+				if(null != connection) connection.close();
+				LOGGER.debug("AdminDaoImpl: getNextTopicId: END");
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new AdminException(e);
+			}
 		}
 	}
 	
@@ -398,15 +537,17 @@ public class AdminDaoImpl implements AdminDao {
 		
 		LOGGER.debug("AdminDaoImpl: deleteActivityContainer: START");
 		
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
 		try {
-			Connection connection = dataSource.getConnection();
+			connection = dataSource.getConnection();
 			
 			String sql = "select order_no, topic_id from activity_container where activity_container_id=?";
 			
-			PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			stmt.setInt(1, deletableId);
 			
-			ResultSet rs = stmt.executeQuery();
+			rs = stmt.executeQuery();
 			
 			int orderNo = 0, topicId = 0;
 			
@@ -427,17 +568,28 @@ public class AdminDaoImpl implements AdminDao {
 			
 			System.out.println("Activity container with activity container id:"+deletableId+", deleted. No. of records deleted: "+records);
 
-			LOGGER.debug("AdminDaoImpl: deleteActivityContainer: END");
 			return records;
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new AdminException(e);
+		}finally{
+			try {
+				if(null != rs) rs.close();
+				if(null != stmt) stmt.close();
+				if(null != connection) connection.close();
+				LOGGER.debug("AdminDaoImpl: deleteActivityContainer: END");
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new AdminException(e);
+			}
 		}
 	}
 
 	private void reorderActivityContainers(Connection connection, int orderNo, int topicId) throws AdminException{
 		
 		LOGGER.debug("AdminDaoImpl: reorderActivityContainers: START");
+		
+		PreparedStatement stmt = null;
 		try {
 			
 			List<ActivityContainer> activityContainers = loadActivityContainersByTopicId(topicId);
@@ -446,7 +598,7 @@ public class AdminDaoImpl implements AdminDao {
 				if(activityContainer.getOrderNo() > orderNo){
 					String sql = "update activity_container set order_no=? where activity_container_id=?";
 					
-					PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+					stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 					stmt.setInt(1, orderNo);
 					stmt.setInt(2, activityContainer.getActivityContainerId());
 
@@ -458,22 +610,31 @@ public class AdminDaoImpl implements AdminDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new AdminException(e);
+		}finally{
+			try {
+				if(null != stmt) stmt.close();
+				LOGGER.debug("AdminDaoImpl: reorderActivityContainers: END");
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new AdminException(e);
+			}
 		}
-		LOGGER.debug("AdminDaoImpl: reorderActivityContainers: END");
 		
 	}
 
 	public ActivityContainer addNewActivityContainer(String containerName, int topicId) throws AdminException {
 		LOGGER.debug("AdminDaoImpl: addNewActivityContainer: START");
+		
+		PreparedStatement stmt = null;
 		try {
-			Connection connection = dataSource.getConnection();
+			connection = dataSource.getConnection();
 			
 			int nextContainerId = getNextContainerId(connection);
 			
 			int orderNo = getNextContainerOrderNo(connection, topicId);
 			
 			String sql = "insert into activity_container values (?, ?, ?, ?)";
-			PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			
 			stmt.setInt(1, nextContainerId);
 			stmt.setString(2, containerName);
@@ -490,26 +651,35 @@ public class AdminDaoImpl implements AdminDao {
 			
 			System.out.println("Added a new Activity container under the topicId: "+topicId+", no. of rows inserted: "+records);
 
-			LOGGER.debug("AdminDaoImpl: addNewActivityContainer: END");
 			return activityContainer;
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new AdminException(e);
+		}finally{
+			try {
+				if(null != stmt) stmt.close();
+				LOGGER.debug("AdminDaoImpl: addNewActivityContainer: END");
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new AdminException(e);
+			}
 		}
 	}
 
 	private int getNextContainerId(Connection connection) throws AdminException{
 		LOGGER.debug("AdminDaoImpl: getNextContainerId: START");
+		
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
 		try {
 			
 			String sql = "select MAX(activity_container_id) as activity_container_id from activity_container";
 
-			PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			
-			ResultSet rs = stmt.executeQuery();
+			rs = stmt.executeQuery();
 			
 			if (rs.next()) {
-				LOGGER.debug("AdminDaoImpl: getNextContainerId: END");
 				return rs.getInt(1) + 1;
 			}
 			
@@ -517,23 +687,34 @@ public class AdminDaoImpl implements AdminDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new AdminException(e);
+		}finally{
+			try {
+				if(null != rs) rs.close();
+				if(null != stmt) stmt.close();
+				LOGGER.debug("AdminDaoImpl: getNextContainerId: END");
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new AdminException(e);
+			}
 		}
 	}
 	
 	private int getNextContainerOrderNo(Connection connection, int topicId) throws AdminException{
 		LOGGER.debug("AdminDaoImpl: getNextContainerOrderNo: START");
+		
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
 		try {
 			
 			String sql = "select MAX(order_no) as order_no from activity_container where topic_id=?";
 			
-			PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			
 			stmt.setInt(1, topicId);
 			
-			ResultSet rs = stmt.executeQuery();
+			rs = stmt.executeQuery();
 			
 			if (rs.next()) {
-				LOGGER.debug("AdminDaoImpl: getNextContainerOrderNo: END");
 				return rs.getInt(1) + 1;
 			}
 			
@@ -541,21 +722,33 @@ public class AdminDaoImpl implements AdminDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new AdminException(e);
+		}finally{
+			try {
+				if(null != rs) rs.close();
+				if(null != stmt) stmt.close();
+				LOGGER.debug("AdminDaoImpl: getNextContainerOrderNo: END");
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new AdminException(e);
+			}
 		}
 	}
 
 	@Override
 	public int deleteActivity(Integer deletableId) throws AdminException {
 		LOGGER.debug("AdminDaoImpl: deleteActivity: START");
+		
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
 		try {
-			Connection connection = dataSource.getConnection();
+			connection = dataSource.getConnection();
 			
 			String sql = "select order_no, activity_container_id from activity where activity_id=?";
 			
-			PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			stmt.setInt(1, deletableId);
 			
-			ResultSet rs = stmt.executeQuery();
+			rs = stmt.executeQuery();
 			
 			int orderNo = 0, containerId = 0;
 			
@@ -573,18 +766,29 @@ public class AdminDaoImpl implements AdminDao {
 			
 			int records = stmt.executeUpdate();
 			
-			LOGGER.debug("AdminDaoImpl: deleteActivity: END");
 			return records;
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new AdminException(e);
+		}finally{
+			try {
+				if(null != rs) rs.close();
+				if(null != stmt) stmt.close();
+				if(null != connection) connection.close();
+				LOGGER.debug("AdminDaoImpl: deleteActivity: END");
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new AdminException(e);
+			}
 		}
 	}
 
 	private void reorderActivites(Connection connection, int orderNo, int containerId) throws AdminException {
 		
 		LOGGER.debug("AdminDaoImpl: reorderActivites: START");
+		
+		PreparedStatement stmt = null;
 		try {
 			
 			List<Activity> activities = loadActivitiesByActivityContainerId(containerId);
@@ -593,7 +797,7 @@ public class AdminDaoImpl implements AdminDao {
 				if(activity.getOrderNo() > orderNo){
 					String sql = "update activity set order_no=? where activity_id=?";
 					
-					PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+					stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 					stmt.setInt(1, orderNo);
 					stmt.setInt(2, activity.getId());
 
@@ -606,16 +810,25 @@ public class AdminDaoImpl implements AdminDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new AdminException(e);
+		}finally{
+			try {
+				if(null != stmt) stmt.close();
+				LOGGER.debug("AdminDaoImpl: reorderActivites: END");
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new AdminException(e);
+			}
 		}
-		LOGGER.debug("AdminDaoImpl: reorderActivites: END");
 	}
 	
 	public int renameActivityContainer(String containerName, int containerId) throws AdminException {
 		LOGGER.debug("AdminDaoImpl: renameActivityContainer: START");
+		
+		PreparedStatement stmt = null;
 		try {
-			Connection connection = dataSource.getConnection();
+			connection = dataSource.getConnection();
 			String sql = "update activity_container set activity_container_name = ? where activity_container_id = ?";
-			PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			
 			stmt.setString(1, containerName);
 			stmt.setInt(2, containerId);
@@ -624,11 +837,19 @@ public class AdminDaoImpl implements AdminDao {
 			
 			System.out.println("No. of records updated: "+records);
 
-			LOGGER.debug("AdminDaoImpl: renameActivityContainer: END");
 			return records;
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new AdminException(e);
+		}finally{
+			try {
+				if(null != stmt) stmt.close();
+				if(null != connection) connection.close();
+				LOGGER.debug("AdminDaoImpl: renameActivityContainer: END");
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new AdminException(e);
+			}
 		}
 	}
 

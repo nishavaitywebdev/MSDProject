@@ -3,8 +3,11 @@
  */
 package com.neu.msd.service.impl;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +22,7 @@ import com.neu.msd.entities.Answer;
 import com.neu.msd.entities.Topic;
 import com.neu.msd.entities.User;
 import com.neu.msd.exception.AdminException;
+import com.neu.msd.exception.AuthenticationException;
 import com.neu.msd.exception.UserException;
 import com.neu.msd.service.AdminService;
 import com.neu.msd.service.UserService;
@@ -46,12 +50,23 @@ public class UserServiceImpl implements UserService {
 		for(Activity activity : activities){
 			AdminActivityAnswer adminActivityAnswer = adminDao.getAdminActivityAnswerByActivityId(activity.getId());
 			List<Answer> answers = adminActivityAnswer.getAnswers();
+			List<Answer> answers1 = new ArrayList<Answer>();
 			for(Answer answer : answers){
-				answer = userDao.getAnswerById(answer.getId());
+				Answer answer1 = userDao.getAnswerById(answer.getId());
+			    answers1.add(answer1);
 			}
+			
+			
+			
+			Collections.sort(answers1,new SortByorder_answer());
 			adminActivityAnswer.setActivity(activity);
+		    adminActivityAnswer.setAnswers(answers1);
 			adminActivityAnswers.add(adminActivityAnswer);
 		}
+		
+		
+		
+		Collections.sort(adminActivityAnswers,new SortByorder());
 		return adminActivityAnswers;
 	}
 
@@ -65,6 +80,30 @@ public class UserServiceImpl implements UserService {
 			e.printStackTrace();
 		}
 		return topics;
+	}
+
+
+	@Override
+	public void addscore(User user, double score) throws UserException {
+		userDao.addscoreforuser(user, score);
+		
+	}
+
+	@Override
+	public Integer[] getweigh() throws SQLException {
+		// TODO Auto-generated method stub
+		Integer[] weighList;
+		try {
+			weighList = userDao.getweigh();
+			return weighList;
+		} catch (AuthenticationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+		
+	   
+		
 	}
 
 
