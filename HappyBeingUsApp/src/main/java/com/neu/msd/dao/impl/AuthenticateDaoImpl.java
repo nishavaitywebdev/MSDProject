@@ -107,8 +107,6 @@ public class AuthenticateDaoImpl implements AuthenticateDao {
 				return rs.getInt(1) + 1;
 			}
 			
-			if(null != stmt) stmt.close();
-			if(null != connection) connection.close();
 			throw new Exception();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -190,8 +188,8 @@ public class AuthenticateDaoImpl implements AuthenticateDao {
 		PreparedStatement stmt = null;
 		ResultSet keys = null;
 		try {
-			connection = dataSource.getConnection();
 			int nextUserId = getNextUserId();
+			connection = dataSource.getConnection();
 			String sql = "insert into user (user_id, user_type_id, email_id) "
 					+ " values (?, ?, ?)";
 			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -489,9 +487,6 @@ public class AuthenticateDaoImpl implements AuthenticateDao {
 			stmt = connection.prepareStatement(sql);
 			stmt.setString(1, email);
 			rs = stmt.executeQuery();
-			
-			if(null != stmt) stmt.close();
-			if(null != connection) connection.close();
 			
 			if (!rs.next())
 			{

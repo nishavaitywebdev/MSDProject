@@ -201,14 +201,11 @@ public class AdminServiceImpl implements AdminService {
 			adminActivityAnswer.getAnswers().add(answer);
 		}else if(activity.getActivityTemplate().getId() == FLIP_TEMPLATE_ID && adminActivityAnswer.getAnswers().size() != MAX_FLIP_OPTION){
 			List<Answer> answers = adminDao.loadAnswersByActivityId(activity.getId());
-			int i = 0;
 			List<Answer> currentAnswers = new ArrayList<Answer>(adminActivityAnswer.getAnswers());
 			for(Answer answer : currentAnswers){
-				if(answer.getOrderNo() != i+1){
-					adminActivityAnswer.getAnswers().add(answers.get(i));
-				}
-				i++;
+				answers.remove(answer);
 			}
+			adminActivityAnswer.getAnswers().addAll(answers);
 			Collections.sort(adminActivityAnswer.getAnswers(), new Comparator<Answer>() {
 				@Override
 				public int compare(Answer answer1, Answer answer2) {
