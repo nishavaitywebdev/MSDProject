@@ -49,9 +49,9 @@ public class AuthenticateDaoImpl implements AuthenticateDao {
 		ResultSet keys = null;
 			
 		try {
-			connection = dataSource.getConnection();
 			
 			int nextUserId = getNextUserId();
+			connection = dataSource.getConnection();
 			
 			String sql = "insert into user (user_id, user_type_id, first_name, last_name, birthdate, email_id, parent_id, is_diagnostic_taken) "
 					+ " values (?, ?, ?, ?, ?, ?, ?, ?)";
