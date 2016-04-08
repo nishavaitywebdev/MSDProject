@@ -63,14 +63,14 @@ public class Answer {
 	/**
 	 * @return the isCorrect
 	 */
-	public boolean isCorrect() {
+	public boolean getIsCorrect() {
 		return isCorrect;
 	}
 
 	/**
 	 * @param isCorrect the isCorrect to set
 	 */
-	public void setCorrect(boolean isCorrect) {
+	public void setIsCorrect(boolean isCorrect) {
 		this.isCorrect = isCorrect;
 	}
 

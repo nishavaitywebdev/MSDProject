@@ -4,10 +4,13 @@
 package com.neu.msd.controllers;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
@@ -19,14 +22,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.neu.msd.entities.Activity;
 import com.neu.msd.entities.ActivityContainer;
 import com.neu.msd.entities.ActivityTemplate;
 import com.neu.msd.entities.ActivityType;
+import com.neu.msd.entities.AdminActivityAnswer;
+import com.neu.msd.entities.Answer;
 import com.neu.msd.entities.Topic;
 import com.neu.msd.entities.User;
 import com.neu.msd.entities.UserAuthentication;
+import com.neu.msd.entities.Version;
 import com.neu.msd.exception.AdminException;
 import com.neu.msd.service.AdminService;
 
@@ -86,9 +93,10 @@ public class AdminController {
 		if(null == topics){
 			Map<Integer, ActivityContainer> containerMap = new HashMap<Integer, ActivityContainer>();
 			topics = adminService.loadTopics(containerMap);
+			List<Version> versions = adminService.loadAllVersion();
 			session.setAttribute("topics", topics);
 			session.setAttribute("containerMap", containerMap);
-			
+			session.setAttribute("versions", versions);
 		}
 		session.removeAttribute("activityContainer");
 		LOGGER.debug("AdminController: loadHome: END");
@@ -106,6 +114,7 @@ public class AdminController {
 			Map<Integer, ActivityContainer> containerMap = (Map<Integer, ActivityContainer>) session.getAttribute("containerMap");
 			try {
 				if(null == containerMap){
+					System.out.println("Could not find the container map on the session. Hence throwing exception.");
 					throw new AdminException();
 				}else{
 					activityContainer = containerMap.get(activityContainerId);
@@ -140,28 +149,47 @@ public class AdminController {
 			model.addAttribute("activity", activity);
 			
 			LOGGER.debug("AdminController: goToNewActivity: END");
-			return "newActivity";
+			return "activity";
 		} catch (AdminException e1) {
 			return "errorPage";
 		}
 	}
-	
+
 	@RequestMapping(value="/addActivity.action", method=RequestMethod.POST)
-	public String addNewActivity(@ModelAttribute("activity") Activity activity, Model model, HttpSession session){
+	public String addNewActivity(@ModelAttribute("activity") Activity activity, 
+			@RequestParam(value="uploadFile",required=false) MultipartFile uploadFile,
+			@RequestParam(value="card1File",required=false) MultipartFile card1File,
+			@RequestParam(value="card2File",required=false) MultipartFile card2File,
+			@RequestParam(value="card3File",required=false) MultipartFile card3File,
+			Model model, HttpSession session, HttpServletRequest request){
+		
 		
 		LOGGER.debug("AdminController: addNewActivity: START");
-//		TODO insert the activity into the database.
-//		code goes here---
+		Activity act = new Activity();
 		
-//		TODO update the objects in the session accordingly
-//		code goes here---
+		try {
+			if(activity.getActivityTemplate().getId() == 1){
+				AdminActivityAnswer adminActivityAnswer = getAdminActivityAnswerForFile(activity, request, uploadFile, "video");
+				act = adminService.saveAdminActivityAnswer(adminActivityAnswer).getActivity();
+			}else if(activity.getActivityTemplate().getId() == 2){
+				AdminActivityAnswer adminActivityAnswer = getAdminActivityAnswerForFile(activity, request, uploadFile, "image");
+				act = adminService.saveAdminActivityAnswer(adminActivityAnswer).getActivity();
+			}else if(activity.getActivityTemplate().getId() == 3){
+				act = addMCQActivity(activity, request);
+			}else if(activity.getActivityTemplate().getId() == 5){
+				act = addFlipActivity(activity, request, card1File, card2File, card3File);
+			}
+		} catch (AdminException e) {
+			return "errorPage";
+		}
+		
 		ActivityContainer activityContainer = (ActivityContainer) session.getAttribute("activityContainer");
 		Map<Integer, ActivityContainer> containerMap = (Map<Integer, ActivityContainer>) session.getAttribute("containerMap");
 		if(null==activityContainer || null == containerMap)
 			return "errorPage";
 
 		List<Activity> activities = activityContainer.getActivities();
-//		activities.add(--the new activity--);
+		activities.add(act);
 		activityContainer.setActivities(activities);
 		containerMap.put(activityContainer.getActivityContainerId(), activityContainer);
 		
@@ -174,6 +202,101 @@ public class AdminController {
 		return loadContainerById(activityContainer.getActivityContainerId(), session);
 	}
 	
+	private Activity addFlipActivity(Activity activity, HttpServletRequest request, 
+			MultipartFile card1File, MultipartFile card2File, MultipartFile card3File) throws AdminException{
+		
+		
+		List<Answer> answers = new ArrayList<Answer>();
+		for(int i = 1; i<= 6; i=i+2){
+			Answer frontCard = new Answer();
+			frontCard.setAnswerText(request.getParameter("card"+i+"Front"));
+			frontCard.setOrderNo(i);
+			answers.add(frontCard);
+			
+			String imageUrl = null;
+			if(i==1){
+				imageUrl = adminService.generateFilePath(card1File, "image");
+			}else if(i==3){
+				imageUrl = adminService.generateFilePath(card2File, "image");
+			}else if(i==5){
+				imageUrl = adminService.generateFilePath(card3File, "image");
+			}
+			
+			if(null != imageUrl){
+				Answer imageFile = new Answer();
+				imageFile.setAnswerText(imageUrl);
+				imageFile.setOrderNo(i+1);
+				answers.add(imageFile);
+				
+			}else{
+				Answer backCard = new Answer();
+				backCard.setAnswerText(request.getParameter("card"+(i+1)+"Back"));
+				backCard.setOrderNo(i+1);
+				answers.add(backCard);
+			}
+
+		}
+		
+		AdminActivityAnswer adminActivityAnswer = new AdminActivityAnswer();
+		adminActivityAnswer.setActivity(activity);
+		adminActivityAnswer.setAnswers(answers);
+		
+		adminActivityAnswer = adminService.saveAdminActivityAnswer(adminActivityAnswer);
+
+		return adminActivityAnswer.getActivity();
+	}
+
+	private AdminActivityAnswer getAdminActivityAnswerForFile(Activity activity, HttpServletRequest request, 
+			MultipartFile uploadFile, String fileType) throws AdminException {
+		
+		AdminActivityAnswer adminActivityAnswer = new AdminActivityAnswer();
+		String idealAnswer = request.getParameter("idealAnswer").trim();
+		
+		adminActivityAnswer.setActivity(activity);
+		Answer answer = new Answer();
+		answer.setAnswerText(idealAnswer);
+		answer.setOrderNo(2);
+		adminActivityAnswer.getAnswers().add(answer);
+
+		String imageUrl = adminService.generateFilePath(uploadFile, fileType);
+
+		if(null != imageUrl){
+			Answer imageFile = new Answer();
+			imageFile.setAnswerText(imageUrl);
+			imageFile.setOrderNo(1);
+			
+			adminActivityAnswer.getAnswers().add(imageFile);
+		}
+			
+		return adminActivityAnswer;
+	}
+
+	private Activity addMCQActivity(Activity activity, HttpServletRequest request) throws AdminException {
+		
+		List<String> correctAnswers = new ArrayList<String>(Arrays.asList(request.getParameterValues("correctAnswer")));
+		
+		Enumeration<String> parameters = request.getParameterNames();
+		List<Answer> answers = new ArrayList<Answer>();
+		while(parameters.hasMoreElements()){
+			String param = (String) parameters.nextElement();
+			if(param.contains("option")){
+				Answer answer = new Answer();
+				answer.setAnswerText(request.getParameter(param).trim());
+				answer.setOrderNo(Integer.valueOf(param.split("_")[1]));
+				answer.setIsCorrect(correctAnswers.contains(param)?true:false);
+				answers.add(answer);
+			}
+		}
+		
+		AdminActivityAnswer adminActivityAnswer = new AdminActivityAnswer();
+		adminActivityAnswer.setActivity(activity);
+		adminActivityAnswer.setAnswers(answers);
+		
+		adminActivityAnswer = adminService.saveAdminActivityAnswer(adminActivityAnswer);
+
+		return adminActivityAnswer.getActivity();
+	}
+
 	@ResponseBody
 	@RequestMapping(value="/renameTopic.action", method=RequestMethod.POST)
 	public String renameTopic(@RequestParam("topicName") String topicName, @RequestParam("topicId") int topicId, HttpSession session){
@@ -198,12 +321,15 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value="/addNewTopic.action", method=RequestMethod.POST)
-	public String addNewTopic(@RequestParam("topicName") String topicName, HttpSession session, Model model){
+	public String addNewTopic(@RequestParam("topicName") String topicName, HttpServletRequest request, HttpSession session, Model model){
 		
 		LOGGER.debug("AdminController: addNewTopic: START");
 		try {
 			int topicId = adminService.addNewTopic(topicName);
 			Topic topic = new Topic(topicId, topicName);
+			
+			String[] versionIds = request.getParameterValues("versionIds");
+			adminService.assignTopicToVersion(topicId, versionIds);
 			List<Topic> topics = (List<Topic>) session.getAttribute("topics");
 			topics.add(topic);
 			session.setAttribute("topics", topics);
@@ -290,10 +416,10 @@ public class AdminController {
 		ActivityContainer activityContainer = (ActivityContainer) session.getAttribute("activityContainer");
 		Map<Integer, ActivityContainer> containerMap = (Map<Integer, ActivityContainer>) session.getAttribute("containerMap");
 		try {
-			adminService.deleteActivityContainer(Integer.valueOf(deletableId));
+			adminService.deleteActivity(Integer.valueOf(deletableId));
 			containerMap.remove(activityContainer.getActivityContainerId());
 			session.removeAttribute("activityContainer");
-			session.removeAttribute("containerMap");
+			session.setAttribute("containerMap", containerMap);
 
 			LOGGER.debug("AdminController: deleteActivity: END");
 			return loadContainerById(activityContainer.getActivityContainerId(), session);
@@ -337,4 +463,140 @@ public class AdminController {
 		}
 	}
 	
+	@RequestMapping(value="/editActivity.action", method=RequestMethod.POST)
+	public String goToEditActivity(@RequestParam("id") String parameter, HttpSession session, Model model){
+		
+		LOGGER.debug("AdminController: goToEditActivity: START");
+		
+		int activityId = Integer.valueOf(parameter.split("_")[0]);
+		String templateId = parameter.split("_")[1];
+		
+		try {
+			AdminActivityAnswer adminActivityAnswer = adminService.getAdminActivityAnswerByActivityId(activityId);
+
+			model.addAttribute("adminActivity", adminActivityAnswer);
+			model.addAttribute("templateId", templateId);
+			
+			LOGGER.debug("AdminController: goToEditActivity: END");
+			return "editActivity";
+		} catch (AdminException e) {
+			return "errorPage";
+		}
+		
+	}
+	
+	@RequestMapping(value="/updateActivity.action", method=RequestMethod.POST)
+	public String updateActivity(@ModelAttribute("activity") AdminActivityAnswer adminActivityAnswer, 
+			@RequestParam(value="uploadFile",required=false) MultipartFile uploadFile,
+			@RequestParam(value="card1File",required=false) MultipartFile card1File,
+			@RequestParam(value="card2File",required=false) MultipartFile card2File,
+			@RequestParam(value="card3File",required=false) MultipartFile card3File,
+			Model model, HttpSession session, HttpServletRequest request){
+		
+		
+		LOGGER.debug("AdminController: updateActivity: START");
+		Activity act = new Activity();
+		
+		try {
+			if(adminActivityAnswer.getActivity().getActivityTemplate().getId() == 1){
+				adminActivityAnswer = getAdminActivityAnswerForFile(adminActivityAnswer.getActivity(), request, uploadFile, "video");
+				act = adminService.updateAdminActivityAnswer(adminActivityAnswer).getActivity();
+			}else if(adminActivityAnswer.getActivity().getActivityTemplate().getId() == 2){
+				adminActivityAnswer = getAdminActivityAnswerForFile(adminActivityAnswer.getActivity(), request, uploadFile, "image");
+				act = adminService.updateAdminActivityAnswer(adminActivityAnswer).getActivity();
+			}else if(adminActivityAnswer.getActivity().getActivityTemplate().getId() == 3){
+				act = updateMCQActivity(adminActivityAnswer.getActivity(), request);
+			}else if(adminActivityAnswer.getActivity().getActivityTemplate().getId() == 5){
+				act = updateFlipActivity(adminActivityAnswer.getActivity(), request, card1File, card2File, card3File);
+			}
+		} catch (AdminException e) {
+			return "errorPage";
+		}
+		
+		ActivityContainer activityContainer = (ActivityContainer) session.getAttribute("activityContainer");
+		Map<Integer, ActivityContainer> containerMap = (Map<Integer, ActivityContainer>) session.getAttribute("containerMap");
+		if(null==activityContainer || null == containerMap)
+			return "errorPage";
+		
+		containerMap.remove(activityContainer.getActivityContainerId());
+		session.removeAttribute("activityContainer");
+		session.setAttribute("containerMap", containerMap);
+		
+		LOGGER.debug(adminActivityAnswer);
+
+		LOGGER.debug("AdminController: updateActivity: END");
+		return loadContainerById(activityContainer.getActivityContainerId(), session);
+	}
+	
+	private Activity updateFlipActivity(Activity activity, HttpServletRequest request, MultipartFile card1File,
+			MultipartFile card2File, MultipartFile card3File) throws AdminException{
+		
+		List<Answer> answers = new ArrayList<Answer>();
+		for(int i = 1; i<= 6; i=i+2){
+			Answer frontCard = new Answer();
+			frontCard.setAnswerText(request.getParameter("card"+i+"Front"));
+			frontCard.setOrderNo(i);
+			answers.add(frontCard);
+			
+			String backCardParam = request.getParameter("card"+(i+1)+"Back");
+			
+			if(backCardParam.isEmpty()){
+				String imageUrl = null;
+				if(i==1){
+					imageUrl = adminService.generateFilePath(card1File, "image");
+				}else if(i==3){
+					imageUrl = adminService.generateFilePath(card2File, "image");
+				}else if(i==5){
+					imageUrl = adminService.generateFilePath(card3File, "image");
+				}
+				if(null != imageUrl){
+					Answer imageFile = new Answer();
+					imageFile.setAnswerText(imageUrl);
+					imageFile.setOrderNo(i+1);
+					answers.add(imageFile);
+					
+				}
+			}else{
+				Answer backCard = new Answer();
+				backCard.setAnswerText(backCardParam);
+				backCard.setOrderNo(i+1);
+				answers.add(backCard);
+			}
+		}
+		
+		AdminActivityAnswer adminActivityAnswer = new AdminActivityAnswer();
+		adminActivityAnswer.setActivity(activity);
+		adminActivityAnswer.setAnswers(answers);
+		
+		adminActivityAnswer = adminService.updateAdminActivityAnswer(adminActivityAnswer);
+
+		return adminActivityAnswer.getActivity();
+	}
+
+	private Activity updateMCQActivity(Activity activity, HttpServletRequest request) throws AdminException {
+		
+		List<String> correctAnswers = new ArrayList<String>(Arrays.asList(request.getParameterValues("correctAnswer")));
+		
+		Enumeration<String> parameters = request.getParameterNames();
+		List<Answer> answers = new ArrayList<Answer>();
+		while(parameters.hasMoreElements()){
+			String param = (String) parameters.nextElement();
+			if(param.contains("option")){
+				Answer answer = new Answer();
+				answer.setAnswerText(request.getParameter(param));
+				answer.setOrderNo(Integer.valueOf(param.split("_")[1]));
+				answer.setIsCorrect(correctAnswers.contains(param)?true:false);
+				answers.add(answer);
+			}
+		}
+		
+		AdminActivityAnswer adminActivityAnswer = new AdminActivityAnswer();
+		adminActivityAnswer.setActivity(activity);
+		adminActivityAnswer.setAnswers(answers);
+		
+		adminActivityAnswer = adminService.updateAdminActivityAnswer(adminActivityAnswer);
+
+		return adminActivityAnswer.getActivity();
+	}
+
 }

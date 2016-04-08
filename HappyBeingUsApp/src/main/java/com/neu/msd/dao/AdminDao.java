@@ -11,9 +11,11 @@ import com.neu.msd.entities.ActivityContainer;
 import com.neu.msd.entities.ActivityTemplate;
 import com.neu.msd.entities.ActivityType;
 import com.neu.msd.entities.AdminActivityAnswer;
+import com.neu.msd.entities.Answer;
 import com.neu.msd.entities.Topic;
 import com.neu.msd.entities.User;
 import com.neu.msd.entities.UserAuthentication;
+import com.neu.msd.entities.Version;
 import com.neu.msd.exception.AdminException;
 
 /**
@@ -53,4 +55,26 @@ public interface AdminDao {
 	public int deleteActivity(Integer deletableId) throws AdminException;
 
 	public int renameActivityContainer(String containerName, int containerId) throws AdminException;
+
+	public List<Version> loadAllVersion() throws AdminException;
+
+	public int assignTopicToVersion(int topicId, int versionId) throws AdminException;
+
+	public Activity saveActivity(Activity activity) throws AdminException;
+
+	public Answer saveAnswer(Answer answer) throws AdminException;
+
+	public void saveAdminActivityAnswer(int activityId, int answerId, boolean isCorrect) throws AdminException;
+
+	public int deleteFromAdminActivityAnswer(Integer activityId) throws AdminException;
+
+	public int deleteFromUserTopicContainerActivity(Integer activityId) throws AdminException;
+
+	public Activity loadActivityById(int activityId) throws AdminException;
+
+	public List<Answer> loadAnswersByActivityId(int activityId) throws AdminException;
+
+	public Activity updateActivity(Activity activity) throws AdminException;
+	
+	
 }
