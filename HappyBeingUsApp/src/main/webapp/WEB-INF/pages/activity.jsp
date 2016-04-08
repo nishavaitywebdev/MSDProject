@@ -231,7 +231,7 @@
 	}
 
 // 	Flip Card 3 upload messages
-	function card1UploadMsg() {
+	function card3UploadMsg() {
 	    var fileHolder = document.getElementById("card3File");
 	    var msg = "";
 	    if ('files' in fileHolder) {
