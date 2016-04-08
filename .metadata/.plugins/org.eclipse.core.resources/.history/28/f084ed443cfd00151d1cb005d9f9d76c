@@ -1,5 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page isELIgnored="false"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -60,21 +61,6 @@
 </style> 
 
 <script>
-	$(document).ready(function() {
-// 		dropdown for all the templates.
-		$('#activityTemplate').on('change', function() {
-			var template_id = $('#activityTemplate').val();
-			$("#activityTemplate > option").each(function() {
-				if (template_id == this.value) {
-					$("#"+this.value).css("display", "block");
-				} else {
-					$("#"+this.value).css("display", "none");
-				}
-			});
-		});
-		
-	});
-	
 //		mcq template, update checkbox value with the input of user
 	$(document).on('change', '#mcqOptions .option', function() {
 		var num = this.id.split('_')[1];
@@ -116,7 +102,7 @@
 		$('#mcqMoreOptions').css("display", "block");
 		$('#mcqMaxOptions').val(newVal);
 	});
-	
+
 // 	Image upload messages
 	function imageUploadMsg() {
 	    var fileHolder = document.getElementById("imageFile");
@@ -203,26 +189,37 @@
     </div>
 
 
-    <select name="activityTemplate" id="activityTemplate">
-        <option value="">Select The Activity...</option>
-        <c:forEach items="${activityTemplates}" var="template">
-			<option value="template_${template.id}">${template.templateName}</option>
-		</c:forEach>
-    <select>
     
-    <c:forEach items="${activityTemplates}" var="template">
-    <c:if test="${template.id==1}">
-   <form:form action="addActivity.action" method="post" name="mcqForm" id="mcqForm" modelAttribute="activity" enctype="multipart/form-data">
-	    <div id="template_${template.id}" style="display: none">
+    <c:if test="${templateId==1}">
+    <form:form action="updateActivity.action" method="post" name="mcqForm" id="mcqForm" modelAttribute="adminActivity.activity" enctype="multipart/form-data">
+	    <div id="template_${template.id}">
 	
 	        <div class="container">
 	        <h2></h2>
-	            <div class="form-group">
-	                <label for="option1">Image Link</label>
-	                <p id="videoUploadMsg">Browse from computer</p>
-	                <span class="btn btn-default btn-file2">Browse<input type="file" id="videoFile" name="uploadFile" onchange="videoUploadMsg()" required></span>
-	            </div>          
-	
+	        
+	        <div class="row">
+   				<div class="col-sm-6">
+   				<c:if test="${fn:length(adminActivity.answers) > 0}">
+				    <c:forEach var="answer" items="${adminActivity.answers}" varStatus="loopCount">
+				        <c:if test="${loopCount.count eq 1}">
+				        <video width="600"  controls>
+							<source src="cartoon.mp4" type="video/mp4">
+							<source src="cartoon.ogg" type="video/ogg">
+							<ins>Your browser does not support the video tag.</ins>
+						</video>
+				        <img src="${answer.answerText}" class="img-responsive" alt="Cinque Terre" width="600" > 
+				        </c:if>
+				    </c:forEach>
+				</c:if>
+				</div>
+				<div class="col-sm-6">
+					<div class="form-group">
+		                <label for="option1">Image Link</label>
+		                <p id="imageUploadMsg">Browse from computer</p>
+		                <span class="btn btn-default btn-file2">Browse<input type="file" id="imageFile" name="uploadFile" onchange="imageUploadMsg()"></span>
+		            </div> 
+				</div>
+			</div>				
 	
 	            <div class="form-group">
 	                <label for="comment">Question Content:</label>
@@ -231,7 +228,13 @@
 	            
 	            <div class="form-group">
 	                <label for="comment">Answer Content:</label>
-	                <textarea  class="form-control" rows="5" name="idealAnswer" placeholder="Enter Answer Here." required></textarea>
+	                <c:if test="${fn:length(adminActivity.answers) > 0}">
+					    <c:forEach var="answer" items="${adminActivity.answers}" varStatus="loopCount">
+					        <c:if test="${loopCount.count eq 2}">
+				                <textarea  class="form-control" rows="5" name="idealAnswer" placeholder="Enter Answer Here." required>${answer.answerText}</textarea>
+					        </c:if>
+					    </c:forEach>
+					</c:if>
 	            </div>
 	
 	            <input type="submit" class="btn btn-primary btn_lg" value="Add"/>
@@ -248,18 +251,31 @@
 		<form:input type="hidden" path="activityContainer.activityContainerId" />
     </form:form>
     </c:if>
-    <c:if test="${template.id==2}">
-    <form:form action="addActivity.action" method="post" name="mcqForm" id="mcqForm" modelAttribute="activity" enctype="multipart/form-data">
-	    <div id="template_${template.id}" style="display: none">
+    <c:if test="${templateId==2}">
+	<form:form action="updateActivity.action" method="post" name="mcqForm" id="mcqForm" modelAttribute="adminActivity.activity" enctype="multipart/form-data">
+	    <div id="template_${template.id}">
 	
 	        <div class="container">
 	        <h2></h2>
-	            <div class="form-group">
-	                <label for="option1">Image Link</label>
-	                <p id="imageUploadMsg">Browse from computer</p>
-	                <span class="btn btn-default btn-file2">Browse<input type="file" id="imageFile" name="uploadFile" onchange="imageUploadMsg()" required></span>
-	            </div>          
-	
+	        
+	        <div class="row">
+   				<div class="col-sm-6">
+   				<c:if test="${fn:length(adminActivity.answers) > 0}">
+				    <c:forEach var="answer" items="${adminActivity.answers}" varStatus="loopCount">
+				        <c:if test="${loopCount.count eq 1}">
+				        <img src="${answer.answerText}" class="img-responsive" alt="Cinque Terre" width="600" > 
+				        </c:if>
+				    </c:forEach>
+				</c:if>
+				</div>
+				<div class="col-sm-6">
+					<div class="form-group">
+		                <label for="option1">Image Link</label>
+		                <p id="imageUploadMsg">Browse from computer</p>
+		                <span class="btn btn-default btn-file2">Browse<input type="file" id="imageFile" name="uploadFile" onchange="imageUploadMsg()"></span>
+		            </div> 
+				</div>
+			</div>				
 	
 	            <div class="form-group">
 	                <label for="comment">Question Content:</label>
@@ -268,7 +284,13 @@
 	            
 	            <div class="form-group">
 	                <label for="comment">Answer Content:</label>
-	                <textarea  class="form-control" rows="5" name="idealAnswer" placeholder="Enter Answer Here." required></textarea>
+	                <c:if test="${fn:length(adminActivity.answers) > 0}">
+					    <c:forEach var="answer" items="${adminActivity.answers}" varStatus="loopCount">
+					        <c:if test="${loopCount.count eq 2}">
+				                <textarea  class="form-control" rows="5" name="idealAnswer" placeholder="Enter Answer Here." required>${answer.answerText}</textarea>
+					        </c:if>
+					    </c:forEach>
+					</c:if>
 	            </div>
 	
 	            <input type="submit" class="btn btn-primary btn_lg" value="Add"/>
@@ -285,36 +307,26 @@
 		<form:input type="hidden" path="activityContainer.activityContainerId" />
     </form:form>
     </c:if>
-    <c:if test="${template.id==3}">
-	<form:form action="addActivity.action" method="post" name="mcqForm" id="mcqForm" modelAttribute="activity">
-		<div id="template_${template.id}" style="display: none">
+    <c:if test="${templateId==3}">
+	<form:form action="updateActivity.action" method="post" name="mcqForm" id="mcqForm" modelAttribute="adminActivity.activity">
+		<div id="template_${templateId}">
 	
 	        <div class="container">
 	        <h2></h2>
 	            <div class="form-group">
 	                <label for="comment">Question Content:</label>
-	                <form:textarea name="Question" path="activityText" class="form-control" rows="5" id="commentMCQ" placeholder="Enter Question Contents Here."></form:textarea>
+	                <form:textarea name="Question" path="activityText" class="form-control" rows="5" id="comment" placeholder="Enter Question Contents Here."></form:textarea>
 	            </div>
 	            
 	            <div id="mcqOptions">
-	            	
-	            	<div class="mcqOption" id="mcqOption_1" class="form-group">
-						<input type="Checkbox" name="correctAnswer" class="chkbx" id="checkBox_1" /> 
-						<input class="option form-control" type="text" name="option_1" id="option_1"  placeholder="Content for this choice" required/>
-						<button class="removeOption btn btn-primary btn_lg" id="removeOption_1" type="button">Remove</button><br> 
+	            
+	            	<c:forEach items="${adminActivity.answers}" var="answer">
+            		<div class="mcqOption" id="mcqOption_${answer.orderNo}" class="form-group">
+						<input type="Checkbox" name="correctAnswer" class="chkbx" id="checkBox_${answer.orderNo}" ${answer.isCorrect?"checked":""}/> 
+						<input class="option form-control" type="text" name="option_${answer.orderNo}" id="option_${answer.orderNo}" value="${answer.answerText}" placeholder="Content for this choice" required/>
+						<button class="removeOption btn btn-primary btn_lg" id="removeOption_${answer.orderNo}" type="button">Remove</button><br> 
 					</div>
-	            	
-	            	<div class="mcqOption" id="mcqOption_2" class="form-group">
-						<input type="Checkbox" name="correctAnswer" class="chkbx" id="checkBox_2" /> 
-						<input class="option form-control" type="text" name="option_2" id="option_2"  placeholder="Content for this choice" required/>
-						<button class="removeOption btn btn-primary btn_lg" id="removeOption_2" type="button">Remove</button><br> 
-					</div>
-	            	
-	            	<div class="mcqOption" id="mcqOption_3" class="form-group">
-						<input type="Checkbox" name="correctAnswer" class="chkbx" id="checkBox_3" /> 
-						<input class="option form-control" type="text" name="option_3" id="option_3"  placeholder="Content for this choice" required/>
-						<button class="removeOption btn btn-primary btn_lg" id="removeOption_3" type="button">Remove</button><br> 
-					</div>
+	            	</c:forEach>
 	            </div>
 	    	</div>
 	        <tr><td><br/></td></tr>
@@ -326,8 +338,9 @@
 	        <button id="mcqMoreOptions" type="button" class="btn btn-primary btn_lg">Add more options</button>
 			<button type="submit" class="btn btn-primary btn_lg">Add</button>
 			<form:input type="hidden" path="activityType.id" />
+			<form:input type="hidden" path="id" />
 			<form:input type="hidden" path="activityTemplate.id"
-				value="${template.id}" />
+				value="${templateId}" />
 			<form:input type="hidden" path="activityContainer.activityContainerId" />
 	
 	    </div>
@@ -335,19 +348,20 @@
 	<input type="hidden" id="mcqMaxOptions" value="3"/>    
     </c:if>
     
-    <c:if test="${template.id==4}">
-    	<div id="content_1" class="inv"><div class="container">
-	        <h2></h2>
-	        <form role="form" action=# method="post">           
-	            
-	            <div class="form-group">
-	                <label for="comment">Information Content:</label>
-	                <textarea  class="form-control" rows="5" id="comment" placeholder="Enter Information Content Here."></textarea>
-	            </div>
-	
-	            <input type="submit" class="btn btn-primary btn_lg" value="submit"></input>
-	        </form>
-	    </div>
+    <c:if test="${templateId==4}">
+    	<div id="content_1" >
+	    	<div class="container">
+		        <h2></h2>
+		        <form role="form" action=# method="post">           
+		            
+		            <div class="form-group">
+		                <label for="comment">Information Content:</label>
+		                <textarea  class="form-control" rows="5" id="comment" placeholder="Enter Information Content Here."></textarea>
+		            </div>
+		
+		            <input type="submit" class="btn btn-primary btn_lg" value="submit"></input>
+		        </form>
+		    </div>
 	        <tr><td><br/></td></tr>
 	        <div class="jumbotron">
 	           <footer class="container-fluid text-right">
@@ -356,8 +370,8 @@
 	        </div>
 	    </div>
     </c:if>
-    <c:if test="${template.id==5}">
-	    <div id="content_5" class="inv">
+    <c:if test="${templateId==5}">
+	    <div id="content_5">
 	    
 	
 	        <div class="container">
@@ -404,7 +418,6 @@
 	         </div>
 	    </div>
     </c:if>
-    </c:forEach>
     <tr><td><br/></td></tr>
 </body>
 </html>

@@ -102,6 +102,62 @@
 		$('#mcqMoreOptions').css("display", "block");
 		$('#mcqMaxOptions').val(newVal);
 	});
+
+// 	Image upload messages
+	function imageUploadMsg() {
+	    var fileHolder = document.getElementById("imageFile");
+	    var msg = "";
+	    if ('files' in fileHolder) {
+	        if (fileHolder.files.length == 0) {
+	            msg = "Browse from computer";
+	        } else {
+	            var file = fileHolder.files[0];
+	            if ('name' in file) {
+	                msg += "File Name: " + file.name + "<br>";
+	            }
+	            if ('size' in file) {
+	                msg += "File Size: " + file.size + " bytes <br>";
+	            }
+	        }
+	    } else {
+	        if (fileHolder.value == "") {
+	            msg += "Browse from computer";
+	        } else {
+	            msg += "The files property is not supported by your browser!";
+	            msg += "<br>The path of the selected file: " + fileHolder.value;
+	            // If the browser does not support the files property, it will return the path of the selected file instead.
+	        }
+	    }
+	    document.getElementById("imageUploadMsg").innerHTML = msg;
+	}
+
+// 	Video upload messages
+	function videoUploadMsg() {
+	    var fileHolder = document.getElementById("videoFile");
+	    var msg = "";
+	    if ('files' in fileHolder) {
+	        if (fileHolder.files.length == 0) {
+	            msg = "Browse from computer";
+	        } else {
+	            var file = fileHolder.files[0];
+	            if ('name' in file) {
+	                msg += "File Name: " + file.name + "<br>";
+	            }
+	            if ('size' in file) {
+	                msg += "File Size: " + file.size + " bytes <br>";
+	            }
+	        }
+	    } else {
+	        if (fileHolder.value == "") {
+	            msg += "Browse from computer";
+	        } else {
+	            msg += "The files property is not supported by your browser!";
+	            msg += "<br>The path of the selected file: " + fileHolder.value;
+	            // If the browser does not support the files property, it will return the path of the selected file instead.
+	        }
+	    }
+	    document.getElementById("videoUploadMsg").innerHTML = msg;
+	}
 </script>
 
 </head>
@@ -135,43 +191,8 @@
 
     
     <c:if test="${templateId==1}">
-	    <div id="content_4">
-	
-	        <div class="container">
-	        <h2></h2>
-	        <form role="form" action=# method="post">
-	            
-	            <div class="form-group">
-	                <label for="option1">Video Link</label>
-	                <input type="text" class="form-control" id="option1" name="option1" placeholder="Video link ">
-	            </div>          
-	
-	
-	            <div class="form-group">
-	                <label for="comment">Question Content:</label>
-	                <textarea  class="form-control" rows="5" id="comment" placeholder="Enter Question Contents Here."></textarea>
-	            </div>
-	            
-	            <div class="form-group">
-	                <label for="comment">Answer Content:</label>
-	                <textarea  class="form-control" rows="5" id="comment" placeholder="Enter Answer Here."></textarea>
-	            </div>
-	
-	            <input type="submit" class="btn btn-primary btn_lg" value="submit"></input>
-	        </form>
-	        
-	    </div>
-	        <tr><td><br/></td></tr>
-	        <div class="jumbotron">
-	           <footer class="container-fluid text-right">
-	
-	           </footer>
-	        </div>
-	    </div>
-    </c:if>
-    <c:if test="${templateId==2}">
-	<form:form action="updateActivity.action" method="post" name="mcqForm" id="mcqForm" modelAttribute="adminActivity.activity" enctype="multipart/form-data">
-	    <div id="template_${template.id}">
+    <form:form action="updateActivity.action" method="post" name="mcqForm" id="mcqForm" modelAttribute="adminActivity.activity" enctype="multipart/form-data">
+	    <div id="template_${templateId}">
 	
 	        <div class="container">
 	        <h2></h2>
@@ -181,16 +202,20 @@
    				<c:if test="${fn:length(adminActivity.answers) > 0}">
 				    <c:forEach var="answer" items="${adminActivity.answers}" varStatus="loopCount">
 				        <c:if test="${loopCount.count eq 1}">
-				        <img src="${answer.answerText}" class="img-responsive" alt="Cinque Terre" width="600" > 
+				        <video width="600"  controls>
+							<source src="${answer.answerText}" type="video/mp4">
+							<source src="${answer.answerText}" type="video/ogg">
+							<ins>Your browser does not support the video tag.</ins>
+						</video>
 				        </c:if>
 				    </c:forEach>
 				</c:if>
 				</div>
 				<div class="col-sm-6">
 					<div class="form-group">
-		                <label for="option1">Image Link</label>
-		                <p id="imageUploadMsg">Browse from computer</p>
-		                <span class="btn btn-default btn-file2">Browse<input type="file" id="imageFile" name="uploadFile" onchange="imageUploadMsg()" required></span>
+		                <label for="option1">Video Link</label>
+		                <p id="videoUploadMsg">Browse from computer</p>
+		                <span class="btn btn-default btn-file2">Browse<input type="file" id="videoFile" name="uploadFile" onchange="videoUploadMsg()"></span>
 		            </div> 
 				</div>
 			</div>				
@@ -221,8 +246,66 @@
 	        </div>
 	    </div>
 	    <form:input type="hidden" path="activityType.id" />
-		<form:input type="hidden" path="activityTemplate.id" value="${template.id}" />
+		<form:input type="hidden" path="activityTemplate.id" value="${templateId}" />
 		<form:input type="hidden" path="activityContainer.activityContainerId" />
+		<form:input type="hidden" path="id" />
+    </form:form>
+    </c:if>
+    <c:if test="${templateId==2}">
+	<form:form action="updateActivity.action" method="post" name="mcqForm" id="mcqForm" modelAttribute="adminActivity.activity" enctype="multipart/form-data">
+	    <div id="template_${templateId}">
+	
+	        <div class="container">
+	        <h2></h2>
+	        
+	        <div class="row">
+   				<div class="col-sm-6">
+   				<c:if test="${fn:length(adminActivity.answers) > 0}">
+				    <c:forEach var="answer" items="${adminActivity.answers}" varStatus="loopCount">
+				        <c:if test="${loopCount.count eq 1}">
+				        <img src="${answer.answerText}" class="img-responsive" alt="Cinque Terre" width="600" > 
+				        </c:if>
+				    </c:forEach>
+				</c:if>
+				</div>
+				<div class="col-sm-6">
+					<div class="form-group">
+		                <label for="option1">Image Link</label>
+		                <p id="imageUploadMsg">Browse from computer</p>
+		                <span class="btn btn-default btn-file2">Browse<input type="file" id="imageFile" name="uploadFile" onchange="imageUploadMsg()"></span>
+		            </div> 
+				</div>
+			</div>				
+	
+	            <div class="form-group">
+	                <label for="comment">Question Content:</label>
+	                <form:textarea name="Question" path="activityText" class="form-control" rows="5" id="commentImage" placeholder="Enter Question Contents Here." required="true"></form:textarea>
+	            </div>
+	            
+	            <div class="form-group">
+	                <label for="comment">Answer Content:</label>
+	                <c:if test="${fn:length(adminActivity.answers) > 0}">
+					    <c:forEach var="answer" items="${adminActivity.answers}" varStatus="loopCount">
+					        <c:if test="${loopCount.count eq 2}">
+				                <textarea  class="form-control" rows="5" name="idealAnswer" placeholder="Enter Answer Here." required>${answer.answerText}</textarea>
+					        </c:if>
+					    </c:forEach>
+					</c:if>
+	            </div>
+	
+	            <input type="submit" class="btn btn-primary btn_lg" value="Add"/>
+	    	</div>
+	        <tr><td><br/></td></tr>
+	        <div class="jumbotron">
+	           <footer class="container-fluid text-right">
+	
+	           </footer>
+	        </div>
+	    </div>
+	    <form:input type="hidden" path="activityType.id" />
+		<form:input type="hidden" path="activityTemplate.id" value="${templateId}" />
+		<form:input type="hidden" path="activityContainer.activityContainerId" />
+		<form:input type="hidden" path="id" />
     </form:form>
     </c:if>
     <c:if test="${templateId==3}">

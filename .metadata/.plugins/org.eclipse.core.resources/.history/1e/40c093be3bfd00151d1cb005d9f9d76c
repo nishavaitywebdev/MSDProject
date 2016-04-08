@@ -170,7 +170,7 @@
 	            // If the browser does not support the files property, it will return the path of the selected file instead.
 	        }
 	    }
-	    document.getElementById("videoUploadMsg").innerHTML = msg;
+	    document.getElementById("imageUploadMsg").innerHTML = msg;
 	}
 </script>
 
@@ -219,7 +219,7 @@
 	        <h2></h2>
 	            <div class="form-group">
 	                <label for="option1">Image Link</label>
-	                <p id="videoUploadMsg">Browse from computer</p>
+	                <p id="imageUploadMsg">Browse from computer</p>
 	                <span class="btn btn-default btn-file2">Browse<input type="file" id="videoFile" name="uploadFile" onchange="videoUploadMsg()" required></span>
 	            </div>          
 	
