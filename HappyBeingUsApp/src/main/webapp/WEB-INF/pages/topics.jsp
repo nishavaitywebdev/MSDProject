@@ -54,7 +54,7 @@
 </head>
 
 <body>
-<%@ include file="header.jsp" %>
+	<%@ include file="header.jsp"%>
 	<!-- /.container -->
 	<br></br>
 	<div class="container">
@@ -64,63 +64,68 @@
 		<div class="container" id="mytopics">
 			<div class="container-fluid bg-3">
 				<div class="row jumbotron" id="In progress">
-				<h1 style = "font-size:300%;"> To do </h1>
+					<h1 style="font-size: 300%;">To do</h1>
 					<div class="col-sm-8">
 						<c:forEach items="${topics}" var="topic" varStatus="topicNo">
 							<c:if test="${topic.topicStatus.id <= 2}">
-							<div class="topic_holder" style="padding: 10px">
-								<div class="row">
-								<div class ="col-sm-4">
-								<h2 class="">
-									<span id="topic_name_${topic.id}">${topic.topicName}</span>
-								</h2>
-								</div>
-								<div class="col-sm-8" style="padding: 20px">
-								<div class="progress" style="width:100%">
-										<div class="progress-bar progress-bar-success"
-											role="progressbar" style="width: ${topic.progress}%">${topic.progress} % Complete
+								<div class="topic_holder" style="padding: 10px">
+									<div class="row">
+										<div class="col-sm-4">
+											<h2 class="">
+												<span id="topic_name_${topic.id}">${topic.topicName}</span>
+											</h2>
+										</div>
+										<div class="col-sm-8" style="padding: 20px">
+											<div class="progress" style="width: 100%">
+												<div class="progress-bar progress-bar-success"
+													role="progressbar" style="width: ${topic.progress}%">${topic.progress}
+													% Complete</div>
 											</div>
-									</div></div></div>
+										</div>
+									</div>
 									<br>
 									<table style="border-spacing: 10px">
-									<tbody>
-										<tr>
-											<c:forEach items="${topic.activityContainers}"
-												var="activityContainer" varStatus="currCount">
-												<td><a href="#" class="btn ${currCount.index+1 <= topic.completedActContainers+1?"btn-primary":"btn-primary disabled"}" role="button">  ${activityContainer.containerName}  </a></td>
-												<td style="width:25px"></td>
-											</c:forEach>
-										</tr>
-									</tbody>
-								</table>
-								<br>
-							</div>
+										<tbody>
+											<tr>
+												<c:forEach items="${topic.activityContainers}"
+													var="activityContainer" varStatus="currCount">
+													<td><a id="${topic.id}_${activityContainer.activityContainerId}"
+														class="btn ${currCount.index+1 <= topic.completedActContainers+1?"
+														btn-primary":"btn-primary disabled"}" role="button">
+															${activityContainer.containerName} </a></td>
+													<td style="width: 25px"></td>
+												</c:forEach>
+											</tr>
+										</tbody>
+									</table>
+									<br>
+								</div>
 							</c:if>
 						</c:forEach>
 					</div>
 				</div>
 				<div class="row jumbotron" id="Completed">
-				<h2 style="font-size:300%;"> Completed </h2>
+					<h2 style="font-size: 300%;">Completed</h2>
 					<div class="col-sm-8">
-					
+
 						<c:forEach items="${topics}" var="topic" varStatus="topicNo">
 							<c:if test="${topic.topicStatus.id == 3}">
-							<div class="topic_holder">
-								<h2>
-									<span id="topic_name_${topic.id}">${topic.topicName}</span>
-								</h2>
-								<table>
-								<tbody>
-									<tr>
-									<c:forEach items="${topic.activityContainers}"
-										var="activityContainer">
-										<td><a href="#" class="btn btn-primary" role="button">${activityContainer.containerName}</a></td>
-										<td style="width:25px"></td>
-									</c:forEach>
-									</tr>
-								</tbody>
-								</table>
-							</div>
+								<div class="topic_holder">
+									<h2>
+										<span id="topic_name_${topic.id}">${topic.topicName}</span>
+									</h2>
+									<table>
+										<tbody>
+											<tr>
+												<c:forEach items="${topic.activityContainers}"
+													var="activityContainer">
+													<td><a href="#" class="btn btn-primary" role="button">${activityContainer.containerName}</a></td>
+													<td style="width: 25px"></td>
+												</c:forEach>
+											</tr>
+										</tbody>
+									</table>
+								</div>
 							</c:if>
 						</c:forEach>
 					</div>
@@ -128,7 +133,16 @@
 			</div>
 		</div>
 	</div>
-	<%@ include file="footer.jsp" %>
+	<form id=form method="post" action="getActivitypage.action">
+		<input type="hidden" id=actcon name=actcon />
+	</form>
+	<script>
+		$(".btn").on("click", function() {
+			$("#actcon").val(this.id);
+			$("#form").submit();
+		})
+	</script>
+	<%@ include file="footer.jsp"%>
 	<!-- jQuery -->
 	<script src="js/jquery.js"></script>
 

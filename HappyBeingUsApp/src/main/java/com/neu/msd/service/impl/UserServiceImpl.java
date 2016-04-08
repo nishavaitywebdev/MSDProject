@@ -106,5 +106,30 @@ public class UserServiceImpl implements UserService {
 		
 	}
 
+	@Override
+	public Topic settopic(int tId) throws SQLException {
+		Topic topic=userDao.settopic(tId);
+				
+		return topic;
+	}
+
+	@Override
+	public List<Answer> getAnwser(Activity c_act) throws AdminException, UserException {
+			AdminActivityAnswer adminActivityAnswer = adminDao.getAdminActivityAnswerByActivityId(c_act.getId());
+			List<Answer> answers = adminActivityAnswer.getAnswers();
+			List<Answer> answers1 =new ArrayList<Answer>();
+			for(Answer answer : answers){
+				Answer answer1 = userDao.getAnswerById(answer.getId());
+			    answer1.setCorrect(answer.isCorrect());  
+				answers1.add(answer1);
+			}
+			Collections.sort(answers1,new SortByorder_answer());
+			
+			
+			
+			
+		return answers1;
+	}
+
 
 }

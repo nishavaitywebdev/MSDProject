@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import com.neu.msd.entities.Activity;
+import com.neu.msd.entities.ActivityContainer;
 import com.neu.msd.entities.Answer;
 import com.neu.msd.entities.Topic;
 import com.neu.msd.entities.User;
@@ -30,5 +31,9 @@ public interface UserDao {
 	void addscoreforuser(User user, double score) throws UserException;
 
 	Integer[] getweigh() throws SQLException, AuthenticationException;
+
+	ActivityContainer setcontainer(int cId) throws SQLException;
+
+	Topic settopic(int tId) throws SQLException;
 
 }
