@@ -290,45 +290,70 @@ footer {
 
 	<c:if test="${c_act.activityTemplate.id==1}">
 
-		
-			<c:forEach items="${answers}" var="answer">
-				<div>${answer.orderNo}.${answer.answerText}</div>
-			</c:forEach>
-	
+
+		<c:forEach items="${answers}" var="answer">
+			<c:if test="${answer.orderNo==1}">
+				<video width="600" controls="">
+					<source src="${answer.answerText}">
+					<source src="${answer.answerText}">
+					<ins>Your browser does not support the video tag.</ins>
+				</video>
+			</c:if>
+			<div>${answer.answerText}</div>
+		</c:forEach>
+
 
 	</c:if>
 	<c:if test="${c_act.activityTemplate.id==2}">
 
 
 		<c:forEach items="${answers}" var="answer">
-			<div>${answer.orderNo}.${answer.answerText}</div>
+			<c:if test="${answer.orderNo==1}">
+				<div class="col-sm-6">
+
+
+
+					<img src="${answer.answerText}"
+						class="img-responsive" alt="Image not present" width="600">
+
+
+
+
+
+				</div>
+			</c:if>
+			<div>${answer.answerText}</div>
 		</c:forEach>
-		
 
 	</c:if>
 
 
 	<c:if test="${c_act.activityTemplate.id==3}">
 
-<form:form >
-<c:forEach items="${answers}" var="answer">
-		<div class="radio">
-						<label><input type="radio"
-							name="scores"
-							value="${answer.orderNo}">${answer.answerText}</label>
-					</div>
-					</c:forEach>
-		<div class="modal-footer">
-			<input class="btn btn-primary" type="submit" value="submit" />
+		<form:form>
+			<c:forEach items="${answers}" var="answer">
+				<div class="radio">
+					<label><input type="radio" name="scores"
+						value="${answer.orderNo}">${answer.answerText}</label>
+				</div>
+			</c:forEach>
+			<div class="modal-footer">
+				<input class="btn btn-primary" type="submit" value="submit" />
 
-		</div>
+			</div>
 
-	</form:form>
+		</form:form>
 	</c:if>
 	<c:if test="${c_act.activityTemplate.id==4}">
 
-		
-		
+
+		<c:forEach items="${answers}" var="answer">
+			<div>
+				<label>${answer.answerText}</label>
+			</div>
+		</c:forEach>
+
+
 
 	</c:if>
 
@@ -348,9 +373,9 @@ footer {
 
 			<!-- first Row -->
 			<div class="row">
-				<c:forEach items="${answers}" var="answer">
-					<div class="col-lg-2"></div>
 
+				<div class="col-lg-2"></div>
+				<c:forEach items="${answers}" var="answer">
 					<div class="col-lg-4  cardContainer">
 						<div class="card">
 							<div class="front">
@@ -371,9 +396,7 @@ footer {
 
 
 
-				<div>
-				
-				</div>
+				<div></div>
 			</div>
 			<!--cardWrapper Ends-->
 			<!-- container -->
