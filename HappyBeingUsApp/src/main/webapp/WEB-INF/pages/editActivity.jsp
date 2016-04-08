@@ -170,7 +170,7 @@
 	    </div>
     </c:if>
     <c:if test="${templateId==2}">
-	<form:form action="updateActivity.action" method="post" name="mcqForm" id="mcqForm" modelAttribute="activity" enctype="multipart/form-data">
+	<form:form action="updateActivity.action" method="post" name="mcqForm" id="mcqForm" modelAttribute="adminActivity.activity" enctype="multipart/form-data">
 	    <div id="template_${template.id}">
 	
 	        <div class="container">
