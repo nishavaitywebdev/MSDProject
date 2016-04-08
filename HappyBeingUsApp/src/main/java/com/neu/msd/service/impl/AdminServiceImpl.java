@@ -3,14 +3,19 @@
  */
 package com.neu.msd.service.impl;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.neu.msd.dao.AdminDao;
 import com.neu.msd.entities.Activity;
@@ -36,6 +41,11 @@ public class AdminServiceImpl implements AdminService {
 
 	@Autowired
 	private AdminDao adminDao;
+	
+	private final String IMAGE_ABSOLUTE_PATH ="/usr/hbu/resources/images/";
+	private final String IMAGE_RELATIVE_PATH ="resources/images/";
+	private final String VIDEO_ABSOLUTE_PATH ="/usr/hbu/resources/videos/";
+	private final String VIDEO_RELATIVE_PATH ="resources/videos/";
 	
 	/* (non-Javadoc)
 	 * @see com.neu.msd.service.AdminServie#loadTopics()
@@ -171,11 +181,16 @@ public class AdminServiceImpl implements AdminService {
 		return new AdminActivityAnswer(activity, answers);
 	}
 
-	@Override
 	public AdminActivityAnswer updateAdminActivityAnswer(AdminActivityAnswer adminActivityAnswer)
 			throws AdminException {
 		
 		Activity activity = adminDao.updateActivity(adminActivityAnswer.getActivity());
+		
+		if((activity.getActivityTemplate().getId() == 1 || activity.getActivityTemplate().getId() == 2)
+				&& adminActivityAnswer.getAnswers().size() == 1){
+			Answer answer = adminDao.loadAnswersByActivityId(activity.getId()).get(0);
+			adminActivityAnswer.getAnswers().add(answer);
+		}
 		adminDao.deleteFromUserTopicContainerActivity(adminActivityAnswer.getActivity().getId());
 		adminDao.deleteFromAdminActivityAnswer(adminActivityAnswer.getActivity().getId());
 		
@@ -192,4 +207,32 @@ public class AdminServiceImpl implements AdminService {
 		// TODO Auto-generated method stub
 		return adminActivityAnswer;
 	}
-}
+
+	public String generateFilePath(MultipartFile uploadFile, String fileType) throws AdminException {
+		
+		if(null != uploadFile){
+			StringBuilder fileName = new StringBuilder();
+			fileName.append(new Date().getTime());
+			fileName.append("_");
+			fileName.append(uploadFile.getOriginalFilename());
+			
+			StringBuilder absolutePath = new StringBuilder();
+			absolutePath.append(fileType.equalsIgnoreCase("image")?IMAGE_ABSOLUTE_PATH:VIDEO_ABSOLUTE_PATH);
+			absolutePath.append(fileName.toString());
+			
+			StringBuilder relativePath = new StringBuilder();
+			relativePath.append(fileType.equalsIgnoreCase("image")?IMAGE_RELATIVE_PATH:VIDEO_RELATIVE_PATH);
+			relativePath.append(fileName.toString());
+			
+			File fileOnServer = new File(absolutePath.toString());
+			try {
+				FileUtils.writeByteArrayToFile(fileOnServer, uploadFile.getBytes());
+			} catch (IOException e) {
+				throw new AdminException(e);
+			}
+			
+			return relativePath.toString();
+		}
+		return null;
+	}
+}	

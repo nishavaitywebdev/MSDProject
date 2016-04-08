@@ -116,6 +116,34 @@
 		$('#mcqMoreOptions').css("display", "block");
 		$('#mcqMaxOptions').val(newVal);
 	});
+	
+// 	Image upload messages
+	function imageUploadMsg() {
+	    var fileHolder = document.getElementById("imageFile");
+	    var msg = "";
+	    if ('files' in fileHolder) {
+	        if (fileHolder.files.length == 0) {
+	            msg = "Browse from computer";
+	        } else {
+	            var file = fileHolder.files[0];
+	            if ('name' in file) {
+	                msg += "File Name: " + file.name + "<br>";
+	            }
+	            if ('size' in file) {
+	                msg += "File Size: " + file.size + " bytes <br>";
+	            }
+	        }
+	    } else {
+	        if (fileHolder.value == "") {
+	            msg += "Browse from computer";
+	        } else {
+	            msg += "The files property is not supported by your browser!";
+	            msg += "<br>The path of the selected file: " + fileHolder.value;
+	            // If the browser does not support the files property, it will return the path of the selected file instead.
+	        }
+	    }
+	    document.getElementById("imageUploadMsg").innerHTML = msg;
+	}
 </script>
 
 </head>
@@ -191,37 +219,30 @@
 	    </div>
     </c:if>
     <c:if test="${template.id==2}">
-	    <div id="content_3" class="inv">
+    <form:form action="addActivity.action" method="post" name="mcqForm" id="mcqForm" modelAttribute="activity" enctype="multipart/form-data">
+	    <div id="template_${template.id}" style="display: none">
 	
 	        <div class="container">
 	        <h2></h2>
-	        <form role="form" action=# method="post">
-	            
-	
 	            <div class="form-group">
 	                <label for="option1">Image Link</label>
-	                <input type="text" class="form-control" id="option1" name="option1" placeholder="Video link ">
-	                <p> or Browse from computer</p>
-	                <span class="btn btn-default btn-file2">
-	                    Browse <input type="file">
-	                </span>
+	                <p id="imageUploadMsg">Browse from computer</p>
+	                <span class="btn btn-default btn-file2">Browse<input type="file" id="imageFile" name="uploadFile" onchange="imageUploadMsg()" required></span>
 	            </div>          
 	
 	
 	            <div class="form-group">
 	                <label for="comment">Question Content:</label>
-	                <textarea  class="form-control" rows="5" id="comment" placeholder="Enter Question Contents Here."></textarea>
+	                <form:textarea name="Question" path="activityText" class="form-control" rows="5" id="commentImage" placeholder="Enter Question Contents Here." required="true"></form:textarea>
 	            </div>
 	            
 	            <div class="form-group">
 	                <label for="comment">Answer Content:</label>
-	                <textarea  class="form-control" rows="5" id="comment" placeholder="Enter Answer Here."></textarea>
+	                <textarea  class="form-control" rows="5" name="idealAnswer" placeholder="Enter Answer Here." required></textarea>
 	            </div>
 	
-	            <input type="submit" class="btn btn-primary btn_lg" value="submit"></input>
-	        </form>
-	        
-	    </div>
+	            <input type="submit" class="btn btn-primary btn_lg" value="Add"/>
+	    	</div>
 	        <tr><td><br/></td></tr>
 	        <div class="jumbotron">
 	           <footer class="container-fluid text-right">
@@ -229,6 +250,10 @@
 	           </footer>
 	        </div>
 	    </div>
+	    <form:input type="hidden" path="activityType.id" />
+		<form:input type="hidden" path="activityTemplate.id" value="${template.id}" />
+		<form:input type="hidden" path="activityContainer.activityContainerId" />
+    </form:form>
     </c:if>
     <c:if test="${template.id==3}">
 	<form:form action="addActivity.action" method="post" name="mcqForm" id="mcqForm" modelAttribute="activity">
@@ -238,7 +263,7 @@
 	        <h2></h2>
 	            <div class="form-group">
 	                <label for="comment">Question Content:</label>
-	                <form:textarea name="Question" path="activityText" class="form-control" rows="5" id="comment" placeholder="Enter Question Contents Here."></form:textarea>
+	                <form:textarea name="Question" path="activityText" class="form-control" rows="5" id="commentMCQ" placeholder="Enter Question Contents Here."></form:textarea>
 	            </div>
 	            
 	            <div id="mcqOptions">

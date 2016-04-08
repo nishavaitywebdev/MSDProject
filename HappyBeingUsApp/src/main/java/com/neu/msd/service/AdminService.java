@@ -6,6 +6,8 @@ package com.neu.msd.service;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.neu.msd.entities.ActivityContainer;
 import com.neu.msd.entities.ActivityTemplate;
 import com.neu.msd.entities.AdminActivityAnswer;
@@ -54,4 +56,6 @@ public interface AdminService {
 	public AdminActivityAnswer getAdminActivityAnswerByActivityId(int activityId) throws AdminException;
 
 	public AdminActivityAnswer updateAdminActivityAnswer(AdminActivityAnswer adminActivityAnswer) throws AdminException;
+
+	public String generateFilePath(MultipartFile uploadFile, String fileType) throws AdminException;
 }

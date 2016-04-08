@@ -1260,7 +1260,7 @@ public class AdminDaoImpl implements AdminDao {
 		try {
 			connection = dataSource.getConnection();
 			
-			String sql = "select answer.answer_id answer_id, answer_desc, order_no, is_correct from answer join admin_activity_answer on admin_activity_answer.answer_id = answer.answer_id where admin_activity_answer.activity_id = ?";
+			String sql = "select answer.answer_id answer_id, answer_desc, order_no, is_correct from answer join admin_activity_answer on admin_activity_answer.answer_id = answer.answer_id where admin_activity_answer.activity_id = ? order by order_no";
 			stmt = connection.prepareStatement(sql);
 			stmt.setInt(1, activityId);
 			

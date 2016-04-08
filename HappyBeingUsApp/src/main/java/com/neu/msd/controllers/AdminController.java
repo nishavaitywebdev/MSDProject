@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.neu.msd.entities.Activity;
 import com.neu.msd.entities.ActivityContainer;
@@ -153,17 +154,27 @@ public class AdminController {
 			return "errorPage";
 		}
 	}
-	
+
 	@RequestMapping(value="/addActivity.action", method=RequestMethod.POST)
-	public String addNewActivity(@ModelAttribute("activity") Activity activity, Model model, HttpSession session, 
-			HttpServletRequest request){
+	public String addNewActivity(@ModelAttribute("activity") Activity activity, @RequestParam(value="uploadFile",required=false) MultipartFile uploadFile,
+			Model model, HttpSession session, HttpServletRequest request){
 		
 		
 		LOGGER.debug("AdminController: addNewActivity: START");
 		Activity act = new Activity();
 		
-		if(activity.getActivityTemplate().getId() == 3){
-			act = addMCQActivity(activity, request);
+		try {
+			if(activity.getActivityTemplate().getId() == 1){
+				AdminActivityAnswer adminActivityAnswer = getAdminActivityAnswerForFile(activity, request, uploadFile, "video");
+				act = adminService.saveAdminActivityAnswer(adminActivityAnswer).getActivity();
+			}else if(activity.getActivityTemplate().getId() == 2){
+				AdminActivityAnswer adminActivityAnswer = getAdminActivityAnswerForFile(activity, request, uploadFile, "image");
+				act = adminService.saveAdminActivityAnswer(adminActivityAnswer).getActivity();
+			}else if(activity.getActivityTemplate().getId() == 3){
+				act = addMCQActivity(activity, request);
+			}
+		} catch (AdminException e) {
+			return "errorPage";
 		}
 		
 		ActivityContainer activityContainer = (ActivityContainer) session.getAttribute("activityContainer");
@@ -185,7 +196,32 @@ public class AdminController {
 		return loadContainerById(activityContainer.getActivityContainerId(), session);
 	}
 	
-	private Activity addMCQActivity(Activity activity, HttpServletRequest request) {
+	private AdminActivityAnswer getAdminActivityAnswerForFile(Activity activity, HttpServletRequest request, 
+			MultipartFile uploadFile, String fileType) throws AdminException {
+		
+		AdminActivityAnswer adminActivityAnswer = new AdminActivityAnswer();
+		String idealAnswer = request.getParameter("idealAnswer");
+		
+		adminActivityAnswer.setActivity(activity);
+		Answer answer = new Answer();
+		answer.setAnswerText(idealAnswer);
+		answer.setOrderNo(2);
+		adminActivityAnswer.getAnswers().add(answer);
+
+		String imageUrl = adminService.generateFilePath(uploadFile, fileType);
+
+		if(null != imageUrl){
+			Answer imageFile = new Answer();
+			imageFile.setAnswerText(imageUrl);
+			imageFile.setOrderNo(1);
+			
+			adminActivityAnswer.getAnswers().add(imageFile);
+		}
+			
+		return adminActivityAnswer;
+	}
+
+	private Activity addMCQActivity(Activity activity, HttpServletRequest request) throws AdminException {
 		
 		List<String> correctAnswers = new ArrayList<String>(Arrays.asList(request.getParameterValues("correctAnswer")));
 		
@@ -209,12 +245,7 @@ public class AdminController {
 		adminActivityAnswer.setActivity(activity);
 		adminActivityAnswer.setAnswers(answers);
 		
-		try {
-			adminActivityAnswer = adminService.saveAdminActivityAnswer(adminActivityAnswer);
-		} catch (AdminException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		adminActivityAnswer = adminService.saveAdminActivityAnswer(adminActivityAnswer);
 
 		return adminActivityAnswer.getActivity();
 	}
@@ -408,15 +439,25 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value="/updateActivity.action", method=RequestMethod.POST)
-	public String updateActivity(@ModelAttribute("activity") AdminActivityAnswer adminActivityAnswer, Model model, HttpSession session, 
-			HttpServletRequest request){
+	public String updateActivity(@ModelAttribute("activity") AdminActivityAnswer adminActivityAnswer, @RequestParam(value="uploadFile",required=false) MultipartFile uploadFile,
+			Model model, HttpSession session, HttpServletRequest request){
 		
 		
 		LOGGER.debug("AdminController: updateActivity: START");
 		Activity act = new Activity();
 		
-		if(adminActivityAnswer.getActivity().getActivityTemplate().getId() == 3){
-			act = updateMCQActivity(adminActivityAnswer.getActivity(), request);
+		try {
+			if(adminActivityAnswer.getActivity().getActivityTemplate().getId() == 1){
+				adminActivityAnswer = getAdminActivityAnswerForFile(adminActivityAnswer.getActivity(), request, uploadFile, "video");
+				act = adminService.updateAdminActivityAnswer(adminActivityAnswer).getActivity();
+			}else if(adminActivityAnswer.getActivity().getActivityTemplate().getId() == 2){
+				adminActivityAnswer = getAdminActivityAnswerForFile(adminActivityAnswer.getActivity(), request, uploadFile, "image");
+				act = adminService.updateAdminActivityAnswer(adminActivityAnswer).getActivity();
+			}else if(adminActivityAnswer.getActivity().getActivityTemplate().getId() == 3){
+				act = updateMCQActivity(adminActivityAnswer.getActivity(), request);
+			}
+		} catch (AdminException e) {
+			return "errorPage";
 		}
 		
 		ActivityContainer activityContainer = (ActivityContainer) session.getAttribute("activityContainer");
@@ -434,12 +475,9 @@ public class AdminController {
 		return loadContainerById(activityContainer.getActivityContainerId(), session);
 	}
 	
-	private Activity updateMCQActivity(Activity activity, HttpServletRequest request) {
+	private Activity updateMCQActivity(Activity activity, HttpServletRequest request) throws AdminException {
 		
 		List<String> correctAnswers = new ArrayList<String>(Arrays.asList(request.getParameterValues("correctAnswer")));
-		
-		if(null == correctAnswers)
-			correctAnswers = new ArrayList<String>();
 		
 		Enumeration<String> parameters = request.getParameterNames();
 		List<Answer> answers = new ArrayList<Answer>();
@@ -458,12 +496,7 @@ public class AdminController {
 		adminActivityAnswer.setActivity(activity);
 		adminActivityAnswer.setAnswers(answers);
 		
-		try {
-			adminActivityAnswer = adminService.updateAdminActivityAnswer(adminActivityAnswer);
-		} catch (AdminException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		adminActivityAnswer = adminService.updateAdminActivityAnswer(adminActivityAnswer);
 
 		return adminActivityAnswer.getActivity();
 	}
