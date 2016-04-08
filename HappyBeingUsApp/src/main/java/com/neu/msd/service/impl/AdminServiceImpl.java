@@ -46,6 +46,12 @@ public class AdminServiceImpl implements AdminService {
 	private final String IMAGE_RELATIVE_PATH ="resources/images/";
 	private final String VIDEO_ABSOLUTE_PATH ="/usr/hbu/resources/videos/";
 	private final String VIDEO_RELATIVE_PATH ="resources/videos/";
+	private final int VIDEO_TEMPLATE_ID =1;
+	private final int IMAGE_TEMPLATE_ID =2;
+	private final int MCQ_TEMPLATE_ID =3;
+	private final int INFORMATION_TEMPLATE_ID =4;
+	private final int FLIP_TEMPLATE_ID =5;
+	private final int MAX_FLIP_OPTION =6;
 	
 	/* (non-Javadoc)
 	 * @see com.neu.msd.service.AdminServie#loadTopics()
@@ -175,7 +181,7 @@ public class AdminServiceImpl implements AdminService {
 		Activity activity = adminDao.loadActivityById(activityId);
 		
 		List<Answer> answers = new ArrayList<Answer>();
-		if(activity.getActivityTemplate().getId() != 4)
+		if(activity.getActivityTemplate().getId() != INFORMATION_TEMPLATE_ID)
 			answers = adminDao.loadAnswersByActivityId(activityId);
 		
 		return new AdminActivityAnswer(activity, answers);
@@ -186,10 +192,21 @@ public class AdminServiceImpl implements AdminService {
 		
 		Activity activity = adminDao.updateActivity(adminActivityAnswer.getActivity());
 		
-		if((activity.getActivityTemplate().getId() == 1 || activity.getActivityTemplate().getId() == 2)
+		if((activity.getActivityTemplate().getId() == VIDEO_TEMPLATE_ID || 
+				activity.getActivityTemplate().getId() == IMAGE_TEMPLATE_ID)
 				&& adminActivityAnswer.getAnswers().size() == 1){
 			Answer answer = adminDao.loadAnswersByActivityId(activity.getId()).get(0);
 			adminActivityAnswer.getAnswers().add(answer);
+		}else if(activity.getActivityTemplate().getId() == FLIP_TEMPLATE_ID && adminActivityAnswer.getAnswers().size() != MAX_FLIP_OPTION){
+			List<Answer> answers = adminDao.loadAnswersByActivityId(activity.getId());
+			int i = 0;
+			List<Answer> currentAnswers = adminActivityAnswer.getAnswers();
+			for(Answer answer : currentAnswers){
+				if(answer.getOrderNo() != i+1){
+					adminActivityAnswer.getAnswers().add(answers.get(i));
+				}
+				i++;
+			}
 		}
 		adminDao.deleteFromUserTopicContainerActivity(adminActivityAnswer.getActivity().getId());
 		adminDao.deleteFromAdminActivityAnswer(adminActivityAnswer.getActivity().getId());

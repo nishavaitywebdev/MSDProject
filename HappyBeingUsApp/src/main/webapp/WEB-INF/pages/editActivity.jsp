@@ -263,7 +263,7 @@
    				<c:if test="${fn:length(adminActivity.answers) > 0}">
 				    <c:forEach var="answer" items="${adminActivity.answers}" varStatus="loopCount">
 				        <c:if test="${loopCount.count eq 1}">
-				        <img src="${answer.answerText}" class="img-responsive" alt="Cinque Terre" width="600" > 
+				        <img src="${answer.answerText}" class="img-responsive" alt="Image not present" width="600" > 
 				        </c:if>
 				    </c:forEach>
 				</c:if>
@@ -309,7 +309,7 @@
     </form:form>
     </c:if>
     <c:if test="${templateId==3}">
-	<form:form action="updateActivity.action" method="post" name="mcqForm" id="mcqForm" modelAttribute="adminActivity.activity">
+	<form:form action="updateActivity.action" method="post" name="mcqForm" id="mcqForm" modelAttribute="adminActivity.activity" enctype="multipart/form-data">
 		<div id="template_${templateId}">
 	
 	        <div class="container">
@@ -372,52 +372,150 @@
 	    </div>
     </c:if>
     <c:if test="${templateId==5}">
-	    <div id="content_5">
-	    
+	<form:form action="updateActivity.action" method="post" name="mcqForm" id="mcqForm" modelAttribute="adminActivity.activity" enctype="multipart/form-data">
+		<div id="template_${templateId}">
 	
 	        <div class="container">
-	                    <h2></h2>
-	                    <form role="form" action=# method="post">
-	                                
-	
-	
-	                        <div class="form-group">
-	                            <h1> Card 1 </h1>
-	                            <label for="comment">Front Content:</label>
-	                            <textarea  class="form-control" rows="5" id="comment" placeholder="Enter Front Contents Here."></textarea>
-	                            <label for="comment">Back Content:</label>
-	                            <textarea  class="form-control" rows="5" id="comment" placeholder="Enter Back Contents Here."></textarea>
-	                        </div>
-	                        <tr><td><br/></td></tr>
-	                        <div class="form-group">
-	                            <h1> Card 2 </h1>
-	                            <label for="comment">Front Content:</label>
-	                            <textarea  class="form-control" rows="5" id="comment" placeholder="Enter Front Contents Here."></textarea>
-	                            <label for="comment">Back Content:</label>
-	                            <textarea  class="form-control" rows="5" id="comment" placeholder="Enter Back Contents Here."></textarea>
-	                        </div>
-	                        <tr><td><br/></td></tr>
-	                        <div class="form-group">
-	                            <h1> Card 3 </h1>
-	                            <label for="comment">Front Content:</label>
-	                            <textarea  class="form-control" rows="5" id="comment" placeholder="Enter Front Contents Here."></textarea>
-	                            <label for="comment">Back Content:</label>
-	                            <textarea  class="form-control" rows="5" id="comment" placeholder="Enter Back Contents Here."></textarea>
-	                        </div>
-	                        <tr><td><br/></td></tr>
-	
-	                        <div class="container text-right">
-	                                <input type="submit" class="btn btn-primary btn_lg" value="submit"></input>
-	
-	                        </div> 
-	                    </form>
-	        </div>
+	        <h2></h2>
+	            <div class="form-group">
+	                <label for="comment">Question Content:</label>
+	                <form:textarea name="Question" path="activityText" class="form-control" rows="5" placeholder="Enter Question Contents Here."></form:textarea>
+	            </div>
+	            
+				
+				<div class="row">
+	   				<div class="col-sm-3">
+	   				<c:if test="${fn:length(adminActivity.answers) > 0}">
+					    <c:forEach var="answer" items="${adminActivity.answers}" varStatus="loopCount">
+					        <c:if test="${loopCount.count eq 2}">
+					        <tr><td><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/></td></tr>
+					        <img src="${answer.answerText}" class="img-responsive" alt="Image not present" width="600" > 
+					        </c:if>
+					    </c:forEach>
+					</c:if>
+					</div>
+					<div class="col-sm-9">
+						<div class="form-group">
+						    <h1> Card 1 </h1>
+						    <label for="comment">Front Content:</label>
+						    <c:if test="${fn:length(adminActivity.answers) > 0}">
+							    <c:forEach var="answer" items="${adminActivity.answers}" varStatus="loopCount">
+							        <c:if test="${loopCount.count eq 1}">
+							        <textarea  class="form-control" rows="5" name="card1Front" placeholder="Enter Front Contents Here." required>${answer.answerText}</textarea>
+							        </c:if>
+							    </c:forEach>
+							</c:if>
+						    <label for="comment">Back Content:</label>
+						    <c:if test="${fn:length(adminActivity.answers) > 0}">
+							    <c:forEach var="answer" items="${adminActivity.answers}" varStatus="loopCount">
+							        <c:if test="${loopCount.count eq 2}">
+								    <textarea  class="form-control" rows="5" name="card2Back" placeholder="Enter Back Contents Here."><c:if test="${not fn:contains(answer.answerText, 'resources/')}">${answer.answerText}</c:if></textarea>
+							        </c:if>
+							    </c:forEach>
+							</c:if>
+						    
+						    <label for="card1">Image Link</label>
+			                <p id="card1UploadMsg">Browse from computer</p>
+			                <span class="btn btn-default btn-file2">Browse<input type="file" id="card1File" name="card1File" onchange="card1UploadMsg()"></span>
+						</div> 
+					</div>
+				</div>	
+				<tr><td><br/></td></tr>
+				<div class="row">
+	   				<div class="col-sm-3">
+	   				<c:if test="${fn:length(adminActivity.answers) > 0}">
+					    <c:forEach var="answer" items="${adminActivity.answers}" varStatus="loopCount">
+					        <c:if test="${loopCount.count eq 4}">
+					        <tr><td><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/></td></tr>
+					        <img src="${answer.answerText}" class="img-responsive" alt="Image not present" width="600" > 
+					        </c:if>
+					    </c:forEach>
+					</c:if>
+					</div>
+					<div class="col-sm-9">
+						<div class="form-group">
+						    <h1> Card 2 </h1>
+						    <label for="comment">Front Content:</label>
+						    <c:if test="${fn:length(adminActivity.answers) > 0}">
+							    <c:forEach var="answer" items="${adminActivity.answers}" varStatus="loopCount">
+							        <c:if test="${loopCount.count eq 3}">
+							        <textarea  class="form-control" rows="5" name="card3Front" placeholder="Enter Front Contents Here." required>${answer.answerText}</textarea>
+							        </c:if>
+							    </c:forEach>
+							</c:if>
+						    <label for="comment">Back Content:</label>
+						    <c:if test="${fn:length(adminActivity.answers) > 0}">
+							    <c:forEach var="answer" items="${adminActivity.answers}" varStatus="loopCount">
+							        <c:if test="${loopCount.count eq 4}">
+								    <textarea  class="form-control" rows="5" name="card4Back" placeholder="Enter Back Contents Here."><c:if test="${not fn:contains(answer.answerText, 'resources/')}">${answer.answerText}</c:if></textarea>
+							        </c:if>
+							    </c:forEach>
+							</c:if>
+						    
+						    <label for="card2">Image Link</label>
+			                <p id="card2UploadMsg">Browse from computer</p>
+			                <span class="btn btn-default btn-file2">Browse<input type="file" id="card2File" name="card2File" onchange="card2UploadMsg()"></span>
+						</div> 
+					</div>
+				</div>
+                <tr><td><br/></td></tr>
+                <div class="row">
+	   				<div class="col-sm-3">
+	   				<c:if test="${fn:length(adminActivity.answers) > 0}">
+					    <c:forEach var="answer" items="${adminActivity.answers}" varStatus="loopCount">
+					        <c:if test="${loopCount.count eq 6}">
+					        <tr><td><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/></td></tr>
+					        <img src="${answer.answerText}" class="img-responsive" alt="Image not present" width="600" > 
+					        </c:if>
+					    </c:forEach>
+					</c:if>
+					</div>
+					<div class="col-sm-9">
+						<div class="form-group">
+						    <h1> Card 2 </h1>
+						    <label for="comment">Front Content:</label>
+						    <c:if test="${fn:length(adminActivity.answers) > 0}">
+							    <c:forEach var="answer" items="${adminActivity.answers}" varStatus="loopCount">
+							        <c:if test="${loopCount.count eq 5}">
+							        <textarea  class="form-control" rows="5" name="card5Front" placeholder="Enter Front Contents Here." required>${answer.answerText}</textarea>
+							        </c:if>
+							    </c:forEach>
+							</c:if>
+						    <label for="comment">Back Content:</label>
+						    <c:if test="${fn:length(adminActivity.answers) > 0}">
+							    <c:forEach var="answer" items="${adminActivity.answers}" varStatus="loopCount">
+							        <c:if test="${loopCount.count eq 6}">
+								    <textarea  class="form-control" rows="5" name="card6Back" placeholder="Enter Back Contents Here."><c:if test="${not fn:contains(answer.answerText, 'resources/')}">${answer.answerText}</c:if></textarea>
+							        </c:if>
+							    </c:forEach>
+							</c:if>
+						    
+						    <label for="card3">Image Link</label>
+			                <p id="card3UploadMsg">Browse from computer</p>
+			                <span class="btn btn-default btn-file2">Browse<input type="file" id="card3File" name="card3File" onchange="card3UploadMsg()"></span>
+						</div> 
+					</div>
+				</div>
+                <tr><td><br/></td></tr>
+
+                <div class="container text-right">
+					<button type="submit" class="btn btn-primary btn_lg">Add</button>
+                </div> 
+	    	</div>
 	        <tr><td><br/></td></tr>
 	        <div class="jumbotron">
-	                        <footer class="container-fluid text-right">
-	                        </footer>
-	         </div>
+	           <footer class="container-fluid text-right">
+	
+	           </footer>
+	        </div>
+			<form:input type="hidden" path="activityType.id" />
+			<form:input type="hidden" path="activityTemplate.id"
+				value="${templateId}" />
+			<form:input type="hidden" path="activityContainer.activityContainerId" />
+			<form:input type="hidden" path="id" />
+	
 	    </div>
+	</form:form>
     </c:if>
     <tr><td><br/></td></tr>
 </body>

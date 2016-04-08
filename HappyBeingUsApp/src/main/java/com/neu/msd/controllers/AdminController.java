@@ -156,7 +156,11 @@ public class AdminController {
 	}
 
 	@RequestMapping(value="/addActivity.action", method=RequestMethod.POST)
-	public String addNewActivity(@ModelAttribute("activity") Activity activity, @RequestParam(value="uploadFile",required=false) MultipartFile uploadFile,
+	public String addNewActivity(@ModelAttribute("activity") Activity activity, 
+			@RequestParam(value="uploadFile",required=false) MultipartFile uploadFile,
+			@RequestParam(value="card1File",required=false) MultipartFile card1File,
+			@RequestParam(value="card2File",required=false) MultipartFile card2File,
+			@RequestParam(value="card3File",required=false) MultipartFile card3File,
 			Model model, HttpSession session, HttpServletRequest request){
 		
 		
@@ -172,6 +176,8 @@ public class AdminController {
 				act = adminService.saveAdminActivityAnswer(adminActivityAnswer).getActivity();
 			}else if(activity.getActivityTemplate().getId() == 3){
 				act = addMCQActivity(activity, request);
+			}else if(activity.getActivityTemplate().getId() == 5){
+				act = addFlipActivity(activity, request, card1File, card2File, card3File);
 			}
 		} catch (AdminException e) {
 			return "errorPage";
@@ -196,11 +202,55 @@ public class AdminController {
 		return loadContainerById(activityContainer.getActivityContainerId(), session);
 	}
 	
+	private Activity addFlipActivity(Activity activity, HttpServletRequest request, 
+			MultipartFile card1File, MultipartFile card2File, MultipartFile card3File) throws AdminException{
+		
+		
+		List<Answer> answers = new ArrayList<Answer>();
+		for(int i = 1; i<= 6; i=i+2){
+			Answer frontCard = new Answer();
+			frontCard.setAnswerText(request.getParameter("card"+i+"Front"));
+			frontCard.setOrderNo(i);
+			answers.add(frontCard);
+			
+			String imageUrl = null;
+			if(i==1){
+				imageUrl = adminService.generateFilePath(card1File, "image");
+			}else if(i==3){
+				imageUrl = adminService.generateFilePath(card2File, "image");
+			}else if(i==5){
+				imageUrl = adminService.generateFilePath(card3File, "image");
+			}
+			
+			if(null != imageUrl){
+				Answer imageFile = new Answer();
+				imageFile.setAnswerText(imageUrl);
+				imageFile.setOrderNo(i+1);
+				answers.add(imageFile);
+				
+			}else{
+				Answer backCard = new Answer();
+				backCard.setAnswerText(request.getParameter("card"+(i+1)+"Back"));
+				backCard.setOrderNo(i+1);
+				answers.add(backCard);
+			}
+
+		}
+		
+		AdminActivityAnswer adminActivityAnswer = new AdminActivityAnswer();
+		adminActivityAnswer.setActivity(activity);
+		adminActivityAnswer.setAnswers(answers);
+		
+		adminActivityAnswer = adminService.saveAdminActivityAnswer(adminActivityAnswer);
+
+		return adminActivityAnswer.getActivity();
+	}
+
 	private AdminActivityAnswer getAdminActivityAnswerForFile(Activity activity, HttpServletRequest request, 
 			MultipartFile uploadFile, String fileType) throws AdminException {
 		
 		AdminActivityAnswer adminActivityAnswer = new AdminActivityAnswer();
-		String idealAnswer = request.getParameter("idealAnswer");
+		String idealAnswer = request.getParameter("idealAnswer").trim();
 		
 		adminActivityAnswer.setActivity(activity);
 		Answer answer = new Answer();
@@ -225,16 +275,13 @@ public class AdminController {
 		
 		List<String> correctAnswers = new ArrayList<String>(Arrays.asList(request.getParameterValues("correctAnswer")));
 		
-		if(null == correctAnswers)
-			correctAnswers = new ArrayList<String>();
-		
 		Enumeration<String> parameters = request.getParameterNames();
 		List<Answer> answers = new ArrayList<Answer>();
 		while(parameters.hasMoreElements()){
 			String param = (String) parameters.nextElement();
 			if(param.contains("option")){
 				Answer answer = new Answer();
-				answer.setAnswerText(request.getParameter(param));
+				answer.setAnswerText(request.getParameter(param).trim());
 				answer.setOrderNo(Integer.valueOf(param.split("_")[1]));
 				answer.setIsCorrect(correctAnswers.contains(param)?true:false);
 				answers.add(answer);
@@ -439,7 +486,11 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value="/updateActivity.action", method=RequestMethod.POST)
-	public String updateActivity(@ModelAttribute("activity") AdminActivityAnswer adminActivityAnswer, @RequestParam(value="uploadFile",required=false) MultipartFile uploadFile,
+	public String updateActivity(@ModelAttribute("activity") AdminActivityAnswer adminActivityAnswer, 
+			@RequestParam(value="uploadFile",required=false) MultipartFile uploadFile,
+			@RequestParam(value="card1File",required=false) MultipartFile card1File,
+			@RequestParam(value="card2File",required=false) MultipartFile card2File,
+			@RequestParam(value="card3File",required=false) MultipartFile card3File,
 			Model model, HttpSession session, HttpServletRequest request){
 		
 		
@@ -455,6 +506,8 @@ public class AdminController {
 				act = adminService.updateAdminActivityAnswer(adminActivityAnswer).getActivity();
 			}else if(adminActivityAnswer.getActivity().getActivityTemplate().getId() == 3){
 				act = updateMCQActivity(adminActivityAnswer.getActivity(), request);
+			}else if(adminActivityAnswer.getActivity().getActivityTemplate().getId() == 5){
+				act = updateFlipActivity(adminActivityAnswer.getActivity(), request, card1File, card2File, card3File);
 			}
 		} catch (AdminException e) {
 			return "errorPage";
@@ -475,6 +528,51 @@ public class AdminController {
 		return loadContainerById(activityContainer.getActivityContainerId(), session);
 	}
 	
+	private Activity updateFlipActivity(Activity activity, HttpServletRequest request, MultipartFile card1File,
+			MultipartFile card2File, MultipartFile card3File) throws AdminException{
+		
+		List<Answer> answers = new ArrayList<Answer>();
+		for(int i = 1; i<= 6; i=i+2){
+			Answer frontCard = new Answer();
+			frontCard.setAnswerText(request.getParameter("card"+i+"Front"));
+			frontCard.setOrderNo(i);
+			answers.add(frontCard);
+			
+			String backCardParam = request.getParameter("card"+(i+1)+"Back");
+			
+			if(backCardParam.isEmpty()){
+				String imageUrl = null;
+				if(i==1){
+					imageUrl = adminService.generateFilePath(card1File, "image");
+				}else if(i==3){
+					imageUrl = adminService.generateFilePath(card2File, "image");
+				}else if(i==5){
+					imageUrl = adminService.generateFilePath(card3File, "image");
+				}
+				if(null != imageUrl){
+					Answer imageFile = new Answer();
+					imageFile.setAnswerText(imageUrl);
+					imageFile.setOrderNo(i+1);
+					answers.add(imageFile);
+					
+				}
+			}else{
+				Answer backCard = new Answer();
+				backCard.setAnswerText(backCardParam);
+				backCard.setOrderNo(i+1);
+				answers.add(backCard);
+			}
+		}
+		
+		AdminActivityAnswer adminActivityAnswer = new AdminActivityAnswer();
+		adminActivityAnswer.setActivity(activity);
+		adminActivityAnswer.setAnswers(answers);
+		
+		adminActivityAnswer = adminService.updateAdminActivityAnswer(adminActivityAnswer);
+
+		return adminActivityAnswer.getActivity();
+	}
+
 	private Activity updateMCQActivity(Activity activity, HttpServletRequest request) throws AdminException {
 		
 		List<String> correctAnswers = new ArrayList<String>(Arrays.asList(request.getParameterValues("correctAnswer")));

@@ -172,6 +172,91 @@
 	    }
 	    document.getElementById("videoUploadMsg").innerHTML = msg;
 	}
+	
+
+// 	Flip Card 1 upload messages
+	function card1UploadMsg() {
+	    var fileHolder = document.getElementById("card1File");
+	    var msg = "";
+	    if ('files' in fileHolder) {
+	        if (fileHolder.files.length == 0) {
+	            msg = "Browse from computer";
+	        } else {
+	            var file = fileHolder.files[0];
+	            if ('name' in file) {
+	                msg += "File Name: " + file.name + "<br>";
+	            }
+	            if ('size' in file) {
+	                msg += "File Size: " + file.size + " bytes <br>";
+	            }
+	        }
+	    } else {
+	        if (fileHolder.value == "") {
+	            msg += "Browse from computer";
+	        } else {
+	            msg += "The files property is not supported by your browser!";
+	            msg += "<br>The path of the selected file: " + fileHolder.value;
+	            // If the browser does not support the files property, it will return the path of the selected file instead.
+	        }
+	    }
+	    document.getElementById("card1UploadMsg").innerHTML = msg;
+	}
+
+// 	Flip Card 2 upload messages
+	function card2UploadMsg() {
+	    var fileHolder = document.getElementById("card2File");
+	    var msg = "";
+	    if ('files' in fileHolder) {
+	        if (fileHolder.files.length == 0) {
+	            msg = "Browse from computer";
+	        } else {
+	            var file = fileHolder.files[0];
+	            if ('name' in file) {
+	                msg += "File Name: " + file.name + "<br>";
+	            }
+	            if ('size' in file) {
+	                msg += "File Size: " + file.size + " bytes <br>";
+	            }
+	        }
+	    } else {
+	        if (fileHolder.value == "") {
+	            msg += "Browse from computer";
+	        } else {
+	            msg += "The files property is not supported by your browser!";
+	            msg += "<br>The path of the selected file: " + fileHolder.value;
+	            // If the browser does not support the files property, it will return the path of the selected file instead.
+	        }
+	    }
+	    document.getElementById("card2UploadMsg").innerHTML = msg;
+	}
+
+// 	Flip Card 3 upload messages
+	function card1UploadMsg() {
+	    var fileHolder = document.getElementById("card3File");
+	    var msg = "";
+	    if ('files' in fileHolder) {
+	        if (fileHolder.files.length == 0) {
+	            msg = "Browse from computer";
+	        } else {
+	            var file = fileHolder.files[0];
+	            if ('name' in file) {
+	                msg += "File Name: " + file.name + "<br>";
+	            }
+	            if ('size' in file) {
+	                msg += "File Size: " + file.size + " bytes <br>";
+	            }
+	        }
+	    } else {
+	        if (fileHolder.value == "") {
+	            msg += "Browse from computer";
+	        } else {
+	            msg += "The files property is not supported by your browser!";
+	            msg += "<br>The path of the selected file: " + fileHolder.value;
+	            // If the browser does not support the files property, it will return the path of the selected file instead.
+	        }
+	    }
+	    document.getElementById("card3UploadMsg").innerHTML = msg;
+	}
 </script>
 
 </head>
@@ -201,7 +286,6 @@
             <p> Create   Activities here: <p>
         </div>
     </div>
-
 
     <select name="activityTemplate" id="activityTemplate">
         <option value="">Select The Activity...</option>
@@ -234,7 +318,9 @@
 	                <textarea  class="form-control" rows="5" name="idealAnswer" placeholder="Enter Answer Here." required></textarea>
 	            </div>
 	
-	            <input type="submit" class="btn btn-primary btn_lg" value="Add"/>
+	            <div class="container text-right">
+					<button type="submit" class="btn btn-primary btn_lg">Add</button>
+	            </div> 
 	    	</div>
 	        <tr><td><br/></td></tr>
 	        <div class="jumbotron">
@@ -271,7 +357,9 @@
 	                <textarea  class="form-control" rows="5" name="idealAnswer" placeholder="Enter Answer Here." required></textarea>
 	            </div>
 	
-	            <input type="submit" class="btn btn-primary btn_lg" value="Add"/>
+	            <div class="container text-right">
+					<button type="submit" class="btn btn-primary btn_lg">Add</button>
+	            </div> 
 	    	</div>
 	        <tr><td><br/></td></tr>
 	        <div class="jumbotron">
@@ -318,13 +406,17 @@
 	            </div>
 	    	</div>
 	        <tr><td><br/></td></tr>
+	        <div class="container text-left">
+				<button id="mcqMoreOptions" type="button" class="btn btn-primary btn_lg">Add more options</button>
+            </div> 
+	        <div class="container text-right">
+				<button type="submit" class="btn btn-primary btn_lg">Add</button>
+            </div> 
 	        <div class="jumbotron">
 	           <footer class="container-fluid text-right">
 	
 	           </footer>
 	        </div>
-	        <button id="mcqMoreOptions" type="button" class="btn btn-primary btn_lg">Add more options</button>
-			<button type="submit" class="btn btn-primary btn_lg">Add</button>
 			<form:input type="hidden" path="activityType.id" />
 			<form:input type="hidden" path="activityTemplate.id"
 				value="${template.id}" />
@@ -357,52 +449,70 @@
 	    </div>
     </c:if>
     <c:if test="${template.id==5}">
-	    <div id="content_5" class="inv">
-	    
+    <form:form action="addActivity.action" method="post" name="mcqForm" id="mcqForm" modelAttribute="activity" enctype="multipart/form-data">
+		<div id="template_${template.id}" style="display: none">
 	
 	        <div class="container">
-	                    <h2></h2>
-	                    <form role="form" action=# method="post">
-	                                
-	
-	
-	                        <div class="form-group">
-	                            <h1> Card 1 </h1>
-	                            <label for="comment">Front Content:</label>
-	                            <textarea  class="form-control" rows="5" id="comment" placeholder="Enter Front Contents Here."></textarea>
-	                            <label for="comment">Back Content:</label>
-	                            <textarea  class="form-control" rows="5" id="comment" placeholder="Enter Back Contents Here."></textarea>
-	                        </div>
-	                        <tr><td><br/></td></tr>
-	                        <div class="form-group">
-	                            <h1> Card 2 </h1>
-	                            <label for="comment">Front Content:</label>
-	                            <textarea  class="form-control" rows="5" id="comment" placeholder="Enter Front Contents Here."></textarea>
-	                            <label for="comment">Back Content:</label>
-	                            <textarea  class="form-control" rows="5" id="comment" placeholder="Enter Back Contents Here."></textarea>
-	                        </div>
-	                        <tr><td><br/></td></tr>
-	                        <div class="form-group">
-	                            <h1> Card 3 </h1>
-	                            <label for="comment">Front Content:</label>
-	                            <textarea  class="form-control" rows="5" id="comment" placeholder="Enter Front Contents Here."></textarea>
-	                            <label for="comment">Back Content:</label>
-	                            <textarea  class="form-control" rows="5" id="comment" placeholder="Enter Back Contents Here."></textarea>
-	                        </div>
-	                        <tr><td><br/></td></tr>
-	
-	                        <div class="container text-right">
-	                                <input type="submit" class="btn btn-primary btn_lg" value="submit"></input>
-	
-	                        </div> 
-	                    </form>
-	        </div>
+	        <h2></h2>
+	            <div class="form-group">
+	                <label for="comment">Question Content:</label>
+	                <form:textarea name="Question" path="activityText" class="form-control" rows="5" placeholder="Enter Question Contents Here."></form:textarea>
+	            </div>
+	            
+	            <div class="form-group">
+				    <h1> Card 1 </h1>
+				    <label for="comment">Front Content:</label>
+				    <textarea  class="form-control" rows="5" name="card1Front" placeholder="Enter Front Contents Here." required></textarea>
+				    <label for="comment">Back Content:</label>
+				    <textarea  class="form-control" rows="5" name="card2Back" placeholder="Enter Back Contents Here."></textarea>
+				    
+				    <label for="card1">Image Link</label>
+	                <p id="card1UploadMsg">Browse from computer</p>
+	                <span class="btn btn-default btn-file2">Browse<input type="file" id="card1File" name="card1File" onchange="card1UploadMsg()"></span>
+				</div>
+				<tr><td><br/></td></tr>
+				<div class="form-group">
+                    <h1> Card 2 </h1>
+                    <label for="comment">Front Content:</label>
+                    <textarea  class="form-control" rows="5" name="card3Front" placeholder="Enter Front Contents Here." required></textarea>
+                    <label for="comment">Back Content:</label>
+                    <textarea  class="form-control" rows="5" name="card4Back" placeholder="Enter Back Contents Here."></textarea>
+                
+                	<label for="card2">Image Link</label>
+	                <p id="card2UploadMsg">Browse from computer</p>
+	                <span class="btn btn-default btn-file2">Browse<input type="file" id="card2File" name="card2File" onchange="card2UploadMsg()"></span>
+				</div>
+                <tr><td><br/></td></tr>
+				<div class="form-group">
+                    <h1> Card 3 </h1>
+                    <label for="comment">Front Content:</label>
+                    <textarea  class="form-control" rows="5" name="card5Front" placeholder="Enter Front Contents Here." required></textarea>
+                    <label for="comment">Back Content:</label>
+                    <textarea  class="form-control" rows="5" name="card6Back"id="comment" placeholder="Enter Back Contents Here."></textarea>
+                    
+                	<label for="card3">Image Link</label>
+	                <p id="card3UploadMsg">Browse from computer</p>
+	                <span class="btn btn-default btn-file2">Browse<input type="file" id="card3File" name="card3File" onchange="card3UploadMsg()"></span>
+                </div>
+                <tr><td><br/></td></tr>
+
+                <div class="container text-right">
+					<button type="submit" class="btn btn-primary btn_lg">Add</button>
+                </div> 
+	    	</div>
 	        <tr><td><br/></td></tr>
 	        <div class="jumbotron">
-	                        <footer class="container-fluid text-right">
-	                        </footer>
-	         </div>
+	           <footer class="container-fluid text-right">
+	
+	           </footer>
+	        </div>
+			<form:input type="hidden" path="activityType.id" />
+			<form:input type="hidden" path="activityTemplate.id"
+				value="${template.id}" />
+			<form:input type="hidden" path="activityContainer.activityContainerId" />
+	
 	    </div>
+	</form:form>
     </c:if>
     </c:forEach>
     <tr><td><br/></td></tr>
