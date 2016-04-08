@@ -74,6 +74,7 @@ public class Answer {
 		this.isCorrect = isCorrect;
 	}
 
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
@@ -82,7 +83,6 @@ public class Answer {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((answerText == null) ? 0 : answerText.hashCode());
-		result = prime * result + id;
 		result = prime * result + (isCorrect ? 1231 : 1237);
 		result = prime * result + orderNo;
 		return result;
@@ -104,8 +104,6 @@ public class Answer {
 			if (other.answerText != null)
 				return false;
 		} else if (!answerText.equals(other.answerText))
-			return false;
-		if (id != other.id)
 			return false;
 		if (isCorrect != other.isCorrect)
 			return false;
