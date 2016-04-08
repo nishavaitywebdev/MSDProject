@@ -286,7 +286,7 @@
     </form:form>
     </c:if>
     <c:if test="${template.id==3}">
-	<form:form action="addActivity.action" method="post" name="mcqForm" id="mcqForm" modelAttribute="activity">
+	<form:form action="addActivity.action" method="post" name="mcqForm" id="mcqForm" modelAttribute="activity" enctype="multipart/form-data">
 		<div id="template_${template.id}" style="display: none">
 	
 	        <div class="container">
