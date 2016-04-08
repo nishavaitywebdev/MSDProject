@@ -8,8 +8,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,7 +21,6 @@ import com.mysql.jdbc.Statement;
 import com.neu.msd.dao.AdminDao;
 import com.neu.msd.dao.UserDao;
 import com.neu.msd.entities.Activity;
-import com.neu.msd.entities.ActivityContainer;
 import com.neu.msd.entities.ActivityTemplate;
 import com.neu.msd.entities.ActivityType;
 import com.neu.msd.entities.Answer;
@@ -34,7 +31,6 @@ import com.neu.msd.entities.User;
 import com.neu.msd.exception.AdminException;
 import com.neu.msd.exception.AuthenticationException;
 import com.neu.msd.exception.UserException;
-import com.neu.msd.service.impl.SortByorder;
 
 /**
  * @author Harsh
@@ -98,7 +94,7 @@ public class UserDaoImpl implements UserDao {
 
 		List<Activity> activities = new ArrayList<Activity>();
 		try {
-			connection = dataSource.getConnection();
+			 connection = dataSource.getConnection();
 			String sql = "select * from activity where activity_type_id = ?";
 			stmt = connection.prepareStatement(sql);
 			stmt.setInt(1, activityType);
@@ -137,7 +133,7 @@ public class UserDaoImpl implements UserDao {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		try {
-			connection = dataSource.getConnection();
+			 connection = dataSource.getConnection();
 			String sql = "select * from answer where answer_id = ?";
 			stmt = connection.prepareStatement(sql);
 			stmt.setInt(1, answerId);
@@ -176,7 +172,7 @@ public class UserDaoImpl implements UserDao {
 		ResultSet rs_topics_status = null;
 		List<Topic> list_of_topics = new ArrayList<Topic>();
 		try {
-			connection = dataSource.getConnection();
+			 connection = dataSource.getConnection();
 			String sql = "SELECT uts.user_id, uts.topic_id, t.topic_name, ts.topic_status_id, ts.topic_status_desc "
 					+ "FROM hbu.user_topic_status as uts " + "INNER JOIN topic as t " + "ON uts.topic_id = t.topic_id "
 					+ "INNER JOIN topic_status as ts "
@@ -251,17 +247,17 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public void addscoreforuser(User user, double score) throws UserException {
 		// TODO Auto-generated method stub
-		ResultSet rs = null;
-		PreparedStatement stmt = null;
-		PreparedStatement stmt3 = null;
-
+		ResultSet rs=null;
+		PreparedStatement stmt =null;
+		PreparedStatement stmt3=null;
+		
 		try {
 			int sco = (int) score;
-			connection = dataSource.getConnection();
+			 connection = dataSource.getConnection();
 			String sql = "select score_range from score where usertype = ?";
-			stmt = connection.prepareStatement(sql);
+			 stmt = connection.prepareStatement(sql);
 			stmt.setInt(1, 2);
-			rs = stmt.executeQuery();
+			 rs = stmt.executeQuery();
 			List<Integer> score_range = new ArrayList<Integer>();
 			while (rs.next()) {
 
@@ -348,7 +344,7 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public Integer[] getweigh() throws SQLException, AuthenticationException {
 		// TODO Auto-generated method stub
-		connection = dataSource.getConnection();
+		 connection = dataSource.getConnection();
 		String sql = "Select * from activity_score";
 		PreparedStatement stmt = connection.prepareStatement(sql);
 		ResultSet rs = stmt.executeQuery();
@@ -373,83 +369,6 @@ public class UserDaoImpl implements UserDao {
 		}
 
 		return weighs;
-	}
-
-	@Override
-	public ActivityContainer setcontainer(int cId) throws SQLException {
-		connection = dataSource.getConnection();
-
-		String sql = "select * from activity_container where activity_container_id = ?";
-		PreparedStatement stmt = connection.prepareStatement(sql);
-		stmt.setInt(1, cId);
-
-		ResultSet rs = stmt.executeQuery();
-
-		ActivityContainer container = new ActivityContainer();
-		while (rs.next()) {
-			container.setActivityContainerId(rs.getInt("activity_container_id"));
-			container.setContainerName(rs.getString("activity_container_name"));
-			container.setOrderNo(rs.getInt("order_no"));
-			sql = "select * from activity where activity_container_id = ?";
-			stmt = connection.prepareStatement(sql);
-			stmt.setInt(1, cId);
-			List<Activity> activities = new ArrayList<Activity>();
-			ResultSet rs1 = stmt.executeQuery();
-			while (rs1.next()) {
-
-				Activity activity = new Activity();
-				activity.setActivityContainer(container);
-				ActivityTemplate tem = new ActivityTemplate();
-				tem.setId(rs1.getInt("activity_template_id"));
-				activity.setActivityTemplate(tem);
-				activity.setActivityText(rs1.getString("activity_text"));
-				ActivityType acttype = new ActivityType();
-				acttype.setId(rs1.getInt("activity_type_id"));
-				activity.setActivityType(acttype);
-				activity.setId(rs1.getInt("activity_id"));
-
-				activity.setOrderNo(rs1.getInt("order_no"));
-				activities.add(activity);
-
-			}
-			Collections.sort(activities, new SortByactivity());
-			container.setActivities(activities);
-		}
-		return container;
-	}
-
-	@Override
-	public Topic settopic(int tId) throws SQLException {
-		connection = dataSource.getConnection();
-
-		String sql = "select * from topic where topic_id = ?";
-		PreparedStatement stmt = connection.prepareStatement(sql);
-		stmt.setInt(1, tId);
-
-		ResultSet rs = stmt.executeQuery();
-
-		Topic topic = new Topic();
-		while (rs.next()) {
-			topic.setId(rs.getInt("topic_id"));
-			topic.setTopicName(rs.getString("topic_name"));
-			sql = "select * from activity_container where topic_id = ?";
-			stmt = connection.prepareStatement(sql);
-			stmt.setInt(1, tId);
-			ResultSet rs1 = stmt.executeQuery();
-			List<ActivityContainer> containers = new ArrayList<ActivityContainer>();
-			while (rs1.next()) {
-
-				ActivityContainer container = new ActivityContainer();
-				container = setcontainer(rs1.getInt("activity_container_id"));
-
-				containers.add(container);
-
-			}
-			Collections.sort(containers, new SortBycontainer());
-			topic.setActivityContainers(containers);
-		}
-
-		return topic;
 	}
 
 }
