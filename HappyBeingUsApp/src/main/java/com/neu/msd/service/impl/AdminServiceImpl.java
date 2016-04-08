@@ -6,6 +6,8 @@ package com.neu.msd.service.impl;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -207,6 +209,12 @@ public class AdminServiceImpl implements AdminService {
 				}
 				i++;
 			}
+			Collections.sort(adminActivityAnswer.getAnswers(), new Comparator<Answer>() {
+				@Override
+				public int compare(Answer answer1, Answer answer2) {
+					return answer1.getOrderNo()-answer2.getOrderNo();
+				}
+			});
 		}
 		adminDao.deleteFromUserTopicContainerActivity(adminActivityAnswer.getActivity().getId());
 		adminDao.deleteFromAdminActivityAnswer(adminActivityAnswer.getActivity().getId());
