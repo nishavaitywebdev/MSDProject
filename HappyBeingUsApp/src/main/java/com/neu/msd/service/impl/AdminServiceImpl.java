@@ -210,7 +210,7 @@ public class AdminServiceImpl implements AdminService {
 
 	public String generateFilePath(MultipartFile uploadFile, String fileType) throws AdminException {
 		
-		if(null != uploadFile){
+		if(null != uploadFile && !uploadFile.isEmpty()){
 			StringBuilder fileName = new StringBuilder();
 			fileName.append(new Date().getTime());
 			fileName.append("_");
