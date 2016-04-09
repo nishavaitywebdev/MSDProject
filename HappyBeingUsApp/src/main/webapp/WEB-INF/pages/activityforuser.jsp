@@ -305,8 +305,6 @@ footer {
 
 			</c:if>	
 		</c:forEach>
-
-
 	</c:if>
 	<c:if test="${c_act.activityTemplate.id==2}">
 
