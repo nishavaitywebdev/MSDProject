@@ -300,11 +300,12 @@ footer {
 					<ins>Your browser does not support the video tag.</ins>
 				</video>
 			</c:if>
-				<c:if test="${!answer.orderNo==1}">
+				<c:if test="${answer.orderNo!=1}">
 				<div>${answer.answerText}</div>
 
 			</c:if>
-			<div>${answer.answerText}</div>
+		
+		
 		</c:forEach>
 
 
@@ -327,7 +328,7 @@ footer {
 
 				</div>
 			</c:if>
-			<c:if test="${!answer.orderNo==1}">
+			<c:if test="${answer.orderNo!=1}">
 			<div>${answer.answerText}</div>
 			</c:if>
 		</c:forEach>
