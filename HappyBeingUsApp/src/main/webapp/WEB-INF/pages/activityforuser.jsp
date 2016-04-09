@@ -300,12 +300,10 @@ footer {
 					<ins>Your browser does not support the video tag.</ins>
 				</video>
 			</c:if>
-				<c:if test="${answer.orderNo!=1}">
+			<c:if test="${answer.orderNo!=1}">
 				<div>${answer.answerText}</div>
 
-			</c:if>
-		
-		
+			</c:if>	
 		</c:forEach>
 
 
@@ -319,8 +317,8 @@ footer {
 
 
 
-					<img src="${answer.answerText}"
-						class="img-responsive" alt="Image not present" width="600">
+					<img src="${answer.answerText}" class="img-responsive"
+						alt="Image not present" width="600">
 
 
 
@@ -329,7 +327,7 @@ footer {
 				</div>
 			</c:if>
 			<c:if test="${answer.orderNo!=1}">
-			<div>${answer.answerText}</div>
+				<div>${answer.answerText}</div>
 			</c:if>
 		</c:forEach>
 
