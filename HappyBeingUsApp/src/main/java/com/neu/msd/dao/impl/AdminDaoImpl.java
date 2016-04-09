@@ -59,8 +59,6 @@ public class AdminDaoImpl implements AdminDao {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
 		try {
 			List<Topic> topics = new ArrayList<Topic>();
 			connection = dataSource.getConnection();
@@ -362,7 +360,7 @@ public class AdminDaoImpl implements AdminDao {
 			while(rs.next()){
 				Answer answer = new Answer();
 				answer.setId(rs.getInt("answer_id"));
-				answer.setCorrect(rs.getInt("is_correct")==1);
+				answer.setIsCorrect(rs.getInt("is_correct")==1);
 				answers.add(answer);
 			}
 			adminActivityAnswer.setAnswers(answers);
@@ -545,8 +543,7 @@ public class AdminDaoImpl implements AdminDao {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
+	
 		try {
 			connection = dataSource.getConnection();
 			
@@ -1324,14 +1321,6 @@ public class AdminDaoImpl implements AdminDao {
 				if(null != stmt) stmt.close();
 				if(null != connection) connection.close();
 				LOGGER.debug("AdminDaoImpl: updateActivity: END");
-			} catch (SQLException e) {
-				e.printStackTrace();
-				throw new AdminException(e);
-			}
-		}finally{
-			try {
-				if(null != stmt) stmt.close();
-				LOGGER.debug("AdminDaoImpl: renameActivityContainer: END");
 			} catch (SQLException e) {
 				e.printStackTrace();
 				throw new AdminException(e);

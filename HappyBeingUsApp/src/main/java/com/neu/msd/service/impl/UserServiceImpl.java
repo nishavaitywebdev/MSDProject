@@ -121,7 +121,7 @@ public class UserServiceImpl implements UserService {
 			List<Answer> answers1 =new ArrayList<Answer>();
 			for(Answer answer : answers){
 				Answer answer1 = userDao.getAnswerById(answer.getId());
-			    answer1.setCorrect(answer.isCorrect());  
+			    answer1.setIsCorrect(answer.getIsCorrect());  
 				answers1.add(answer1);
 			}
 			Collections.sort(answers1,new SortByorder_answer());
