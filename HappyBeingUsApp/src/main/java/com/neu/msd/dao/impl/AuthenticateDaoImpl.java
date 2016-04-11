@@ -209,8 +209,9 @@ public class AuthenticateDaoImpl implements AuthenticateDao {
 		PreparedStatement stmt = null;
 		ResultSet keys = null;
 		try {
-			connection = dataSource.getConnection();
 			int nextUserId = getNextUserId();
+			connection = dataSource.getConnection();
+			
 			String sql = "insert into user (user_id, user_type_id, email_id) " + " values (?, ?, ?)";
 			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
