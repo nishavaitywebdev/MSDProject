@@ -490,8 +490,7 @@ public class AuthenticateDaoImpl implements AuthenticateDao {
 			stmt.setString(1, email);
 			rs = stmt.executeQuery();
 			
-			if(null != stmt) stmt.close();
-			if(null != connection) connection.close();
+			
 			
 			if (!rs.next())
 			{
@@ -501,6 +500,7 @@ public class AuthenticateDaoImpl implements AuthenticateDao {
 			{
 				return email+", The account already exists";
 			}
+			
 		}
 		catch(Exception e)
 		{
