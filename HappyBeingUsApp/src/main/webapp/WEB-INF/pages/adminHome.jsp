@@ -193,14 +193,7 @@ footer {
 									id="container_for-${topic.id}">
 									<table class="table table-hover">
 										<c:if test="${fn:length(topic.activityContainers)>0}">
-										<thead>
-											<tr>
-												<th></th>
-												<th></th>
-<!-- 												<th></th> -->
-												<th>Last Date Modified</th>
-											</tr>
-										</thead>
+										
 										</c:if>
 										<tbody>
 										<c:choose> 
@@ -214,7 +207,7 @@ footer {
 <!-- 													<td><a href="#" class="btn btn-danger" data-toggle="modal" -->
 <%-- 										 					data-target="#confirmationDialog" id="deleteId_${activityContainer.activityContainerId}"  --%>
 <!-- 										 					role="button" onclick="deleteActivityContainer(this)">Delete</a></td> -->
-													<td>3/9/2016</td>
+						
 												</tr>
 											</c:forEach>
 											</c:when>
