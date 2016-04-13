@@ -176,6 +176,8 @@ public class AdminController {
 				act = adminService.saveAdminActivityAnswer(adminActivityAnswer).getActivity();
 			}else if(activity.getActivityTemplate().getId() == 3){
 				act = addMCQActivity(activity, request);
+			}else if(activity.getActivityTemplate().getId() == 4){
+				act = addInfoActivity(activity);
 			}else if(activity.getActivityTemplate().getId() == 5){
 				act = addFlipActivity(activity, request, card1File, card2File, card3File);
 			}
@@ -202,6 +204,15 @@ public class AdminController {
 		return loadContainerById(activityContainer.getActivityContainerId(), session);
 	}
 	
+	private Activity addInfoActivity(Activity activity) throws AdminException{
+		AdminActivityAnswer adminActivityAnswer = new AdminActivityAnswer();
+		adminActivityAnswer.setActivity(activity);
+		
+		adminActivityAnswer = adminService.saveAdminActivityAnswer(adminActivityAnswer);
+
+		return adminActivityAnswer.getActivity();
+	}
+
 	private Activity addFlipActivity(Activity activity, HttpServletRequest request, 
 			MultipartFile card1File, MultipartFile card2File, MultipartFile card3File) throws AdminException{
 		
@@ -506,6 +517,8 @@ public class AdminController {
 				act = adminService.updateAdminActivityAnswer(adminActivityAnswer).getActivity();
 			}else if(adminActivityAnswer.getActivity().getActivityTemplate().getId() == 3){
 				act = updateMCQActivity(adminActivityAnswer.getActivity(), request);
+			}else if(adminActivityAnswer.getActivity().getActivityTemplate().getId() == 4){
+				act = updateInfoActivity(adminActivityAnswer);
 			}else if(adminActivityAnswer.getActivity().getActivityTemplate().getId() == 5){
 				act = updateFlipActivity(adminActivityAnswer.getActivity(), request, card1File, card2File, card3File);
 			}
@@ -528,6 +541,13 @@ public class AdminController {
 		return loadContainerById(activityContainer.getActivityContainerId(), session);
 	}
 	
+	private Activity updateInfoActivity(AdminActivityAnswer adminActivityAnswer) throws AdminException{
+		
+		adminActivityAnswer = adminService.updateAdminActivityAnswer(adminActivityAnswer);
+
+		return adminActivityAnswer.getActivity();
+	}
+
 	private Activity updateFlipActivity(Activity activity, HttpServletRequest request, MultipartFile card1File,
 			MultipartFile card2File, MultipartFile card3File) throws AdminException{
 		
