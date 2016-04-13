@@ -120,7 +120,7 @@ footer {
 				success : function(data) {
 					$("#loadingDiv").modal("toggle");
 					$("#topic_name_" + topicId)[0].innerHTML = topicName;
-
+					$('#'+topicId).attr('name', topicName);
 				}
 			});
 		});
