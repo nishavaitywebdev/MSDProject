@@ -3,6 +3,7 @@
  */
 package com.neu.msd.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -15,9 +16,12 @@ import com.neu.msd.dao.AdminDao;
 import com.neu.msd.entities.Activity;
 import com.neu.msd.entities.ActivityContainer;
 import com.neu.msd.entities.ActivityTemplate;
+import com.neu.msd.entities.AdminActivityAnswer;
+import com.neu.msd.entities.Answer;
 import com.neu.msd.entities.Topic;
 import com.neu.msd.entities.User;
 import com.neu.msd.entities.UserAuthentication;
+import com.neu.msd.entities.Version;
 import com.neu.msd.exception.AdminException;
 import com.neu.msd.service.AdminService;
 
@@ -38,13 +42,13 @@ public class AdminServiceImpl implements AdminService {
 	 */
 	@Transactional
 	public List<Topic> loadTopics(Map<Integer, ActivityContainer> containerMap) throws AdminException {
-		LOGGER.debug("	AdminServiceImpl: loadTopics: START");
+		LOGGER.debug("AdminServiceImpl: loadTopics: START");
 		
 		List<Topic> allTopics = adminDao.loadTopics();
 		
 		loadTopicsWithActivityContainers(containerMap, allTopics);
 		
-		LOGGER.debug("	AdminServiceImpl: loadTopics: END");
+		LOGGER.debug("AdminServiceImpl: loadTopics: END");
 		return allTopics;
 	}
 
@@ -55,14 +59,14 @@ public class AdminServiceImpl implements AdminService {
 	 * @throws AdminException
 	 */
 	public void loadTopicsWithActivityContainers(Map<Integer, ActivityContainer> containerMap, List<Topic> allTopics) throws AdminException {
-		LOGGER.debug("	AdminServiceImpl: loadTopicsWithActivityContainers: START");
+		LOGGER.debug("AdminServiceImpl: loadTopicsWithActivityContainers: START");
 			
 		for(Topic topic : allTopics){
 			List<ActivityContainer> activityContainers = adminDao.loadActivityContainersByTopicId(topic.getId());
 			topic.setActivityContainers(activityContainers);
 			loadActivityContainersWithActivities(containerMap, activityContainers);
 		}
-		LOGGER.debug("	AdminServiceImpl: loadTopicsWithActivityContainers: END");
+		LOGGER.debug("AdminServiceImpl: loadTopicsWithActivityContainers: END");
 	}
 
 	/**
@@ -71,14 +75,14 @@ public class AdminServiceImpl implements AdminService {
 	 * @throws AdminException
 	 */
 	private void loadActivityContainersWithActivities(Map<Integer, ActivityContainer> containerMap, List<ActivityContainer> activityContainers) throws AdminException {
-		LOGGER.debug("	AdminServiceImpl: loadActivityContainersWithActivities: START");
+		LOGGER.debug("AdminServiceImpl: loadActivityContainersWithActivities: START");
 
 		for(ActivityContainer activityContainer : activityContainers){
 			List<Activity> activities = adminDao.loadActivitiesByActivityContainerId(activityContainer.getActivityContainerId());
 			activityContainer.setActivities(activities);
 			containerMap.put(activityContainer.getActivityContainerId(), activityContainer);
 		}
-		LOGGER.debug("	AdminServiceImpl: loadActivityContainersWithActivities: END");
+		LOGGER.debug("AdminServiceImpl: loadActivityContainersWithActivities: END");
 	}
 
 	/* (non-Javadoc)
@@ -118,11 +122,74 @@ public class AdminServiceImpl implements AdminService {
 		return adminDao.addNewActivityContainer(containerName, topicId);
 	}
 
-	public int deleteActivityContainer(Integer deletableId) throws AdminException {
+	public int deleteActivity(Integer deletableId) throws AdminException {
+		adminDao.deleteFromUserTopicContainerActivity(deletableId);
+		adminDao.deleteFromAdminActivityAnswer(deletableId);
 		return adminDao.deleteActivity(deletableId);
 	}
 	
 	public int renameActivityContainer(String containerName, int containerId) throws AdminException {
 		return adminDao.renameActivityContainer(containerName, containerId);
+	}
+
+	public List<Version> loadAllVersion() throws AdminException {
+		return adminDao.loadAllVersion();
+	}
+
+	public void assignTopicToVersion(int topicId, String[] versionIds) throws AdminException {
+		for(int i = 0; i< versionIds.length; i++){
+			adminDao.assignTopicToVersion(topicId, Integer.valueOf(versionIds[i]));
+		}
+	}
+
+	public AdminActivityAnswer saveAdminActivityAnswer(AdminActivityAnswer adminActivityAnswer) throws AdminException {
+		
+		Activity activity = adminDao.saveActivity(adminActivityAnswer.getActivity());
+		
+		List<Answer> answers = new ArrayList<Answer>();
+		for(Answer a : adminActivityAnswer.getAnswers()){
+			Answer answer = adminDao.saveAnswer(a);
+			answers.add(answer);
+			adminDao.saveAdminActivityAnswer(activity.getId(), answer.getId(), answer.getIsCorrect());
+		}
+		
+		adminActivityAnswer.setActivity(activity);
+		adminActivityAnswer.setAnswers(answers);
+		
+		// TODO Auto-generated method stub
+		return adminActivityAnswer;
+	}
+
+	public AdminActivityAnswer getAdminActivityAnswerByActivityId(int activityId) throws AdminException {
+		
+		Activity activity = adminDao.loadActivityById(activityId);
+		
+		List<Answer> answers = new ArrayList<Answer>();
+		if(activity.getActivityTemplate().getId() != 4)
+			answers = adminDao.loadAnswersByActivityId(activityId);
+		
+		return new AdminActivityAnswer(activity, answers);
+	}
+
+	@Override
+	public AdminActivityAnswer updateAdminActivityAnswer(AdminActivityAnswer adminActivityAnswer)
+			throws AdminException {
+		
+		Activity activity = adminDao.updateActivity(adminActivityAnswer.getActivity());
+		adminDao.deleteFromUserTopicContainerActivity(adminActivityAnswer.getActivity().getId());
+		adminDao.deleteFromAdminActivityAnswer(adminActivityAnswer.getActivity().getId());
+		
+		List<Answer> answers = new ArrayList<Answer>();
+		for(Answer a : adminActivityAnswer.getAnswers()){
+			Answer answer = adminDao.saveAnswer(a);
+			answers.add(answer);
+			adminDao.saveAdminActivityAnswer(activity.getId(), answer.getId(), answer.getIsCorrect());
+		}
+		
+		adminActivityAnswer.setActivity(activity);
+		adminActivityAnswer.setAnswers(answers);
+		
+		// TODO Auto-generated method stub
+		return adminActivityAnswer;
 	}
 }

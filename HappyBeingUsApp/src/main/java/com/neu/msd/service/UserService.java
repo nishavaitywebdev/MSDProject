@@ -24,7 +24,7 @@ public interface UserService {
 	public List<Topic> getTopicsOfUser(User user)throws UserException;
 
 
-	void addscore(User user, double score);
+	void addscore(User user, double score) throws UserException;
 
 	Integer[] getweigh() throws SQLException;
 
