@@ -582,7 +582,7 @@
 						</div>
 						<div class="col-sm-9">
 							<div class="form-group">
-								<h1>Card 2</h1>
+								<h1>Card 3</h1>
 								<label for="comment">Front Content:</label>
 								<c:if test="${fn:length(adminActivity.answers) > 0}">
 									<c:forEach var="answer" items="${adminActivity.answers}"

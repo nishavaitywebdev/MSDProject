@@ -510,12 +510,27 @@ public class AdminDaoImpl implements AdminDao {
 		try {
 			connection = dataSource.getConnection();
 			
-			String sql = "delete from topic where topic_id=?";
+			String sql = "delete version_topic, user_topic_container_activity_answer, user_topic_status "
+					+ "from topic "
+					+ "left join user_topic_container_activity_answer "
+					+ "on topic.topic_id = user_topic_container_activity_answer.topic_id "
+					+ "left join user_topic_status "
+					+ "on user_topic_status.topic_id = topic.topic_id "
+					+ "left join version_topic "
+					+ "on topic.topic_id = version_topic.topic_id "
+					+ "where topic.topic_id = ?";
 			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			
 			stmt.setInt(1, deletableId);
 			
 			int records = stmt.executeUpdate();
+			
+			sql = "delete from topic where topic_id=?";
+			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			
+			stmt.setInt(1, deletableId);
+			
+			records = stmt.executeUpdate();
 			
 			System.out.println("Topic with topic id:"+deletableId+", deleted. No. of records deleted: "+records);
 
@@ -907,6 +922,7 @@ public class AdminDaoImpl implements AdminDao {
 		LOGGER.debug("AdminDaoImpl: assignTopicToVersion: START");
 		
 		PreparedStatement stmt = null;
+		ResultSet rs = null;
 		try {
 			connection = dataSource.getConnection();
 			String sql = "insert into version_topic values (?, ?)";
@@ -916,6 +932,31 @@ public class AdminDaoImpl implements AdminDao {
 			stmt.setInt(2, topicId);
 			
 			int records = stmt.executeUpdate();
+			
+//			linking the new topic with the users associated to this topic's vesion
+			
+			sql = "select user_id from user where version_id = ?";
+			stmt = connection.prepareStatement(sql);
+			stmt.setInt(1, versionId);
+			rs = stmt.executeQuery();
+			List<Integer> users = new ArrayList<Integer>();
+			while (rs.next()) {
+
+				users.add(rs.getInt("user_id"));
+
+			}
+			for (Integer userId : users) {
+				sql = "insert into user_topic_status (user_id, topic_id, topic_status_id) values (?, ?, ?)";
+				stmt = connection.prepareStatement(sql);
+
+				stmt.setInt(1, userId);
+				stmt.setInt(2, topicId);
+				stmt.setInt(3, 1);
+
+				records = stmt.executeUpdate();
+
+				System.out.println("No. of records inserted: " + records);
+			}
 			
 			return records;
 		} catch (Exception e) {
