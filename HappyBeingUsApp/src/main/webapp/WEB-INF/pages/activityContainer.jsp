@@ -180,36 +180,24 @@
 								id="${activityContainer.activityContainerId}"
 								name="${activityContainer.containerName}"
 								onclick="renameActivityContainer(this)">Rename</button>
-							<a class="btn btn-danger" data-toggle="modal"
-							 data-target="#confirmationDialog" id="deleteId_${activityContainer.activityContainerId}" 
+							<a class="btn btn-danger"  id="deleteId_${activityContainer.activityContainerId}" 
 							 role="button" onclick="deleteActivityContainer(this)">Delete</a>
 							 <input type="hidden" id="containerNotEmpty" value="${fn:length(activityContainer.activities)>0}"/>
 						</h2>
 					</div>
 					<div id="container_for-${activityContainer.activityContainerId}">
 						<table class="table table-hover">
-							<c:if test="${fn:length(topic.activityContainers)>0}">
-							<thead>
-								<tr>
-									<th></th>
-									<th></th>
-<!-- 												<th></th> -->
-									<th>Last Date Modified</th>
-								</tr>
-							</thead>
-							</c:if>
 							<tbody>
 							<c:choose> 
 							<c:when test="${fn:length(activityContainer.activities)>0}">
 								<c:forEach items="${activityContainer.activities}" var="activity">
 									<tr>
-										<td><a class="btn btn-primary">${activity.activityText}</a></td>
-										<td><a href="#" class="btn btn-success" role="button"
+										<td><h5>${activity.activityText}</h5></td>
+										<td><a class="btn btn-success" role="button"
 											id="${activity.id}_${activity.activityTemplate.id}" onclick="editActivity(id)">Edit</a></td>
 										<td><a class="btn btn-danger" data-toggle="modal"
 							 					data-target="#confirmationDialog" id="deleteId_${activity.id}" 
 							 					role="button" onclick="deleteActivity(this)">Delete</a></td>
-										<td>3/9/2016</td>
 									</tr>
 								</c:forEach>
 								</c:when>

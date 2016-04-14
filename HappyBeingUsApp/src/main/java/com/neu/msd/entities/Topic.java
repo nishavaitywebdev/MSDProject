@@ -3,6 +3,7 @@
  */
 package com.neu.msd.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,7 +18,7 @@ public class Topic {
 	private int completedActContainers; // currActCont
 	private int maxActContainers =1;//maxActCont
 	private int progress;// = (int)((curr_act_cont/max_act_cont) * 100);
-	private List<ActivityContainer> activityContainers;
+	private List<ActivityContainer> activityContainers = new ArrayList<ActivityContainer>();
 	
 	public Topic() {
 		// TODO Auto-generated constructor stub
