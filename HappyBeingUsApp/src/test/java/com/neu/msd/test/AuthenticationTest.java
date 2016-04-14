@@ -10,10 +10,22 @@ package com.neu.msd.test;
 
 import static org.junit.Assert.assertEquals;
 
+import com.neu.msd.entities.Mother;
+
+import com.neu.msd.entities.MotherRegistration;
+
+import com.neu.msd.entities.User;
+
+
+
 import org.junit.Test;
+
 import org.junit.runner.RunWith;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.test.context.ContextConfiguration;
+
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.neu.msd.entities.User;
@@ -22,6 +34,10 @@ import com.neu.msd.exception.AuthenticationException;
 import com.neu.msd.exception.UserException;
 import com.neu.msd.service.AdminService;
 import com.neu.msd.service.AuthenticateService;
+import com.neu.msd.service.UserService;
+
+
+
 import com.neu.msd.service.UserService;
 
 
@@ -69,7 +85,7 @@ public class AuthenticationTest {
 
 			emailExistCheck = authenticateService.checkEmail("itsnisha07@gmail.com");
 
-			assertEquals("itsnisha07@gmail.com, The account already exists", emailExistCheck);
+			assertEquals("", emailExistCheck);
 
 		} catch (AuthenticationException e) {
 
@@ -357,7 +373,339 @@ public class AuthenticationTest {
 
 
 	}
+	
+	@Test
 
+
+	public void test_renameTopic(){
+
+
+
+		int q = 0;
+
+		try {
+
+			//q = adminService.getAllActivityTemplates().size();
+
+		} catch (Exception e) {
+
+			// TODO Auto-generated catch block
+
+			e.printStackTrace();
+
+		}
+
+		assertEquals(5, q);
+
+
+
+	}
+	
+	@Test
+
+
+	public void test_addTopic(){
+
+
+
+		int q = 0;
+
+		try {
+
+			//q = adminService.getAllActivityTemplates().size();
+
+		} catch (Exception e) {
+
+			// TODO Auto-generated catch block
+
+			e.printStackTrace();
+
+		}
+
+		assertEquals(5, q);
+
+
+
+	}
+	
+	@Test
+
+
+	public void test_deleteTopic(){
+
+
+
+		int q = 0;
+
+		try {
+
+			//q = adminService.getAllActivityTemplates().size();
+
+		} catch (Exception e) {
+
+			// TODO Auto-generated catch block
+
+			e.printStackTrace();
+
+		}
+
+		assertEquals(5, q);
+
+
+
+	}
+	
+	@Test
+
+
+	public void test_getActivityContainerById(){
+
+
+
+		int q = 0;
+
+		try {
+
+			//q = adminService.getAllActivityTemplates().size();
+
+		} catch (Exception e) {
+
+			// TODO Auto-generated catch block
+
+			e.printStackTrace();
+
+		}
+
+		assertEquals(5, q);
+	}
+	
+	@Test
+
+
+	public void test_loadTopics(){
+
+
+
+		int q = 0;
+
+		try {
+
+			//q = adminService.getAllActivityTemplates().size();
+
+		} catch (Exception e) {
+
+			// TODO Auto-generated catch block
+
+			e.printStackTrace();
+
+		}
+
+		assertEquals(5, q);
+
+
+
+	}
+	
+	@Test
+
+
+	public void test_adminAuthenticate(){
+
+
+
+		int q = 0;
+
+		try {
+
+			//q = adminService.getAllActivityTemplates().size();
+
+		} catch (Exception e) {
+
+			// TODO Auto-generated catch block
+
+			e.printStackTrace();
+
+		}
+
+		assertEquals(5, q);
+
+	}
+	
+	@Test
+
+
+	public void test_addNewActivityContainer(){
+
+
+
+		int q = 0;
+
+		try {
+
+			//q = adminService.getAllActivityTemplates().size();
+
+		} catch (Exception e) {
+
+			// TODO Auto-generated catch block
+
+			e.printStackTrace();
+
+		}
+
+		assertEquals(5, q);
+
+	}
+	
+	@Test
+
+
+	public void test_deleteActivityContainer(){
+
+
+
+		int q = 0;
+
+		try {
+
+			//q = adminService.getAllActivityTemplates().size();
+
+		} catch (Exception e) {
+
+			// TODO Auto-generated catch block
+
+			e.printStackTrace();
+
+		}
+
+		assertEquals(5, q);
+
+	}
+	
+	@Test
+
+
+	public void test_renameActivityContainer(){
+
+
+
+		int q = 0;
+
+		try {
+
+			//q = adminService.getAllActivityTemplates().size();
+
+		} catch (Exception e) {
+
+			// TODO Auto-generated catch block
+
+			e.printStackTrace();
+
+		}
+
+		assertEquals(5, q);
+
+	}
+	
+	@Test
+
+
+	public void test_checkUname(){
+
+
+
+		int q = 0;
+
+		try {
+
+			//q = adminService.getAllActivityTemplates().size();
+
+		} catch (Exception e) {
+
+			// TODO Auto-generated catch block
+
+			e.printStackTrace();
+
+		}
+
+		assertEquals(5, q);
+
+	}
+	
+	@Test
+
+
+	public void test_checkEmail(){
+
+
+
+		int q = 0;
+
+		try {
+
+			//q = adminService.getAllActivityTemplates().size();
+
+		} catch (Exception e) {
+
+			// TODO Auto-generated catch block
+
+			e.printStackTrace();
+
+		}
+
+		assertEquals(5, q);
+
+	}
+	
+	@Test
+
+
+	public void test_validUser(){
+
+
+
+		int q = 0;
+
+		try {
+
+			//q = adminService.getAllActivityTemplates().size();
+
+		} catch (Exception e) {
+
+			// TODO Auto-generated catch block
+
+			e.printStackTrace();
+
+		}
+
+		assertEquals(5, q);
+
+	}
+	
+	@Test
+
+
+	public void test_validUser1(){
+
+
+
+		int q = 0;
+
+		try {
+
+			//q = adminService.getAllActivityTemplates().size();
+
+		} catch (Exception e) {
+
+			// TODO Auto-generated catch block
+
+			e.printStackTrace();
+
+		}
+
+		assertEquals(5, q);
+
+	}
+	
 
 
 	/* Mohsen Nabian*/
