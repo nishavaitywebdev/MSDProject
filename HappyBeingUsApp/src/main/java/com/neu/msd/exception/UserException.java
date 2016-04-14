@@ -53,7 +53,6 @@ public class UserException extends Exception {
 	 * @param writableStackTrace
 	 */
 	public UserException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-		super(message, cause, enableSuppression, writableStackTrace);
 		// TODO Auto-generated constructor stub
 	}
 
