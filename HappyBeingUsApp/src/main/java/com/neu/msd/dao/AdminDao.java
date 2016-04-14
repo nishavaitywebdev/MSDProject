@@ -75,6 +75,10 @@ public interface AdminDao {
 	public List<Answer> loadAnswersByActivityId(int activityId) throws AdminException;
 
 	public Activity updateActivity(Activity activity) throws AdminException;
+
+	public int registerAdmin(User user) throws AdminException;
+
+	public int registerAdminAuthentication(int userId, UserAuthentication userAuthentication) throws AdminException;
 	
 	
 }

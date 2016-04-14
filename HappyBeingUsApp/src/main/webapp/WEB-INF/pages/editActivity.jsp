@@ -69,6 +69,11 @@
 		$('#mcqOptions #checkBox_'+num).val(this.name);
 	});
 	
+	$(".goBack").on("click",function(e) {
+	    e.preventDefault(); // cancel the link itself
+	    $("#editForm").attr('action', this.href);
+		$("#editForm").submit();
+	  });
 
 //		adding more options inside the mcq template
 	$(document).on('click', '#mcqMoreOptions', function() {
@@ -176,12 +181,15 @@
 					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#">Admin Home</a>
+				<a class="navbar-brand" href="#" class="goBack">Admin Home</a>
 			</div>
 			<div class="collapse navbar-collapse" id="myNavbar">
+				<ul class="nav navbar-nav">
+				<li class="active"><a href="adminLoadHome.action" class="goBack">Topics and Blocks</a></li>
+					<li><a data-toggle="modal" id ="addAdmin" href="#addNewAdmin">Add New Admin</a></li>
+				</ul>
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="#"><span class="glyphicon glyphicon-log-in"></span>
-							Logout</a></li>
+					<li><a href="adminLogout.action"><span class="glyphicon glyphicon-log-out"></span> Logout </a></li>
 				</ul>
 			</div>
 		</div>
@@ -640,5 +648,7 @@
 	<tr>
 		<td><br /></td>
 	</tr>
+	<!-- Footer -->
+	<%@ include file="footer.jsp" %>
 </body>
 </html>

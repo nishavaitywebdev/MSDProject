@@ -27,13 +27,11 @@
 	margin-bottom: 0;
 	border-radius: 0;
 }
-
 /* Add a gray background color and some padding to the footer */
-footer {
+/*footer {
 	background-color: #f2f2f2;
 	padding: 25px;
-}
-
+}*/
 .topic_holder .topic_name:after {
 	/* symbol for "opening" panels */
 	font-family: 'Glyphicons Halflings';
@@ -42,12 +40,10 @@ footer {
 	float: right; /* adjust as needed */
 	color: grey; /* adjust as needed */
 }
-
 .topic_holder .topic_name.collapsed:after {
 	/* symbol for "collapsed" panels */
 	content: "\e080"; /* adjust as needed, taken from bootstrap.css */
 }
-
 .topic-container {
 	position: fixed;
 	top: 50px;
@@ -60,24 +56,19 @@ footer {
 
 <script type="text/javascript">
 	function editContainer(id) {
-
 		var form = document.getElementById("editForm");
 		form.action = "editActivityContainer.action";
 		form.children.namedItem("id").value = id;
 		form.submit();
 	}
-
 	function renameTopic(button) {
-
 		var topicName = button.name;
 		var topicId = button.id;
-
 		$('#renameTopic input[name=renameTopicName]').val(topicName);
 		$('#renameTopic input[name=renameTopicId]').val(topicId);
 	}
 	
 	function addContainer(button) {
-
 		var topicId = button.id.split("-")[1];
 		$('#topicId').val(topicId);
 	}
@@ -104,9 +95,7 @@ footer {
 		form.action = "deleteActivityContainer.action";
 		$("#deletableId").val(deleteId);
 	}
-
 	$(document).ready(function() {
-
 // 		Ajax for renaming the topic name
 		$("#changeTopicName").click(function() {
 			topicName = $('#renameTopic input[name=renameTopicName]').val();
@@ -125,7 +114,15 @@ footer {
 			});
 		});
 		
+		$(".goBack").on("click",function(e) {
+		    e.preventDefault(); // cancel the link itself
+		    $("#editForm").attr('action', this.href);
+			$("#editForm").submit();
+		  });
+		
 	});
+	
+	
 </script>
 
 </head>
@@ -139,17 +136,15 @@ footer {
 					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#">Admin</a>
+				<a class="navbar-brand" href="#" class="goBack">Admin</a>
 			</div>
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="#">Topics and Blocks</a></li>
-					<li><a href="#">Add New Admin</a></li>
-					<li><a href="#">Detect Inactive Users</a></li>
-					<li><a href="#">Statistics</a></li>
+<!-- 					<li class="active"><a href="#">Topics and Blocks</a></li> -->
+					<li><a data-toggle="modal" id ="addAdmin" href="#addNewAdmin">Add New Admin</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="#"><span class="glyphicon glyphicon-log-in"></span>Logout</a></li>
+					<li><a href="adminLogout.action"><span class="glyphicon glyphicon-log-out"></span> Logout </a></li>
 				</ul>
 			</div>
 		</div>
@@ -377,8 +372,144 @@ footer {
 			</div>
 		</div>
 	</div>
-	<footer class="container-fluid text-center">
-		<p>Designed By Students of Northeastern University.</p>
-	</footer>
+	<!-- 		Add Admin START -->
+<div class="modal fade" id="addNewAdmin" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content col-lg-10">
+
+				<form:form action="addNewAdmin.action" method="post"
+					modelAttribute="userAuthentication">
+					<div class="modal-header">
+						<h4>Add new Admin</h4>
+					</div>
+
+					<div class="modal-body">
+						<div class="form-group">
+							<div class="col-lg-5">
+								<form:input type="text" path="user.firstName" maxlength = "80"
+									class="form-control" name="Firstname" placeholder="First name"
+									required="true" />
+							</div>
+							<div class="col-lg-5">
+								<form:input type="text" path="user.lastName" maxlength = "80"
+									class="form-control" name="Lastname" placeholder="Last Name"
+									required="true" />
+							</div>
+							<br></br>
+						</div>
+						<div class="form-group left-inner-addon ">
+							<div class="col-lg-10 ">
+								<i class="glyphicon glyphicon-envelope"></i>
+								<form:input type="email" path="user.email" maxlength = "80"
+									class="form-control" id = "adminEmail"  name="emailID" placeholder="Email"
+									required="true" />
+							</div>
+							<span id="adminEmailMsg"></span>
+							<br></br>
+						</div>
+						<div class="form-group left-inner-addon">
+							<div class="col-lg-10">
+								<i class="glyphicon glyphicon-user"></i>
+								<form:input type="text" path="username" class="form-control" maxlength = "80" minlength = "6"
+									name="userName" id = "adminUname" placeholder="Username" required="true" />
+									<div id="loadingDiv" class="modal">
+									<img alt="loading" src="Images/loading.gif">
+									</div>
+								<span id="usernameMsg"></span>
+							</div>
+							<br></br>
+						</div>
+						<div class="form-group left-inner-addon">
+							<div class="col-lg-10">
+								<i class="glyphicon glyphicon-lock"></i>
+								<form:input type="password" path="password" class="form-control" maxlength = "80" minlength = "6"
+									name="password" placeholder="password" required="true" />
+							</div>
+						</div>
+						<br></br>
+						<div class="modal-footer">
+							<a class="btn btn-default" data-dismiss="modal">Cancel</a> <input
+								class="btn btn-primary" type="submit" value="Register" />
+
+						</div>
+					</div>
+				</form:form>
+			</div>
+		</div>
+</div>
+<!-- 		Add Admin  END -->
+	<!-- Footer -->
+	<%@ include file="footer.jsp" %>
+<%-- 	<jsp:include page="footer.jsp"> --%>
+
+	<!-- jQuery -->
+		<script src="js/jquery.js"></script>
+		
+		<!-- Bootstrap Core JavaScript -->
+		<script src="js/bootstrap.min.js"></script>
+		<script>
+			$("#adminUname").change(function() {
+					userName = $('#adminUname').val();
+					$("#loadingDiv").modal("toggle");
+					$("#usernameMsg")[0].innerHTML = "Checking username availability.";
+					$.ajax({
+			            type : "POST",
+			            url : "checkUsernameAvailability.action",
+			            data : "userName=" + userName,
+			            success : function(data) {
+			            	$("#loadingDiv").modal("toggle");
+			            	$("#usernameMsg")[0].innerHTML = data;
+			            	
+			            	if(data.indexOf('available') == -1){
+			            		$("#adminUname").val('');
+			            	}else{
+			            		
+			            	}
+			            }
+			        })
+			    });
+				
+				$("#newUserName").change(function() {
+					userName = $('#newUserName').val();
+					$("#loadingDiv").modal("toggle");
+					$("#newusernameMsg")[0].innerHTML = "Checking username availability.";
+					$.ajax({
+			            type : "POST",
+			            url : "checkUsernameAvailability.action",
+			            data : "userName=" + userName,
+			            success : function(data) {
+			            	$("#loadingDiv").modal("toggle");
+			            	$("#newusernameMsg")[0].innerHTML = data;
+			            	
+			            	if(data.indexOf('available') == -1){
+			            		$("#newUserName").val('');
+			            	}else{
+			            		
+			            	}
+			            }
+			        })
+//			    });
+				
+// 				$("#adminEmail").change(function() {
+// 					email = $('#adminEmail').val();
+// 					$("#loadingDiv").modal("toggle");
+// 					$("#adminEmailMsg")[0].innerHTML = "";
+// 					$.ajax({
+// 			            type : "POST",
+// 			            url : "checkEmailExists.action",
+// 			            data : "email=" + email,
+// 			            success : function(data) {
+// 			            	$("#loadingDiv").modal("toggle");
+// 			            	$("#adminEmailMsg")[0].innerHTML = data;
+			            	
+// 			            	if(data != ""){
+// 			            		$("#adminEmail").val('');
+// 			            	}else{
+			            		
+// 			            	}
+// 			            }
+// 			        })
+			}); 
+		</script>
 </body>
 </html>

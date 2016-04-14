@@ -1,6 +1,6 @@
-
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ page isELIgnored="false"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -255,32 +255,7 @@ footer {
 </head>
 
 <body>
-
-	<nav class="navbar navbar-inverse">
-		<div class="container-fluid">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle" data-toggle="collapse"
-					data-target="#myNavbar">
-					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
-						class="icon-bar"></span>
-				</button>
-				<a class="navbar-brand" href="#">HappyBeingUs</a>
-			</div>
-			<div class="collapse navbar-collapse" id="myNavbar">
-				<ul class="nav navbar-nav">
-					<li class="active"><a href="#">1</a></li>
-					<li><a href="#">2</a></li>
-					<li><a href="#">3</a></li>
-					<li><a href="#">4</a></li>
-				</ul>
-				<ul class="nav navbar-nav navbar-right">
-					<li><a href="#"><span class="glyphicon glyphicon-log-in"></span>
-							Logout</a></li>
-				</ul>
-			</div>
-		</div>
-	</nav>
-
+<%@ include file="header.jsp" %>
 	<div class="jumbotron">
 		<div class="container text-center">
 			<h1>${c_container.containerName}</h1>
@@ -439,9 +414,8 @@ footer {
 
 
 
-	<footer class="container-fluid text-center">
-		<p>Designed By Group 11 3/21/2016</p>
-	</footer>
+	<!-- Footer -->
+	<%@ include file="footer.jsp" %>
 
 </body>
 </html>

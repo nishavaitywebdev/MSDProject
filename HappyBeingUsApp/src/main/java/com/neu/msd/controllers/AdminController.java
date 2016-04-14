@@ -33,9 +33,12 @@ import com.neu.msd.entities.Answer;
 import com.neu.msd.entities.Topic;
 import com.neu.msd.entities.User;
 import com.neu.msd.entities.UserAuthentication;
+import com.neu.msd.entities.UserType;
 import com.neu.msd.entities.Version;
 import com.neu.msd.exception.AdminException;
+import com.neu.msd.exception.AuthenticationException;
 import com.neu.msd.service.AdminService;
+import com.neu.msd.service.AuthenticateService;
 
 /**
  * @author Harsh
@@ -55,6 +58,9 @@ public class AdminController {
 	
 	@Autowired
 	private AdminService adminService;
+	
+	@Autowired
+	private AuthenticateService authenticateService;
 	
 	@RequestMapping(value="/adminHome.action", method=RequestMethod.POST)
 	public String adminLogin(@RequestParam("username") String username, 
@@ -82,6 +88,28 @@ public class AdminController {
 			return "errorPage";
 		}finally{
 			LOGGER.debug("AdminController: adminLogin: END");
+		}
+	}
+	
+	@RequestMapping(value="/addNewAdmin.action", method=RequestMethod.POST)
+	public String registerAdmin(@ModelAttribute("userAuthentication") UserAuthentication userAuthentication, 
+			Model model, HttpSession httpSession){
+		try {
+			
+			int uId = adminService.registerAdmin(userAuthentication);
+			User user = userAuthentication.getUser();
+			user.setId(uId);
+			UserType userType = new UserType();
+			userType.setId(1);
+			user.setUserType(userType);
+			user.setDiagnosticTaken(false);
+			httpSession.setAttribute("user", user);
+			return adminLogin(userAuthentication.getUsername(), 
+					userAuthentication.getPassword(), 
+					httpSession, model);
+			
+		} catch (AdminException e) {
+			return "errorPage";
 		}
 	}
 	
@@ -617,6 +645,27 @@ public class AdminController {
 		adminActivityAnswer = adminService.updateAdminActivityAnswer(adminActivityAnswer);
 
 		return adminActivityAnswer.getActivity();
+	}
+	
+	@RequestMapping(value="/forgotAdminPassword.action", method=RequestMethod.POST)
+	public String resetUnamePassword(@RequestParam("emailID") String emailID, @RequestParam("username") String username, 
+			@RequestParam("password") String password, Model model, HttpSession httpSession) throws AuthenticationException{
+		
+		try {
+			String status = authenticateService.resetUnamePassword(emailID,username,password);
+			httpSession.removeAttribute("user");
+			return "adminLogon";
+//			remove user from the session before returning to the landing page
+		} catch (AuthenticationException e) {
+			return "errorPage";
+		}
+	}
+	
+	@RequestMapping(value="/adminLogout.action", method=RequestMethod.GET)
+	public String logoutUser(HttpSession httpSession, Model model){
+		if(httpSession != null)
+			httpSession.invalidate();
+		return "adminLogon";
 	}
 
 }

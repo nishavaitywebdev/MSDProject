@@ -58,4 +58,6 @@ public interface AdminService {
 	public AdminActivityAnswer updateAdminActivityAnswer(AdminActivityAnswer adminActivityAnswer) throws AdminException;
 
 	public String generateFilePath(MultipartFile uploadFile, String fileType) throws AdminException;
+	
+	public int registerAdmin(UserAuthentication userAuthentication) throws AdminException;
 }

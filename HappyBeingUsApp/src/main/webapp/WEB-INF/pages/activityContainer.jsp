@@ -27,13 +27,11 @@
 	margin-bottom: 0;
 	border-radius: 0;
 }
-
 /* Add a gray background color and some padding to the footer */
-footer {
-	background-color: #f2f2f2;
-	padding: 25px;
-}
-
+/* footer { */
+/* 	background-color: #f2f2f2; */
+/* 	padding: 25px; */
+/* } */
 .topic_holder .topic_name:after {
 	/* symbol for "opening" panels */
 	font-family: 'Glyphicons Halflings';
@@ -42,12 +40,10 @@ footer {
 	float: right; /* adjust as needed */
 	color: grey; /* adjust as needed */
 }
-
 .topic_holder .topic_name.collapsed:after {
 	/* symbol for "collapsed" panels */
 	content: "\e080"; /* adjust as needed, taken from bootstrap.css */
 }
-
 .topic-container {
 	position: fixed;
 	top: 50px;
@@ -78,12 +74,9 @@ footer {
 	}
 	
 	
-
 	function renameActivityContainer(button) {
-
 		var containerName = button.name;
 		var containerId = button.id;
-
 		$('#renameActivityContainer input[name=renameActivityContainer]').val(containerName);
 		$('#renameActivityContainer input[name=renameActivityContainerId]').val(containerId);
 	}
@@ -107,11 +100,10 @@ footer {
 			var form = document.getElementById("confirmationForm");
 			form.action = "deleteActivityContainer.action";
 			$("#deletableId").val(deleteId);
+			$("#confirmationDialog").modal("toggle");
 		}
 	}
-
 	$(document).ready(function() {
-
 // 		Ajax for renaming the activity container name
 		$("#changeActivityContainerName").click(function() {
 			containerName = $('#renameActivityContainer input[name=renameActivityContainer]').val();
@@ -125,12 +117,11 @@ footer {
 				success : function(data) {
 					$("#loadingDiv").modal("toggle");
 					$("#containerName_" + containerId)[0].innerHTML = containerName;
-
 				}
 			});
 		});
 		
-		$("#goBack").on("click",function(e) {
+		$(".goBack").on("click",function(e) {
 		    e.preventDefault(); // cancel the link itself
 		    $("#editForm").attr('action', this.href);
 			$("#editForm").submit();
@@ -151,18 +142,16 @@ footer {
 					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#">Admin</a>
+				<a class="navbar-brand goBack" href="adminLoadHome.action">Admin</a>
 			</div>
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav">
-					<li><a href="adminLoadHome.action" id="goBack">Topics and Blocks</a></li>
-					<li class="active"><a href="#">Blocks and Activities</a></li>
-					<li><a href="#">Add New Admin</a></li>
-					<li><a href="#">Detect Inactive Users</a></li>
-					<li><a href="#">Statistics</a></li>
+					<li><a href="adminLoadHome.action" class="goBack">Topics and Blocks</a></li>
+<!-- 					<li class="active"><a href="#">Blocks and Activities</a></li> -->
+					<li><a data-toggle="modal" id ="addAdmin" href="#addNewAdmin">Add New Admin</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="#"><span class="glyphicon glyphicon-log-in"></span>Logout</a></li>
+					<li><a href="adminLogout.action"><span class="glyphicon glyphicon-log-out"></span> Logout </a></li>
 				</ul>
 			</div>
 		</div>
@@ -316,9 +305,7 @@ footer {
 	<form name="editForm" id="editForm" action="#" method="post">
 		<input type="hidden" id="id" name="id" value="" />
 	</form>
-
-	<footer class="container-fluid text-center">
-		<p>Designed By Students of Northeastern University.</p>
-	</footer>
+	<!-- Footer -->
+	<%@ include file="footer.jsp" %>
 </body>
 </html>

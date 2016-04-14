@@ -143,6 +143,7 @@
 			</c:if>
 		</c:forEach>
 	</div>
-
+	<!-- Footer -->
+	<%@ include file="footer.jsp" %>
 </body>
 </html>

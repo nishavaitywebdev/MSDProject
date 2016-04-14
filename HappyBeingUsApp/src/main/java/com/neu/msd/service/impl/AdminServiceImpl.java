@@ -257,4 +257,10 @@ public class AdminServiceImpl implements AdminService {
 		}
 		return null;
 	}
+
+	@Override
+	public int registerAdmin(UserAuthentication userAuthentication) throws AdminException {
+		int userId = adminDao.registerAdmin(userAuthentication.getUser());
+		return adminDao.registerAdminAuthentication(userId, userAuthentication);
+	}
 }	

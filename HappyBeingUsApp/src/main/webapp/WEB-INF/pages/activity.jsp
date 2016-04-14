@@ -19,31 +19,25 @@
 	margin-bottom: 0;
 	border-radius: 0;
 }
-
 /* Add a gray background color and some padding to the footer */
 .jumbotron {
 	background-color: orange;
 }
-
 .inv {
 	display: none;
 }
-
 .dropdown-menu {
 	width: 300px !important;
 	height: 400px !important;
 }
-
 .dropdown-menu {
 	min-width: auto;
 	width: 100%;
 }
-
 .btn-file2 {
 	position: relative;
 	overflow: hidden;
 }
-
 .btn-file2 input[type=file] {
 	position: absolute;
 	top: 0;
@@ -77,13 +71,17 @@
 		
 	});
 	
+	$(".goBack").on("click",function(e) {
+	    e.preventDefault(); // cancel the link itself
+	    $("#editForm").attr('action', this.href);
+		$("#editForm").submit();
+	  });
 //		mcq template, update checkbox value with the input of user
 	$(document).on('change', '#mcqOptions .option', function() {
 		var num = this.id.split('_')[1];
 		$('#mcqOptions #checkBox_'+num).val(this.name);
 	});
 	
-
 //		adding more options inside the mcq template
 	$(document).on('click', '#mcqMoreOptions', function() {
 		var maxVal = $('#mcqMaxOptions').val();
@@ -136,17 +134,14 @@
 		showUploadMsg("videoFile", "videoUploadMsg");
 	}
 	
-
 // 	Flip Card 1 upload messages
 	function card1UploadMsg() {
 		showUploadMsg("card1File", "card1UploadMsg");
 	}
-
 // 	Flip Card 2 upload messages
 	function card2UploadMsg() {
 		showUploadMsg("card2File", "card2UploadMsg");
 	}
-
 // 	Flip Card 3 upload messages
 	function card3UploadMsg() {
 		showUploadMsg("card3File", "card3UploadMsg");
@@ -190,12 +185,15 @@
 					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#">Admin Home</a>
+				<a class="navbar-brand" href="#" class="goBack">Admin Home</a>
 			</div>
 			<div class="collapse navbar-collapse" id="myNavbar">
+				<ul class="nav navbar-nav">
+ 					<li class="active"><a href="#" class="goBack">Topics and Blocks</a></li> 
+					<li><a data-toggle="modal" id ="addAdmin" href="#addNewAdmin">Add New Admin</a></li>
+				</ul>
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="#"><span class="glyphicon glyphicon-log-in"></span>
-							Logout</a></li>
+					<li><a href="adminLogout.action"><span class="glyphicon glyphicon-log-out"></span> Logout </a></li>
 				</ul>
 			</div>
 		</div>
@@ -545,5 +543,7 @@
 			<tr>
 				<td><br /></td>
 			</tr>
+	<!-- Footer -->
+	<%@ include file="footer.jsp" %>
 </body>
 </html>

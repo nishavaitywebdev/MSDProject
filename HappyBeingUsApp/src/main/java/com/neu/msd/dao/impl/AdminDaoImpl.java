@@ -1327,5 +1327,118 @@ public class AdminDaoImpl implements AdminDao {
 			}
 		}
 	}
+	
+	@Override
+	public int registerAdmin(User user) throws AdminException {
+		PreparedStatement stmt = null;
+		ResultSet keys = null;
+			
+		try {
+			
+			int nextUserId = getNextUserId();
+			connection = dataSource.getConnection();
+			
+			String sql = "insert into user (user_id, user_type_id, first_name, last_name, email_id, is_diagnostic_taken) "
+					+ " values (?, ?, ?, ?, ?, ?)";
+			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			
+			stmt.setInt(1, nextUserId);
+			stmt.setInt(2, 1);
+			stmt.setString(3, user.getFirstName());
+			stmt.setString(4, user.getLastName());
+			stmt.setString(5, user.getEmail());
+			stmt.setBoolean(6, false);
+			
+			int records = stmt.executeUpdate();
+			
+			System.out.println("No. of records inserted: "+records);
+			
+			keys = stmt.getGeneratedKeys();
+			
+			
+			return nextUserId;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new AdminException(e);
+		}finally{
+			try {
+				if(null != keys) keys.close();
+				if(null != stmt) stmt.close();
+				if(null != connection) connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new AdminException(e);
+			}
+		}
+	}
+	
+private int getNextUserId() throws AdminException{
+		
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try {
+			connection = dataSource.getConnection();
+			
+			String sql = "SELECT MAX(user_id) AS user_id FROM user";
+
+			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			
+			rs = stmt.executeQuery();
+			
+			
+			if (rs.next()) {
+				return rs.getInt(1) + 1;
+			}
+			
+			if(null != stmt) stmt.close();
+			if(null != connection) connection.close();
+			throw new Exception();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new AdminException(e);
+		}finally{
+			try {
+				if(null != rs) rs.close();
+				if(null != stmt) stmt.close();
+				if(null != connection) connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new AdminException(e);
+			}
+		}
+	}
+
+	@Override
+	public int registerAdminAuthentication(int userId, UserAuthentication userAuthentication) throws AdminException {
+		PreparedStatement stmt = null;
+		try {
+			connection = dataSource.getConnection();
+			String sql = "insert into user_authentication (user_id, username, password, user_type_id) "
+					+ " values (?, ?, ?, ?)";
+			stmt = connection.prepareStatement(sql);
+			
+			stmt.setInt(1, userId);
+			stmt.setString(2, userAuthentication.getUsername());
+			stmt.setString(3, userAuthentication.getPassword());
+			stmt.setInt(4, 1);
+			
+			int records = stmt.executeUpdate();
+			
+			System.out.println("No. of records inserted: "+records);
+			
+			return records;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new AdminException(e);
+		}finally{
+			try {
+				if(null != stmt) stmt.close();
+				if(null != connection) connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new AdminException(e);
+			}
+		}
+	}
 }
 
