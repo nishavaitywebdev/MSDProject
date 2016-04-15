@@ -33,6 +33,13 @@ public interface UserService {
 
 	public Topic settopic(int cId) throws SQLException;
 
-	public List<Answer> getAnwser(Activity c_act) throws AdminException, UserException;
+	public List<Answer> getAnwser(int userId, int topicId, int containerId, Activity activity) throws AdminException, UserException;
+
+	public void saveUserAnswerToBigTable(int userId, int topicId, int activityContainerId, int activityId, String userResponse) throws UserException;
+
+	public void saveUserSelectionsToBigTable(int userId, int topicId, int activityContainerId, int activityId,
+			String[] selectedAnswers) throws UserException;
+
+	public void saveUserProgressToBigTable(int userId, int topicId, int activityContainerId, int activityId) throws UserException;
 
 }

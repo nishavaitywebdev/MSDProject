@@ -16,6 +16,7 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -42,6 +43,9 @@ import com.neu.msd.service.impl.SortByorder;
  */
 @Repository("userDao")
 public class UserDaoImpl implements UserDao {
+	
+	Logger LOGGER = Logger.getLogger(UserDaoImpl.class);
+	
 	@Autowired
 	DataSource dataSource;
 	private Connection connection;
@@ -452,6 +456,219 @@ public class UserDaoImpl implements UserDao {
 		}
 
 		return topic;
+	}
+
+	public String getUserAnswerFromBigTable(int userId, int topicId, int containerId, int activityId)
+			throws UserException {
+		LOGGER.debug("UserDaoImpl: getUserAnswerFromBigTable: END");
+		
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+
+		try {
+			connection = dataSource.getConnection();
+			String sql = "select answer_desc from user_topic_container_activity_answer "
+					+ "where user_id = ? and topic_id = ? and activity_container_id = ? and activity_id = ?";
+			stmt = connection.prepareStatement(sql);
+			stmt.setInt(1, userId);
+			stmt.setInt(2, topicId);
+			stmt.setInt(3, containerId);
+			stmt.setInt(4, activityId);
+
+			rs = stmt.executeQuery();
+			
+			if (rs.next()) {
+
+				return rs.getString(1);
+			}
+		} catch (SQLException e) {
+			throw new UserException(e);
+		}finally{
+			try {
+				if(null != rs) rs.close();
+				if(null != stmt) stmt.close();
+				if(null != connection) connection.close();
+				LOGGER.debug("UserDaoImpl: getUserAnswerFromBigTable: END");
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new UserException(e);
+			}
+		}
+		return null;
+	}
+
+	public List<Integer> getSelectedAnswerFromBigTable(int userId, int topicId, int containerId, int activityId)
+			throws UserException {
+		LOGGER.debug("UserDaoImpl: getSelectedAnswerFromBigTable: END");
+		
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		List<Integer> selectedAnswers = new ArrayList<Integer>();
+
+		try {
+			connection = dataSource.getConnection();
+			String sql = "select answer_id from user_topic_container_activity_answer "
+					+ "where user_id = ? and topic_id = ? and activity_container_id = ? and activity_id = ?";
+			stmt = connection.prepareStatement(sql);
+			stmt.setInt(1, userId);
+			stmt.setInt(2, topicId);
+			stmt.setInt(3, containerId);
+			stmt.setInt(4, activityId);
+
+			rs = stmt.executeQuery();
+			
+			while(rs.next()){
+				selectedAnswers.add(rs.getInt("answer_id"));
+			}
+			return selectedAnswers;
+		} catch (SQLException e) {
+			throw new UserException(e);
+		}finally{
+			try {
+				if(null != rs) rs.close();
+				if(null != stmt) stmt.close();
+				if(null != connection) connection.close();
+				LOGGER.debug("UserDaoImpl: getSelectedAnswerFromBigTable: END");
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new UserException(e);
+			}
+		}
+	}
+
+	public void saveUserAnswerToBigTable(int userId, int topicId, int activityContainerId, int activityId,
+			String userResponse) throws UserException {
+		LOGGER.debug("UserDaoImpl: saveUserAnswerToBigTable: END");
+		
+		PreparedStatement stmt = null;
+
+		try {
+			connection = dataSource.getConnection();
+			String sql = "delete from user_topic_container_activity_answer "
+					+ "where user_id=? and topic_id=? and activity_container_id=? and activity_id=?";
+			stmt = connection.prepareStatement(sql);
+			stmt.setInt(1, userId);
+			stmt.setInt(2, topicId);
+			stmt.setInt(3, activityContainerId);
+			stmt.setInt(4, activityId);
+
+			int records = stmt.executeUpdate();
+			
+			sql = "insert into user_topic_container_activity_answer "
+					+ "(user_id, topic_id, activity_container_id, activity_id, answer_id, answer_desc) "
+					+ "values (?, ?, ?, ?, 1, ?)";
+			stmt = connection.prepareStatement(sql);
+			stmt.setInt(1, userId);
+			stmt.setInt(2, topicId);
+			stmt.setInt(3, activityContainerId);
+			stmt.setInt(4, activityId);
+			stmt.setString(5, userResponse);
+			
+			records = stmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			throw new UserException(e);
+		}finally{
+			try {
+				if(null != stmt) stmt.close();
+				if(null != connection) connection.close();
+				LOGGER.debug("UserDaoImpl: saveUserAnswerToBigTable: END");
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new UserException(e);
+			}
+		}
+	}
+
+	public void saveUserSelectionsToBigTable(int userId, int topicId, int activityContainerId, int activityId,
+			String[] selectedAnswers) throws UserException {
+		LOGGER.debug("UserDaoImpl: saveUserSelectionsToBigTable: END");
+		
+		PreparedStatement stmt = null;
+
+		try {
+			connection = dataSource.getConnection();
+			
+			String sql = "delete from user_topic_container_activity_answer "
+					+ "where user_id=? and topic_id=? and activity_container_id=? and activity_id=?";
+			stmt = connection.prepareStatement(sql);
+			stmt.setInt(1, userId);
+			stmt.setInt(2, topicId);
+			stmt.setInt(3, activityContainerId);
+			stmt.setInt(4, activityId);
+
+			int records = stmt.executeUpdate();
+			
+			sql = "insert into user_topic_container_activity_answer "
+					+ "(user_id, topic_id, activity_container_id, activity_id, answer_id) "
+					+ "values (?, ?, ?, ?, ?)";
+			stmt = connection.prepareStatement(sql);
+			stmt.setInt(1, userId);
+			stmt.setInt(2, topicId);
+			stmt.setInt(3, activityContainerId);
+			stmt.setInt(4, activityId);
+			
+			for(int i=0; i<selectedAnswers.length; i++){
+				stmt.setString(5, selectedAnswers[i]);
+				records = stmt.executeUpdate();
+			}
+			
+		} catch (SQLException e) {
+			throw new UserException(e);
+		}finally{
+			try {
+				if(null != stmt) stmt.close();
+				if(null != connection) connection.close();
+				LOGGER.debug("UserDaoImpl: saveUserSelectionsToBigTable: END");
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new UserException(e);
+			}
+		}
+	}
+
+	public void saveUserProgressToBigTable(int userId, int topicId, int activityContainerId, int activityId)
+			throws UserException {
+		LOGGER.debug("UserDaoImpl: saveUserProgressToBigTable: END");
+		
+		PreparedStatement stmt = null;
+
+		try {
+			connection = dataSource.getConnection();
+			
+			String sql = "delete from user_topic_container_activity_answer "
+					+ "where user_id=? and topic_id=? and activity_container_id=? and activity_id=?";
+			stmt = connection.prepareStatement(sql);
+			stmt.setInt(1, userId);
+			stmt.setInt(2, topicId);
+			stmt.setInt(3, activityContainerId);
+			stmt.setInt(4, activityId);
+
+			int records = stmt.executeUpdate();
+			
+			sql = "insert into user_topic_container_activity_answer "
+					+ "(user_id, topic_id, activity_container_id, activity_id, answer_id) "
+					+ "values (?, ?, ?, ?, 1)";
+			stmt = connection.prepareStatement(sql);
+			stmt.setInt(1, userId);
+			stmt.setInt(2, topicId);
+			stmt.setInt(3, activityContainerId);
+			stmt.setInt(4, activityId);
+			
+			records = stmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			throw new UserException(e);
+		}finally{
+			try {
+				if(null != stmt) stmt.close();
+				if(null != connection) connection.close();
+				LOGGER.debug("UserDaoImpl: saveUserProgressToBigTable: END");
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new UserException(e);
+			}
+		}
 	}
 
 }

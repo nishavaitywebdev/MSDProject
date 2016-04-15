@@ -35,4 +35,16 @@ public interface UserDao {
 	Integer[] getweigh() throws SQLException, AuthenticationException;
 	Topic settopic(int tId) throws SQLException;
 
+	String getUserAnswerFromBigTable(int userId, int topicId, int containerId, int activityId) throws UserException;
+
+	List<Integer> getSelectedAnswerFromBigTable(int userId, int topicId, int containerId, int activityId) throws UserException;
+
+	void saveUserAnswerToBigTable(int userId, int topicId, int activityContainerId, int activityId,
+			String userResponse) throws UserException;
+
+	void saveUserSelectionsToBigTable(int userId, int topicId, int activityContainerId, int activityId,
+			String[] selectedAnswers) throws UserException;
+
+	void saveUserProgressToBigTable(int userId, int topicId, int activityContainerId, int activityId) throws UserException;
+
 }

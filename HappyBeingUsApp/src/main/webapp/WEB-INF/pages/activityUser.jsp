@@ -364,8 +364,12 @@ footer {
 				<p>${c_act.activityText }</p>
 				<div class="form-group">
 					<label for="comment">Answer:</label>
-					<textarea class="form-control" rows="5" id="comment"
-						placeholder="Enter Answer Here."></textarea>
+					
+					<form id="form" method="post" action="reload.action">
+						<input type="hidden" id="actcon" name="actcon" />
+						<textarea class="form-control" rows="5" id="comment"
+							placeholder="Enter Answer Here."><c:if test="${fn:length(answers) > 0}"><c:forEach var="answer" items="${answers}" varStatus="loopCount"><c:if test="${loopCount.count eq 3}">${answer.answerText}</c:if></c:forEach></c:if></textarea>
+					</form>	
 				</div>
 				<a class="btn btn-info" data-toggle="collapse"
 					data-target="#videoIdeal" onclick="this.preventDefault();">Done</a>
@@ -418,8 +422,12 @@ footer {
 				<p>${c_act.activityText }</p>
 				<div class="form-group">
 					<label for="comment">Answer:</label>
-					<textarea class="form-control" rows="5" id="imageAnswer"
-						placeholder="Enter Answer Here."></textarea>
+					
+					<form id="form" method="post" action="reload.action">
+						<input type="hidden" id="actcon" name="actcon" />
+						<textarea class="form-control" rows="5" id="imageAnswer"
+							name="userAnswer" placeholder="Enter Answer Here."><c:if test="${fn:length(answers) > 0}"><c:forEach var="answer" items="${answers}" varStatus="loopCount"><c:if test="${loopCount.count eq 3}">${answer.answerText}</c:if></c:forEach></c:if></textarea>
+					</form>	
 				</div>
 				<a class="btn btn-info" data-toggle="collapse"
 					data-target="#imageIdeal">Done</a>
@@ -452,13 +460,17 @@ footer {
 		<h2 class="text-info">Question</h2>
 		<p>${c_act.activityText }</p>
 		
+	<form id="form" method="post" action="reload.action">
+		<input type="hidden" id="actcon" name="actcon" />
+		
 		<c:if test="${fn:length(answers) > 0}">
 		<c:forEach var="answer" items="${answers}">
 		<div class="checkbox">
-			<label><input type="checkbox" name="optradio1" required>${answer.answerText}</label>
+			<label><input type="checkbox" name="selectedAnswer" value="${answer.id}" ${answer.isCorrect?"checked":""} required>${answer.answerText}</label>
 		</div>
 		</c:forEach>
 		</c:if>
+	</form>
 
 	</div>
 	</c:if>
@@ -476,6 +488,10 @@ footer {
 				<h4>${c_act.activityText }</h4>
 			</div>
 		</div>
+		
+	<form id="form" method="post" action="reload.action">
+		<input type="hidden" id="actcon" name="actcon" />
+	</form>
 	</c:if>
 	<c:if test="${c_act.activityTemplate.id ==5}">
 	<div class="jumbotron">
@@ -632,6 +648,10 @@ footer {
 		<!-- first Row End -->
 	</div>
 	<!--cardWrapper Ends-->
+	
+	<form id="form" method="post" action="reload.action">
+		<input type="hidden" id="actcon" name="actcon" />
+	</form>
 	</c:if>
 	<c:if test="${c_act.activityTemplate.id ==6}">
 		<div class="jumbotron">
@@ -672,6 +692,10 @@ footer {
 			<div id="chartContainer" style="height: 400px; width: 100%;"></div>
 			</div>
 		</div>
+		
+	<form id="form" method="post" action="reload.action">
+		<input type="hidden" id="actcon" name="actcon" />
+	</form>
 	</c:if>
 	<!-- container -->
 	<tr>
@@ -694,10 +718,6 @@ footer {
 	<tr>
 		<td><br /></td>
 	</tr>
-	
-	<form id="form" method="post" action="reload.action">
-		<input type="hidden" id="actcon" name="actcon" />
-	</form>
 
 	<script>
 		

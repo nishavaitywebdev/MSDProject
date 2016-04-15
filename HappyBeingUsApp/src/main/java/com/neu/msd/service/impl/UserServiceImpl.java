@@ -5,9 +5,8 @@ package com.neu.msd.service.impl;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Collections;
-import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +41,13 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	AdminDao adminDao;
+	
+	private final int VIDEO_TEMPLATE_ID =1;
+	private final int IMAGE_TEMPLATE_ID =2;
+	private final int MCQ_TEMPLATE_ID =3;
+	private final int INFORMATION_TEMPLATE_ID =4;
+	private final int FLIP_TEMPLATE_ID =5;
+	private final int MAX_FLIP_OPTION =6;
 
 	public List<AdminActivityAnswer> getDiagnosticQuestions() throws UserException, AdminException {
 		int diagnosticType = userDao.getDiagnosticType();
@@ -115,21 +121,60 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<Answer> getAnwser(Activity c_act) throws AdminException, UserException {
-			AdminActivityAnswer adminActivityAnswer = adminDao.getAdminActivityAnswerByActivityId(c_act.getId());
+	public List<Answer> getAnwser(int userId, int topicId, int containerId, Activity activity) throws AdminException, UserException {
+			AdminActivityAnswer adminActivityAnswer = adminDao.getAdminActivityAnswerByActivityId(activity.getId());
+			int templateId = activity.getActivityTemplate().getId();
+			String userPrevAnswer = "";
 			List<Answer> answers = adminActivityAnswer.getAnswers();
 			List<Answer> answers1 =new ArrayList<Answer>();
 			for(Answer answer : answers){
 				Answer answer1 = userDao.getAnswerById(answer.getId());
-			    answer1.setIsCorrect(answer.getIsCorrect());  
 				answers1.add(answer1);
 			}
 			Collections.sort(answers1,new SortByorder_answer());
 			
-			
-			
-			
-		return answers1;
+			if(templateId == VIDEO_TEMPLATE_ID || templateId == IMAGE_TEMPLATE_ID){
+				userPrevAnswer = userDao.getUserAnswerFromBigTable(userId, topicId, containerId, activity.getId());
+				if(null != userPrevAnswer){
+					Answer answer = new Answer();
+					answer.setAnswerText(userPrevAnswer);
+					answers1.add(answer);
+				}
+			}else if(templateId == MCQ_TEMPLATE_ID){
+				List<Integer> selectedAnswers = userDao.getSelectedAnswerFromBigTable(userId, topicId, containerId, activity.getId());
+				if(selectedAnswers.size() != 0){
+					List<Answer> tempAnswers = new ArrayList<Answer>();
+					for(Answer answer : answers1){
+						for(int selectedAnswer : selectedAnswers){
+							if(answer.getId() == selectedAnswer){
+								answer.setIsCorrect(true);
+							}
+						}
+						tempAnswers.add(answer);
+					}
+					answers1 = tempAnswers;
+				}
+			}
+
+			return answers1;
+	}
+
+	public void saveUserAnswerToBigTable(int userId, int topicId, int activityContainerId, int activityId,
+			String userResponse) throws UserException {
+		userDao.saveUserAnswerToBigTable(userId, topicId, activityContainerId, activityId, userResponse);
+		
+	}
+
+	public void saveUserSelectionsToBigTable(int userId, int topicId, int activityContainerId, int activityId,
+			String[] selectedAnswers) throws UserException {
+		userDao.saveUserSelectionsToBigTable(userId, topicId, activityContainerId, activityId, selectedAnswers);
+		
+	}
+
+	public void saveUserProgressToBigTable(int userId, int topicId, int activityContainerId, int activityId)
+			throws UserException {
+		userDao.saveUserProgressToBigTable(userId, topicId, activityContainerId, activityId);
+		
 	}
 
 
