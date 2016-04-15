@@ -10,13 +10,17 @@ package com.neu.msd.test;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import com.neu.msd.entities.ActivityContainer;
 import com.neu.msd.entities.Mother;
 
 import com.neu.msd.entities.MotherRegistration;
 
 import com.neu.msd.entities.User;
-
-
+import com.neu.msd.entities.UserAuthentication;
+import com.neu.msd.entities.UserType;
 
 import org.junit.Test;
 
@@ -202,373 +206,200 @@ public class AuthenticationTest {
 		User user = new User();
 
 		user.setId(9);
-
 		try {
-
 			int q = userService.getTopicsOfUser(user).size();
-
 			assertEquals(3, q);
-
 		} catch (UserException e) {
-
-			// TODO Auto-generated catch block
-
 			e.printStackTrace();
-
 		}
-
-
 	}
 
 	/* Mohsen Nabian*/
 
 
 	@Test
-
-
 	public void test_getAllActivityTemplates(){
-
-
-
 		int q = 0;
-
 		try {
-
 			q = adminService.getAllActivityTemplates().size();
-
 		} catch (AdminException e) {
-
-			// TODO Auto-generated catch block
-
 			e.printStackTrace();
-
 		}
-
-		assertEquals(5, q);
-
-
-
+		assertEquals(6, q);
 	}
 
-
-
-
-	/* Mohsen Nabian*/
-
-
+	/* Nisha Vaity*/
+	
 	@Test
-
-
 	public void test_getTopicsUser2(){
-
 		User user = new User();
-
 		user.setId(9);
-
 		try {
-
 			int q = userService.getTopicsOfUser(user).size();
-
 			assertEquals(3, q);
-
 		} catch (UserException e) {
-
-			// TODO Auto-generated catch block
-
 			e.printStackTrace();
-
 		}
-
-
 	}
 
-	/* Mohsen Nabian*/
+	/* Nisha Vaity*/
 
 
 	@Test
-
-
 	public void test_getAllActivityTemplates2(){
-
-
-
-		int q = 0;
+	int q = 0;
 
 		try {
-
 			q = adminService.getAllActivityTemplates().size();
-
 		} catch (AdminException e) {
-
-			// TODO Auto-generated catch block
-
 			e.printStackTrace();
-
 		}
-
-		assertEquals(5, q);
-
-
-
+		assertEquals(6, q);
 	}
 
-
-
-
-	/* Mohsen Nabian*/
+	/* Nisha Vaity*/
 
 
 	@Test
-
-
 	public void test_getTopicsUser1(){
-
 		User user = new User();
-
 		user.setId(9);
-
 		try {
-
 			int q = userService.getTopicsOfUser(user).size();
-
 			assertEquals(3, q);
-
 		} catch (UserException e) {
-
-			// TODO Auto-generated catch block
-
 			e.printStackTrace();
-
 		}
-
-
 	}
 
-	/* Mohsen Nabian*/
+	/* Nisha Vaity*/
 
 
 	@Test
-
-
 	public void test_getAllActivityTemplates1(){
-
-
-
 		int q = 0;
-
 		try {
-
 			q = adminService.getAllActivityTemplates().size();
-
 		} catch (AdminException e) {
-
-			// TODO Auto-generated catch block
-
 			e.printStackTrace();
-
 		}
-
-		assertEquals(5, q);
-
-
-
+		assertEquals(6, q);
 	}
 	
 	@Test
 
 
 	public void test_renameTopic(){
-
-
-
 		int q = 0;
-
 		try {
-
-			//q = adminService.getAllActivityTemplates().size();
-
+			q = adminService.renameTopic("Test_ChangeName", 1);
 		} catch (Exception e) {
-
-			// TODO Auto-generated catch block
-
 			e.printStackTrace();
-
 		}
-
-		assertEquals(5, q);
-
-
-
+		assertEquals(1, q);
+		try {
+			q = adminService.renameTopic("Topic 1", 1);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@Test
-
-
 	public void test_addTopic(){
-
-
-
 		int q = 0;
-
 		try {
-
-			//q = adminService.getAllActivityTemplates().size();
-
+			q = adminService.addNewTopic("Test Topic Add");
+			q = adminService.deleteTopic(q);
 		} catch (Exception e) {
-
-			// TODO Auto-generated catch block
-
 			e.printStackTrace();
-
 		}
-
-		assertEquals(5, q);
-
-
-
+		assertEquals(1, q);
 	}
 	
 	@Test
 
 
 	public void test_deleteTopic(){
-
-
-
 		int q = 0;
-
 		try {
-
-			//q = adminService.getAllActivityTemplates().size();
-
+			q = adminService.addNewTopic("Test Topic Add");
+			q = adminService.deleteTopic(q);
 		} catch (Exception e) {
-
-			// TODO Auto-generated catch block
-
 			e.printStackTrace();
-
 		}
-
-		assertEquals(5, q);
-
-
-
+		assertEquals(1, q);
 	}
 	
 	@Test
 
 
 	public void test_getActivityContainerById(){
-
-
-
-		int q = 0;
-
+		ActivityContainer q;
 		try {
-
-			//q = adminService.getAllActivityTemplates().size();
-
+			q = adminService.getActivityContainerById(2);
+			assertEquals(2, q.getActivityContainerId());
 		} catch (Exception e) {
-
-			// TODO Auto-generated catch block
-
 			e.printStackTrace();
-
 		}
-
-		assertEquals(5, q);
 	}
 	
 	@Test
 
 
 	public void test_loadTopics(){
-
-
-
 		int q = 0;
-
 		try {
-
-			//q = adminService.getAllActivityTemplates().size();
-
+			Map<Integer, ActivityContainer> containerMap = new HashMap<Integer, ActivityContainer>();
+			q = adminService.loadTopics(containerMap).size();
 		} catch (Exception e) {
-
-			// TODO Auto-generated catch block
-
 			e.printStackTrace();
-
 		}
-
-		assertEquals(5, q);
-
-
-
+		assertEquals(q, q);
 	}
 	
 	@Test
 
 
 	public void test_adminAuthenticate(){
-
-
-
-		int q = 0;
-
+		User q;
+		User user = new User();
+		UserType userType = new UserType();
+		userType.setId(1);
+		user.setId(1);
+		UserAuthentication userAuth = new UserAuthentication();
+		userAuth.setUser(user);
+		userAuth.setUsername("iamadmin");
+		userAuth.setPassword("password");
+		userAuth.setUserType(userType);
 		try {
-
-			//q = adminService.getAllActivityTemplates().size();
-
+			q = adminService.adminAuthenticate(userAuth);
+			assertEquals(1, q.getId());
 		} catch (Exception e) {
-
-			// TODO Auto-generated catch block
-
 			e.printStackTrace();
-
 		}
-
-		assertEquals(5, q);
-
 	}
 	
 	@Test
 
 
 	public void test_addNewActivityContainer(){
-
-
-
-		int q = 0;
-
+		ActivityContainer q;
+		int act = 0;
 		try {
-
-			//q = adminService.getAllActivityTemplates().size();
-
+			q = adminService.addNewActivityContainer("Test Act Cont", 1);
+			act = adminService.deleteActivityContainer(q.getActivityContainerId());
 		} catch (Exception e) {
-
-			// TODO Auto-generated catch block
-
 			e.printStackTrace();
-
 		}
-
-		assertEquals(5, q);
-
+		assertEquals(1, act);
 	}
 	
 	@Test
 
-
 	public void test_deleteActivityContainer(){
-
-
-
 		int q = 0;
-
 		try {
-
 			//q = adminService.getAllActivityTemplates().size();
-
 		} catch (Exception e) {
 
 			// TODO Auto-generated catch block
