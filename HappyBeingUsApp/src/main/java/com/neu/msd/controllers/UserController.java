@@ -156,7 +156,7 @@ public class UserController {
 		session.setAttribute("c_container", c_container);
 		session.setAttribute("answers", answers);
 		System.out.println(answers);
-		return "activityforuser";
+		return "activityUser";
 	}
 
 	@RequestMapping(value = "/reload.action", method = RequestMethod.POST)
@@ -261,7 +261,7 @@ public class UserController {
 			System.out.println(answers);
 		}
 
-		return "activityforuser";
+		return "activityUser";
 	}
 
 }

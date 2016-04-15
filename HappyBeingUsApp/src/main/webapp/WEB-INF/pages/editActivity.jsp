@@ -637,6 +637,40 @@
 			</div>
 		</form:form>
 	</c:if>
+	<c:if test="${templateId==6}">
+		<form:form action="updateActivity.action" method="post" name="mcqForm"
+			id="mcqForm" modelAttribute="adminActivity.activity"
+			enctype="multipart/form-data">
+			<div id="template_${templateId}">
+
+				<div class="container">
+					<h2></h2>
+					<div class="form-group">
+						<label for="comment">Pie Chart Content:</label>
+						<form:textarea name="Question" path="activityText"
+							class="form-control" rows="5" id="comment"
+							placeholder="Enter Question Contents Here." required="true"></form:textarea>
+					</div>
+
+					<div class="container text-right">
+						<button type="submit" class="btn btn-primary btn_lg">Add</button>
+					</div>
+				</div>
+				<tr>
+					<td><br /></td>
+				</tr>
+				<div class="jumbotron">
+					<footer class="container-fluid text-right"> </footer>
+				</div>
+				<form:input type="hidden" path="activityType.id" />
+				<form:input type="hidden" path="id" />
+				<form:input type="hidden" path="activityTemplate.id"
+					value="${templateId}" />
+				<form:input type="hidden"
+					path="activityContainer.activityContainerId" />
+			</div>
+		</form:form>
+	</c:if>
 	<tr>
 		<td><br /></td>
 	</tr>
