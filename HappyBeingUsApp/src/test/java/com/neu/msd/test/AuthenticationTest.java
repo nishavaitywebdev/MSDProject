@@ -10,11 +10,22 @@ package com.neu.msd.test;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import com.neu.msd.entities.ActivityContainer;
+import com.neu.msd.entities.Mother;
+
+import com.neu.msd.entities.MotherRegistration;
+
+import com.neu.msd.entities.UserAuthentication;
+import com.neu.msd.entities.UserType;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.test.context.ContextConfiguration;
-//import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.neu.msd.entities.User;
 import com.neu.msd.exception.AdminException;
@@ -34,9 +45,9 @@ import com.neu.msd.service.UserService;
 
  */
 
-//@RunWith(SpringJUnit4ClassRunner.class)
+@RunWith(SpringJUnit4ClassRunner.class)
 
-//@ContextConfiguration(locations={"classpath:/dispatcher.xml"})
+@ContextConfiguration(locations={"classpath:/dispatcher.xml"})
 
 public class AuthenticationTest {
 
@@ -60,25 +71,13 @@ public class AuthenticationTest {
 	@Test
 
 	public void test_emailExistCheck(){
-
-
 		String emailExistCheck;
-
-
 		try {
-
 			emailExistCheck = authenticateService.checkEmail("itsnisha07@gmail.com");
-
 			assertEquals("itsnisha07@gmail.com, The account already exists", emailExistCheck);
-
 		} catch (AuthenticationException e) {
-
-			// TODO Auto-generated catch block
-
 			e.printStackTrace();
-
 		}
-
 	}
 
 
@@ -89,27 +88,14 @@ public class AuthenticationTest {
 
 
 	public void test_usernameExistCheck(){
-
-
 		String usernameExistCheck;
-
-
 		try {
-
 			usernameExistCheck = authenticateService.checkUname("boss2");
-
 			assertEquals("boss2"+", this username available", usernameExistCheck);
-
 		} catch (AuthenticationException e) {
-
-			// TODO Auto-generated catch block
-
 			e.printStackTrace();
-
 		}
-
 	}
-
 
 	/* Mohsen Nabian*/
 
@@ -134,12 +120,8 @@ public class AuthenticationTest {
 			// TODO Auto-generated catch block
 
 			e.printStackTrace();
-
 		}
-
 	}
-
-
 
 	/* Mohsen Nabian*/
 
@@ -169,11 +151,7 @@ public class AuthenticationTest {
 			e.printStackTrace();
 
 		}
-
-
 	}
-
-
 
 	/* Mohsen Nabian*/
 
@@ -186,238 +164,284 @@ public class AuthenticationTest {
 		User user = new User();
 
 		user.setId(9);
-
 		try {
-
 			int q = userService.getTopicsOfUser(user).size();
-
 			assertEquals(3, q);
-
 		} catch (UserException e) {
-
-			// TODO Auto-generated catch block
-
 			e.printStackTrace();
-
 		}
-
-
 	}
 
 	/* Mohsen Nabian*/
 
 
 	@Test
-
-
 	public void test_getAllActivityTemplates(){
-
-
-
 		int q = 0;
-
 		try {
-
 			q = adminService.getAllActivityTemplates().size();
-
 		} catch (AdminException e) {
-
-			// TODO Auto-generated catch block
-
 			e.printStackTrace();
-
 		}
-
-		assertEquals(5, q);
-
-
-
+		assertEquals(6, q);
 	}
 
-
-
-
-	/* Mohsen Nabian*/
-
-
+	/* Nisha Vaity*/
+	
 	@Test
-
-
 	public void test_getTopicsUser2(){
-
 		User user = new User();
-
 		user.setId(9);
-
 		try {
-
 			int q = userService.getTopicsOfUser(user).size();
-
 			assertEquals(3, q);
-
 		} catch (UserException e) {
-
-			// TODO Auto-generated catch block
-
 			e.printStackTrace();
-
 		}
-
-
 	}
 
-	/* Mohsen Nabian*/
+	/* Nisha Vaity*/
 
 
 	@Test
-
-
 	public void test_getAllActivityTemplates2(){
-
-
-
-		int q = 0;
+	int q = 0;
 
 		try {
-
 			q = adminService.getAllActivityTemplates().size();
-
 		} catch (AdminException e) {
-
-			// TODO Auto-generated catch block
-
 			e.printStackTrace();
-
 		}
-
-		assertEquals(5, q);
-
-
-
+		assertEquals(6, q);
 	}
 
-
-
-
-	/* Mohsen Nabian*/
+	/* Nisha Vaity*/
 
 
 	@Test
-
-
 	public void test_getTopicsUser1(){
-
 		User user = new User();
-
 		user.setId(9);
-
 		try {
-
 			int q = userService.getTopicsOfUser(user).size();
-
 			assertEquals(3, q);
-
 		} catch (UserException e) {
-
-			// TODO Auto-generated catch block
-
 			e.printStackTrace();
-
 		}
-
-
 	}
 
-	/* Mohsen Nabian*/
+	/* Nisha Vaity*/
 
 
 	@Test
-
-
 	public void test_getAllActivityTemplates1(){
-
-
-
 		int q = 0;
-
 		try {
-
 			q = adminService.getAllActivityTemplates().size();
-
 		} catch (AdminException e) {
-
-			// TODO Auto-generated catch block
-
 			e.printStackTrace();
-
 		}
-
-		assertEquals(5, q);
-
-
-
+		assertEquals(6, q);
 	}
+	
+	@Test
 
 
-
-	/* Mohsen Nabian*/
-
-	//getAllActivityTemplates()
-
-	//@SuppressWarnings("null")
-
-	//@Test
-
-	//
-
-	//public void test_updateMotherDetails(){
-
-	//
-
-	//	int updateMotherDetailsCheck;
-
-	//	Mother motherobj = null;
-
-	//	MotherRegistration motherregobj;
-
-	//	MotherRegistration motherregobjTest;
-
-	//	int x = 0;
-
-	//	try {
-
-	//	motherregobj = authenticateService.getMotherRegistrationByEmail("nishaMother@gmail.com");
-
-	//	motherobj.setFirstName("NishaMom");
-
-	//	motherobj.setLastName("Vaity");
-
-	//	motherregobj.setUsername("username");
-
-	//	motherregobj.setPassword("password");
-
-	//	motherregobj.setMother(motherobj);
-
-	//	x = authenticateService.updateMotherDetails(motherregobj);
-
-	//	} catch (AuthenticationException e1) {
-
-	//	// TODO Auto-generated catch block
-
-	//	e1.printStackTrace();
-
-	//	}
-
-	//
-
-	//
-
-	//	assertEquals(1, x);
-
-	//
-
-	//}
+	public void test_renameTopic(){
+		int q = 0;
+		try {
+			q = adminService.renameTopic("Test_ChangeName", 1);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		assertEquals(1, q);
+		try {
+			q = adminService.renameTopic("Topic 1", 1);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void test_addTopic(){
+		int q = 0;
+		try {
+			q = adminService.addNewTopic("Test Topic Add");
+			q = adminService.deleteTopic(q);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		assertEquals(1, q);
+	}
+	
+	@Test
 
 
+	public void test_deleteTopic(){
+		int q = 0;
+		try {
+			q = adminService.addNewTopic("Test Topic Add");
+			q = adminService.deleteTopic(q);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		assertEquals(1, q);
+	}
+	
+	@Test
+
+
+	public void test_getActivityContainerById(){
+		ActivityContainer q;
+		try {
+			q = adminService.getActivityContainerById(2);
+			assertEquals(2, q.getActivityContainerId());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+
+
+	public void test_loadTopics(){
+		int q = 0;
+		try {
+			Map<Integer, ActivityContainer> containerMap = new HashMap<Integer, ActivityContainer>();
+			q = adminService.loadTopics(containerMap).size();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		assertEquals(q, q);
+	}
+	
+	@Test
+
+
+	public void test_adminAuthenticate(){
+		User q;
+		User user = new User();
+		UserType userType = new UserType();
+		userType.setId(1);
+		user.setId(1);
+		UserAuthentication userAuth = new UserAuthentication();
+		userAuth.setUser(user);
+		userAuth.setUsername("iamadmin");
+		userAuth.setPassword("password");
+		userAuth.setUserType(userType);
+		try {
+			q = adminService.adminAuthenticate(userAuth);
+			assertEquals(1, q.getId());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+
+
+	public void test_addNewActivityContainer(){
+		ActivityContainer q;
+		int act = 0;
+		try {
+			q = adminService.addNewActivityContainer("Test Act Cont", 1);
+			act = adminService.deleteActivityContainer(q.getActivityContainerId());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		assertEquals(1, act);
+	}
+	
+	@Test
+
+	public void test_deleteActivityContainer(){
+		ActivityContainer q;
+		int act = 0;
+		try {
+			q = adminService.addNewActivityContainer("Test Act Cont", 1);
+			act = adminService.deleteActivityContainer(q.getActivityContainerId());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		assertEquals(1, act);
+	}
+	
+	@Test
+
+
+	public void test_renameActivityContainer(){
+
+		ActivityContainer q;
+		int p;
+		int act = 0;
+		try {
+			q = adminService.addNewActivityContainer("Test Act Cont", 1);
+			p = adminService.renameActivityContainer("Test Container", 1);
+			act = adminService.deleteActivityContainer(q.getActivityContainerId());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		assertEquals(1, act);
+	}
+	
+	@Test
+
+	public void test_checkEmail(){
+		String emailExistCheck;
+		try {
+			emailExistCheck = authenticateService.checkEmail("itsnisha07@gmail.com");
+			assertEquals("itsnisha07@gmail.com, The account already exists", emailExistCheck);
+		} catch (AuthenticationException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+
+
+	public void test_checkUname(){
+		String usernameExistCheck;
+		try {
+			usernameExistCheck = authenticateService.checkUname("boss2");
+			assertEquals("boss2"+", this username available", usernameExistCheck);
+		} catch (AuthenticationException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+
+
+	public void test_adminAuthenticate1(){
+		User q;
+		User user = new User();
+		UserType userType = new UserType();
+		userType.setId(1);
+		user.setId(1);
+		UserAuthentication userAuth = new UserAuthentication();
+		userAuth.setUser(user);
+		userAuth.setUsername("iamadmin");
+		userAuth.setPassword("password");
+		userAuth.setUserType(userType);
+		try {
+			q = adminService.adminAuthenticate(userAuth);
+			assertEquals(1, q.getId());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+
+
+	public void test_check_Email(){
+		String emailExistCheck;
+		try {
+			emailExistCheck = authenticateService.checkEmail("itsnisha07@gmail.com");
+			assertEquals("itsnisha07@gmail.com, The account already exists", emailExistCheck);
+		} catch (AuthenticationException e) {
+			e.printStackTrace();
+		}
+	}
 
 }

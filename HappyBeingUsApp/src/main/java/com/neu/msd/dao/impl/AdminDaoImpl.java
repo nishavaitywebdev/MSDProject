@@ -54,7 +54,6 @@ public class AdminDaoImpl implements AdminDao {
 	public List<Topic> loadTopics() throws AdminException {
 		
 		LOGGER.debug("AdminDaoImpl: loadTopics: START");
-		LOGGER.debug("AdminDaoImpl: loadTopics: START");
 		
 		PreparedStatement stmt = null;
 		ResultSet rs = null;

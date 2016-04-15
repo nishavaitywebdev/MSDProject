@@ -204,7 +204,7 @@ public class AdminController {
 				act = adminService.saveAdminActivityAnswer(adminActivityAnswer).getActivity();
 			}else if(activity.getActivityTemplate().getId() == 3){
 				act = addMCQActivity(activity, request);
-			}else if(activity.getActivityTemplate().getId() == 4){
+			}else if(activity.getActivityTemplate().getId() == 4 || activity.getActivityTemplate().getId() == 6){
 				act = addInfoActivity(activity);
 			}else if(activity.getActivityTemplate().getId() == 5){
 				act = addFlipActivity(activity, request, card1File, card2File, card3File);
@@ -545,7 +545,7 @@ public class AdminController {
 				act = adminService.updateAdminActivityAnswer(adminActivityAnswer).getActivity();
 			}else if(adminActivityAnswer.getActivity().getActivityTemplate().getId() == 3){
 				act = updateMCQActivity(adminActivityAnswer.getActivity(), request);
-			}else if(adminActivityAnswer.getActivity().getActivityTemplate().getId() == 4){
+			}else if(adminActivityAnswer.getActivity().getActivityTemplate().getId() == 4 || adminActivityAnswer.getActivity().getActivityTemplate().getId() == 6){
 				act = updateInfoActivity(adminActivityAnswer);
 			}else if(adminActivityAnswer.getActivity().getActivityTemplate().getId() == 5){
 				act = updateFlipActivity(adminActivityAnswer.getActivity(), request, card1File, card2File, card3File);
