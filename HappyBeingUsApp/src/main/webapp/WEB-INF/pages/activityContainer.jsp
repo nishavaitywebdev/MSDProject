@@ -79,6 +79,7 @@
 		var containerId = button.id;
 		$('#renameActivityContainer input[name=renameActivityContainer]').val(containerName);
 		$('#renameActivityContainer input[name=renameActivityContainerId]').val(containerId);
+		$("#renameActivityContainer").modal("toggle");
 	}
 	
 	function deleteActivity(deletedTag){
@@ -117,6 +118,7 @@
 				success : function(data) {
 					$("#loadingDiv").modal("toggle");
 					$("#containerName_" + containerId)[0].innerHTML = containerName;
+					$('#'+containerId).attr('name', containerName);
 				}
 			});
 		});
@@ -176,7 +178,6 @@
 							<span id="containerName_${activityContainer.activityContainerId}">${activityContainer.containerName}</span>
 
 							<button type="button" class="btn btn-success"
-								data-toggle="modal" data-target="#renameActivityContainer"
 								id="${activityContainer.activityContainerId}"
 								name="${activityContainer.containerName}"
 								onclick="renameActivityContainer(this)">Rename</button>
@@ -234,7 +235,7 @@
 						</div>
 						<div class="modal-footer">
 							<input type="button" id="changeActivityContainerName" class="btn btn-success"
-								role="button" value="Change Name!" />
+								role="button" value="Change Name" />
 						</div>
 					</div>
 				</div>
