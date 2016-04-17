@@ -90,8 +90,10 @@ public class UserServiceImpl implements UserService {
 
 
 	@Override
-	public void addscore(User user, double score) throws UserException {
-		userDao.addscoreforuser(user, score);
+	public User addscore(User user, double score) throws UserException {
+		
+		
+		return userDao.addscoreforuser(user, score);
 		
 	}
 
