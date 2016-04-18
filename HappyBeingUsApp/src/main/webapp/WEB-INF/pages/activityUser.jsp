@@ -714,6 +714,7 @@ footer {
 		<c:if test="${c_act.orderNo==act_max && c_container.orderNo!= con_max}">
 		<li><a id="4" class="btn navigate-btn">Next Block</a></li>
 		</c:if>
+		<li><a id="5" class="btn navigate-btn"> Return </a></li>
 	</ul>
 	<tr>
 		<td><br /></td>

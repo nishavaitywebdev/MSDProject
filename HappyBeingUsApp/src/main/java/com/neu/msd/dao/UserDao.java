@@ -29,7 +29,7 @@ public interface UserDao {
 	List<Topic> getTopicsOfUser(int id) throws UserException;
 
 
-	void addscoreforuser(User user, double score) throws UserException;
+	User addscoreforuser(User user, double score) throws UserException;
 	ActivityContainer setcontainer(int cId) throws SQLException;
 
 	Integer[] getweigh() throws SQLException, AuthenticationException;

@@ -66,6 +66,7 @@
 		var topicId = button.id;
 		$('#renameTopic input[name=renameTopicName]').val(topicName);
 		$('#renameTopic input[name=renameTopicId]').val(topicId);
+		$("#renameTopic").modal("toggle");
 	}
 	
 	function addContainer(button) {
@@ -176,7 +177,6 @@
 											id="topic_name_${topic.id}">${topic.topicName}</span>
 
 										<button type="button" class="btn btn-success"
-											data-toggle="modal" data-target="#renameTopic"
 											id="${topic.id}" name="${topic.topicName}"
 											onclick="renameTopic(this)">Rename</button>
 										<a class="btn btn-danger" id="deleteId_${topic.id}" 

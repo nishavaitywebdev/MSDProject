@@ -32,6 +32,7 @@ import com.neu.msd.entities.Topic;
 import com.neu.msd.entities.TopicStatus;
 import com.neu.msd.entities.Daughter;
 import com.neu.msd.entities.User;
+import com.neu.msd.entities.Version;
 import com.neu.msd.exception.AdminException;
 import com.neu.msd.exception.AuthenticationException;
 import com.neu.msd.exception.UserException;
@@ -255,7 +256,7 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public void addscoreforuser(User user, double score) throws UserException {
+	public User addscoreforuser(User user, double score) throws UserException {
 		// TODO Auto-generated method stub
 		ResultSet rs=null;
 		PreparedStatement stmt =null;
@@ -324,6 +325,12 @@ public class UserDaoImpl implements UserDao {
 
 				System.out.println("No. of records inserted: " + records);
 			}
+			Version version=new Version();
+			version.setId(version_id);
+			user.setVersion(version);
+			user.setDiagnosticTaken(true);
+			user.setScore(sco);
+			return user;
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -336,6 +343,7 @@ public class UserDaoImpl implements UserDao {
 
 		} finally {
 			try {
+				
 				if (null != rs)
 					rs.close();
 				if (null != stmt3)
@@ -344,11 +352,15 @@ public class UserDaoImpl implements UserDao {
 					stmt.close();
 				if (null != connection)
 					connection.close();
+				
 			} catch (SQLException e) {
 				e.printStackTrace();
 				throw new UserException(e);
 			}
+			
 		}
+		return null;
+		
 	}
 
 	@Override

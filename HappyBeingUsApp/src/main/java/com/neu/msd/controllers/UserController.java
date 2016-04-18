@@ -98,13 +98,14 @@ public class UserController {
 				b++;
 			}
 			score = score / 5 * 100;
-			userService.addscore(user, score);
+			user=userService.addscore(user, score);
 
 			// List<AdminActivityAnswer> activityAnswers =
 			// userService.getDiagnosticQuestions();
 			// model.addAttribute("activityAnswers", activityAnswers);
 			List<Topic> topics = new ArrayList<Topic>();
 			topics = userService.getTopicsOfUser(user);
+			session.setAttribute("user", user);
 			model.addAttribute("topics", topics);
 			return "topics";
 		} catch (Exception e) {
@@ -312,7 +313,9 @@ public class UserController {
 				session.setAttribute("answers", answers);
 				System.out.println(answers);
 			}
-
+			else if(actcon==5){
+				return loadTopicsOfUser(session, model);
+			}
 			return "activityUser";
 		} catch (Exception e) {
 			e.printStackTrace();

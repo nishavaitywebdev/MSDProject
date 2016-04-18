@@ -51,7 +51,8 @@ public class AuthenticateServiceImpl implements AuthenticateService {
 		Mother mother = registerMother(motherRegistration);
 		daughterRegistration.getDaughter().setMother(mother);
 		int daughterId = authenticateDao.registerDaughter(daughterRegistration.getDaughter());
-		return authenticateDao.registerDaughterAuthentication(daughterId, daughterRegistration);
+		authenticateDao.registerDaughterAuthentication(daughterId, daughterRegistration);
+		return daughterId;
 	}
 
 	
