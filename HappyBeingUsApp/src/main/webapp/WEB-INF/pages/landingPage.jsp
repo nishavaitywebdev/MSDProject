@@ -112,17 +112,17 @@
 <!-- 		</a> -->
 
 <!-- 	</header> -->
-		<div class="row">
-			<div class="col-lg-12">
-				<img src="Images/hbu.png" style="margin-left: 150px" />
-			</div>
-		</div>
+<!-- 		<div class="row"> -->
+<!-- 			<div class="col-lg-12"> -->
+<!-- 				<img src="Images/Slide1.jpg" style="margin-left: 150px" /> -->
+<!-- 			</div> -->
+<!-- 		</div> -->
 	<!-- Page Content -->
 	<div class="container">
 
 		<div class="row">
 			<div class="col-lg-12">
-				<img src="Images/HomePageImage.png" style="margin-left: 150px" />
+				<img src="Images/Slide1.jpg" style="margin-left: 150px" />
 			</div>
 		</div>
 
