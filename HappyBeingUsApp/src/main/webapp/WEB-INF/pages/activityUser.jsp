@@ -238,7 +238,8 @@ h3.cardTitle {
 /* } */
 </style>
 
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/canvasjs/1.7.0/canvasjs.min.js"></script>
+<script type="text/javascript"
+	src="https://cdnjs.cloudflare.com/ajax/libs/canvasjs/1.7.0/canvasjs.min.js"></script>
 
 <script type="text/javascript">
 	function renderPieChart() {
@@ -307,6 +308,19 @@ h3.cardTitle {
 		$('.card').click(function(){
 	 		$(this).toggleClass('flipped');
 	 	});
+	
+		});
+
+	
+	
+	$(document).ready(function() {
+		$("#button1").on("click", function() {
+			
+			$('.rtAnswer').css('display', 'block');
+			
+// 			if(("#sanswer").val()!=rightanswers)
+			
+		});
 	});
 
 </script>
@@ -333,146 +347,149 @@ h3.cardTitle {
 <!-- 	</nav> -->
 	<%@ include file="header.jsp" %>
 	<c:if test="${c_act.activityTemplate.id ==1}">
-	<div class="jumbotron">
-		<div class="container text-center">
-			<h2>${c_container.containerName}</h2>
-			<p>Infer the video and reflect</p>
-		</div>
-	</div>
-
-
-	<div class="container-fluid bg-3 text-left">
-
-		<div class="row">
-			<div class="col-sm-6">
-			<c:if test="${fn:length(answers) > 0}">
-			<c:forEach var="answer" items="${answers}"
-				varStatus="loopCount">
-				<c:if test="${loopCount.count eq 1}">
-				<video width="600" controls>
-					<source src="${answer.answerText}" type="video/mp4">
-					<source src="${answer.answerText}" type="video/ogg">
-					<ins>Your browser does not support the video tag.</ins>
-				</video>
-				</c:if>
-			</c:forEach>
-			</c:if>
-				
+		<div class="jumbotron">
+			<div class="container text-center">
+				<h2>${c_container.containerName}</h2>
+				<p>Infer the video and reflect</p>
 			</div>
-			<div class="col-sm-6">
-				<h3> Question</h3>
-				<p>${c_act.activityText }</p>
-				<div class="form-group">
-					<label for="comment">Answer:</label>
-					
-					<form id="form" method="post" action="reload.action">
-						<input type="hidden" id="actcon" name="actcon" />
-						<textarea class="form-control" rows="5" id="comment"
-							placeholder="Enter Answer Here."><c:if test="${fn:length(answers) > 0}"><c:forEach var="answer" items="${answers}" varStatus="loopCount"><c:if test="${loopCount.count eq 3}">${answer.answerText}</c:if></c:forEach></c:if></textarea>
-					</form>	
-				</div>
-				<a class="btn btn-info" data-toggle="collapse"
-					data-target="#videoIdeal" onclick="this.preventDefault();">Done</a>
-				<tr>
-					<td><br /></td>
-				</tr>
-				<div id="videoIdeal" class="collapse">
-					<tr>
-						<td><br /></td>
-					</tr>
+		</div>
+		
+		<div class="container-fluid bg-3 text-left">
+
+			<div class="row">
+				<div class="col-sm-6">
 					<c:if test="${fn:length(answers) > 0}">
-						<c:forEach var="answer" items="${answers}"
-							varStatus="loopCount">
-							<c:if test="${loopCount.count eq 2}">
-							<p style="color: green;">${answer.answerText}</p>
+						<c:forEach var="answer" items="${answers}" varStatus="loopCount">
+							<c:if test="${loopCount.count eq 1}">
+								<video width="600" controls>
+									<source src="${answer.answerText}" type="video/mp4">
+									<source src="${answer.answerText}" type="video/ogg">
+									<ins>Your browser does not support the video tag.</ins>
+								</video>
 							</c:if>
 						</c:forEach>
 					</c:if>
+
+				</div>
+				<div class="col-sm-6">
+					<h3>Question</h3>
+					<p>${c_act.activityText }</p>
+					<div class="form-group">
+						<label for="comment">Answer:</label>
+
+						<form id="form" method="post" action="reload.action">
+							<input type="hidden" id="actcon" name="actcon" />
+							<textarea class="form-control" rows="5" id="comment"
+								name="userAnswer" placeholder="Enter Answer Here."><c:if test="${fn:length(answers) > 0}"><c:forEach var="answer" items="${answers}" varStatus="loopCount"><c:if test="${loopCount.count eq 3}">${answer.answerText}</c:if></c:forEach></c:if></textarea>
+						</form>
+					</div>
+					<a class="btn btn-info" data-toggle="collapse"
+						data-target="#videoIdeal" onclick="this.preventDefault();">Done</a>
+					<tr>
+						<td><br /></td>
+					</tr>
+					<div id="videoIdeal" class="collapse">
+						<tr>
+							<td><br /></td>
+						</tr>
+						<c:if test="${fn:length(answers) > 0}">
+							<c:forEach var="answer" items="${answers}" varStatus="loopCount">
+								<c:if test="${loopCount.count eq 2}">
+									<p style="color: green;">${answer.answerText}</p>
+								</c:if>
+							</c:forEach>
+						</c:if>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 	</c:if>
 
 	<c:if test="${c_act.activityTemplate.id ==2}">
-	<div class="jumbotron">
-		<div class="container text-center">
-			<h2>${c_container.containerName}</h2>
-			<p>Infer the picture and reflect</p>
-		</div>
-	</div>
-
-
-	<div class="container-fluid bg-3 text-left">
-
-		<div class="row">
-			<div class="col-sm-6">
-			<c:if test="${fn:length(answers) > 0}">
-				<c:forEach var="answer" items="${answers}"
-					varStatus="loopCount">
-					<c:if test="${loopCount.count eq 1}">
-					<img src="${answer.answerText}" class="img-responsive" alt="Cannot load image"
-					width="600">
-					</c:if>
-				</c:forEach>
-			</c:if>
+		<div class="jumbotron">
+			<div class="container text-center">
+				<h2>${c_container.containerName}</h2>
+				<p>Infer the picture and reflect</p>
 			</div>
-			<div class="col-sm-6">
-				<h3> Question</h3>
-				<p>${c_act.activityText }</p>
-				<div class="form-group">
-					<label for="comment">Answer:</label>
-					
-					<form id="form" method="post" action="reload.action">
-						<input type="hidden" id="actcon" name="actcon" />
-						<textarea class="form-control" rows="5" id="imageAnswer"
-							name="userAnswer" placeholder="Enter Answer Here."><c:if test="${fn:length(answers) > 0}"><c:forEach var="answer" items="${answers}" varStatus="loopCount"><c:if test="${loopCount.count eq 3}">${answer.answerText}</c:if></c:forEach></c:if></textarea>
-					</form>	
-				</div>
-				<a class="btn btn-info" data-toggle="collapse"
-					data-target="#imageIdeal">Done</a>
-				<div id="imageIdeal" class="collapse">
-					<tr>
-						<td><br /></td>
-					</tr>
+		</div>
+
+
+		<div class="container-fluid bg-3 text-left">
+
+			<div class="row">
+				<div class="col-sm-6">
 					<c:if test="${fn:length(answers) > 0}">
-						<c:forEach var="answer" items="${answers}"
-							varStatus="loopCount">
-							<c:if test="${loopCount.count eq 2}">
-							<p style="color: green;">${answer.answerText}</p>
+						<c:forEach var="answer" items="${answers}" varStatus="loopCount">
+							<c:if test="${loopCount.count eq 1}">
+								<img src="${answer.answerText}" class="img-responsive"
+									alt="Cannot load image" width="600">
 							</c:if>
 						</c:forEach>
 					</c:if>
 				</div>
+				<div class="col-sm-6">
+					<h3>Question</h3>
+					<p>${c_act.activityText }</p>
+					<div class="form-group">
+						<label for="comment">Answer:</label>
+
+						<form id="form" method="post" action="reload.action">
+							<input type="hidden" id="actcon" name="actcon" />
+							<textarea class="form-control" rows="5" id="imageAnswer"
+								name="userAnswer" placeholder="Enter Answer Here."><c:if test="${fn:length(answers) > 0}"><c:forEach var="answer" items="${answers}" varStatus="loopCount"><c:if test="${loopCount.count eq 3}">${answer.answerText}</c:if></c:forEach></c:if></textarea>
+						</form>
+					</div>
+					<a class="btn btn-info" data-toggle="collapse"
+						data-target="#imageIdeal">Done</a>
+					<div id="imageIdeal" class="collapse">
+						<tr>
+							<td><br /></td>
+						</tr>
+						<c:if test="${fn:length(answers) > 0}">
+							<c:forEach var="answer" items="${answers}" varStatus="loopCount">
+								<c:if test="${loopCount.count eq 2}">
+									<p style="color: green;">${answer.answerText}</p>
+								</c:if>
+							</c:forEach>
+						</c:if>
+					</div>
+				</div>
 			</div>
 		</div>
-	</div>
 	</c:if>
 	<c:if test="${c_act.activityTemplate.id ==3}">
-	<div class="jumbotron">
-		<div class="container text-center">
-			<h2>${c_container.containerName}</h2>
-			<p>Which ones' do you think are right?</p>
+		<div class="jumbotron">
+			<div class="container text-center">
+				<h2>${c_container.containerName}</h2>
+				<p>Which ones' do you think are right?</p>
+			</div>
 		</div>
-	</div>
 
-	<div class="container">
-		<h2 class="text-info">Question</h2>
-		<p>${c_act.activityText }</p>
-		
-	<form id="form" method="post" action="reload.action">
-		<input type="hidden" id="actcon" name="actcon" />
-		
-		<c:if test="${fn:length(answers) > 0}">
-		<c:forEach var="answer" items="${answers}">
-		<div class="checkbox">
-			<label><input type="checkbox" name="selectedAnswer" value="${answer.id}" ${answer.isCorrect?"checked":""} required>${answer.answerText}</label>
+		<div class="container">
+			<h2 class="text-info">Question</h2>
+			<p>${c_act.activityText }</p>
+
+			<form id="form" method="post" action="reload.action">
+				<input type="hidden" id="actcon" name="actcon" />
+
+				<c:if test="${fn:length(answers) > 0}">
+					<c:forEach var="answer" items="${answers}">
+						<div id="check-info" class="checkbox">
+							<div class="row">
+								<div class="col-sm-4">
+								<label><input type="checkbox" name="selectedAnswer" class="sanwser"
+								value='${answer.id}' ${answer.isCorrect?"checked":""} required/>${answer.answerText}</label>
+								</div>
+								<div class="col-sm-2"><span class="rtAnswer btn-success text-center" style='display: none'>${answer.isRightanswer?"Correct Answer":""}</span></div>
+								<div class="col-sm-6"></div>
+							</div>
+						</div>
+					</c:forEach>
+					<a id="button1" class="btn btn-primary">Check Answer</a>
+				</c:if>
+			</form>
+
 		</div>
-		</c:forEach>
-		</c:if>
-	</form>
-
-	</div>
 	</c:if>
 
 	<c:if test="${c_act.activityTemplate.id ==4}">
@@ -488,170 +505,167 @@ h3.cardTitle {
 				<h4>${c_act.activityText }</h4>
 			</div>
 		</div>
-		
-	<form id="form" method="post" action="reload.action">
-		<input type="hidden" id="actcon" name="actcon" />
-	</form>
+
+		<form id="form" method="post" action="reload.action">
+			<input type="hidden" id="actcon" name="actcon" />
+		</form>
 	</c:if>
 	<c:if test="${c_act.activityTemplate.id ==5}">
-	<div class="jumbotron">
-		<div class="container text-center">
-			<h2>${c_container.containerName}</h2>
-			<p>click on each to see the answer on the back:</p>
-		</div>
-	</div>
-
-	<div class="container">
-
-		<div class="row">
-			<div class="col-sm-2"></div>
-			<div class="col-sm-8">
-				<h3> Question</h3>
-				<p>${c_act.activityText }</p>
+		<div class="jumbotron">
+			<div class="container text-center">
+				<h2>${c_container.containerName}</h2>
+				<p>click on each to see the answer on the back:</p>
 			</div>
-			<tr>
-				<td><br /></td>
-			</tr>
-			<tr>
-				<td><br /></td>
-			</tr>
 		</div>
 
-		<!-- first Row -->
-		<div class="row">
-			<div class="col-lg-2"></div>
-			<div class="col-lg-4  cardContainer">
-				<div class="card">
-					<div class="front">
-					<c:if test="${fn:length(answers) > 0}">
-						<c:forEach var="answer" items="${answers}"
-							varStatus="loopCount">
-							<c:if test="${loopCount.count eq 1}">
-							<h3 class="cardTitle">${answer.answerText}</h3>
+		<div class="container">
+
+			<div class="row">
+				<div class="col-sm-2"></div>
+				<div class="col-sm-8">
+					<h3>Question</h3>
+					<p>${c_act.activityText }</p>
+				</div>
+				<tr>
+					<td><br /></td>
+				</tr>
+				<tr>
+					<td><br /></td>
+				</tr>
+			</div>
+
+			<!-- first Row -->
+			<div class="row">
+				<div class="col-lg-2"></div>
+				<div class="col-lg-4  cardContainer">
+					<div class="card">
+						<div class="front">
+							<c:if test="${fn:length(answers) > 0}">
+								<c:forEach var="answer" items="${answers}" varStatus="loopCount">
+									<c:if test="${loopCount.count eq 1}">
+										<h3 class="cardTitle">${answer.answerText}</h3>
+									</c:if>
+								</c:forEach>
 							</c:if>
-						</c:forEach>
-					</c:if>
+						</div>
+						<div class="back">
+							<c:if test="${fn:length(answers) > 0}">
+								<c:forEach var="answer" items="${answers}" varStatus="loopCount">
+									<c:if test="${loopCount.count eq 2}">
+										<div class="content">
+											<c:choose>
+												<c:when
+													test="${not fn:contains(answer.answerText, 'resources/')}">
+													<h3 class="cardTitle">${answer.answerText}</h3>
+												</c:when>
+												<c:otherwise>
+													<img src="${answer.answerText}" class="img-responsive"
+														alt="Cannot load image" width="600">
+												</c:otherwise>
+											</c:choose>
+										</div>
+									</c:if>
+								</c:forEach>
+							</c:if>
+						</div>
 					</div>
-					<div class="back">
-						<c:if test="${fn:length(answers) > 0}">
-							<c:forEach var="answer" items="${answers}"
-								varStatus="loopCount">
-								<c:if test="${loopCount.count eq 2}">
-								<div class="content">
-								<c:choose>
-									<c:when test="${not fn:contains(answer.answerText, 'resources/')}">
-									<h3 class="cardTitle">${answer.answerText}</h3>
-									</c:when>
-									<c:otherwise>
-									<img src="${answer.answerText}" class="img-responsive"
-										alt="Cannot load image" width="600">
-									</c:otherwise>
-								</c:choose>
-								</div>
-								</c:if>
-							</c:forEach>
-						</c:if>
+				</div>
+
+
+				<div class="col-lg-4  cardContainer">
+					<div class="card">
+						<div class="front">
+							<c:if test="${fn:length(answers) > 0}">
+								<c:forEach var="answer" items="${answers}" varStatus="loopCount">
+									<c:if test="${loopCount.count eq 3}">
+										<h3 class="cardTitle">${answer.answerText}</h3>
+									</c:if>
+								</c:forEach>
+							</c:if>
+						</div>
+						<div class="back">
+							<c:if test="${fn:length(answers) > 0}">
+								<c:forEach var="answer" items="${answers}" varStatus="loopCount">
+									<c:if test="${loopCount.count eq 4}">
+										<div class="content">
+											<c:choose>
+												<c:when
+													test="${not fn:contains(answer.answerText, 'resources/')}">
+													<h3 class="cardTitle">${answer.answerText}</h3>
+												</c:when>
+												<c:otherwise>
+													<img src="${answer.answerText}" class="img-responsive"
+														alt="Cannot load image">
+												</c:otherwise>
+											</c:choose>
+										</div>
+									</c:if>
+								</c:forEach>
+							</c:if>
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<!-- row1 -->
+
+
+			<div class="row">
+				<tr>
+					<td><br /></td>
+				</tr>
+				<tr>
+					<td><br /></td>
+				</tr>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-2"></div>
+				<div class="col-lg-1"></div>
+				<div class="col-lg-1"></div>
+				<div class="col-lg-4  cardContainer">
+					<div class="card">
+						<div class="front">
+							<c:if test="${fn:length(answers) > 0}">
+								<c:forEach var="answer" items="${answers}" varStatus="loopCount">
+									<c:if test="${loopCount.count eq 5}">
+										<h3 class="cardTitle">${answer.answerText}</h3>
+									</c:if>
+								</c:forEach>
+							</c:if>
+						</div>
+						<div class="back">
+							<c:if test="${fn:length(answers) > 0}">
+								<c:forEach var="answer" items="${answers}" varStatus="loopCount">
+									<c:if test="${loopCount.count eq 6}">
+										<div class="content">
+											<c:choose>
+												<c:when
+													test="${not fn:contains(answer.answerText, 'resources/')}">
+													<h3 class="cardTitle">${answer.answerText}</h3>
+												</c:when>
+												<c:otherwise>
+													<img src="${answer.answerText}" class="img-responsive"
+														alt="Cannot load image">
+												</c:otherwise>
+											</c:choose>
+										</div>
+									</c:if>
+								</c:forEach>
+							</c:if>
+						</div>
 					</div>
 				</div>
 			</div>
+			<!-- row2 -->
 
-
-			<div class="col-lg-4  cardContainer">
-				<div class="card">
-					<div class="front">
-					<c:if test="${fn:length(answers) > 0}">
-						<c:forEach var="answer" items="${answers}"
-							varStatus="loopCount">
-							<c:if test="${loopCount.count eq 3}">
-							<h3 class="cardTitle">${answer.answerText}</h3>
-							</c:if>
-						</c:forEach>
-					</c:if>
-					</div>
-					<div class="back">
-						<c:if test="${fn:length(answers) > 0}">
-							<c:forEach var="answer" items="${answers}"
-								varStatus="loopCount">
-								<c:if test="${loopCount.count eq 4}">
-								<div class="content">
-								<c:choose>
-									<c:when test="${not fn:contains(answer.answerText, 'resources/')}">
-									<h3 class="cardTitle">${answer.answerText}</h3>
-									</c:when>
-									<c:otherwise>
-									<img src="${answer.answerText}" class="img-responsive"
-										alt="Cannot load image" >
-									</c:otherwise>
-								</c:choose>
-								</div>
-								</c:if>
-							</c:forEach>
-						</c:if>
-					</div>
-				</div>
-			</div>
-
+			<!-- first Row End -->
 		</div>
-		<!-- row1 -->
+		<!--cardWrapper Ends-->
 
-
-		<div class="row">
-			<tr>
-				<td><br /></td>
-			</tr>
-			<tr>
-				<td><br /></td>
-			</tr>
-		</div>
-
-		<div class="row">
-			<div class="col-lg-2"></div>
-			<div class="col-lg-1"></div>
-			<div class="col-lg-1"></div>
-			<div class="col-lg-4  cardContainer">
-				<div class="card">
-					<div class="front">
-					<c:if test="${fn:length(answers) > 0}">
-						<c:forEach var="answer" items="${answers}"
-							varStatus="loopCount">
-							<c:if test="${loopCount.count eq 5}">
-							<h3 class="cardTitle">${answer.answerText}</h3>
-							</c:if>
-						</c:forEach>
-					</c:if>
-					</div>
-					<div class="back">
-						<c:if test="${fn:length(answers) > 0}">
-							<c:forEach var="answer" items="${answers}"
-								varStatus="loopCount">
-								<c:if test="${loopCount.count eq 6}">
-								<div class="content">
-								<c:choose>
-									<c:when test="${not fn:contains(answer.answerText, 'resources/')}">
-									<h3 class="cardTitle">${answer.answerText}</h3>
-									</c:when>
-									<c:otherwise>
-									<img src="${answer.answerText}" class="img-responsive"
-										alt="Cannot load image" >
-									</c:otherwise>
-								</c:choose>
-								</div>
-								</c:if>
-							</c:forEach>
-						</c:if>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- row2 -->
-
-		<!-- first Row End -->
-	</div>
-	<!--cardWrapper Ends-->
-	
-	<form id="form" method="post" action="reload.action">
-		<input type="hidden" id="actcon" name="actcon" />
-	</form>
+		<form id="form" method="post" action="reload.action">
+			<input type="hidden" id="actcon" name="actcon" />
+		</form>
 	</c:if>
 	<c:if test="${c_act.activityTemplate.id ==6}">
 		<div class="jumbotron">
@@ -666,8 +680,12 @@ h3.cardTitle {
 				<h4>${c_act.activityText }</h4>
 			</div>
 		</div>
-		<tr><td><br/></td></tr>
-		<tr><td><br/></td></tr>
+		<tr>
+			<td><br /></td>
+		</tr>
+		<tr>
+			<td><br /></td>
+		</tr>
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-1">
@@ -678,24 +696,25 @@ h3.cardTitle {
 				<div class="col-sm-3">
 					<div class="text-left">
 						<input type="text" placeholder="Enter here" id="paramText">
-						<span id="addParamBtn"
-							class="btn btn-primary btn_lg">Add</span>
+						<span id="addParamBtn" class="btn btn-primary btn_lg">Add</span>
 					</div>
 				</div>
 			</div>
 		</div>
-		<tr><td><br/></td></tr>
-		<div class = "container">
-			<div class = "col-sm-4" style = "position:center" id="paramsContainer">
+		<tr>
+			<td><br /></td>
+		</tr>
+		<div class="container">
+			<div class="col-sm-4" style="position: center" id="paramsContainer">
 			</div>
-			<div class = "col-sm-8">
-			<div id="chartContainer" style="height: 400px; width: 100%;"></div>
+			<div class="col-sm-8">
+				<div id="chartContainer" style="height: 400px; width: 100%;"></div>
 			</div>
 		</div>
-		
-	<form id="form" method="post" action="reload.action">
-		<input type="hidden" id="actcon" name="actcon" />
-	</form>
+
+		<form id="form" method="post" action="reload.action">
+			<input type="hidden" id="actcon" name="actcon" />
+		</form>
 	</c:if>
 	<!-- container -->
 	<tr>
@@ -703,18 +722,21 @@ h3.cardTitle {
 	</tr>
 	<ul class="pager">
 		<c:if test="${c_act.orderNo == 1 && c_container.orderNo !=1}">
-		<li><a id="3" class="btn navigate-btn">Previous Block</a></li>
+			<li><a id="3" class="btn navigate-btn">Previous Block</a></li>
 		</c:if>
 		<c:if test="${c_act.orderNo != 1}">
-		<li><a id="1" class="btn navigate-btn">Previous</a></li>
+			<li><a id="1" class="btn navigate-btn">Previous</a></li>
 		</c:if>
 		<c:if test="${c_act.orderNo!=act_max}">
-		<li><a id="2" class="btn navigate-btn">Next</a></li>
+			<li><a id="2" class="btn navigate-btn">Next</a></li>
 		</c:if>
-		<c:if test="${c_act.orderNo==act_max && c_container.orderNo!= con_max}">
-		<li><a id="4" class="btn navigate-btn">Next Block</a></li>
+		<c:if
+			test="${c_act.orderNo==act_max && c_container.orderNo!= con_max}">
+			<li><a id="4" class="btn navigate-btn">Next Block</a></li>
 		</c:if>
-		<li><a id="5" class="btn navigate-btn"> Return </a></li>
+		<c:if test="${c_act.orderNo==act_max && c_container.orderNo== con_max}">
+		<li><a id="5" class="btn navigate-btn"> Finish </a></li>
+		</c:if>
 	</ul>
 	<tr>
 		<td><br /></td>

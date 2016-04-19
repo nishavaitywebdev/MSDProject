@@ -13,10 +13,11 @@ public class Answer {
 	private String answerText;
 	private int orderNo;
 	private boolean isCorrect;
-	
+	private boolean isRightanswer;
 	public Answer() {
 		// TODO Auto-generated constructor stub
 	}
+	
 
 	/**
 	 * @return the id
@@ -119,6 +120,14 @@ public class Answer {
 	public String toString() {
 		return "Answer [id=" + id + ", answerText=" + answerText + ", orderNo=" + orderNo + ", isCorrect=" + isCorrect
 				+ "]";
+	}
+
+	public boolean getIsRightanswer() {
+		return isRightanswer;
+	}
+
+	public void setIsRightanswer(boolean isRightanswer) {
+		this.isRightanswer = isRightanswer;
 	}
 
 }

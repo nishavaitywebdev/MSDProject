@@ -266,9 +266,11 @@ public class UserController {
 						n_act.add(act);
 					}
 				}
-
+				session.setAttribute("p_act", p_act);
 				System.out.println(c_act.getId());
 				List<Answer> answers = userService.getAnwser(userId, topicId, new_c_container.getActivityContainerId(), c_act);
+				List<String> rightanswers=new ArrayList<String>();
+				
 				session.setAttribute("act_max", 1 + p_act.size() + n_act.size());
 				session.setAttribute("con_max", 1 + p_containers.size() + n_containers.size());
 				session.setAttribute("p_act", p_act);

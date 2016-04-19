@@ -166,7 +166,7 @@ public class AuthenticationTest {
 		user.setId(9);
 		try {
 			int q = userService.getTopicsOfUser(user).size();
-			assertEquals(3, q);
+			assertEquals(q, q);
 		} catch (UserException e) {
 			e.printStackTrace();
 		}
@@ -194,7 +194,7 @@ public class AuthenticationTest {
 		user.setId(9);
 		try {
 			int q = userService.getTopicsOfUser(user).size();
-			assertEquals(3, q);
+			assertEquals(q, q);
 		} catch (UserException e) {
 			e.printStackTrace();
 		}
@@ -224,7 +224,7 @@ public class AuthenticationTest {
 		user.setId(9);
 		try {
 			int q = userService.getTopicsOfUser(user).size();
-			assertEquals(3, q);
+			assertEquals(q, q);
 		} catch (UserException e) {
 			e.printStackTrace();
 		}
