@@ -359,7 +359,7 @@ public class AdminDaoImpl implements AdminDao {
 			while(rs.next()){
 				Answer answer = new Answer();
 				answer.setId(rs.getInt("answer_id"));
-				answer.setIsCorrect(rs.getInt("is_correct")==1);
+				answer.setIsRightanswer(rs.getInt("is_correct")==1);
 				answers.add(answer);
 			}
 			adminActivityAnswer.setAnswers(answers);

@@ -15,7 +15,7 @@
 		<div class="row" style="background-color: #952D54; height: 20px;"></div>
 		<div class="row">
 			<div class="col-lg-12">
-				<p style="margin-left: 50px;">Copyright &copy; HappyBeingUs.com
+				<p style="margin-left: 50px;">Copyright &copy; HappyBeingUs
 					2016</p>
 				<img src="Images/Logo.png" align="right">
 			</div>
