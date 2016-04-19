@@ -201,7 +201,7 @@ public class UserDaoImpl implements UserDao {
 					+ "count(*) max_activity_count " + "from activity, "
 					+ "(select activity_container_id, count(*) as curr_activity_count "
 					+ "from user_topic_container_activity_answer " + "where user_id = ? and topic_id = ? "
-					+ "group by activity_container_id " + "order by curr_activity_count limit 1) as curr_activity "
+					+ "group by activity_container_id " + "order by activity_container_id desc limit 1) as curr_activity "
 					+ "where activity.activity_container_id = curr_activity.activity_container_id) max_activity, "
 					+ "(select order_no from activity_container where topic_id=? order by order_no desc limit 1) max_container "
 					+ "where activity_container.activity_container_id = max_activity.activity_container_id";
@@ -641,7 +641,7 @@ public class UserDaoImpl implements UserDao {
 
 	public void saveUserProgressToBigTable(int userId, int topicId, int activityContainerId, int activityId)
 			throws UserException {
-		LOGGER.debug("UserDaoImpl: saveUserProgressToBigTable: END");
+		LOGGER.debug("UserDaoImpl: saveUserProgressToBigTable: START");
 		
 		PreparedStatement stmt = null;
 
