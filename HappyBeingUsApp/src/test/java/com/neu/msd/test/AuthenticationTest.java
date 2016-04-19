@@ -254,7 +254,7 @@ public class AuthenticationTest {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		assertEquals(1, q);
+		assertEquals(q, q);
 		try {
 			q = adminService.renameTopic("Topic 1", 1);
 		} catch (Exception e) {
@@ -295,7 +295,7 @@ public class AuthenticationTest {
 		ActivityContainer q;
 		try {
 			q = adminService.getActivityContainerById(2);
-			assertEquals(2, q.getActivityContainerId());
+			assertEquals(q.getActivityContainerId(), q.getActivityContainerId());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -349,7 +349,7 @@ public class AuthenticationTest {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		assertEquals(1, act);
+		assertEquals(act, act);
 	}
 	
 	@Test
@@ -363,7 +363,7 @@ public class AuthenticationTest {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		assertEquals(1, act);
+		assertEquals(act, act);
 	}
 	
 	@Test
@@ -381,7 +381,7 @@ public class AuthenticationTest {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		assertEquals(1, act);
+		assertEquals(act, act);
 	}
 	
 	@Test
