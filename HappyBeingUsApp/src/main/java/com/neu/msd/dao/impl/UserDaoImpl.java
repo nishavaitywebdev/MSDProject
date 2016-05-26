@@ -574,7 +574,7 @@ public class UserDaoImpl implements UserDao {
 			stmt.setInt(2, topicId);
 			stmt.setInt(3, activityContainerId);
 			stmt.setInt(4, activityId);
-			stmt.setString(5, userResponse.substring(0, Integer.min(userResponse.length(), 999)));
+			stmt.setString(5, userResponse.substring(0, Math.min(userResponse.length(), 999)));
 			
 			records = stmt.executeUpdate();
 			
