@@ -380,7 +380,7 @@ h3.cardTitle {
 						<form id="form" method="post" action="reload.action">
 							<input type="hidden" id="actcon" name="actcon" />
 							<textarea class="form-control" rows="5" id="comment"
-								placeholder="Enter Answer Here."><c:if test="${fn:length(answers) > 0}"><c:forEach var="answer" items="${answers}" varStatus="loopCount"><c:if test="${loopCount.count eq 3}">${answer.answerText}</c:if></c:forEach></c:if></textarea>
+								name="userAnswer" placeholder="Enter Answer Here."><c:if test="${fn:length(answers) > 0}"><c:forEach var="answer" items="${answers}" varStatus="loopCount"><c:if test="${loopCount.count eq 3}">${answer.answerText}</c:if></c:forEach></c:if></textarea>
 						</form>
 					</div>
 					<a class="btn btn-info" data-toggle="collapse"

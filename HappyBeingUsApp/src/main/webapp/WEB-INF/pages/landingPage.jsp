@@ -122,7 +122,7 @@
 
 		<div class="row">
 			<div class="col-lg-12">
-				<img src="Images/Slide1.jpg" style="margin-left: 150px" />
+				<img src="Images/landingPageImage.png" style="margin-left: 150px" />
 			</div>
 		</div>
 
@@ -130,7 +130,16 @@
 	</div>
 
 	<!-- Footer -->
-	<%@ include file="footer.jsp" %>
+	<footer>
+		<div class="row" style="background-color: #952D54; height: 20px;"></div>
+		<div class="row">
+			<div class="col-lg-12">
+				<p style="margin-left: 50px;">Copyright &copy; HappyBeingUs
+					2016</p>
+			</div>
+		</div>
+		<!-- /.row -->
+</footer>
 
 	<div class="modal fade" id="Login" role="dialog">
 		<div class="modal-dialog">
