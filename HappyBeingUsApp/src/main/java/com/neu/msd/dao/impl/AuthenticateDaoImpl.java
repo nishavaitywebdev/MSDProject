@@ -21,6 +21,7 @@ import com.neu.msd.entities.Mother;
 import com.neu.msd.entities.MotherRegistration;
 import com.neu.msd.entities.Topic;
 import com.neu.msd.entities.User;
+import com.neu.msd.entities.UserType;
 import com.neu.msd.exception.AdminException;
 import com.neu.msd.exception.AuthenticationException;
 
@@ -288,6 +289,7 @@ public class AuthenticateDaoImpl implements AuthenticateDao {
 		PreparedStatement stmt1 = null;
 		ResultSet rs = null;
 		ResultSet rs1 = null;
+		ResultSet rs2 = null;
 		try {
 			User user = new User();
 			int id;
@@ -307,8 +309,13 @@ public class AuthenticateDaoImpl implements AuthenticateDao {
 				rs1 = stmt1.executeQuery();
 
 				while(rs1.next()){
+					
+					UserType userType = new UserType();
+					
 					user.setId(rs1.getInt("user_id"));
-					rs1.getInt("user_type_id");
+					userType.setId(rs1.getInt("user_type_id"));
+//					rs1.getInt("user_type_id");
+					user.setUserType(userType);
 					user.setFirstName(rs1.getString("first_name"));
 					user.setLastName(rs1.getString("last_name"));
 					user.setBirthdate(rs1.getDate("birthdate"));
