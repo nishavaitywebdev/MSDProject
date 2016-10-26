@@ -20,9 +20,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.neu.msd.dao.AdminDao;
+import com.neu.msd.dao.UserDao;
 import com.neu.msd.entities.Activity;
 import com.neu.msd.entities.ActivityContainer;
 import com.neu.msd.entities.ActivityTemplate;
+import com.neu.msd.entities.ActivityType;
 import com.neu.msd.entities.AdminActivityAnswer;
 import com.neu.msd.entities.Answer;
 import com.neu.msd.entities.Topic;
@@ -43,6 +45,7 @@ public class AdminServiceImpl implements AdminService {
 
 	@Autowired
 	private AdminDao adminDao;
+	
 	
 	private final String IMAGE_ABSOLUTE_PATH ="/usr/hbu/resources/images/";
 	private final String IMAGE_RELATIVE_PATH ="resources/images/";
@@ -262,5 +265,35 @@ public class AdminServiceImpl implements AdminService {
 	public int registerAdmin(UserAuthentication userAuthentication) throws AdminException {
 		int userId = adminDao.registerAdmin(userAuthentication.getUser());
 		return adminDao.registerAdminAuthentication(userId, userAuthentication);
+	}
+
+	// @author Sanil And Vinay
+	@Override
+	public List<AdminActivityAnswer> getDiagnosticQuestions() {
+		// TODO Auto-generated method stub
+		
+		try {
+			
+		ActivityType diagnosticActivity = adminDao.getDiagnosticActivityId();
+		ActivityTemplate mcqTemplate = adminDao.getDiagnosticTemplateId();
+	
+		List<Activity> questionList = adminDao.getActivitiesByType(diagnosticActivity, mcqTemplate);
+		List<AdminActivityAnswer> quesAnsList = new ArrayList<AdminActivityAnswer>();
+		
+		for(Activity ac : questionList){
+			AdminActivityAnswer temp = new AdminActivityAnswer();
+			temp.setActivity(ac);	
+			AdminActivityAnswer ans = adminDao.getAdminActivityAnswerForDiagnostic(ac.getId());
+			temp.setAnswers(ans.getAnswers());	
+			quesAnsList.add(temp);
+		}
+			
+			return quesAnsList;
+		} catch (AdminException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 }	

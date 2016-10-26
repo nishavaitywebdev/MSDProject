@@ -17,6 +17,7 @@ import com.neu.msd.entities.User;
 import com.neu.msd.entities.UserAuthentication;
 import com.neu.msd.entities.Version;
 import com.neu.msd.exception.AdminException;
+import com.neu.msd.exception.UserException;
 
 /**
  * @author Harsh
@@ -39,8 +40,6 @@ public interface AdminDao {
 	public void loadActivityTemplate(Map<Integer, ActivityTemplate> activityTemplateMap) throws AdminException;
 	
 	public void loadActivityType(Map<Integer, ActivityType> activityTypeMap) throws AdminException;
-
-	public AdminActivityAnswer getAdminActivityAnswerByActivityId(int activityId) throws AdminException;
 
 	public User authenticateAdminByUsernamePassword(UserAuthentication userAuthentication) throws AdminException;
 
@@ -80,5 +79,16 @@ public interface AdminDao {
 
 	public int registerAdminAuthentication(int userId, UserAuthentication userAuthentication) throws AdminException;
 	
+	public AdminActivityAnswer getAdminActivityAnswerByActivityId(int activityId) throws AdminException;
+	
+	// @author Sanil and Vinay
+	
+	public AdminActivityAnswer getAdminActivityAnswerForDiagnostic(int activityId) throws AdminException;
+	
+	public ActivityType getDiagnosticActivityId() throws AdminException;
+	
+	public ActivityTemplate getDiagnosticTemplateId() throws AdminException;
+	
+	public List<Activity> getActivitiesByType(ActivityType activityType, ActivityTemplate activityTemplate) throws AdminException;
 	
 }
