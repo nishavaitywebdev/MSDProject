@@ -197,27 +197,46 @@
 							</c:when>
 						</c:choose>
 					</ul>
-
+					</br>
+					</br>
 
 					<%-- <div class="panel-collapse collapse ${topicNo.index+1 == 1?'in':''}"
 									id="container_for-${topic.id}"> --%>
 					<div class="tab-content">
 						<c:forEach items="${topics}" var="topic" varStatus="topicNo">
 								<div id="${topic.topicName}" class="topiccontentcontainer" style="display:none">
-									<table class="table table-hover">
-										<tbody>
+									 <table class="table table-striped table-bordered">
+									<tr>
+										<th>
+											Sr. No
+										</th>
+										<th>
+											Activity Title
+										</th>
+										<th>
+											Action	
+										</th>
+									</tr>
+									<tbody>
 										<c:choose>
 										<c:when test="${fn:length(topic.activityContainers)>0}">
 											<c:forEach items="${topic.activityContainers}" var="activityContainer">
 												<tr>
+													<td>1</td>
 													<td><h5>${activityContainer.containerName}</h5></td>
-													<td><a class="btn btn-success" role="button"
+													<td><%-- <a class="btn btn-success" role="button"
 														id="${activityContainer.activityContainerId}"
-														onclick="editContainer(id)">Edit</a></td>
+														onclick="editContainer(id)">Edit</a> --%>
+														<a class="btn btn-default" id="${activityContainer.activityContainerId}"
+														    onclick="editContainer(id)"> 
+															Edit Details</a>
+														
+														</td>
 <!-- 													<td><a href="#" class="btn btn-danger" data-toggle="modal" -->
 <%-- 										 					data-target="#confirmationDialog" id="deleteId_${activityContainer.activityContainerId}"  --%>
 <!-- 										 					role="button" onclick="deleteActivityContainer(this)">Delete</a></td> -->
-												</tr>
+														
+													</tr>
 											</c:forEach>
 											</c:when>
 											<c:otherwise>
@@ -226,15 +245,19 @@
 												</div>
 											</c:otherwise>
 										</c:choose>
-											<tr>
+											<!-- <tr>
 												<td></td>
 												<td></td>
-												<td><a class="btn btn-warning" role="button" data-toggle="modal"
-										 					data-target="#addNewContainer" id="new_container_under-${topic.id}" onclick="addContainer(this)">Add New Activity Container</a></td>
-											</tr>
+												<td>
+											</tr> -->
+											
 										</tbody>
+										
 
 									</table>
+									<a class="btn btn-warning" role="button" data-toggle="modal"
+										 	data-target="#addNewContainer" id="new_container_under-${topic.id}" onclick="addContainer(this)">
+										 	Add New Activity Container</a>
 								</div>
 						</c:forEach>
 									
@@ -446,14 +469,15 @@
 
 	<div class="container-fluid bg-3 text-right">
 
-		<div class="row">
+	<!--  Adding New Topic Disabled as off now -->
+	<!-- 	<div class="row">
 			<div class="col-sm-8">
 				<a class="btn btn-warning" data-toggle="modal"
 					data-target="#addNewTopic" role="button">Add New Topic</a>
 
 			</div>
 		</div>
-	</div>
+	</div> -->
 	<!-- 		Add Admin START -->
 <div class="modal fade" id="addNewAdmin" role="dialog">
 		<div class="modal-dialog">
