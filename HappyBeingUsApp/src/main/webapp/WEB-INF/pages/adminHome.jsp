@@ -22,6 +22,13 @@
 <!-- <script -->
 <!-- 	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script> -->
 <style>
+body {
+    counter-reset: section;
+}
+h6:before {
+    counter-increment: section;
+    content: counter(section);
+}
 /* Remove the navbar's default margin-bottom and rounded borders */
 .navbar {
 	margin-bottom: 0;
@@ -222,8 +229,8 @@
 										<c:when test="${fn:length(topic.activityContainers)>0}">
 											<c:forEach items="${topic.activityContainers}" var="activityContainer">
 												<tr>
-													<td>1</td>
-													<td><h5>${activityContainer.containerName}</h5></td>
+													<td><h6></h6></td>
+													<td>${activityContainer.containerName}</td>
 													<td><%-- <a class="btn btn-success" role="button"
 														id="${activityContainer.activityContainerId}"
 														onclick="editContainer(id)">Edit</a> --%>
