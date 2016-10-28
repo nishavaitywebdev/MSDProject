@@ -296,4 +296,55 @@ public class AdminServiceImpl implements AdminService {
 		
 		return null;
 	}
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	public int addDiagnosticQuestion(String questionText, ArrayList<Answer> options) throws AdminException
+	{
+		if(questionText == null || questionText.length() == 0 || options == null || options.isEmpty())
+			return 0;
+		
+		//Prepare Activity(Question)
+		//TODO: Retrieve activity type from DB as object. 
+		ActivityType activityType = new ActivityType();
+		activityType.setId(1);
+		activityType.setName("Diagnostic");
+		//TODO: Retrieve activity template from DB as object.
+		ActivityTemplate activityTemplate = new ActivityTemplate();
+		activityTemplate.setId(3);
+		activityTemplate.setTemplateName("MCQ");
+		int orderNo = adminDao.getMaxOrderNumberForDiagnosticQuestion(activityType.getId());
+		Activity question = new Activity();
+		question.setOrderNo(orderNo);
+		question.setActivityText(questionText);
+		question.setActivityType(activityType);
+		question.setActivityTemplate(activityTemplate);
+		
+		
+		int recentActivityId = adminDao.saveDiagnosticQuestion(question);
+		
+		for(Answer ans : options)
+		{
+			Answer temp = adminDao.saveAnswer(ans);
+			adminDao.saveAdminActivityAnswer(recentActivityId, temp.getId(), temp.getIsCorrect());
+		}
+		
+		
+		return recentActivityId;
+	}
+	
+	
+	
+	public int deleteDiagnosticQuestion(int activityId) throws AdminException{
+		
+		if(activityId < 0 )
+			return 0;
+		
+		int adminActivityRowsAffected = adminDao.deleteFromAdminActivityAnswer(activityId);
+		
+		int activityRowsAffected = adminDao.deleteDiagnosticQuestionById(activityId);
+		
+		
+		return adminActivityRowsAffected + activityRowsAffected;
+		
+	}
+	
 }	

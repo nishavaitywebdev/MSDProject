@@ -90,5 +90,11 @@ public interface AdminDao {
 	public ActivityTemplate getDiagnosticTemplateId() throws AdminException;
 	
 	public List<Activity> getActivitiesByType(ActivityType activityType, ActivityTemplate activityTemplate) throws AdminException;
+
+	public int getMaxOrderNumberForDiagnosticQuestion(int activityTypeId) throws AdminException;
 	
+	public int saveDiagnosticQuestion(Activity activity) throws AdminException;
+	
+	public int deleteDiagnosticQuestionById(int activityId) throws AdminException;
+
 }
