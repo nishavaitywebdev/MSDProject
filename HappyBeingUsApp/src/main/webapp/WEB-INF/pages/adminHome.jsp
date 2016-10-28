@@ -141,10 +141,16 @@ h6:before {
 		});
 
 		$(".goBack").on("click",function(e) {
-		    e.preventDefault(); // cancel the link itself
+			e.preventDefault(); // cancel the link itself
+			
 		    $("#editForm").attr('action', this.href);
 			$("#editForm").submit();
 		  });
+		
+		$(".nav li").click(function() {
+		    $(".nav li").removeClass('active');
+		    $(this).addClass('active');    
+		});
 
 	});
 
@@ -234,7 +240,7 @@ h6:before {
 													<td><%-- <a class="btn btn-success" role="button"
 														id="${activityContainer.activityContainerId}"
 														onclick="editContainer(id)">Edit</a> --%>
-														<a class="btn btn-default" id="${activityContainer.activityContainerId}"
+														<a class="btn btn-primary" style="margin-left:10px" id="${activityContainer.activityContainerId}"
 														    onclick="editContainer(id)"> 
 															Edit Details</a>
 														

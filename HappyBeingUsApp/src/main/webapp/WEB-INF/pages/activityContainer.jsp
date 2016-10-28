@@ -219,10 +219,12 @@
 									<tr>
 										<td><h5>${activity.activityText}</h5></td>
 										<td><a class="btn btn-success" role="button"
-											id="${activity.id}_${activity.activityTemplate.id}" onclick="editActivity(id)">Edit</a>
+											id="${activity.id}_${activity.activityTemplate.id}" style="margin:10px" onclick="editActivity(id)">
+											<span class="glyphicon glyphicon-pencil"></span>
+											</a>
 										<a class="btn btn-danger" data-toggle="modal"
 							 					data-target="#confirmationDialog" id="deleteId_${activity.id}" 
-							 					role="button" onclick="deleteActivity(this)">Delete</a></td>
+							 					role="button" style="margin:10px" onclick="deleteActivity(this)"><span class="glyphicon glyphicon-trash"></span></a></td>
 									</tr>
 								</c:forEach>
 								</c:when>
@@ -257,6 +259,7 @@
 						<div class="modal-footer">
 							<input type="button" id="changeActivityContainerName" class="btn btn-success"
 								role="button" value="Change Name" />
+							<button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>	
 						</div>
 					</div>
 				</div>
