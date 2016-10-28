@@ -130,7 +130,9 @@ h6:before {
 			});
 		});
 		
+		
 		$('.Topics').on('click', function(e){
+			 
 			$(this).parent().addClass('active');
 			var id = $(this)[0].id.split('#')[1];
 			$('.topiccontentcontainer').each(function(){ 
@@ -139,6 +141,7 @@ h6:before {
 			$('#'+id).css("display", "block");
 			e.preventDefault(); // cancel the link itself
 		});
+		
 
 		$(".goBack").on("click",function(e) {
 			e.preventDefault(); // cancel the link itself
@@ -151,6 +154,9 @@ h6:before {
 		    $(".nav li").removeClass('active');
 		    $(this).addClass('active');    
 		});
+		
+		$('.nav-tabs a:first').tab('show')
+		$('.nav-tabs li:first-child a').tab('show'); 
 
 	});
 
@@ -195,27 +201,32 @@ h6:before {
 
 		<div class="row">
 			<div class="col-sm-12">
+			
 			<!-- Making changes here -->
 			<div class="container">
-					<ul class="nav nav-tabs nav-justified">
+					<ul class="nav nav-pills nav-justified">
 						<c:choose>
 							<c:when test="${fn:length(topics)>0}">
 								<c:forEach items="${topics}" var="topic" varStatus="topicNo">
 									<li role="presentation">
+										
 										<a href="#" id ="#${topic.topicName}" class="Topics" data-toggle="tab"> 
 											${topic.topicName} 
 										</a>
+										
 									</li>
 								</c:forEach>
 							</c:when>
+							
 						</c:choose>
 					</ul>
+					
 					</br>
 					</br>
 
 					<%-- <div class="panel-collapse collapse ${topicNo.index+1 == 1?'in':''}"
 									id="container_for-${topic.id}"> --%>
-					<div class="tab-content">
+					<div class="tab-content" class="tab-pane fade in active">
 						<c:forEach items="${topics}" var="topic" varStatus="topicNo">
 								<div id="${topic.topicName}" class="topiccontentcontainer" style="display:none">
 									 <table class="table table-striped table-bordered">
@@ -240,7 +251,7 @@ h6:before {
 													<td><%-- <a class="btn btn-success" role="button"
 														id="${activityContainer.activityContainerId}"
 														onclick="editContainer(id)">Edit</a> --%>
-														<a class="btn btn-primary" style="margin-left:10px" id="${activityContainer.activityContainerId}"
+														<a class="btn btn-info" style="margin-left:10px" id="${activityContainer.activityContainerId}"
 														    onclick="editContainer(id)"> 
 															Edit Details</a>
 														

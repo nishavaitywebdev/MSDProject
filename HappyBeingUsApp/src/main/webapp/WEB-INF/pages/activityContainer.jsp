@@ -271,7 +271,7 @@
 				<div class="modal-dialog">
 					<div class="modal-content">
 						<div class="modal-header">
-							<h4 class="modal-title">Please confirm!</h4>
+							<h4 class="modal-title">Delete Activity</h4>
 						</div>
 						<form id="confirmationForm" name="confirmationForm" method="post">
 							<div class="modal-body">
