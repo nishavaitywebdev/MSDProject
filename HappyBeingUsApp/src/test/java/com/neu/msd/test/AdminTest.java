@@ -25,6 +25,8 @@ import com.neu.msd.exception.UserException;
 import com.neu.msd.service.AdminService;
 import com.neu.msd.entities.AdminActivityAnswer;
 import com.neu.msd.entities.Answer;
+import com.neu.msd.dao.AdminDao;
+import com.neu.msd.entities.Activity;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -90,6 +92,37 @@ public class AdminTest {
 	}
 	
 	@Test
+	public void test_updateDiagnosticQuestion() throws AdminException{
+		
+		
+		Activity activity = new Activity();
+		activity.setId(deleteId);
+		activity.setActivityText("I am the updated question");				
+		
+		AdminActivityAnswer adminActivityAnswer = adminService.getAdminActivityAnswerByActivityId(deleteId);
+		adminActivityAnswer.setActivity(activity);
+		List<Answer> adminAns= adminActivityAnswer.getAnswers();
+		
+		for(Answer ans : adminAns)
+		{
+			ans.setAnswerText("updated");
+		}
+		adminActivityAnswer.setAnswers(adminAns);
+			
+		int numRowsAffected = adminService.updateDiagnosticQuestion(adminActivityAnswer);
+		assertEquals(true, numRowsAffected > 0);		
+	}
+	
+	@Test
+	public void test_updateDiagnosticQuestionInput() throws AdminException{
+									
+		int numRowsAffected = adminService.updateDiagnosticQuestion(null);
+		assertEquals(true, numRowsAffected == 0);		
+	}
+	
+	
+	
+	@Test
 	public void test_getDiagnosticList(){
 	
 		List<AdminActivityAnswer> diagnosticQuestionList= adminService.getDiagnosticQuestions();
@@ -120,4 +153,8 @@ public class AdminTest {
 		assertEquals(false, numRowsAffected > 0);
 		
 	}
+	
+	
+	
+	
 }
