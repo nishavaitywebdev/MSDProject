@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.neu.msd.entities.ActivityContainer;
+import com.neu.msd.entities.ActivityTemplate;
 import com.neu.msd.entities.Mother;
 
 import com.neu.msd.entities.MotherRegistration;
@@ -28,6 +29,7 @@ import com.neu.msd.entities.Answer;
 import com.neu.msd.dao.AdminDao;
 import com.neu.msd.entities.Activity;
 
+import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,15 +50,15 @@ public class AdminTest {
 	@Test
 	public void test_createDiagnosticQuestions() throws AdminException{
 
-		String ques = "Text Deleted Questions";
+		String ques = "I should not be there";
 		Answer a1 = new Answer();
-		a1.setAnswerText("I am an Deleted answer");
+		a1.setAnswerText("I am an Created answer and I should not be ther");
 		a1.setOrderNo(1);
 		a1.setIsCorrect(false);
 		a1.setIsRightanswer(false);
 
 		Answer a2 = new Answer();
-		a2.setAnswerText("I am an Deleted answer 2");
+		a2.setAnswerText("I am an Created answer 2 and I should not be ther");
 		a2.setOrderNo(2);
 		a2.setIsCorrect(true);
 		a2.setIsRightanswer(false);
@@ -94,20 +96,57 @@ public class AdminTest {
 	@Test
 	public void test_updateDiagnosticQuestion() throws AdminException{
 		
+
+		String ques = "Text Created Questions for update test and I should not be there";
+		Answer a1 = new Answer();
+		a1.setAnswerText("I am an Created answer for update test and I should not be there");
+		a1.setOrderNo(1);
+		a1.setIsCorrect(false);
+		a1.setIsRightanswer(false);
+
+		Answer a2 = new Answer();
+		a2.setAnswerText("I am an Created answer 2 for update test and I should not be there");
+		a2.setOrderNo(2);
+		a2.setIsCorrect(true);
+		a2.setIsRightanswer(false);
+		
+		ArrayList<Answer> answers = new ArrayList<Answer>();
+		answers.add(a1);
+		answers.add(a2);
+		
+		int lastActivityId = adminService.addDiagnosticQuestion(ques, answers);
+		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"+lastActivityId);
+		
 		
 		Activity activity = new Activity();
-		activity.setId(deleteId);
-		activity.setActivityText("I am the updated question");				
+		activity.setId(lastActivityId);
+		activity.setActivityText("I am the updated question and I should be there");
+		ActivityTemplate activityTemplate = new ActivityTemplate();
+		activityTemplate.setId(3);
+		activity.setActivityTemplate(activityTemplate);
 		
-		AdminActivityAnswer adminActivityAnswer = adminService.getAdminActivityAnswerByActivityId(deleteId);
+		
+		AdminActivityAnswer adminActivityAnswer = new AdminActivityAnswer();
 		adminActivityAnswer.setActivity(activity);
-		List<Answer> adminAns= adminActivityAnswer.getAnswers();
+
+		a1 = new Answer();
+		a1.setAnswerText("I am an updated answer 1 and I should be there");
+		a1.setOrderNo(1);
+		a1.setIsCorrect(false);
+		a1.setIsRightanswer(false);
+
+		a2 = new Answer();
+		a2.setAnswerText("I am an updated answer 2 and I should be there");
+		a2.setOrderNo(2);
+		a2.setIsCorrect(true);
+		a2.setIsRightanswer(false);
 		
-		for(Answer ans : adminAns)
-		{
-			ans.setAnswerText("updated");
-		}
-		adminActivityAnswer.setAnswers(adminAns);
+		ArrayList<Answer> adminAnswers = new ArrayList<Answer>();
+		adminAnswers.add(a1);
+		adminAnswers.add(a2);
+		
+				
+		adminActivityAnswer.setAnswers(adminAnswers);
 			
 		int numRowsAffected = adminService.updateDiagnosticQuestion(adminActivityAnswer);
 		assertEquals(true, numRowsAffected > 0);		
