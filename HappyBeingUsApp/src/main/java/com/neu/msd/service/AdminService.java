@@ -64,7 +64,9 @@ public interface AdminService {
 
 	public List<AdminActivityAnswer> getDiagnosticQuestions();
 	
-	public int addDiagnosticQuestion(String questionText, ArrayList<Answer> options) throws AdminException;
+	public int addDiagnosticQuestion(String questionText, List<Answer> options) throws AdminException;
 
 	public int deleteDiagnosticQuestion(int activityid) throws AdminException;
+	
+	public int updateDiagnosticQuestion(AdminActivityAnswer adminActivity) throws AdminException;
 }

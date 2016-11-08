@@ -185,6 +185,8 @@ public class AdminServiceImpl implements AdminService {
 		
 		Activity activity = adminDao.loadActivityById(activityId);
 		
+		LOGGER.debug("=====================" + activity.getId() +" " + activity.getActivityText());
+		
 		List<Answer> answers = new ArrayList<Answer>();
 		if(activity.getActivityTemplate().getId() != INFORMATION_TEMPLATE_ID)
 			answers = adminDao.loadAnswersByActivityId(activityId);
@@ -297,7 +299,7 @@ public class AdminServiceImpl implements AdminService {
 		return null;
 	}
 	//////////////////////////////////////////////////////////////////////////////////////////////////
-	public int addDiagnosticQuestion(String questionText, ArrayList<Answer> options) throws AdminException
+	public int addDiagnosticQuestion(String questionText, List<Answer> options) throws AdminException
 	{
 		if(questionText == null || questionText.length() == 0 || options == null || options.isEmpty())
 			return 0;
@@ -345,6 +347,27 @@ public class AdminServiceImpl implements AdminService {
 		
 		return adminActivityRowsAffected + activityRowsAffected;
 		
+	}
+	
+	public int updateDiagnosticQuestion(AdminActivityAnswer adminActivity) throws AdminException{
+		
+		if(adminActivity == null)
+			return 0;
+		
+		LOGGER.debug("========================ActivityID=================================" + adminActivity.getActivity().getId());
+		int i = deleteDiagnosticQuestion(adminActivity.getActivity().getId());
+		LOGGER.debug("========================i=================================" + i);
+		
+		if(i > 0){
+			int rows = addDiagnosticQuestion(adminActivity.getActivity().getActivityText(), adminActivity.getAnswers());
+			if (rows > 0)
+				return rows + i;
+			else
+				return 0;
+		
+		}
+		else
+			return 0;
 	}
 	
 }	
