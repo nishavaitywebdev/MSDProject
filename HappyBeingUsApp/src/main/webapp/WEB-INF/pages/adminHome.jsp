@@ -145,22 +145,21 @@ h6:before {
 
 		$(".goBack").on("click",function(e) {
 			e.preventDefault(); // cancel the link itself
-			
-		    $("#editForm").attr('action', this.href);
+			$("#editForm").attr('action', this.href);
 			$("#editForm").submit();
 		  });
-		
 		$(".nav li").click(function() {
-		    $(".nav li").removeClass('active');
-		    $(this).addClass('active');    
-		});
+			$(".nav li").removeClass('active');
+			$(this).addClass('active');
+			$('.nav-tabs a:first').tab('show')
+		 
+		}); 
 		
-		$('.nav-tabs a:first').tab('show')
-		$('.nav-tabs li:first-child a').tab('show'); 
+
+		
+		$('.nav-tabs li:first-child a').tab('show');  
 
 	});
-
-
 </script>
 
 </head>
@@ -213,7 +212,13 @@ h6:before {
 										<a href="#" id ="#${topic.topicName}" class="Topics" data-toggle="tab"> 
 											${topic.topicName} 
 										</a>
-										
+										<%-- <button type="button" class="btn btn-success"
+											id="${topic.id}" name="${topic.topicName}"
+											onclick="renameTopic(this)">Rename</button> --%>
+											<%-- <a class="btn btn-default" id="${topic.id}"
+										name="${topic.topicName}" onclick="renameTopic(this)"> <span
+											class="glyphicon glyphicon-pencil"></span></a> --%>
+
 									</li>
 								</c:forEach>
 							</c:when>
@@ -269,11 +274,7 @@ h6:before {
 												</div>
 											</c:otherwise>
 										</c:choose>
-											<!-- <tr>
-												<td></td>
-												<td></td>
-												<td>
-											</tr> -->
+										
 											
 										</tbody>
 										
