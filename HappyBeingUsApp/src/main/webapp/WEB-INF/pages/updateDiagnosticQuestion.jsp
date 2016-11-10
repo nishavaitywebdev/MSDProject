@@ -164,7 +164,7 @@
 							</div>
 							<div class="col-sm-6">
 								<div class="text-right">
-									<button type="submit" class="btn btn-primary btn_lg">Add</button>
+									<button type="submit" class="btn btn-success btn_lg">Save Changes</button>
 								</div>
 							</div>
 						</div>
