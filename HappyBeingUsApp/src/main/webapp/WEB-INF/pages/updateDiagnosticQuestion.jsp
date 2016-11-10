@@ -6,6 +6,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<title>Diagnostic Module</title>
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
 
 	<link rel="stylesheet"
 	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -14,6 +20,8 @@
 	<script
 		src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 	<style>
+	
+	
 	/* Remove the navbar's default margin-bottom and rounded borders */
 	.navbar {
 		margin-bottom: 0;
@@ -21,7 +29,7 @@
 	}
 	/* Add a gray background color and some padding to the footer */
 	.jumbotron {
-		background-color: orange;
+		background-color: #EEEEEE;
 	}
 	.inv {
 		display: none;
@@ -54,8 +62,8 @@
 		display: block;
 	}
 	</style>
-	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-	<title>Insert title here</title>
+	
+	<title>Update Diagnostic Questions</title>
 	<script>
 	//	mcq template, update checkbox value with the input of user
 		$(document).on('change', '#mcqOptions .option', function() {
@@ -115,6 +123,36 @@
 	</script>
 </head>
 <body>
+
+
+<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target="#myNavbar">
+					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#" class="goBack">Admin Home</a>
+			</div>
+			<div class="collapse navbar-collapse" id="myNavbar">
+				<ul class="nav navbar-nav">
+ 					
+					<li><a data-toggle="modal" id ="addAdmin" href="#addNewAdmin">Add New Admin</a></li>
+					<li class="active"><a href="adminDiagnostic">Diagnostic Questions</a></li> 
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="adminLogout.action"><span class="glyphicon glyphicon-log-out"></span> Logout </a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	
+	<div class="jumbotron">
+		<div class="container text-center">
+			<h2>Update Diagnostic Question</h2>
+		</div>
+	</div>
 
 	<form:form action="updateDiagnosticQuestion.action" method="post" name="mcqForm"
 			id="mcqForm" modelAttribute="adminActivity.activity"

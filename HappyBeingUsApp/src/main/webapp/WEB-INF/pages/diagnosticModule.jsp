@@ -67,7 +67,7 @@ function deleteDiagnosticQuestion(deletedTag){
 					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#" class="goBack">Admin</a>
+				<a class="navbar-brand">Admin</a>
 			</div>
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav">
@@ -186,7 +186,7 @@ function deleteDiagnosticQuestion(deletedTag){
 						</div>
 						<form id="confirmationForm" name="confirmationForm" method="post">
 							<div class="modal-body">
-								<h4 class="modal-title">Do you really want to remove this question?</h4>
+								<h4 class="modal-title">Do you really want to remove this question ?</h4>
 								<input type="hidden" class="form-control" id="deletableId"  name="deletableId" />
 							</div>
 							<div class="modal-footer">
