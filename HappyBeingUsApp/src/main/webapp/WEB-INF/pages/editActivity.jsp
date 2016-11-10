@@ -83,7 +83,7 @@
 			'<div class="mcqOption" id="mcqOption_'+nxtVal+'"  class="form-group"> '
 				+ '<div class="row"> '
 				+ '<div class="col-sm-1"> '
-				+'<input type="Checkbox" name="correctAnswer" class="chkbx" id="checkBox_'+nxtVal+'" /> '
+				+'<input type="Checkbox" name="correctAnswer" class="chkbx" id="checkBox_'+nxtVal+'" value="option_'+nxtVal+'"/> '
 				+'</div> '
 				+'<div class="col-sm-10"> '
 				+'<input class="option  form-control" type="text" name="option_'+nxtVal+'" id="option_'+nxtVal+'" placeholder="Content for this choice" required/> '
@@ -109,6 +109,7 @@
 			initVal = initVal +1;
 			this.id = "mcqOption_"+initVal;
 			$('#'+this.id+' .chkbx')[0].id = "checkBox_"+initVal;
+			$('#'+this.id+' .chkbx')[0].value = "option_"+initVal;
 			$('#'+this.id+' .option')[0].id = "option_"+initVal;
 			$('#'+this.id+' .option')[0].name = "option_"+initVal;
 			$('#'+this.id+' .removeOption')[0].id = "removeOption_"+initVal;
@@ -369,6 +370,7 @@
 									<div class="col-sm-1">
 										<input type="Checkbox" name="correctAnswer" class="chkbx"
 											id="checkBox_${answer.orderNo}"
+											value="option_${answer.orderNo}"
 											${answer.isCorrect?"checked":""} />
 									</div> 
 									<div class="col-sm-10">

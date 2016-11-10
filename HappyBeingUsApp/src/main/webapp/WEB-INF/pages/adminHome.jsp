@@ -76,7 +76,6 @@
 	
 	function deleteTopic(deletedTag){
 		
-		var deleteId = deletedTag.id.split("_")[1];
 		var topicNotEmpty = $("#topicNotEmpty_"+deleteId).val();
 		
 		if(topicNotEmpty=="true"){
@@ -146,6 +145,9 @@
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="adminLogout.action"><span class="glyphicon glyphicon-log-out"></span> Logout </a></li>
+				</ul>
+				<ul class="nav navbar-nav">
+					<li><a href="adminDiagnostic.action">Diagnostic Questions</a></li>
 				</ul>
 			</div>
 		</div>
