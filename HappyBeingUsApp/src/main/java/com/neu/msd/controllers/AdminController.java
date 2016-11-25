@@ -667,7 +667,7 @@ public class AdminController {
 				List<ActivityContainer> containers = new ArrayList<ActivityContainer>();
 				for(ActivityContainer container : topic.getActivityContainers()){
 					if(container.getActivityContainerId() == containerId)
-						topic.setTopicName(containerName);
+						container.setContainerName(containerName);
 					containers.add(container);
 				}
 				newTopics.add(topic);

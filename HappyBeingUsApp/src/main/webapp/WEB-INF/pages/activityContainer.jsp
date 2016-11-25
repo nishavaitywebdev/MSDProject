@@ -75,6 +75,7 @@
 	
 	
 	function renameActivityContainer(button) {
+		//console.log("activity container is: "+button);
 		var containerName = button.name;
 		var containerId = button.id;
 		$('#renameActivityContainer input[name=renameActivityContainer]').val(containerName);
@@ -171,54 +172,77 @@
 	<div class="container-fluid bg-3 text-left">
 
 		<div class="row">
-			<div class="col-sm-8">
-				<div class="jumbotron">
+			<div class="col-sm-12">
+				<!-- <div class="jumbotron"> --> <!-- Removing Jumbotron  -->
 					<div> <!-- class="topic_holder" -->
 						<h2>
 							<span id="containerName_${activityContainer.activityContainerId}">${activityContainer.containerName}</span>
 
-							<button type="button" class="btn btn-success"
+							<%-- <button type="button" class="btn btn-success"
 								id="${activityContainer.activityContainerId}"
 								name="${activityContainer.containerName}"
-								onclick="renameActivityContainer(this)">Rename</button>
-							<a class="btn btn-danger"  id="deleteId_${activityContainer.activityContainerId}" 
+								onclick="renameActivityContainer(this)">Rename</button> --%>
+						<a class="btn btn-default" id="${activityContainer.activityContainerId}"
+								name="${activityContainer.containerName}"
+								onclick="renameActivityContainer(this)">
+							<span class="glyphicon glyphicon-pencil"></span></a>
+					<%--  <a class="btn btn-danger"  id="deleteId_${activityContainer.activityContainerId}" 
 							 role="button" onclick="deleteActivityContainer(this)">Delete</a>
-							 <input type="hidden" id="containerNotEmpty" value="${fn:length(activityContainer.activities)>0}"/>
-						</h2>
+							 <input type="hidden" id="containerNotEmpty" value="${fn:length(activityContainer.activities)>0}"/> --%>
+						<a class="btn btn-default"
+							id="deleteId_${activityContainer.activityContainerId}" 
+							 role="button" onclick="deleteActivityContainer(this)">
+							 <span class="glyphicon glyphicon-trash"></span>
+							 </a>
+							 <input type="hidden" id="containerNotEmpty" value="${fn:length(activityContainer.activities)>0}"> 
+							
+					</h2>
 					</div>
+					</br>
+					
 					<div id="container_for-${activityContainer.activityContainerId}">
-						<table class="table table-hover">
-							<tbody>
+						<table class="table table-bordered table-responsive">
+						<c:choose>
+						<c:when test="${fn:length(activityContainer.activities)>0}">
+						<tr>
+							<th>Activity Title</th>
+							<th>Action</th>
+						</tr>
+						</c:when>
+						<c:otherwise>
+							<h2>No activities available right now. You might want to add some activities first.</h2>
+						</c:otherwise>	
+						</c:choose>
+						<tbody>
 							<c:choose> 
 							<c:when test="${fn:length(activityContainer.activities)>0}">
 								<c:forEach items="${activityContainer.activities}" var="activity">
 									<tr>
 										<td><h5>${activity.activityText}</h5></td>
 										<td><a class="btn btn-success" role="button"
-											id="${activity.id}_${activity.activityTemplate.id}" onclick="editActivity(id)">Edit</a></td>
-										<td><a class="btn btn-danger" data-toggle="modal"
+											id="${activity.id}_${activity.activityTemplate.id}" style="margin:10px" onclick="editActivity(id)">
+											<span class="glyphicon glyphicon-pencil"></span>
+											</a>
+										<a class="btn btn-danger" data-toggle="modal"
 							 					data-target="#confirmationDialog" id="deleteId_${activity.id}" 
-							 					role="button" onclick="deleteActivity(this)">Delete</a></td>
+							 					role="button" style="margin:10px" onclick="deleteActivity(this)"><span class="glyphicon glyphicon-trash"></span></a></td>
 									</tr>
 								</c:forEach>
 								</c:when>
 								<c:otherwise>
-									<div class="jumbotron">
+									<!-- <div class="jumbotron">
 										<h4>No activities available right now. You might want to add some activities first.</h4>
-									</div>
+									</div> -->
 								</c:otherwise>
 							</c:choose>
-								<tr>
-									<td></td>
-									<td></td>
-									<td><a class="btn btn-warning" id="addNewActivity" 
-									name="${activityContainer.activityContainerId}" role="button">Add New Activity</a></td>
-								</tr>
+								
 							</tbody>
 
 						</table>
+						<a class="btn btn-warning" id="addNewActivity" 
+						name="${activityContainer.activityContainerId}" role="button">Add New Activity</a>
 					</div>
-				</div>
+				<!-- </div> --> <!--  Removing Jumbotron -->
 			</div>
 			<!-- 			<div class="col-sm-4"></div> -->
 			<!-- Renaming the Activity container pop up modal  START-->
@@ -236,6 +260,7 @@
 						<div class="modal-footer">
 							<input type="button" id="changeActivityContainerName" class="btn btn-success"
 								role="button" value="Change Name" />
+							<button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>	
 						</div>
 					</div>
 				</div>
@@ -247,7 +272,7 @@
 				<div class="modal-dialog">
 					<div class="modal-content">
 						<div class="modal-header">
-							<h4 class="modal-title">Please confirm!</h4>
+							<h4 class="modal-title">Delete Activity</h4>
 						</div>
 						<form id="confirmationForm" name="confirmationForm" method="post">
 							<div class="modal-body">
@@ -269,13 +294,16 @@
 				<div class="modal-dialog">
 					<div class="modal-content">
 						<div class="modal-header">
-							<h4 class="modal-title">No can do!!!</h4>
+							<h4 class="modal-title">Suggestion</h4>
 						</div>
 						<div class="modal-body">
-							<h4 class="modal-title">It seems that the topic is not empty. You cannot delete this topic.</h4>
+							<h4 class="modal-title">
+							To delete a topic you need to delete all the activities within this block.
+							Try deleting all the activities and then delete.	
+							</h4>
 						</div>
 						<div class="modal-footer">
-							<a class="btn btn-danger" data-dismiss="modal">OK</a>
+							<a class="btn btn-primary" data-dismiss="modal">OK</a>
 						</div>
 					</div>
 				</div>
