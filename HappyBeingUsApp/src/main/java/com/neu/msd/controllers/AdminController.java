@@ -204,8 +204,7 @@ public class AdminController {
 			
 				return loadDiagnosticHome(session,model);
 			
-			//return "diagnosticModule";
-						
+								
 	}
 	
 	@RequestMapping(value="/adminLoadDiagnostic.action", method=RequestMethod.POST)
