@@ -136,8 +136,10 @@ public class AdminController {
 	public String loadContainerById(@RequestParam("id") int activityContainerId, HttpSession session){
 		
 		LOGGER.debug("AdminController: loadContainerById: START");
+		//System.out.println("Inside edit Activity Container ID received is: "+id);
 		
 		ActivityContainer activityContainer = (ActivityContainer) session.getAttribute("activityContainer");
+		
 		if(null == activityContainer){
 			Map<Integer, ActivityContainer> containerMap = (Map<Integer, ActivityContainer>) session.getAttribute("containerMap");
 			try {
@@ -145,9 +147,11 @@ public class AdminController {
 					System.out.println("Could not find the container map on the session. Hence throwing exception.");
 					throw new AdminException();
 				}else{
+					//System.out.println("Inside edit Activity Container ID received is: "+activityContainerId);
 					activityContainer = containerMap.get(activityContainerId);
 					if(null == activityContainer){
 						activityContainer = adminService.getActivityContainerById(Integer.valueOf(activityContainerId));
+						System.out.println("Inside edit Activity Container: "+activityContainer);
 						containerMap.put(activityContainerId, activityContainer);
 						session.setAttribute("containerMap", containerMap);
 					}
@@ -474,6 +478,7 @@ public class AdminController {
 		LOGGER.debug("AdminController: renameActivityContainer: START");
 		try {
 			int returnVal = adminService.renameActivityContainer(containerName, containerId);
+			System.out.println("Inside Rename Activity Container: "+returnVal);
 			ActivityContainer activityContainer = (ActivityContainer) session.getAttribute("activityContainer");
 			Map<Integer, ActivityContainer> containerMap = (Map<Integer, ActivityContainer>) session.getAttribute("containerMap");
 			List<Topic> topics = (List<Topic>) session.getAttribute("topics");
@@ -486,7 +491,7 @@ public class AdminController {
 				List<ActivityContainer> containers = new ArrayList<ActivityContainer>();
 				for(ActivityContainer container : topic.getActivityContainers()){
 					if(container.getActivityContainerId() == containerId)
-						topic.setTopicName(containerName);
+						container.setContainerName(containerName);
 					containers.add(container);
 				}
 				newTopics.add(topic);

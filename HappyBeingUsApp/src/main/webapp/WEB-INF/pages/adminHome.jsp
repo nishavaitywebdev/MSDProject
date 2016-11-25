@@ -69,6 +69,7 @@ h6:before {
 
 <script type="text/javascript">
 	function editContainer(id) {
+		console.log("The id fetched is: "+id);
 		var form = document.getElementById("editForm");
 		form.action = "editActivityContainer.action";
 		form.children.namedItem("id").value = id;
@@ -201,23 +202,21 @@ h6:before {
 		<div class="row">
 			<div class="col-sm-12">
 			
+			
+			
 			<!-- Making changes here -->
 			<div class="container">
 					<ul class="nav nav-pills nav-justified">
 						<c:choose>
 							<c:when test="${fn:length(topics)>0}">
 								<c:forEach items="${topics}" var="topic" varStatus="topicNo">
+									
 									<li role="presentation">
 										
 										<a href="#" id ="#${topic.topicName}" class="Topics" data-toggle="tab"> 
 											${topic.topicName} 
 										</a>
-										<%-- <button type="button" class="btn btn-success"
-											id="${topic.id}" name="${topic.topicName}"
-											onclick="renameTopic(this)">Rename</button> --%>
-											<%-- <a class="btn btn-default" id="${topic.id}"
-										name="${topic.topicName}" onclick="renameTopic(this)"> <span
-											class="glyphicon glyphicon-pencil"></span></a> --%>
+									
 
 									</li>
 								</c:forEach>
@@ -256,6 +255,7 @@ h6:before {
 													<td><%-- <a class="btn btn-success" role="button"
 														id="${activityContainer.activityContainerId}"
 														onclick="editContainer(id)">Edit</a> --%>
+													
 														<a class="btn btn-info" style="margin-left:10px" id="${activityContainer.activityContainerId}"
 														    onclick="editContainer(id)"> 
 															Edit Details</a>
@@ -355,7 +355,14 @@ h6:before {
 					</c:otherwise>
 				</c:choose> --%>
 			</div>
-			<!-- 			<div class="col-sm-4"></div> -->
+			
+				</br>
+				</br>
+				<!-- Added this on 11/25--> 
+				<a class="btn btn-warning" data-toggle="modal"
+					data-target="#addNewTopic" role="button">Add New Topic</a>
+
+				<!-- 			<div class="col-sm-4"></div> -->
 			<!-- 			Renaming the topic pop up modal  START-->
 			<div class="modal fade" id="renameTopic" role="dialog">
 				<div class="modal-dialog">
@@ -378,7 +385,7 @@ h6:before {
 			<!-- 			Renaming the topic pop up modal  END-->
 
 			<!-- 			Adding new Topic START -->
-			<div class="modal fade" id="addNewTopic" role="dialog">
+			<%-- <div class="modal fade" id="addNewTopic" role="dialog">
 				<div class="modal-dialog">
 					<div class="modal-content">
 						<div class="modal-header">
@@ -406,6 +413,34 @@ h6:before {
 								<div class="modal-body">
 							<c:forEach items="${versions}" var="version">
 								<span><input type="checkbox" name="versionIds" value="${version.id}"/> ${version.versionName}</span>
+							</c:forEach>
+							</div>
+							<div class="modal-footer">
+								<input type="submit" class="btn btn-success" role="button"
+									value="Add" />
+							</div>
+						</form>
+					</div>
+				</div>
+			</div> --%>
+			<!-- 			Adding new Topic END -->
+			
+			<!-- Previous way of adding new Topic with Text  -->
+			<!-- 			Adding new Topic START -->
+			<div class="modal fade" id="addNewTopic" role="dialog">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h4 class="modal-title">Add New Topic</h4>
+						</div>
+						<form action="addNewTopic.action" method="post">
+							<div class="modal-body">
+								<input type="text" class="form-control" id="topicName"
+									name="topicName" placeholder="Enter new topic name" required />
+							</div>
+							<div class="modal-body">
+							<c:forEach items="${versions}" var="version">
+								<span><input type="checkbox" name="versionIds" value="${version.id}"/> ${version.versionName}</span> 
 							</c:forEach>
 							</div>
 							<div class="modal-footer">

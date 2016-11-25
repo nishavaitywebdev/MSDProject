@@ -75,6 +75,7 @@
 	
 	
 	function renameActivityContainer(button) {
+		//console.log("activity container is: "+button);
 		var containerName = button.name;
 		var containerId = button.id;
 		$('#renameActivityContainer input[name=renameActivityContainer]').val(containerName);
