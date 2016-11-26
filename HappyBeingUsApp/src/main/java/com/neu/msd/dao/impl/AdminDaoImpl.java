@@ -446,7 +446,6 @@ public class AdminDaoImpl implements AdminDao {
 			connection = dataSource.getConnection();
 
 			int nextTopicId = getNextTopicId(connection);
-			
 			String sql = "insert into topic values(?, ?)";
 			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
@@ -923,28 +922,79 @@ public class AdminDaoImpl implements AdminDao {
 		}
 	}
 
-	public int assignTopicToVersion(int topicId, int versionId) throws AdminException {
-		LOGGER.debug("AdminDaoImpl: assignTopicToVersion: START");
+//	public int assignTopicToVersion(int topicId, int versionId) throws AdminException {
+//		LOGGER.debug("AdminDaoImpl: assignTopicToVersion: START");
+//
+//		PreparedStatement stmt = null;
+//		ResultSet rs = null;
+//		try {
+//			connection = dataSource.getConnection();
+//			String sql = "insert into version_topic values (?, ?)";
+//			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+//
+//			stmt.setInt(1, versionId);
+//			stmt.setInt(2, topicId);
+//
+//			int records = stmt.executeUpdate();
+//
+//			//			linking the new topic with the users associated to this topic's vesion
+//
+//			sql = "select user_id from user where version_id = ?";
+//			stmt = connection.prepareStatement(sql);
+//			stmt.setInt(1, versionId);
+//			rs = stmt.executeQuery();
+//			List<Integer> users = new ArrayList<Integer>();
+//			while (rs.next()) {
+//
+//				users.add(rs.getInt("user_id"));
+//
+//			}
+//			for (Integer userId : users) {
+//				sql = "insert into user_topic_status (user_id, topic_id, topic_status_id) values (?, ?, ?)";
+//				stmt = connection.prepareStatement(sql);
+//
+//				stmt.setInt(1, userId);
+//				stmt.setInt(2, topicId);
+//				stmt.setInt(3, 1);
+//
+//				records = stmt.executeUpdate();
+//
+//				System.out.println("No. of records inserted: " + records);
+//			}
+//
+//			return records;
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			throw new AdminException(e);
+//		} finally{
+//			try {
+//				if(null != stmt) stmt.close();
+//				if(null != connection) connection.close();
+//				LOGGER.debug("AdminDaoImpl: assignTopicToVersion: END");
+//			} catch (SQLException e) {
+//				e.printStackTrace();
+//				throw new AdminException(e);
+//			}
+//		}
+//	}
+	
+	//Adding assignTopicToUsers: Neha and Vinay
+	public int assignTopicToUsers(int topicId) throws AdminException
+	{
+		LOGGER.debug("AdminDaoImpl: assignTopicToUsers: START");
 
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		try {
 			connection = dataSource.getConnection();
-			String sql = "insert into version_topic values (?, ?)";
-			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-
-			stmt.setInt(1, versionId);
-			stmt.setInt(2, topicId);
-
-			int records = stmt.executeUpdate();
-
+							
 			//			linking the new topic with the users associated to this topic's vesion
 
-			sql = "select user_id from user where version_id = ?";
-			stmt = connection.prepareStatement(sql);
-			stmt.setInt(1, versionId);
+			String sql = "select user_id from user";
+			stmt = connection.prepareStatement(sql);			
 			rs = stmt.executeQuery();
 			List<Integer> users = new ArrayList<Integer>();
+			int records = 0;
 			while (rs.next()) {
 
 				users.add(rs.getInt("user_id"));
@@ -958,7 +1008,7 @@ public class AdminDaoImpl implements AdminDao {
 				stmt.setInt(2, topicId);
 				stmt.setInt(3, 1);
 
-				records = stmt.executeUpdate();
+				records += stmt.executeUpdate();
 
 				System.out.println("No. of records inserted: " + records);
 			}
@@ -971,13 +1021,74 @@ public class AdminDaoImpl implements AdminDao {
 			try {
 				if(null != stmt) stmt.close();
 				if(null != connection) connection.close();
-				LOGGER.debug("AdminDaoImpl: assignTopicToVersion: END");
+				LOGGER.debug("AdminDaoImpl: assignTopicToUsers: END");
 			} catch (SQLException e) {
 				e.printStackTrace();
 				throw new AdminException(e);
 			}
 		}
+
+		
 	}
+	
+	
+	public int assignActivityContainerToVersion(int actConId, int versionId, int topicId) throws AdminException {
+	LOGGER.debug("AdminDaoImpl: assignActivityContainerToVersion: START");
+
+	PreparedStatement stmt = null;
+	ResultSet rs = null;
+	try {
+	connection = dataSource.getConnection();
+	String sql = "insert into version_activity_container values (?, ?)";
+	stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+	stmt.setInt(1, versionId);
+	stmt.setInt(2, actConId);
+
+	int records = stmt.executeUpdate();
+
+//		linking the new topic with the users associated to this topic's vesion
+
+//		sql = "select user_id from user where version_id = ?";
+//		stmt = connection.prepareStatement(sql);
+//		stmt.setInt(1, versionId);
+//		rs = stmt.executeQuery();
+//		List<Integer> users = new ArrayList<Integer>();
+//		while (rs.next()) {
+	//
+	// users.add(rs.getInt("user_id"));
+	//
+//		}
+//		for (Integer userId : users) {
+//		sql = "insert into user_topic_status (user_id, topic_id, topic_status_id) values (?, ?, ?)";
+//		stmt = connection.prepareStatement(sql);
+	//
+//		stmt.setInt(1, userId);
+//		stmt.setInt(2, topicId);
+//		stmt.setInt(3, 1);
+	//
+//		records = stmt.executeUpdate();
+	//
+//		System.out.println("No. of records inserted: " + records);
+//		}
+
+		return records;
+	} catch (Exception e) {
+		e.printStackTrace();
+		throw new AdminException(e);
+	} finally{
+		try {
+				if(null != stmt) stmt.close();
+				if(null != connection) connection.close();
+				LOGGER.debug("AdminDaoImpl: assignActivityContainerToVersion: END");
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new AdminException(e);
+		}
+		}
+	}
+
+
 
 	public Activity saveActivity(Activity activity) throws AdminException {
 		LOGGER.debug("AdminDaoImpl: saveActivity: START");
@@ -1839,5 +1950,73 @@ public class AdminDaoImpl implements AdminDao {
 			}
 		}
 	}
+	
+	public List<ActivityContainer> filterActivityContainers(List<ActivityContainer> activityContainers, int versionId) throws AdminException
+	{
+		LOGGER.debug("START: In filter activity");
+		PreparedStatement stmt = null;
+
+		ResultSet rs = null;
+
+		try {
+
+			connection = dataSource.getConnection();
+
+			String sql = "select activity_container_id from version_activity_container where version_id =?";
+
+			stmt = connection.prepareStatement(sql);
+
+			stmt.setInt(1, versionId);
+
+			rs = stmt.executeQuery();
+
+			List<Integer> acIds = new ArrayList<Integer>();
+			List<ActivityContainer> result = new ArrayList<ActivityContainer>();
+			
+			while(rs.next()){			
+				acIds.add(rs.getInt("activity_container_id"));
+			}
+			
+			
+			for(ActivityContainer ac : activityContainers){
+								
+				if(acIds.contains(ac.getActivityContainerId()))
+				{
+					result.add(ac);					
+				}								
+			}
+			return result;
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+			throw new AdminException(e);
+
+		}finally{
+
+			try {
+
+				if(null != rs) rs.close();
+
+				if(null != stmt) stmt.close();
+
+				if(null != connection) connection.close();
+
+				LOGGER.debug("AdminDaoImpl: filterActivityContainers: END");
+
+			} catch (SQLException e) {
+
+				e.printStackTrace();
+
+				throw new AdminException(e);
+
+			}
+
+		}
+
+	}
+	
+	
 	
 }

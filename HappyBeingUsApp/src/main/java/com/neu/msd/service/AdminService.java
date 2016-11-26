@@ -28,7 +28,7 @@ public interface AdminService {
 
 	public ActivityContainer getActivityContainerById(int activityContainerId) throws AdminException;
 
-	public void loadTopicsWithActivityContainers(Map<Integer, ActivityContainer> containerMap, List<Topic> allTopics) throws AdminException;
+	public void loadTopicsWithActivityContainers(Map<Integer, ActivityContainer> containerMap, List<Topic> allTopics, int versionId) throws AdminException;
 
 	public List<ActivityTemplate> getAllActivityTemplates() throws AdminException;
 
@@ -50,7 +50,12 @@ public interface AdminService {
 
 	public List<Version> loadAllVersion() throws AdminException;
 
-	public void assignTopicToVersion(int topicId, String[] versionIds) throws AdminException;
+//	public void assignTopicToVersion(int topicId, String[] versionIds) throws AdminException;
+	
+	// ---------- Changes to add version to Activity Container ----------
+	public void assignActivityContainerToVersion(int actConId, String[] versionIds, int topicId) throws AdminException;
+	// ---------- Changes to add version to Activity Container end here----------
+
 
 	public AdminActivityAnswer saveAdminActivityAnswer(AdminActivityAnswer adminActivityAnswer) throws AdminException;
 
@@ -69,4 +74,6 @@ public interface AdminService {
 	public int deleteDiagnosticQuestion(int activityid) throws AdminException;
 	
 	public int updateDiagnosticQuestion(AdminActivityAnswer adminActivity) throws AdminException;
+
+	public int assignTopicToUsers(int topicId) throws AdminException;
 }
