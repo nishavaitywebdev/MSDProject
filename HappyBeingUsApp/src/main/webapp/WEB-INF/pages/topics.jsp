@@ -98,7 +98,7 @@
 														<td><a
 															id="${topic.id}_${activityContainer.activityContainerId}"
 															class="btn ${currCount.index+1 <= topic.completedActContainers+1?"
-															btn-primary":"btn-primary disabled"}" role="button">
+															btn-danger":"btn-danger disabled"}" role="button">
 																${activityContainer.containerName} </a></td>
 														<td style="width: 25px"></td>
 													</c:forEach>
@@ -141,7 +141,7 @@
 													var="activityContainer" varStatus="currCount">
 													<td><a id="${topic.id}_${activityContainer.activityContainerId}"
 														class="btn ${currCount.index+1 <= topic.completedActContainers+1?"
-														btn-primary":"btn-primary disabled"}" role="button">
+														btn-primary":"btn-danger disabled"}" role="button">
 															${activityContainer.containerName} </a></td>
 													<td style="width: 25px"></td>
 												</c:forEach>
@@ -157,8 +157,9 @@
 					</div>
 				<!-- </div> -->
 				<!-- <div class="row jumbotron" id="Completed"> -->
-					<h2 style="font-size: 300%;left-margin:40px;">Completed</h2> 
+					
 					<div class="col-sm-12">
+					<h2 style="font-size: 200%;left-margin:200px;">Completed</h2> 
 
 						<c:forEach items="${topics}" var="topic" varStatus="topicNo">
 							<c:if test="${topic.topicStatus.id == 3}">
@@ -171,7 +172,7 @@
 											<tr>
 												<c:forEach items="${topic.activityContainers}"
 													var="activityContainer">
-													<td><a href="#" class="btn btn-primary" role="button">${activityContainer.containerName}</a></td>
+													<td><a href="#" class="btn btn-success" role="button">${activityContainer.containerName}</a></td>
 													<td style="width: 25px"></td>
 												</c:forEach>
 											</tr>
