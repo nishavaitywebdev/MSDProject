@@ -178,11 +178,12 @@ h6:before {
 			</div>
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav">
-<!-- 					<li class="active"><a href="#">Topics and Blocks</a></li> -->
+
 					<li><a data-toggle="modal" id ="addAdmin" href="#addNewAdmin">Add New Admin</a></li>
+					
 				</ul>
 				<ul class="nav navbar-nav">
- 					<li><a href="adminDiagnostic.action">Diagnostic Questions</a></li>
+ 					<li><a href="adminDiagnostic.action" >Diagnostic Questions</a></li>
  				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="adminLogout.action"><span class="glyphicon glyphicon-log-out"></span> Logout </a></li>
@@ -235,9 +236,6 @@ h6:before {
 									id="container_for-${topic.id}"> --%>
 					<div class="tab-content" class="tab-pane fade in active">
 						<c:forEach items="${topics}" var="topic" varStatus="topicNo">
-
-								
-
 								<div id="${topic.topicName}" class="topiccontentcontainer" style="display:none">
 									 <table class="table table-striped table-bordered">
 									<tr>
@@ -251,11 +249,6 @@ h6:before {
 											Action	
 										</th>
 									</tr>
-
-									
-															
-									
-
 									<tbody>
 										<c:choose>
 										<c:when test="${fn:length(topic.activityContainers)>0}">
@@ -263,13 +256,10 @@ h6:before {
 												<tr>
 													<td><h6></h6></td>
 													<td>${activityContainer.containerName}</td>
-													<td>												
-
 													<td><%-- <a class="btn btn-success" role="button"
 														id="${activityContainer.activityContainerId}"
 														onclick="editContainer(id)">Edit</a> --%>
 													
-
 														<a class="btn btn-info" style="margin-left:10px" id="${activityContainer.activityContainerId}"
 														    onclick="editContainer(id)"> 
 															Edit Details</a>
@@ -693,4 +683,4 @@ h6:before {
 		</script>
 </body>
 </html>
-
+	

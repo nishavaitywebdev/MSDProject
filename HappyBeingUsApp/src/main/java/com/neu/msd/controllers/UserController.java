@@ -50,9 +50,10 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/redirectToDiagnostic.action", method = RequestMethod.GET)
 	public String redirectToDiagnostic(Model model) {
-
 		try {
+			//System.out.println("Inside UserController redirectToDiagnostic");
 			List<AdminActivityAnswer> activityAnswers = userService.getDiagnosticQuestions();
+			//System.out.println(activityAnswers);
 			model.addAttribute("activityAnswers", activityAnswers);
 			return "diagnostic";
 		} catch (UserException e) {
@@ -72,6 +73,9 @@ public class UserController {
 			} else {
 				List<Topic> topics = new ArrayList<Topic>();
 				topics = userService.getTopicsOfUser(user);
+				for(Topic t:topics){
+					System.out.println(t.getTopicName());
+				}
 				model.addAttribute("topics", topics);
 			}
 
@@ -87,14 +91,22 @@ public class UserController {
 		
 		try {
 			User user = (User) session.getAttribute("user");
-
+			
 			Integer[] weigh = userService.getweigh();
-
+			for(int i:weigh){
+				System.out.println(i);
+			}
 			int b = -1;
 			double score = 0;
+			System.out.println("Inside redirectToUserHome");
+			/*for(Integer s:scores.getScores()){
+				System.out.println("scores are: "+s);
+				//System.out.println(weigh[b++]);
+			}*/
 			for (Integer a : scores.getScores()) {
 				if (a != null)
 					score += (double) (((double) (a - 1)) / (double) weigh[b]);
+					System.out.println("Inside UserController score is"+(double) weigh[b]);
 				b++;
 			}
 			score = score / 5 * 100;
@@ -121,6 +133,7 @@ public class UserController {
 			String[] id = actcon.split("_");
 			int tId = Integer.parseInt(id[0]);
 			int cId = Integer.parseInt(id[1]);
+			System.out.println("tId: "+tId+" and cIs is: "+cId);
 			Topic topic = userService.settopic(tId);
 			List<ActivityContainer> containers = new ArrayList<ActivityContainer>();
 			containers = topic.getActivityContainers();

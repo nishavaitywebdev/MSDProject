@@ -11,12 +11,13 @@ import org.springframework.web.multipart.MultipartFile;
 import com.neu.msd.entities.ActivityContainer;
 import com.neu.msd.entities.ActivityTemplate;
 import com.neu.msd.entities.AdminActivityAnswer;
+import com.neu.msd.entities.Answer;
 import com.neu.msd.entities.Topic;
 import com.neu.msd.entities.User;
 import com.neu.msd.entities.UserAuthentication;
 import com.neu.msd.entities.Version;
 import com.neu.msd.exception.AdminException;
-
+import java.util.ArrayList;
 /**
  * @author Harsh
  *
@@ -60,4 +61,12 @@ public interface AdminService {
 	public String generateFilePath(MultipartFile uploadFile, String fileType) throws AdminException;
 	
 	public int registerAdmin(UserAuthentication userAuthentication) throws AdminException;
+
+	public List<AdminActivityAnswer> getDiagnosticQuestions();
+	
+	public int addDiagnosticQuestion(String questionText, List<Answer> options) throws AdminException;
+
+	public int deleteDiagnosticQuestion(int activityid) throws AdminException;
+	
+	public int updateDiagnosticQuestion(AdminActivityAnswer adminActivity) throws AdminException;
 }

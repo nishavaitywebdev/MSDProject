@@ -78,6 +78,7 @@ public class AdminController {
 			{
 				session.setAttribute("user", admin);
 				return loadHome(session, model);
+								
 			}
 			else
 			{
@@ -117,6 +118,7 @@ public class AdminController {
 	public String loadHome(HttpSession session, Model model) throws AdminException{
 		
 		LOGGER.debug("AdminController: loadHome: START");
+		// Here Topics fetched by previous team
 		List<Topic> topics = (List<Topic>) session.getAttribute("topics");
 		if(null == topics){
 			Map<Integer, ActivityContainer> containerMap = new HashMap<Integer, ActivityContainer>();
@@ -128,7 +130,7 @@ public class AdminController {
 		}
 		session.removeAttribute("activityContainer");
 		LOGGER.debug("AdminController: loadHome: END");
-		return "adminHome";
+		return "adminHome2";
 		
 	}
 
@@ -186,7 +188,82 @@ public class AdminController {
 			return "errorPage";
 		}
 	}
+	
+	/**
+	* The following three functions.
+	* 1. adminLoadDiagnosticQuestions
+	* 2. loadDiagnosticHome
+	* 3. deleteDiagnosticQuestion
+	*
+	* @author  Mukul Bichkar
+	* @version 1.0
+	* @since   2016-09-11 
+	*/
+	
+	
+	// Function added for loading diagnostic questions
+	@RequestMapping(value="/adminDiagnostic.action", method=RequestMethod.GET)
+	public String adminLoadDiagnosticQuestions(HttpSession session, Model model) throws AdminException{
+		LOGGER.debug("AdminController: adminDiagnosticLoadQuestions: START");
+			
+				return loadDiagnosticHome(session,model);
+			
+								
+	}
+	
+	@RequestMapping(value="/adminLoadDiagnostic.action", method=RequestMethod.POST)
+	public String loadDiagnosticHome(HttpSession session, Model model) throws AdminException{
+		
+		LOGGER.debug("AdminController: loadDiagnosticHome: START");
+		// Here Topics fetched by previous team
+		List<AdminActivityAnswer> diagnosticQuestions = null;//(List<AdminActivityAnswer>) session.getAttribute("diagnosticQuestions");
+		// If diagnostic questions are null
+		if(diagnosticQuestions == null){
+			
+			diagnosticQuestions = adminService.getDiagnosticQuestions();
+			session.setAttribute("diagnosticQuestions",diagnosticQuestions);
+						
+		}
+		
+		LOGGER.debug("AdminController: loadDiagnosticHome: END");
+		return "diagnosticModule";
+		
+	}
+	
+	
+	//Delete Diagnostic Questions
+	@RequestMapping(value="/deleteDiagnosticQuestion.action", method=RequestMethod.POST)
+	public String deleteDiagnosticQuestion(@RequestParam("deletableId") int deletableId, HttpSession session, Model model){
+		
+		
+		System.out.println("Id to be deleted is: "+deletableId);
+		LOGGER.debug("AdminController: deleteDiagnosticQuestion: START");
+		
+		List<AdminActivityAnswer> diagnosticQuestions = (List<AdminActivityAnswer>) session.getAttribute("diagnosticQuestions");
+		List<AdminActivityAnswer> updateddiagnosticQuestions = new ArrayList<AdminActivityAnswer>();
+		try {
+			adminService.deleteDiagnosticQuestion(Integer.valueOf(deletableId));
+			for(AdminActivityAnswer q : diagnosticQuestions){
+				if(q.getActivity().getId() != deletableId)
+					updateddiagnosticQuestions.add(q);
+			}
+			
+			session.setAttribute("diagnosticQuestions", updateddiagnosticQuestions);
 
+			LOGGER.debug("AdminController: deleteActivity: END");
+			return loadDiagnosticHome(session, model);
+		} catch (AdminException e) {
+			return "errorPage";
+		}
+		
+		
+	}
+	
+	
+	
+	
+	
+	// Activities
 	@RequestMapping(value="/addActivity.action", method=RequestMethod.POST)
 	public String addNewActivity(@ModelAttribute("activity") Activity activity, 
 			@RequestParam(value="uploadFile",required=false) MultipartFile uploadFile,
@@ -314,7 +391,8 @@ public class AdminController {
 		return adminActivityAnswer;
 	}
 
-	private Activity addMCQActivity(Activity activity, HttpServletRequest request) throws AdminException {
+		//Replaced 
+/*	private Activity addMCQActivity(Activity activity, HttpServletRequest request) throws AdminException {
 		
 		List<String> correctAnswers = new ArrayList<String>(Arrays.asList(request.getParameterValues("correctAnswer")));
 		
@@ -338,7 +416,110 @@ public class AdminController {
 		adminActivityAnswer = adminService.saveAdminActivityAnswer(adminActivityAnswer);
 
 		return adminActivityAnswer.getActivity();
+	}*/
+	
+	
+	private Activity addMCQActivity(Activity activity, HttpServletRequest request) throws AdminException {
+		
+		List<Answer> answers = getMCQAnswers(request);
+		
+		AdminActivityAnswer adminActivityAnswer = new AdminActivityAnswer();
+		adminActivityAnswer.setActivity(activity);
+		adminActivityAnswer.setAnswers(answers);
+		
+		adminActivityAnswer = adminService.saveAdminActivityAnswer(adminActivityAnswer);
+
+		return adminActivityAnswer.getActivity();
 	}
+
+	private List<Answer> getMCQAnswers(HttpServletRequest request) {
+		List<String> correctAnswers = new ArrayList<String>(Arrays.asList(request.getParameterValues("correctAnswer")));
+		
+		Enumeration<String> parameters = request.getParameterNames();
+		List<Answer> answers = new ArrayList<Answer>();
+		while(parameters.hasMoreElements()){
+			String param = (String) parameters.nextElement();
+			if(param.contains("option")){
+				Answer answer = new Answer();
+				answer.setAnswerText(request.getParameter(param).trim());
+				answer.setOrderNo(Integer.valueOf(param.split("_")[1]));
+				answer.setIsCorrect(correctAnswers.contains(param)?true:false);
+				answers.add(answer);
+			}
+		}
+		return answers;
+	}
+	//Done with replacement
+	
+	
+	// ---------- Changes for diagnostic module begin here ----------
+	
+		// Add diagnostic question --> Neha
+		
+		@RequestMapping(value="/addDiagnosticQuestion.action", method=RequestMethod.POST)
+		private String addDiagnosticQuestion(@RequestParam("Question") String questionString, 
+				HttpServletRequest request,HttpSession session, Model model) throws AdminException {
+		
+		List<Answer> answers = getMCQAnswers(request);
+		
+		adminService.addDiagnosticQuestion(questionString, answers);
+		
+		//List<AdminActivityAnswer> diagnosticQuestions = adminService.getDiagnosticQuestions();
+		//session.setAttribute("diagnosticQuestions",diagnosticQuestions);
+		
+		return loadDiagnosticHome(session,model);
+		}
+		
+		
+		// Update diagnostic question --> Neha
+		
+		@RequestMapping(value="/editDiagnosticQuestion.action")
+		public String goToEditDiagnosticQuestion(@RequestParam("id") String parameter, HttpSession session, Model model){
+			
+			LOGGER.debug("AdminController: goToEditDiagnosticQuestion: START");
+			
+			int activityId = Integer.valueOf(parameter);
+			
+			try {
+				AdminActivityAnswer adminActivityAnswer = adminService.getAdminActivityAnswerByActivityId(activityId);
+
+				model.addAttribute("adminActivity", adminActivityAnswer);
+				
+				LOGGER.debug(adminActivityAnswer);
+				LOGGER.debug("AdminController: goToEditDiagnosticQuestion: END");
+				return "updateDiagnosticQuestion";
+			} catch (AdminException e) {
+				return "errorPage";
+			}
+			
+		}
+		
+		@RequestMapping(value="/updateDiagnosticQuestion.action", method=RequestMethod.POST)
+		private String updateDiagnosticQuestion(@ModelAttribute("activity") AdminActivityAnswer adminActivityAnswer, 
+				HttpServletRequest request, HttpSession session, Model model) throws AdminException {
+			
+			//AdminActivityAnswer adminActAns = new AdminActivityAnswer();
+		
+			List<Answer> answers = getMCQAnswers(request);
+		
+			Activity act = adminActivityAnswer.getActivity();
+			AdminActivityAnswer newAdminActivityAnswer = new AdminActivityAnswer();
+			newAdminActivityAnswer.setActivity(act);
+			newAdminActivityAnswer.setAnswers(answers);
+			adminService.updateDiagnosticQuestion(newAdminActivityAnswer);
+		
+			return loadDiagnosticHome(session, model);
+		}
+		
+		// This is just to redirect to test the create diagnostic questions page	
+		@RequestMapping(value="/redirectToAddDQ.action", method=RequestMethod.GET)
+		public String redirectToDiagModule() throws AdminException{
+			return "createDiagnosticQuestions";
+		}
+			
+		
+		// ---------- Changes for diagnostic module end here ----------
+
 
 	@ResponseBody
 	@RequestMapping(value="/renameTopic.action", method=RequestMethod.POST)

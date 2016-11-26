@@ -20,6 +20,7 @@ import org.springframework.stereotype.Repository;
 
 import com.mysql.jdbc.Statement;
 import com.neu.msd.dao.AdminDao;
+import com.neu.msd.dao.UserDao;
 import com.neu.msd.entities.Activity;
 import com.neu.msd.entities.ActivityContainer;
 import com.neu.msd.entities.ActivityTemplate;
@@ -33,6 +34,7 @@ import com.neu.msd.entities.UserAuthentication;
 import com.neu.msd.entities.Version;
 import com.neu.msd.exception.AdminException;
 import com.neu.msd.exception.AuthenticationException;
+import com.neu.msd.exception.UserException;
 
 /**
  * @author Harsh
@@ -40,24 +42,27 @@ import com.neu.msd.exception.AuthenticationException;
  */
 @Repository("adminDao")
 public class AdminDaoImpl implements AdminDao {
-	
+
 	Logger LOGGER = Logger.getLogger(AdminDaoImpl.class);
-	
+
 	@Autowired
 	DataSource dataSource;
-	
+
+	@Autowired
+	UserDao userDao;
+
 	private Connection connection;
 
 	/* (non-Javadoc)
 	 * @see com.neu.msd.dao.AdminDao#loadTopics()
 	 */
 	public List<Topic> loadTopics() throws AdminException {
-		
+
 		LOGGER.debug("AdminDaoImpl: loadTopics: START");
-		
+
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		
+
 		try {
 			List<Topic> topics = new ArrayList<Topic>();
 			connection = dataSource.getConnection();
@@ -70,7 +75,7 @@ public class AdminDaoImpl implements AdminDao {
 				topic.setTopicName(rs.getString("topic_name"));
 				topics.add(topic);
 			}
-			
+
 			return topics;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -92,9 +97,9 @@ public class AdminDaoImpl implements AdminDao {
 	 * @see com.neu.msd.dao.AdminDao#loadAdminContainersByTopicId(int)
 	 */
 	public List<ActivityContainer> loadActivityContainersByTopicId(int topicId) throws AdminException {
-		
+
 		LOGGER.debug("AdminDaoImpl: loadActivityContainersByTopicId: START");
-		
+
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		try {
@@ -110,7 +115,7 @@ public class AdminDaoImpl implements AdminDao {
 				activityContainer.setOrderNo(rs.getInt("order_no"));
 				activityContainers.add(activityContainer);
 			}
-			
+
 			return activityContainers;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -134,7 +139,7 @@ public class AdminDaoImpl implements AdminDao {
 	public ActivityContainer loadActivityContainerById(int activityContainerId) throws AdminException {
 
 		LOGGER.debug("AdminDaoImpl: loadActivityContainerById: START");
-		
+
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		try {
@@ -149,7 +154,7 @@ public class AdminDaoImpl implements AdminDao {
 				activityContainer.setOrderNo(rs.getInt("order_no"));
 				activityContainer.setActivities(loadActivitiesByActivityContainerId(activityContainerId));
 			}
-			
+
 			return activityContainer;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -175,10 +180,10 @@ public class AdminDaoImpl implements AdminDao {
 
 		Map<Integer, ActivityType> activityTypeMap = new HashMap<Integer, ActivityType>();
 		Map<Integer, ActivityTemplate> activityTemplateMap = new HashMap<Integer, ActivityTemplate>();
-		
+
 		loadActivityType(activityTypeMap);
 		loadActivityTemplate(activityTemplateMap);
-		
+
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		try {
@@ -187,7 +192,7 @@ public class AdminDaoImpl implements AdminDao {
 			String sql = "select * from activity where activity_container_id=? order by order_no";
 			stmt = connection.prepareStatement(sql);
 			stmt.setInt(1, activityContainerId);
-			
+
 			rs = stmt.executeQuery();
 			while(rs.next()){
 				Activity activity = new Activity();
@@ -198,7 +203,7 @@ public class AdminDaoImpl implements AdminDao {
 				activity.setOrderNo(rs.getInt("order_no"));
 				activities.add(activity);
 			}
-			
+
 			return activities;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -221,10 +226,10 @@ public class AdminDaoImpl implements AdminDao {
 	 * @throws AdminException
 	 */
 	public void loadActivityTemplate(Map<Integer, ActivityTemplate> activityTemplateMap) throws AdminException {
-		
+
 		LOGGER.debug("AdminDaoImpl: loadActivityTemplate: START");
 		List<ActivityTemplate> activityTemaplates = getAllActivityTemplates();
-		
+
 		for(ActivityTemplate activityTemplate : activityTemaplates){
 			activityTemplateMap.put(activityTemplate.getId(), activityTemplate);
 		}
@@ -238,7 +243,7 @@ public class AdminDaoImpl implements AdminDao {
 	public void loadActivityType(Map<Integer, ActivityType> activityTypeMap) throws AdminException {
 
 		LOGGER.debug("AdminDaoImpl: loadActivityType: START");
-		
+
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		try {
@@ -253,7 +258,7 @@ public class AdminDaoImpl implements AdminDao {
 				activityType.setName(rs.getString("activity_type_desc"));
 				activityTypeMap.put(activityTypeId, activityType);
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new AdminException(e);
@@ -271,10 +276,10 @@ public class AdminDaoImpl implements AdminDao {
 	}
 
 	public List<ActivityTemplate> getAllActivityTemplates() throws AdminException {
-		
+
 		LOGGER.debug("AdminDaoImpl: getAllActivityTemplates: START");
 		List<ActivityTemplate> activityTemplates = new ArrayList<ActivityTemplate>();
-		
+
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		try {
@@ -289,7 +294,7 @@ public class AdminDaoImpl implements AdminDao {
 				activityTemplate.setTemplateName(rs.getString("activity_template_desc"));
 				activityTemplates.add(activityTemplate);
 			}
-			
+
 			return activityTemplates;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -306,23 +311,23 @@ public class AdminDaoImpl implements AdminDao {
 			}
 		}
 	}
-	
+
 
 	public int renameTopic(String topicName, int topicId) throws AdminException {
 		LOGGER.debug("AdminDaoImpl: renameTopic: START");
-		
+
 		PreparedStatement stmt = null;
 		try {
 			connection = dataSource.getConnection();
-//			update topic set topic_name = ? where topic_id = ?
+			//			update topic set topic_name = ? where topic_id = ?
 			String sql = "update topic set topic_name = ? where topic_id = ?";
 			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			
+
 			stmt.setString(1, topicName);
 			stmt.setInt(2, topicId);
-			
+
 			int records = stmt.executeUpdate();
-			
+
 			System.out.println("No. of records updated: "+records);
 
 			return records;
@@ -340,12 +345,12 @@ public class AdminDaoImpl implements AdminDao {
 			}
 		}
 	}
-	
+
 	public AdminActivityAnswer getAdminActivityAnswerByActivityId(int activityId) throws AdminException {
-		
+
 		LOGGER.debug("AdminDaoImpl: getAdminActivityAnswerByActivityId: START");
 		AdminActivityAnswer adminActivityAnswer = new AdminActivityAnswer();
-		
+
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		try {
@@ -365,7 +370,7 @@ public class AdminDaoImpl implements AdminDao {
 			adminActivityAnswer.setAnswers(answers);
 
 			return adminActivityAnswer;
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new AdminException(e);
@@ -384,7 +389,7 @@ public class AdminDaoImpl implements AdminDao {
 
 	public User authenticateAdminByUsernamePassword(UserAuthentication userAuthentication) throws AdminException {
 		LOGGER.debug("AdminDaoImpl: authenticateAdminByUsernamePassword: START");
-		
+
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		PreparedStatement stmt_get_admin = null;
@@ -401,7 +406,7 @@ public class AdminDaoImpl implements AdminDao {
 			{
 				admin.setId(rs.getInt("user_id"));
 			}
-			
+
 			if (admin.getId()!=0)
 			{
 				String sql_get_admin = "select * from user where user_id = ?";
@@ -433,23 +438,23 @@ public class AdminDaoImpl implements AdminDao {
 	}
 
 	public int addTopic(String topicName) throws AdminException {
-		
+
 		LOGGER.debug("AdminDaoImpl: addTopic: START");
-		
+
 		PreparedStatement stmt = null;
 		try {
 			connection = dataSource.getConnection();
-			
+
 			int nextTopicId = getNextTopicId(connection);
 			
 			String sql = "insert into topic values(?, ?)";
 			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			
+
 			stmt.setInt(1, nextTopicId);
 			stmt.setString(2, topicName);
-			
+
 			int records = stmt.executeUpdate();
-			
+
 			System.out.println("New topic inserted, no. of records inserted: "+records);
 
 			return nextTopicId;
@@ -467,25 +472,25 @@ public class AdminDaoImpl implements AdminDao {
 			}
 		}
 	}
-	
+
 	private int getNextTopicId(Connection connection) throws AdminException{
 		LOGGER.debug("AdminDaoImpl: getNextTopicId: START");
-		
+
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		try {
-			
+
 			String sql = "select MAX(topic_id) as topic_id from topic";
 
 			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			
+
 			rs = stmt.executeQuery();
-			
+
 			if (rs.next()) {
 
 				return rs.getInt(1) + 1;
 			}
-			
+
 			throw new Exception();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -503,13 +508,13 @@ public class AdminDaoImpl implements AdminDao {
 	}
 
 	public int deleteTopic(int deletableId) throws AdminException {
-		
+
 		LOGGER.debug("AdminDaoImpl: deleteTopic: START");
-		
+
 		PreparedStatement stmt = null;
 		try {
 			connection = dataSource.getConnection();
-			
+
 			String sql = "delete version_topic, user_topic_container_activity_answer, user_topic_status "
 					+ "from topic "
 					+ "left join user_topic_container_activity_answer "
@@ -520,18 +525,18 @@ public class AdminDaoImpl implements AdminDao {
 					+ "on topic.topic_id = version_topic.topic_id "
 					+ "where topic.topic_id = ?";
 			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			
+
 			stmt.setInt(1, deletableId);
-			
+
 			int records = stmt.executeUpdate();
-			
+
 			sql = "delete from topic where topic_id=?";
 			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			
+
 			stmt.setInt(1, deletableId);
-			
+
 			records = stmt.executeUpdate();
-			
+
 			System.out.println("Topic with topic id:"+deletableId+", deleted. No. of records deleted: "+records);
 
 			LOGGER.debug("AdminDaoImpl: deleteTopic: END");
@@ -550,44 +555,44 @@ public class AdminDaoImpl implements AdminDao {
 			}
 		}
 	}
-	
+
 	public int deleteActivityContainer(int deletableId) throws AdminException {
-		
+
 		LOGGER.debug("AdminDaoImpl: deleteActivityContainer: START");
-		
+
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		
-	
+
+
 		try {
 			connection = dataSource.getConnection();
-			
+
 			String sql = "select order_no, topic_id from activity_container where activity_container_id=?";
-			
+
 			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			stmt.setInt(1, deletableId);
-			
+
 			rs = stmt.executeQuery();
-			
+
 			int orderNo = 0, topicId = 0;
-			
+
 			while(rs.next())
 			{
 				orderNo = rs.getInt("order_no");
 				topicId = rs.getInt("topic_id");
 			}
-			
+
 			reorderActivityContainers(connection, orderNo, topicId);
-			
+
 			connection = dataSource.getConnection();
 
 			sql = "delete from activity_container where activity_container_id=?";
 			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			
+
 			stmt.setInt(1, deletableId);
-			
+
 			int records = stmt.executeUpdate();
-			
+
 			System.out.println("Activity container with activity container id:"+deletableId+", deleted. No. of records deleted: "+records);
 
 			return records;
@@ -608,19 +613,19 @@ public class AdminDaoImpl implements AdminDao {
 	}
 
 	private void reorderActivityContainers(Connection connection, int orderNo, int topicId) throws AdminException{
-		
+
 		LOGGER.debug("AdminDaoImpl: reorderActivityContainers: START");
-		
+
 		PreparedStatement stmt = null;
 		try {
-			
+
 			List<ActivityContainer> activityContainers = loadActivityContainersByTopicId(topicId);
 			connection = dataSource.getConnection();
-			
+
 			for(ActivityContainer activityContainer : activityContainers){
 				if(activityContainer.getOrderNo() > orderNo){
 					String sql = "update activity_container set order_no=? where activity_container_id=?";
-					
+
 					stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 					stmt.setInt(1, orderNo);
 					stmt.setInt(2, activityContainer.getActivityContainerId());
@@ -642,36 +647,36 @@ public class AdminDaoImpl implements AdminDao {
 				throw new AdminException(e);
 			}
 		}
-		
+
 	}
 
 	public ActivityContainer addNewActivityContainer(String containerName, int topicId) throws AdminException {
 		LOGGER.debug("AdminDaoImpl: addNewActivityContainer: START");
-		
+
 		PreparedStatement stmt = null;
 		try {
 			connection = dataSource.getConnection();
-			
+
 			int nextContainerId = getNextContainerId(connection);
-			
+
 			int orderNo = getNextContainerOrderNo(connection, topicId);
-			
+
 			String sql = "insert into activity_container values (?, ?, ?, ?)";
 			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			
+
 			stmt.setInt(1, nextContainerId);
 			stmt.setString(2, containerName);
 			stmt.setInt(3, orderNo);
 			stmt.setInt(4, topicId);
-			
+
 			int records = stmt.executeUpdate();
-			
+
 			ActivityContainer  activityContainer = new ActivityContainer();
-			
+
 			activityContainer.setActivityContainerId(nextContainerId);
 			activityContainer.setContainerName(containerName);
 			activityContainer.setOrderNo(orderNo);
-			
+
 			System.out.println("Added a new Activity container under the topicId: "+topicId+", no. of rows inserted: "+records);
 
 			return activityContainer;
@@ -691,21 +696,21 @@ public class AdminDaoImpl implements AdminDao {
 
 	private int getNextContainerId(Connection connection) throws AdminException{
 		LOGGER.debug("AdminDaoImpl: getNextContainerId: START");
-		
+
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		try {
-			
+
 			String sql = "select MAX(activity_container_id) as activity_container_id from activity_container";
 
 			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			
+
 			rs = stmt.executeQuery();
-			
+
 			if (rs.next()) {
 				return rs.getInt(1) + 1;
 			}
-			
+
 			throw new Exception();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -721,26 +726,26 @@ public class AdminDaoImpl implements AdminDao {
 			}
 		}
 	}
-	
+
 	private int getNextContainerOrderNo(Connection connection, int topicId) throws AdminException{
 		LOGGER.debug("AdminDaoImpl: getNextContainerOrderNo: START");
-		
+
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		try {
-			
+
 			String sql = "select MAX(order_no) as order_no from activity_container where topic_id=?";
-			
+
 			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			
+
 			stmt.setInt(1, topicId);
-			
+
 			rs = stmt.executeQuery();
-			
+
 			if (rs.next()) {
 				return rs.getInt(1) + 1;
 			}
-			
+
 			throw new Exception();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -760,39 +765,39 @@ public class AdminDaoImpl implements AdminDao {
 	@Override
 	public int deleteActivity(Integer deletableId) throws AdminException {
 		LOGGER.debug("AdminDaoImpl: deleteActivity: START");
-		
+
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		try {
 			connection = dataSource.getConnection();
-			
+
 			String sql = "select order_no, activity_container_id from activity where activity_id=?";
-			
+
 			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			stmt.setInt(1, deletableId);
-			
+
 			rs = stmt.executeQuery();
-			
+
 			int orderNo = 0, containerId = 0;
-			
+
 			while(rs.next())
 			{
 				orderNo = rs.getInt("order_no");
 				containerId = rs.getInt("activity_container_id");
 			}
-			
+
 			reorderActivites(connection, orderNo, containerId);
-			
+
 			connection = dataSource.getConnection();
-			
+
 			sql = "delete from activity where activity_id=?";
 			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			stmt.setInt(1, deletableId);
-			
+
 			int records = stmt.executeUpdate();
-			
+
 			return records;
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new AdminException(e);
@@ -810,20 +815,20 @@ public class AdminDaoImpl implements AdminDao {
 	}
 
 	private void reorderActivites(Connection connection, int orderNo, int containerId) throws AdminException {
-		
+
 		LOGGER.debug("AdminDaoImpl: reorderActivites: START");
-		
+
 		PreparedStatement stmt = null;
 		try {
-			
+
 			List<Activity> activities = loadActivitiesByActivityContainerId(containerId);
-			
+
 			connection = dataSource.getConnection();
-			
+
 			for(Activity activity : activities){
 				if(activity.getOrderNo() > orderNo){
 					String sql = "update activity set order_no=? where activity_id=?";
-					
+
 					stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 					stmt.setInt(1, orderNo);
 					stmt.setInt(2, activity.getId());
@@ -833,7 +838,7 @@ public class AdminDaoImpl implements AdminDao {
 					orderNo++;
 				}
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new AdminException(e);
@@ -847,21 +852,21 @@ public class AdminDaoImpl implements AdminDao {
 			}
 		}
 	}
-	
+
 	public int renameActivityContainer(String containerName, int containerId) throws AdminException {
 		LOGGER.debug("AdminDaoImpl: renameActivityContainer: START");
-		
+
 		PreparedStatement stmt = null;
 		try {
 			connection = dataSource.getConnection();
 			String sql = "update activity_container set activity_container_name = ? where activity_container_id = ?";
 			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			
+
 			stmt.setString(1, containerName);
 			stmt.setInt(2, containerId);
-			
+
 			int records = stmt.executeUpdate();
-			
+
 			System.out.println("No. of records updated: "+records);
 
 			return records;
@@ -882,59 +887,59 @@ public class AdminDaoImpl implements AdminDao {
 
 	public List<Version> loadAllVersion() throws AdminException {
 		LOGGER.debug("AdminDaoImpl: loadAllVersion: START");
-		
+
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		try {
 			connection = dataSource.getConnection();
 			String sql = "select * from version";
 			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			
+
 			rs = stmt.executeQuery();
-			
+
 			List<Version> versions = new ArrayList<Version>();
-			
+
 			while(rs.next()){
 				Version version = new Version();
 				version.setId(rs.getInt("version_id"));
 				version.setVersionName(rs.getString("version_name"));
 				versions.add(version);
 			}
-			
+
 			return versions;
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new AdminException(e);
 		}finally{
-				try {
-					if(null != rs) rs.close();
-					if(null != stmt) stmt.close();
-					if(null != connection) connection.close();
-					LOGGER.debug("AdminDaoImpl: loadAllVersion: END");
-				} catch (SQLException e) {
-					e.printStackTrace();
-					throw new AdminException(e);
-				}
+			try {
+				if(null != rs) rs.close();
+				if(null != stmt) stmt.close();
+				if(null != connection) connection.close();
+				LOGGER.debug("AdminDaoImpl: loadAllVersion: END");
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new AdminException(e);
+			}
 		}
 	}
 
 	public int assignTopicToVersion(int topicId, int versionId) throws AdminException {
 		LOGGER.debug("AdminDaoImpl: assignTopicToVersion: START");
-		
+
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		try {
 			connection = dataSource.getConnection();
 			String sql = "insert into version_topic values (?, ?)";
 			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			
+
 			stmt.setInt(1, versionId);
 			stmt.setInt(2, topicId);
-			
+
 			int records = stmt.executeUpdate();
-			
-//			linking the new topic with the users associated to this topic's vesion
-			
+
+			//			linking the new topic with the users associated to this topic's vesion
+
 			sql = "select user_id from user where version_id = ?";
 			stmt = connection.prepareStatement(sql);
 			stmt.setInt(1, versionId);
@@ -957,7 +962,7 @@ public class AdminDaoImpl implements AdminDao {
 
 				System.out.println("No. of records inserted: " + records);
 			}
-			
+
 			return records;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -976,27 +981,27 @@ public class AdminDaoImpl implements AdminDao {
 
 	public Activity saveActivity(Activity activity) throws AdminException {
 		LOGGER.debug("AdminDaoImpl: saveActivity: START");
-		
+
 		PreparedStatement stmt = null;
 		try {
 			connection = dataSource.getConnection();
-			
+
 			int nextActivityId = getNextActivityId(connection);
 			int nextOrderNo = getNextActivityOrderNo(connection, activity.getActivityContainer().getActivityContainerId());
-			
-			
+
+
 			String sql = "insert into activity values (?, ?, ?, ?, ?, ?)";
 			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			
+
 			stmt.setInt(1, nextActivityId);
 			stmt.setInt(2, activity.getActivityType().getId());
 			stmt.setInt(3, activity.getActivityTemplate().getId());
 			stmt.setString(4, activity.getActivityText());
 			stmt.setInt(5, nextOrderNo);
 			stmt.setInt(6, activity.getActivityContainer().getActivityContainerId());
-			
+
 			int records = stmt.executeUpdate();
-			
+
 			activity.setId(nextActivityId);
 			activity.setOrderNo(nextOrderNo);
 
@@ -1015,25 +1020,25 @@ public class AdminDaoImpl implements AdminDao {
 			}
 		}
 	}
-	
+
 	private int getNextActivityId(Connection connection) throws AdminException{
 		LOGGER.debug("AdminDaoImpl: getNextActivityId: START");
-		
+
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		try {
-			
+
 			String sql = "select MAX(activity_id) as activity_id from activity";
 
 			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			
+
 			rs = stmt.executeQuery();
-			
+
 			if (rs.next()) {
 
 				return rs.getInt(1) + 1;
 			}
-			
+
 			throw new Exception();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1049,26 +1054,26 @@ public class AdminDaoImpl implements AdminDao {
 			}
 		}
 	}
-	
+
 	private int getNextActivityOrderNo(Connection connection, int containerId) throws AdminException{
 		LOGGER.debug("AdminDaoImpl: getNextActivityOrderNo: START");
-		
+
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		try {
-			
+
 			String sql = "select MAX(order_no) as order_no from activity where activity_container_id=?";
-			
+
 			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			
+
 			stmt.setInt(1, containerId);
-			
+
 			rs = stmt.executeQuery();
-			
+
 			if (rs.next()) {
 				return rs.getInt(1) + 1;
 			}
-			
+
 			throw new Exception();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1088,22 +1093,22 @@ public class AdminDaoImpl implements AdminDao {
 	@Override
 	public Answer saveAnswer(Answer answer) throws AdminException {
 		LOGGER.debug("AdminDaoImpl: saveAnswer: START");
-		
+
 		PreparedStatement stmt = null;
 		try {
 			connection = dataSource.getConnection();
-			
+
 			int nextAnswerId = getNextAnswerId(connection);
-			
+
 			String sql = "insert into answer values (?, ?, ?)";
 			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			
+
 			stmt.setInt(1, nextAnswerId);
 			stmt.setString(2, answer.getAnswerText());
 			stmt.setInt(3, answer.getOrderNo());
-			
+
 			int records = stmt.executeUpdate();
-			
+
 			answer.setId(nextAnswerId);
 
 			return answer;
@@ -1121,25 +1126,25 @@ public class AdminDaoImpl implements AdminDao {
 			}
 		}
 	}
-	
+
 	private int getNextAnswerId(Connection connection) throws AdminException{
 		LOGGER.debug("AdminDaoImpl: getNextAnswerId: START");
-		
+
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		try {
-			
+
 			String sql = "select MAX(answer_id) as answer from answer";
 
 			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			
+
 			rs = stmt.executeQuery();
-			
+
 			if (rs.next()) {
 
 				return rs.getInt(1) + 1;
 			}
-			
+
 			throw new Exception();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1158,18 +1163,18 @@ public class AdminDaoImpl implements AdminDao {
 
 	public void saveAdminActivityAnswer(int activityId, int answerId, boolean isCorrect) throws AdminException {
 		LOGGER.debug("AdminDaoImpl: saveAdminActivityAnswer: START");
-		
+
 		PreparedStatement stmt = null;
 		try {
 			connection = dataSource.getConnection();
-			
+
 			String sql = "insert into admin_activity_answer values (?, ?, ?)";
 			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			
+
 			stmt.setInt(1, activityId);
 			stmt.setInt(2, answerId);
 			stmt.setBoolean(3, isCorrect);
-			
+
 			int records = stmt.executeUpdate();
 
 		} catch (Exception e) {
@@ -1189,25 +1194,25 @@ public class AdminDaoImpl implements AdminDao {
 
 	public int deleteFromAdminActivityAnswer(Integer activityId) throws AdminException {
 		LOGGER.debug("AdminDaoImpl: deleteFromAdminActivityAnswer: START");
-		
+
 		PreparedStatement stmt = null;
 		try {
 			connection = dataSource.getConnection();
-			
+
 			String sql = "delete answer, admin_activity_answer from answer join admin_activity_answer on answer.answer_id = admin_activity_answer.answer_id where  activity_id=?";
 			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			stmt.setInt(1, activityId);
-			
+
 			int records = stmt.executeUpdate();
 
-//			sql = "delete from admin_activity_answer where activity_id=?";
-//			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-//			stmt.setInt(1, activityId);
-//			
-//			records = stmt.executeUpdate();
-			
+			//			sql = "delete from admin_activity_answer where activity_id=?";
+			//			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			//			stmt.setInt(1, activityId);
+			//			
+			//			records = stmt.executeUpdate();
+
 			return records;
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new AdminException(e);
@@ -1225,7 +1230,7 @@ public class AdminDaoImpl implements AdminDao {
 
 	public int deleteFromUserTopicContainerActivity(Integer activityId) throws AdminException {
 		LOGGER.debug("AdminDaoImpl: deleteFromUserTopicContainerActivity: START");
-		
+
 		PreparedStatement stmt = null;
 		try {
 			connection = dataSource.getConnection();
@@ -1233,11 +1238,11 @@ public class AdminDaoImpl implements AdminDao {
 			String sql = "delete from user_topic_container_activity_answer where activity_id=?";
 			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			stmt.setInt(1, activityId);
-			
+
 			int records = stmt.executeUpdate();
-			
+
 			return records;
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new AdminException(e);
@@ -1258,10 +1263,10 @@ public class AdminDaoImpl implements AdminDao {
 
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		
+
 		Map<Integer, ActivityType> activityTypeMap = new HashMap<Integer, ActivityType>();
 		Map<Integer, ActivityTemplate> activityTemplateMap = new HashMap<Integer, ActivityTemplate>();
-		
+
 		loadActivityType(activityTypeMap);
 		loadActivityTemplate(activityTemplateMap);
 		try {
@@ -1269,7 +1274,7 @@ public class AdminDaoImpl implements AdminDao {
 			String sql = "select * from activity where activity_id=?";
 			stmt = connection.prepareStatement(sql);
 			stmt.setInt(1, activityId);
-			
+
 			rs = stmt.executeQuery();
 			Activity activity = new Activity();
 			if (rs.next()) {
@@ -1280,7 +1285,7 @@ public class AdminDaoImpl implements AdminDao {
 				activity.setOrderNo(rs.getInt("order_no"));
 				activity.getActivityContainer().setActivityContainerId(rs.getInt("activity_container_id"));
 			}
-			
+
 			return activity;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1305,11 +1310,11 @@ public class AdminDaoImpl implements AdminDao {
 		ResultSet rs = null;
 		try {
 			connection = dataSource.getConnection();
-			
+
 			String sql = "select answer.answer_id answer_id, answer_desc, order_no, is_correct from answer join admin_activity_answer on admin_activity_answer.answer_id = answer.answer_id where admin_activity_answer.activity_id = ? order by order_no";
 			stmt = connection.prepareStatement(sql);
 			stmt.setInt(1, activityId);
-			
+
 			rs = stmt.executeQuery();
 			List<Answer> answers = new ArrayList<Answer>();
 			while (rs.next()) {
@@ -1320,7 +1325,7 @@ public class AdminDaoImpl implements AdminDao {
 				answer.setIsCorrect(rs.getBoolean("is_correct"));
 				answers.add(answer);
 			}
-			
+
 			return answers;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1345,14 +1350,14 @@ public class AdminDaoImpl implements AdminDao {
 		PreparedStatement stmt = null;
 		try {
 			connection = dataSource.getConnection();
-			
+
 			String sql = "update activity set activity_text = ? where activity_id =?";
 			stmt = connection.prepareStatement(sql);
 			stmt.setString(1, activity.getActivityText());
 			stmt.setInt(2, activity.getId());
-			
+
 			int records = stmt.executeUpdate();
-			
+
 			return activity;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1368,35 +1373,35 @@ public class AdminDaoImpl implements AdminDao {
 			}
 		}
 	}
-	
+
 	@Override
 	public int registerAdmin(User user) throws AdminException {
 		PreparedStatement stmt = null;
 		ResultSet keys = null;
-			
+
 		try {
-			
+
 			int nextUserId = getNextUserId();
 			connection = dataSource.getConnection();
-			
+
 			String sql = "insert into user (user_id, user_type_id, first_name, last_name, email_id, is_diagnostic_taken) "
 					+ " values (?, ?, ?, ?, ?, ?)";
 			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			
+
 			stmt.setInt(1, nextUserId);
 			stmt.setInt(2, 1);
 			stmt.setString(3, user.getFirstName());
 			stmt.setString(4, user.getLastName());
 			stmt.setString(5, user.getEmail());
 			stmt.setBoolean(6, false);
-			
+
 			int records = stmt.executeUpdate();
-			
+
 			System.out.println("No. of records inserted: "+records);
-			
+
 			keys = stmt.getGeneratedKeys();
-			
-			
+
+
 			return nextUserId;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1412,25 +1417,25 @@ public class AdminDaoImpl implements AdminDao {
 			}
 		}
 	}
-	
-private int getNextUserId() throws AdminException{
-		
+
+	private int getNextUserId() throws AdminException{
+
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		try {
 			connection = dataSource.getConnection();
-			
+
 			String sql = "SELECT MAX(user_id) AS user_id FROM user";
 
 			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			
+
 			rs = stmt.executeQuery();
-			
-			
+
+
 			if (rs.next()) {
 				return rs.getInt(1) + 1;
 			}
-			
+
 			if(null != stmt) stmt.close();
 			if(null != connection) connection.close();
 			throw new Exception();
@@ -1457,16 +1462,16 @@ private int getNextUserId() throws AdminException{
 			String sql = "insert into user_authentication (user_id, username, password, user_type_id) "
 					+ " values (?, ?, ?, ?)";
 			stmt = connection.prepareStatement(sql);
-			
+
 			stmt.setInt(1, userId);
 			stmt.setString(2, userAuthentication.getUsername());
 			stmt.setString(3, userAuthentication.getPassword());
 			stmt.setInt(4, 1);
-			
+
 			int records = stmt.executeUpdate();
-			
+
 			System.out.println("No. of records inserted: "+records);
-			
+
 			return records;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1480,6 +1485,359 @@ private int getNextUserId() throws AdminException{
 				throw new AdminException(e);
 			}
 		}
-	}
-}
+	}		
 
+	public List<Activity> getActivitiesByType(ActivityType activityType, ActivityTemplate activityTemplate) throws AdminException{
+		ResultSet rs = null;
+		PreparedStatement stmt = null;
+
+		List<Activity> activities = new ArrayList<Activity>();
+		try {
+			connection = dataSource.getConnection();
+
+			String sql = "select * from activity where activity_type_id = ?";
+			stmt = connection.prepareStatement(sql);
+			stmt.setInt(1, activityType.getId());
+
+			rs = stmt.executeQuery();
+			while (rs.next()) {
+				Activity activity = new Activity();
+				activity.setId(rs.getInt("activity_id"));
+				activity.setActivityType(activityType);
+				activity.setActivityTemplate(activityTemplate);
+				activity.setActivityText(rs.getString("activity_text"));
+				activity.setOrderNo(rs.getInt("order_no"));
+				activities.add(activity);
+			}
+			return activities;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new AdminException();
+		} finally {
+			try {
+				if (null != rs)
+					rs.close();
+				if (null != stmt)
+					stmt.close();
+				if (null != connection)
+					connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new AdminException();
+			}
+		}
+	}
+
+	public ActivityType getDiagnosticActivityId() throws AdminException {
+		LOGGER.debug("AdminDaoImpl: getDiagnoticActivityId: START");
+
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+		try {
+			connection = dataSource.getConnection();
+			String sql = "select activity_type_id from activity_type where activity_type_desc = 'Diagnostic'";
+
+			pst = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			rs = pst.executeQuery();
+			if(rs.next()){
+				ActivityType temp = new ActivityType();
+				temp.setId(rs.getInt("activity_type_id"));
+				temp.setName("Diagnostic");
+				return temp;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		try {
+			throw new Exception();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new AdminException();
+		}finally {
+			try {
+				if(rs != null)
+					rs.close();
+
+				if(pst != null)
+					pst.close();
+
+				if(connection != null)
+					connection.close();
+
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				throw new AdminException();
+			}
+
+		}
+	}
+
+	public ActivityTemplate getDiagnosticTemplateId() throws AdminException{
+		LOGGER.debug("AdminDaoImpl: getDiagnoticTemplateId: START");
+
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+		try {
+			connection = dataSource.getConnection();
+			String sql = "select activity_template_id from activity_template where activity_template_desc = 'MCQ'";
+
+			pst = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			rs = pst.executeQuery();
+			if(rs.next()){
+				ActivityTemplate temp = new ActivityTemplate();
+				temp.setId(rs.getInt("activity_template_id"));
+				temp.setTemplateName("MCQ");
+				return temp;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		try {
+			throw new Exception();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new AdminException();
+		}finally {
+			try {
+				if(rs != null)
+					rs.close();
+
+				if(pst != null)
+					pst.close();
+
+				if(connection != null)
+					connection.close();
+
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				throw new AdminException();
+			}
+
+		}
+
+	}
+
+
+	public AdminActivityAnswer getAdminActivityAnswerForDiagnostic(int activityId) throws AdminException{
+
+		LOGGER.debug("AdminDaoImpl: getAdminActivityAnswerByActivityId: START");
+
+		AdminActivityAnswer adminActivityAnswer = new AdminActivityAnswer();
+
+
+
+		PreparedStatement stmt = null;
+
+		ResultSet rs = null;
+
+		try {
+
+			connection = dataSource.getConnection();
+
+			String sql = "select * from admin_activity_answer where activity_id=?";
+
+			stmt = connection.prepareStatement(sql);
+
+			stmt.setInt(1, activityId);
+
+
+
+			rs = stmt.executeQuery();
+
+
+
+			List<Answer> answers = new ArrayList<Answer>();
+
+			while(rs.next()){
+
+				Answer answer = new Answer();
+
+				answer.setId(rs.getInt("answer_id"));
+
+				answer.setIsRightanswer(rs.getInt("is_correct")==1);
+
+				Answer temp = userDao.getAnswerById(answer.getId());
+
+				answer.setAnswerText(temp.getAnswerText());
+
+				answer.setOrderNo(temp.getOrderNo());
+
+				answer.setIsCorrect(temp.getIsCorrect());
+
+				answers.add(answer);
+
+			}
+
+			adminActivityAnswer.setAnswers(answers);
+
+
+
+			return adminActivityAnswer;
+
+
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+			throw new AdminException(e);
+
+		}finally{
+
+			try {
+
+				if(null != rs) rs.close();
+
+				if(null != stmt) stmt.close();
+
+				if(null != connection) connection.close();
+
+				LOGGER.debug("AdminDaoImpl: getAdminActivityAnswerByActivityId: END");
+
+			} catch (SQLException e) {
+
+				e.printStackTrace();
+
+				throw new AdminException(e);
+
+			}
+
+		}
+
+	}
+
+	//getMaxOrderNumberForDiagnosticQuestion : int -> int
+	//Input : Function takes in the activityTypeId for Diagnostic quiz as an integer
+	//Output : Function returns the order number that should be assigned to the question
+	//Description : This functions makes a query to the DB and fetches the maximum order number of the questions
+	// 				present in the DB. It adds one to maximum order_no and returns. This is the order_no of the new
+	//				question
+	public int getMaxOrderNumberForDiagnosticQuestion(int activityTypeId) throws AdminException
+	{
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+
+		try{
+			connection = dataSource.getConnection();
+			String sql = "SELECT MAX(order_no) AS order_no FROM activity WHERE activity_type_id=?";
+			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			stmt.setInt(1, activityTypeId);
+			rs = stmt.executeQuery();
+
+			if(rs.next())
+			{
+				return rs.getInt(1) + 1;
+			}
+			if(null != stmt) stmt.close();
+			//if(null != connection) connection.close();
+			throw new Exception();				
+		}catch (Exception e) {
+			e.printStackTrace();
+			throw new AdminException(e);
+		}finally{
+			try {
+				if(null != rs) rs.close();
+				if(null != stmt) stmt.close();
+				//if(null != connection) connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new AdminException(e);
+			}
+		}		
+	}
+
+
+	//saveDiagnosticQuestion : Activity -> int
+	//Input : Function takes in the Activity object
+	//Output : Function returns the id of the activity added to the activity table
+	//Description : This functions takes in an activity object and saves the newly created diagnostic question
+	//				to the database by inserting appropriate values to the activity table, answer table and the 
+	//				admin_activity_answer table.
+	public int saveDiagnosticQuestion(Activity activity) throws AdminException
+	{
+		LOGGER.debug("AdminDaoImpl: saveDiagnostic: START");
+
+		PreparedStatement stmt = null;
+
+		try {
+			connection = dataSource.getConnection();
+
+			int nextActivityId = getNextActivityId(connection);			
+			int activityTypeId = activity.getActivityType().getId();
+			int nextOrderNo = getMaxOrderNumberForDiagnosticQuestion(activity.getActivityType().getId());
+			int activityTemplateId = activity.getActivityTemplate().getId();			
+			String questionText = activity.getActivityText();
+
+
+			String sql = "insert into activity (activity_id,activity_type_id,activity_template_id,activity_text,order_no) values (?, ?, ?, ?, ?)";
+			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+			stmt.setInt(1, nextActivityId);
+			stmt.setInt(2, activityTypeId);
+			stmt.setInt(3, activityTemplateId);
+			stmt.setString(4, questionText);
+			stmt.setInt(5, nextOrderNo);						
+
+
+			int records = stmt.executeUpdate();
+
+			return nextActivityId;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new AdminException(e);
+		}finally{
+			try {
+				if(null != stmt) stmt.close();
+				if(null != connection) connection.close();
+				LOGGER.debug("AdminDaoImpl: saveDiagnostic: END");
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new AdminException(e);
+			}
+		}
+
+	}
+	
+	
+	public int deleteDiagnosticQuestionById(int activityId) throws AdminException{
+		LOGGER.debug("AdminDaoImpl: deleteDiagnosticQuestionById: START");
+
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try {
+			
+			connection = dataSource.getConnection();
+
+			String sql = "delete from activity where activity_id=?";
+			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			stmt.setInt(1, activityId);
+
+			int records = stmt.executeUpdate();
+			
+			return records;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new AdminException(e);
+		}finally{
+			try {
+				if(null != rs) rs.close();
+				if(null != stmt) stmt.close();
+				if(null != connection) connection.close();
+				LOGGER.debug("AdminDaoImpl: deleteDiagnosticQuestionById: END");
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new AdminException(e);
+			}
+		}
+	}
+	
+}

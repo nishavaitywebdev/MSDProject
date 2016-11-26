@@ -24,7 +24,11 @@
 		<property name="url" value="jdbc:mysql://localhost:3306/hbu" />
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="username" value="root" />
+
 		<property name="password" value="root" />
+
+		<property name="password" value="root" /><!--Change this later before final push  -->
+
 	</bean>
 	
 	<bean id="viewResolver"

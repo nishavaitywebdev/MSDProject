@@ -61,14 +61,64 @@
 		<div class="jumbotron" style="">
 			<h1>My Topics</h1>
 		</div>
+	</div>
 		<div class="container" id="mytopics">
-			<div class="container-fluid bg-3">
-				<div class="row jumbotron" id="In progress">
-					<h1 style="font-size: 300%;">To do</h1>
-					<div class="col-sm-8">
+			<!-- <div class="container-fluid bg-3"> -->
+				<!-- <div class="row jumbotron" id="In progress"> -->
+					<h2 style="font-size: 200%;margin-left: 20px;">To Do</h2>
+					<div class="col-sm-12">
+					<table class="table table-bordered table-hover">
+						<thead>
+							<tr>
+								<th>Sr No.</th>
+								<th>Topic Tile</th>
+								<th>Activities Assigned</th>
+								<th>Progress</th>
+							</tr>
+						</thead>
+						<tbody>
+						
+
 						<c:forEach items="${topics}" var="topic" varStatus="topicNo">
+							<c:set var="questionno" value="${questionno + 1}" scope="page"/>
 							<c:if test="${topic.topicStatus.id <= 2}">
-								<div class="topic_holder" style="padding: 10px">
+							<tr>
+									<td><c:out value="${questionno}." /></td>
+									<td>
+										
+											<span id="topic_name_${topic.id}">${topic.topicName}</span>
+										
+									</td>
+									<td>
+										<table style="border-spacing: 10px">
+											<tbody>
+												<tr>
+													<c:forEach items="${topic.activityContainers}"
+														var="activityContainer" varStatus="currCount">
+														<td><a
+															id="${topic.id}_${activityContainer.activityContainerId}"
+															class="btn ${currCount.index+1 <= topic.completedActContainers+1?"
+															btn-danger":"btn-danger disabled"}" role="button">
+																${activityContainer.containerName} </a></td>
+														<td style="width: 25px"></td>
+													</c:forEach>
+												</tr>
+											</tbody>
+										</table>
+									</td>					
+									
+									<td>
+										<div class="progress-bar progress-bar-success"
+											role="progressbar" style="width: ${topic.progress}%;color:black">${topic.progress}
+											% Complete</div>
+
+									</td>
+									</tr>
+									
+									
+
+<%-- 
+									<div class="topic_holder" style="padding: 10px">
 									<div class="row">
 										<div class="col-sm-4">
 											<h2 class="">
@@ -91,7 +141,7 @@
 													var="activityContainer" varStatus="currCount">
 													<td><a id="${topic.id}_${activityContainer.activityContainerId}"
 														class="btn ${currCount.index+1 <= topic.completedActContainers+1?"
-														btn-primary":"btn-primary disabled"}" role="button">
+														btn-primary":"btn-danger disabled"}" role="button">
 															${activityContainer.containerName} </a></td>
 													<td style="width: 25px"></td>
 												</c:forEach>
@@ -99,14 +149,17 @@
 										</tbody>
 									</table>
 									<br>
-								</div>
+								</div> --%>
 							</c:if>
 						</c:forEach>
+						</tbody>
+						</table>
 					</div>
-				</div>
-				<div class="row jumbotron" id="Completed">
-					<h2 style="font-size: 300%;">Completed</h2>
-					<div class="col-sm-8">
+				<!-- </div> -->
+				<!-- <div class="row jumbotron" id="Completed"> -->
+					
+					<div class="col-sm-12">
+					<h2 style="font-size: 200%;left-margin:200px;">Completed</h2> 
 
 						<c:forEach items="${topics}" var="topic" varStatus="topicNo">
 							<c:if test="${topic.topicStatus.id == 3}">
@@ -119,7 +172,7 @@
 											<tr>
 												<c:forEach items="${topic.activityContainers}"
 													var="activityContainer">
-													<td><a href="#" class="btn btn-primary" role="button">${activityContainer.containerName}</a></td>
+													<td><a href="#" class="btn btn-success" role="button">${activityContainer.containerName}</a></td>
 													<td style="width: 25px"></td>
 												</c:forEach>
 											</tr>
@@ -129,8 +182,8 @@
 							</c:if>
 						</c:forEach>
 					</div>
-				</div>
-			</div>
+			<!-- 	</div> -->
+			<!-- </div> -->
 		</div>
 	</div>
 	<form id=form method="post" action="getActivitypage.action">
@@ -149,4 +202,4 @@
 	<!-- Bootstrap Core JavaScript -->
 	<script src="js/bootstrap.min.js"></script>
 </body>
-</html>
+</html> 	

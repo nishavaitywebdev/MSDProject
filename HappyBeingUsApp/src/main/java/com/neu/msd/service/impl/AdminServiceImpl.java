@@ -20,9 +20,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.neu.msd.dao.AdminDao;
+import com.neu.msd.dao.UserDao;
 import com.neu.msd.entities.Activity;
 import com.neu.msd.entities.ActivityContainer;
 import com.neu.msd.entities.ActivityTemplate;
+import com.neu.msd.entities.ActivityType;
 import com.neu.msd.entities.AdminActivityAnswer;
 import com.neu.msd.entities.Answer;
 import com.neu.msd.entities.Topic;
@@ -43,6 +45,7 @@ public class AdminServiceImpl implements AdminService {
 
 	@Autowired
 	private AdminDao adminDao;
+	
 	
 	private final String IMAGE_ABSOLUTE_PATH ="/usr/hbu/resources/images/";
 	private final String IMAGE_RELATIVE_PATH ="resources/images/";
@@ -182,6 +185,8 @@ public class AdminServiceImpl implements AdminService {
 		
 		Activity activity = adminDao.loadActivityById(activityId);
 		
+		LOGGER.debug("=====================" + activity.getId() +" " + activity.getActivityText());
+		
 		List<Answer> answers = new ArrayList<Answer>();
 		if(activity.getActivityTemplate().getId() != INFORMATION_TEMPLATE_ID)
 			answers = adminDao.loadAnswersByActivityId(activityId);
@@ -263,4 +268,106 @@ public class AdminServiceImpl implements AdminService {
 		int userId = adminDao.registerAdmin(userAuthentication.getUser());
 		return adminDao.registerAdminAuthentication(userId, userAuthentication);
 	}
+
+	// @author Sanil And Vinay
+	@Override
+	public List<AdminActivityAnswer> getDiagnosticQuestions() {
+		// TODO Auto-generated method stub
+		
+		try {
+			
+		ActivityType diagnosticActivity = adminDao.getDiagnosticActivityId();
+		ActivityTemplate mcqTemplate = adminDao.getDiagnosticTemplateId();
+	
+		List<Activity> questionList = adminDao.getActivitiesByType(diagnosticActivity, mcqTemplate);
+		List<AdminActivityAnswer> quesAnsList = new ArrayList<AdminActivityAnswer>();
+		
+		for(Activity ac : questionList){
+			AdminActivityAnswer temp = new AdminActivityAnswer();
+			temp.setActivity(ac);	
+			AdminActivityAnswer ans = adminDao.getAdminActivityAnswerForDiagnostic(ac.getId());
+			temp.setAnswers(ans.getAnswers());	
+			quesAnsList.add(temp);
+		}
+			
+			return quesAnsList;
+		} catch (AdminException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	public int addDiagnosticQuestion(String questionText, List<Answer> options) throws AdminException
+	{
+		if(questionText == null || questionText.length() == 0 || options == null || options.isEmpty())
+			return 0;
+		
+		//Prepare Activity(Question)
+		//TODO: Retrieve activity type from DB as object. 
+		ActivityType activityType = new ActivityType();
+		activityType.setId(1);
+		activityType.setName("Diagnostic");
+		//TODO: Retrieve activity template from DB as object.
+		ActivityTemplate activityTemplate = new ActivityTemplate();
+		activityTemplate.setId(3);
+		activityTemplate.setTemplateName("MCQ");
+		int orderNo = adminDao.getMaxOrderNumberForDiagnosticQuestion(activityType.getId());
+		Activity question = new Activity();
+		question.setOrderNo(orderNo);
+		question.setActivityText(questionText);
+		question.setActivityType(activityType);
+		question.setActivityTemplate(activityTemplate);
+		
+		
+		int recentActivityId = adminDao.saveDiagnosticQuestion(question);
+		
+		for(Answer ans : options)
+		{
+			Answer temp = adminDao.saveAnswer(ans);
+			adminDao.saveAdminActivityAnswer(recentActivityId, temp.getId(), temp.getIsCorrect());
+		}
+		
+		
+		return recentActivityId;
+	}
+	
+	
+	
+	public int deleteDiagnosticQuestion(int activityId) throws AdminException{
+		
+		if(activityId < 0 )
+			return 0;
+		
+		int adminActivityRowsAffected = adminDao.deleteFromAdminActivityAnswer(activityId);
+		
+		int activityRowsAffected = adminDao.deleteDiagnosticQuestionById(activityId);
+		
+		
+		return adminActivityRowsAffected + activityRowsAffected;
+		
+	}
+	
+	public int updateDiagnosticQuestion(AdminActivityAnswer adminActivity) throws AdminException{
+		
+		if(adminActivity == null)
+			return 0;
+		
+		LOGGER.debug("========================ActivityID=================================" + adminActivity.getActivity().getId());
+		int i = deleteDiagnosticQuestion(adminActivity.getActivity().getId());
+		LOGGER.debug("========================i=================================" + i);
+		
+		if(i > 0){
+			int rows = addDiagnosticQuestion(adminActivity.getActivity().getActivityText(), adminActivity.getAnswers());
+			if (rows > 0)
+				return rows + i;
+			else
+				return 0;
+		
+		}
+		else
+			return 0;
+	}
+	
 }	
