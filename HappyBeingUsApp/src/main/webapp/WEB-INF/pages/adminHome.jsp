@@ -232,6 +232,8 @@ h6:before {
 									id="container_for-${topic.id}"> --%>
 					<div class="tab-content" class="tab-pane fade in active">
 						<c:forEach items="${topics}" var="topic" varStatus="topicNo">
+								
+								
 								<div id="${topic.topicName}" class="topiccontentcontainer" style="display:none">
 									 <table class="table table-striped table-bordered">
 									<tr>
@@ -245,6 +247,9 @@ h6:before {
 											Action	
 										</th>
 									</tr>
+									
+															
+									
 									<tbody>
 										<c:choose>
 										<c:when test="${fn:length(topic.activityContainers)>0}">
@@ -252,10 +257,7 @@ h6:before {
 												<tr>
 													<td><h6></h6></td>
 													<td>${activityContainer.containerName}</td>
-													<td><%-- <a class="btn btn-success" role="button"
-														id="${activityContainer.activityContainerId}"
-														onclick="editContainer(id)">Edit</a> --%>
-													
+													<td>												
 														<a class="btn btn-info" style="margin-left:10px" id="${activityContainer.activityContainerId}"
 														    onclick="editContainer(id)"> 
 															Edit Details</a>

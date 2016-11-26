@@ -441,6 +441,7 @@ public class AdminDaoImpl implements AdminDao {
 			connection = dataSource.getConnection();
 			
 			int nextTopicId = getNextTopicId(connection);
+			
 			String sql = "insert into topic values(?, ?)";
 			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			

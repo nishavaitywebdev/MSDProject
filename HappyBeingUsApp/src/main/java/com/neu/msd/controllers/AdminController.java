@@ -368,11 +368,14 @@ public class AdminController {
 		
 		LOGGER.debug("AdminController: addNewTopic: START");
 		try {
+			
 			int topicId = adminService.addNewTopic(topicName);
+			
 			Topic topic = new Topic(topicId, topicName);
 			
 			String[] versionIds = request.getParameterValues("versionIds");
-			adminService.assignTopicToVersion(topicId, versionIds);
+			//The below function assigns version to topic
+			//adminService.assignTopicToVersion(topicId, versionIds);
 			List<Topic> topics = (List<Topic>) session.getAttribute("topics");
 			topics.add(topic);
 			session.setAttribute("topics", topics);
