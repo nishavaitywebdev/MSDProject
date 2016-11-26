@@ -130,7 +130,7 @@ public class AdminController {
 		}
 		session.removeAttribute("activityContainer");
 		LOGGER.debug("AdminController: loadHome: END");
-		return "adminHome";
+		return "adminHome2";
 		
 	}
 

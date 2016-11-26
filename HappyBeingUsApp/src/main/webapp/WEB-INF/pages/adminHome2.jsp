@@ -178,11 +178,12 @@ h6:before {
 			</div>
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav">
-<!-- 					<li class="active"><a href="#">Topics and Blocks</a></li> -->
+
 					<li><a data-toggle="modal" id ="addAdmin" href="#addNewAdmin">Add New Admin</a></li>
+					
 				</ul>
 				<ul class="nav navbar-nav">
- 					<li><a href="adminDiagnostic.action">Diagnostic Questions</a></li>
+ 					<li><a href="adminDiagnostic.action" >Diagnostic Questions</a></li>
  				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="adminLogout.action"><span class="glyphicon glyphicon-log-out"></span> Logout </a></li>
