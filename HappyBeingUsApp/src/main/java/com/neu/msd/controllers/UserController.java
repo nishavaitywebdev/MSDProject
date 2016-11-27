@@ -83,7 +83,7 @@ public class UserController {
 			ex.printStackTrace();
 			return "errorPage";
 		}
-		return "topics";
+		return "topics2";
 	}
 
 	@RequestMapping(value = "/dg.action", method = RequestMethod.POST)
