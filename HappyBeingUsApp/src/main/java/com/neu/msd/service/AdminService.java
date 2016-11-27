@@ -49,8 +49,12 @@ public interface AdminService {
 	public int renameActivityContainer(String containerName, int containerId) throws AdminException;
 
 	public List<Version> loadAllVersion() throws AdminException;
-
-	public void assignTopicToVersion(int topicId, String[] versionIds) throws AdminException;
+	
+	// ---------- Changes to add version to Activity Container ----------
+//	public void assignTopicToVersion(int topicId, String[] versionIds) throws AdminException;
+	
+	public void assignActivityContainerToVersion(int actConId, String[] versionIds, int topicId) throws AdminException;
+	// ---------- Changes to add version to Activity Container end here----------
 
 	public AdminActivityAnswer saveAdminActivityAnswer(AdminActivityAnswer adminActivityAnswer) throws AdminException;
 

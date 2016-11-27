@@ -157,11 +157,20 @@ public class AdminServiceImpl implements AdminService {
 		return adminDao.loadAllVersion();
 	}
 
-	public void assignTopicToVersion(int topicId, String[] versionIds) throws AdminException {
+	// ---------- Changes to add version to Activity Container ----------
+//	public void assignTopicToVersion(int topicId, String[] versionIds) throws AdminException {
+//		for(int i = 0; i< versionIds.length; i++){
+//			adminDao.assignTopicToVersion(topicId, Integer.valueOf(versionIds[i]));
+//		}
+//	}
+	
+	public void assignActivityContainerToVersion(int actConId, String[] versionIds, int topicId) throws AdminException {
 		for(int i = 0; i< versionIds.length; i++){
-			adminDao.assignTopicToVersion(topicId, Integer.valueOf(versionIds[i]));
+			adminDao.assignActivityContainerToVersion(actConId, Integer.valueOf(versionIds[i]), topicId);
 		}
 	}
+	
+	// ---------- Changes to add version to Activity Container end here----------
 
 	public AdminActivityAnswer saveAdminActivityAnswer(AdminActivityAnswer adminActivityAnswer) throws AdminException {
 		

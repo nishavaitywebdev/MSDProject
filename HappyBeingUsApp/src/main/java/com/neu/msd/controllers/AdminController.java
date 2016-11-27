@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -548,8 +549,10 @@ public class AdminController {
 			int topicId = adminService.addNewTopic(topicName);
 			Topic topic = new Topic(topicId, topicName);
 			
-			String[] versionIds = request.getParameterValues("versionIds");
-			adminService.assignTopicToVersion(topicId, versionIds);
+			// Removing version assignment from module
+//			String[] versionIds = request.getParameterValues("versionIds");
+//			adminService.assignTopicToVersion(topicId, versionIds);
+			
 			List<Topic> topics = (List<Topic>) session.getAttribute("topics");
 			topics.add(topic);
 			session.setAttribute("topics", topics);
@@ -606,11 +609,17 @@ public class AdminController {
 	
 	@RequestMapping(value="/addNewActivityContainer.action", method=RequestMethod.POST)
 	public String addNewActivityContainer(@RequestParam("containerName") String containerName, @RequestParam("topicId") int topicId, 
-			HttpSession session, Model model){
+			HttpSession session, HttpServletRequest request, Model model){
 		
 		LOGGER.debug("AdminController: addNewActivityContainer: START");
 		try {
 			ActivityContainer activityContainer = adminService.addNewActivityContainer(containerName, topicId);
+			
+			// ---------- Changes to add version to Activity Container ----------
+			String[] versionIds = request.getParameterValues("versionIds");
+			adminService.assignActivityContainerToVersion(activityContainer.getActivityContainerId(), versionIds, topicId);
+			// ---------- Changes to add version to Activity Container end here ----------
+			
 			session.removeAttribute("activityContainer");
 			List<Topic> topics = (List<Topic>) session.getAttribute("topics");
 			List<Topic> newTopics = new ArrayList<Topic>();

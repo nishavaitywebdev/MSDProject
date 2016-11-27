@@ -441,11 +441,12 @@ h6:before {
 								<input type="text" class="form-control" id="topicName"
 									name="topicName" placeholder="Enter new topic name" required />
 							</div>
-							<div class="modal-body">
+							<!-- Removing versions for topics -->
+							<%-- <div class="modal-body">
 							<c:forEach items="${versions}" var="version">
 								<span><input type="checkbox" name="versionIds" value="${version.id}"/> ${version.versionName}</span> 
 							</c:forEach>
-							</div>
+							</div> --%>
 							<div class="modal-footer">
 								<input type="submit" class="btn btn-success" role="button"
 									value="Add" />
@@ -469,6 +470,15 @@ h6:before {
 									name="containerName" placeholder="Enter new Activity container name" required />
 								<input type="hidden" name="topicId" id="topicId" />
 							</div>
+							
+							<!-- Adding version to ActivityContainer:Begin -->
+							<div class="modal-body">
+							<c:forEach items="${versions}" var="version">
+								<span><input type="checkbox" name="versionIds" value="${version.id}"/> ${version.versionName}</span> 
+							</c:forEach>
+							</div>
+							<!-- Adding version to ActivityContainer:End -->
+							
 							<div class="modal-footer">
 								<input type="submit" class="btn btn-success" role="button" value="Add" />
 							</div>
