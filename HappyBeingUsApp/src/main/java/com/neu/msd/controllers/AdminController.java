@@ -633,7 +633,7 @@ public class AdminController {
 
 			// ---------- Changes to add version to Activity Container ----------
 			String[] versionIds = request.getParameterValues("versionIds");
-			System.out.println("Inside AdminController addNewActivity: version is: "+versionIds[0]);
+			//System.out.println("Inside AdminController addNewActivity: version is: "+versionIds[0]);
 			adminService.assignActivityContainerToVersion(activityContainer.getActivityContainerId(), versionIds, topicId);
 			// ---------- Changes to add version to Activity Container end here ----------
 

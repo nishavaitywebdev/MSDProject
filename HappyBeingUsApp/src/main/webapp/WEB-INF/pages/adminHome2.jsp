@@ -473,7 +473,13 @@ h6:before {
 									name="containerName" placeholder="Enter new Activity container name" required />
 								<input type="hidden" name="topicId" id="topicId" />
 							</div>
-							<div class="modal-footer">
+								<div class="modal-body">
+									<c:forEach items="${versions}" var="version">
+										<span><input type="checkbox" name="versionIds"
+											value="${version.id}" /> ${version.versionName}</span>
+									</c:forEach>
+								</div>
+								<div class="modal-footer">
 								<input type="submit" class="btn btn-success" role="button" value="Add" />
 							</div>
 						</form>
