@@ -128,6 +128,12 @@ public class AdminController {
 			session.setAttribute("containerMap", containerMap);
 			session.setAttribute("versions", versions);
 		}
+		//Inside loadHome
+		System.out.println("Inside Load Home ");
+		for(Topic t:topics){
+			System.out.println(t);
+		}
+		System.out.println("End inside load home");
 		session.removeAttribute("activityContainer");
 		LOGGER.debug("AdminController: loadHome: END");
 		return "adminHome2";
@@ -564,6 +570,7 @@ public class AdminController {
 			for(Topic t:topics){
 				System.out.println(t);
 			}
+			System.out.println("End of addNewTopic");
 			session.setAttribute("topics", topics);
 
 			 LOGGER.debug("AdminController: addNewTopic: END");

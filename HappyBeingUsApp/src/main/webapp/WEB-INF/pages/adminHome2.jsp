@@ -237,9 +237,9 @@ h6:before {
 									id="container_for-${topic.id}"> --%>
 					<div class="tab-content" class="tab-pane fade in active">
 						<c:forEach items="${topics}" var="topic" varStatus="topicNo">
-								
+							
 								<div id="${topic.topicName}" class="topiccontentcontainer" style="display:none">
-								
+									<%-- <p>${topic}</p> --%>
 									 <table class="table table-striped table-bordered">
 									<tr>
 										<th>
@@ -472,11 +472,6 @@ h6:before {
 								<input type="text" class="form-control" id="containerName"
 									name="containerName" placeholder="Enter new Activity container name" required />
 								<input type="hidden" name="topicId" id="topicId" />
-							</div>
-							<div class="modal-body">
-							<c:forEach items="${versions}" var="version">
-								<span><input type="checkbox" name="versionIds" value="${version.id}"/> ${version.versionName}</span> 
-							</c:forEach>
 							</div>
 							<div class="modal-footer">
 								<input type="submit" class="btn btn-success" role="button" value="Add" />
