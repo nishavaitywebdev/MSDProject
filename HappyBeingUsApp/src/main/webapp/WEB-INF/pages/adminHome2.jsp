@@ -23,11 +23,12 @@
 <!-- 	src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script> -->
 <style>
 body {
-    counter-reset: section;
+	counter-reset: section;
 }
+
 h6:before {
-    counter-increment: section;
-    content: counter(section);
+	counter-increment: section;
+	content: counter(section);
 }
 /* Remove the navbar's default margin-bottom and rounded borders */
 .navbar {
@@ -47,10 +48,12 @@ h6:before {
 	float: right; /* adjust as needed */
 	color: grey; /* adjust as needed */
 }
+
 .topic_holder .topic_name.collapsed:after {
 	/* symbol for "collapsed" panels */
 	content: "\e080"; /* adjust as needed, taken from bootstrap.css */
 }
+
 .topic-container {
 	position: fixed;
 	top: 50px;
@@ -69,7 +72,7 @@ h6:before {
 
 <script type="text/javascript">
 	function editContainer(id) {
-		console.log("The id fetched is: "+id);
+		console.log("The id fetched is: " + id);
 		var form = document.getElementById("editForm");
 		form.action = "editActivityContainer.action";
 		form.children.namedItem("id").value = id;
@@ -88,14 +91,14 @@ h6:before {
 		$('#topicId').val(topicId);
 	}
 
-	function deleteTopic(deletedTag){
+	function deleteTopic(deletedTag) {
 
 		var deleteId = deletedTag.id.split("_")[1];
-		var topicNotEmpty = $("#topicNotEmpty_"+deleteId).val();
+		var topicNotEmpty = $("#topicNotEmpty_" + deleteId).val();
 
-		if(topicNotEmpty=="true"){
+		if (topicNotEmpty == "true") {
 			$("#warningDialog").modal("toggle");
-		}else{
+		} else {
 			var form = document.getElementById("confirmationForm");
 			form.action = "deleteTopic.action";
 			$("#deletableId").val(deleteId);
@@ -103,17 +106,16 @@ h6:before {
 		}
 	}
 
-	function deleteActivityContainer(deletedTag){
+	function deleteActivityContainer(deletedTag) {
 
 		var deleteId = deletedTag.id.split("_")[1];
 		var form = document.getElementById("confirmationForm");
 		form.action = "deleteActivityContainer.action";
 		$("#deletableId").val(deleteId);
 	}
-	
-	
+
 	$(document).ready(function() {
-// 		Ajax for renaming the topic name
+		// 		Ajax for renaming the topic name
 		$("#changeTopicName").click(function() {
 			topicName = $('#renameTopic input[name=renameTopicName]').val();
 			topicId = $('#renameTopic input[name=renameTopicId]').val();
@@ -126,39 +128,35 @@ h6:before {
 				success : function(data) {
 					$("#loadingDiv").modal("toggle");
 					$("#topic_name_" + topicId)[0].innerHTML = topicName;
-					$('#'+topicId).attr('name', topicName);
+					$('#' + topicId).attr('name', topicName);
 				}
 			});
 		});
-		
-		
-		$('.Topics').on('click', function(e){
-			 
+
+		$('.Topics').on('click', function(e) {
+
 			$(this).parent().addClass('active');
 			var id = $(this)[0].id.split('#')[1];
-			$('.topiccontentcontainer').each(function(){ 
+			$('.topiccontentcontainer').each(function() {
 				$(this).css("display", "none");
 			});
-			$('#'+id).css("display", "block");
+			$('#' + id).css("display", "block");
 			e.preventDefault(); // cancel the link itself
 		});
-		
 
-		$(".goBack").on("click",function(e) {
+		$(".goBack").on("click", function(e) {
 			e.preventDefault(); // cancel the link itself
 			$("#editForm").attr('action', this.href);
 			$("#editForm").submit();
-		  });
+		});
 		$(".nav li").click(function() {
 			$(".nav li").removeClass('active');
 			$(this).addClass('active');
 			$('.nav-tabs a:first').tab('show')
-		 
-		}); 
-		
 
-		
-		$('.nav-tabs li:first-child a').tab('show');  
+		});
+
+		$('.nav-tabs li:first-child a').tab('show');
 
 	});
 </script>
@@ -179,14 +177,16 @@ h6:before {
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav">
 
-					<li><a data-toggle="modal" id ="addAdmin" href="#addNewAdmin">Add New Admin</a></li>
-					
+					<li><a data-toggle="modal" id="addAdmin" href="#addNewAdmin">Add
+							New Admin</a></li>
+
 				</ul>
 				<ul class="nav navbar-nav">
- 					<li><a href="adminDiagnostic.action" >Diagnostic Questions</a></li>
- 				</ul>
+					<li><a href="adminDiagnostic.action">Diagnostic Questions</a></li>
+				</ul>
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="adminLogout.action"><span class="glyphicon glyphicon-log-out"></span> Logout </a></li>
+					<li><a href="adminLogout.action"><span
+							class="glyphicon glyphicon-log-out"></span> Logout </a></li>
 				</ul>
 			</div>
 		</div>
@@ -205,96 +205,88 @@ h6:before {
 
 		<div class="row">
 			<div class="col-sm-12">
-			
-			
-			
-			<!-- Making changes here -->
-			<div class="container">
+
+
+
+				<!-- Making changes here -->
+				<div class="container">
 					<ul class="nav nav-pills nav-justified">
 						<c:choose>
 							<c:when test="${fn:length(topics)>0}">
 								<c:forEach items="${topics}" var="topic" varStatus="topicNo">
-									
-									<li role="presentation">
-										
-										<a href="#" id ="#${topic.topicName}" class="Topics" data-toggle="tab"> 
-											${topic.topicName} 
-										</a>
-									
 
-									</li>
-									
+									<li role="presentation"><a href="#"
+										id="#${topic.topicName}" class="Topics" data-toggle="tab">
+											${topic.topicName} </a></li>
+
 								</c:forEach>
 							</c:when>
-							
+
 						</c:choose>
 					</ul>
-					
-					</br>
-					</br>
+
+					</br> </br>
 
 					<%-- <div class="panel-collapse collapse ${topicNo.index+1 == 1?'in':''}"
 									id="container_for-${topic.id}"> --%>
 					<div class="tab-content" class="tab-pane fade in active">
 						<c:forEach items="${topics}" var="topic" varStatus="topicNo">
-							
-								<div id="${topic.topicName}" class="topiccontentcontainer" style="display:none">
-									<%-- <p>${topic}</p> --%>
-									 <table class="table table-striped table-bordered">
+
+							<div id="${topic.topicName}" class="topiccontentcontainer"
+								style="display: none">
+								<%-- <p>${topic}</p> --%>
+								<table class="table table-striped table-bordered">
 									<tr>
-										<th>
-											Sr. No
-										</th>
-										<th>
-											Activity Title
-										</th>
-										<th>
-											Action	
-										</th>
+										<th>Sr. No</th>
+										<th>Activity Title</th>
+										<th>Action</th>
 									</tr>
 									<tbody>
 										<c:choose>
-										<c:when test="${fn:length(topic.activityContainers)>0}">
-											<c:forEach items="${topic.activityContainers}" var="activityContainer">
-												<tr>
-													<td><h6></h6></td>
-													<td>${activityContainer.containerName}</td>
-													<td><%-- <a class="btn btn-success" role="button"
+											<c:when test="${fn:length(topic.activityContainers)>0}">
+												<c:forEach items="${topic.activityContainers}"
+													var="activityContainer">
+													<tr>
+														<td><h6></h6></td>
+														<td>${activityContainer.containerName}</td>
+														<td>
+															<%-- <a class="btn btn-success" role="button"
 														id="${activityContainer.activityContainerId}"
-														onclick="editContainer(id)">Edit</a> --%>
-													
-														<a class="btn btn-info" style="margin-left:10px" id="${activityContainer.activityContainerId}"
-														    onclick="editContainer(id)"> 
-															Edit Details</a>
-														
+														onclick="editContainer(id)">Edit</a> --%> <a
+															class="btn btn-info" style="margin-left: 10px"
+															id="${activityContainer.activityContainerId}"
+															onclick="editContainer(id)"> Edit Details</a>
+
 														</td>
-<!-- 													<td><a href="#" class="btn btn-danger" data-toggle="modal" -->
-<%-- 										 					data-target="#confirmationDialog" id="deleteId_${activityContainer.activityContainerId}"  --%>
-<!-- 										 					role="button" onclick="deleteActivityContainer(this)">Delete</a></td> -->
-														
+														<!-- 													<td><a href="#" class="btn btn-danger" data-toggle="modal" -->
+														<%-- 										 					data-target="#confirmationDialog" id="deleteId_${activityContainer.activityContainerId}"  --%>
+														<!-- 										 					role="button" onclick="deleteActivityContainer(this)">Delete</a></td> -->
+
 													</tr>
-											</c:forEach>
+												</c:forEach>
 											</c:when>
 											<c:otherwise>
 												<div class="jumbotron">
-													<h4>No activity containers available right now. You might want to add some activity container first.</h4>
+													<h4>No activity containers available right now. You
+														might want to add some activity container first.</h4>
 												</div>
 											</c:otherwise>
 										</c:choose>
-										
-											
-										</tbody>
-										
 
-									</table>
-									<a class="btn btn-warning" role="button" data-toggle="modal"
-										 	data-target="#addNewContainer" id="new_container_under-${topic.id}" onclick="addContainer(this)">
-										 	Add New Activity Container</a>
-								</div>
+
+									</tbody>
+
+
+								</table>
+								<a class="btn btn-warning" role="button" data-toggle="modal"
+									data-target="#addNewContainer"
+									id="new_container_under-${topic.id}"
+									onclick="addContainer(this)"> Add New Activity Container</a>
+							</div>
 						</c:forEach>
-									
-					</div>							
-				<%-- </div> -->
+
+					</div>
+					<%-- </div> -->
 				
 
 
@@ -361,38 +353,37 @@ h6:before {
 						</div>
 					</c:otherwise>
 				</c:choose> --%>
-			</div>
-			
-				</br>
-				</br>
-				<!-- Added this on 11/25--> 
+				</div>
+
+				</br> </br>
+				<!-- Added this on 11/25-->
 				<a class="btn btn-warning" data-toggle="modal"
 					data-target="#addNewTopic" role="button">Add New Topic</a>
 
 				<!-- 			<div class="col-sm-4"></div> -->
-			<!-- 			Renaming the topic pop up modal  START-->
-			<div class="modal fade" id="renameTopic" role="dialog">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h4 class="modal-title">Rename Topic</h4>
-						</div>
-						<div class="modal-body">
-							<input type="text" class="form-control" id="renameTopicName"
-								name="renameTopicName" placeholder="Enter new topic name" /> <input
-								type="hidden" name="renameTopicId" id="renameTopicId" />
-						</div>
-						<div class="modal-footer">
-							<input type="button" id="changeTopicName" class="btn btn-success"
-								role="button" value="Change Name" />
+				<!-- 			Renaming the topic pop up modal  START-->
+				<div class="modal fade" id="renameTopic" role="dialog">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h4 class="modal-title">Rename Topic</h4>
+							</div>
+							<div class="modal-body">
+								<input type="text" class="form-control" id="renameTopicName"
+									name="renameTopicName" placeholder="Enter new topic name" /> <input
+									type="hidden" name="renameTopicId" id="renameTopicId" />
+							</div>
+							<div class="modal-footer">
+								<input type="button" id="changeTopicName"
+									class="btn btn-success" role="button" value="Change Name" />
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-			<!-- 			Renaming the topic pop up modal  END-->
+				<!-- 			Renaming the topic pop up modal  END-->
 
-			<!-- 			Adding new Topic START -->
-			<%-- <div class="modal fade" id="addNewTopic" role="dialog">
+				<!-- 			Adding new Topic START -->
+				<%-- <div class="modal fade" id="addNewTopic" role="dialog">
 				<div class="modal-dialog">
 					<div class="modal-content">
 						<div class="modal-header">
@@ -430,49 +421,50 @@ h6:before {
 					</div>
 				</div>
 			</div> --%>
-			<!-- 			Adding new Topic END -->
-			
-			<!-- Previous way of adding new Topic with Text  -->
-			<!-- 			Adding new Topic START -->
-			<div class="modal fade" id="addNewTopic" role="dialog">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h4 class="modal-title">Add New Topic</h4>
-						</div>
-						<form action="addNewTopic.action" method="post">
-							<div class="modal-body">
-								<input type="text" class="form-control" id="topicName"
-									name="topicName" placeholder="Enter new topic name" required />
+				<!-- 			Adding new Topic END -->
+
+				<!-- Previous way of adding new Topic with Text  -->
+				<!-- 			Adding new Topic START -->
+				<div class="modal fade" id="addNewTopic" role="dialog">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h4 class="modal-title">Add New Topic</h4>
 							</div>
-							<div class="modal-body">
+							<form action="addNewTopic.action" method="post">
+								<div class="modal-body">
+									<input type="text" class="form-control" id="topicName"
+										name="topicName" placeholder="Enter new topic name" required />
+								</div>
+								<%-- <div class="modal-body">
 							<c:forEach items="${versions}" var="version">
 								<span><input type="checkbox" name="versionIds" value="${version.id}"/> ${version.versionName}</span> 
 							</c:forEach>
-							</div>
-							<div class="modal-footer">
-								<input type="submit" class="btn btn-success" role="button"
-									value="Add" />
-							</div>
-						</form>
+							</div> --%>
+								<div class="modal-footer">
+									<input type="submit" class="btn btn-success" role="button"
+										value="Add" />
+								</div>
+							</form>
+						</div>
 					</div>
 				</div>
-			</div>
-			<!-- 			Adding new Topic END -->
+				<!-- 			Adding new Topic END -->
 
-			<!-- 			Adding new Activity container START -->
-			<div class="modal fade" id="addNewContainer" role="dialog">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h4 class="modal-title">Add New Activity Container</h4>
-						</div>
-						<form action="addNewActivityContainer.action" method="post">
-							<div class="modal-body">
-								<input type="text" class="form-control" id="containerName"
-									name="containerName" placeholder="Enter new Activity container name" required />
-								<input type="hidden" name="topicId" id="topicId" />
+				<!-- 			Adding new Activity container START -->
+				<div class="modal fade" id="addNewContainer" role="dialog">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h4 class="modal-title">Add New Activity Container</h4>
 							</div>
+							<form action="addNewActivityContainer.action" method="post">
+								<div class="modal-body">
+									<input type="text" class="form-control" id="containerName"
+										name="containerName"
+										placeholder="Enter new Activity container name" required /> <input
+										type="hidden" name="topicId" id="topicId" />
+								</div>
 								<div class="modal-body">
 									<c:forEach items="${versions}" var="version">
 										<span><input type="checkbox" name="versionIds"
@@ -480,70 +472,74 @@ h6:before {
 									</c:forEach>
 								</div>
 								<div class="modal-footer">
-								<input type="submit" class="btn btn-success" role="button" value="Add" />
-							</div>
-						</form>
+									<input type="submit" class="btn btn-success" role="button"
+										value="Add" />
+								</div>
+							</form>
+						</div>
 					</div>
 				</div>
-			</div>
-			<!-- 			Adding new Activity container END -->
+				<!-- 			Adding new Activity container END -->
 
-<!-- 			Confirmation dialog before delete START -->
-			<div class="modal fade" id="confirmationDialog" role="dialog">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h4 class="modal-title">Please confirm!</h4>
+				<!-- 			Confirmation dialog before delete START -->
+				<div class="modal fade" id="confirmationDialog" role="dialog">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h4 class="modal-title">Please confirm!</h4>
+							</div>
+							<form id="confirmationForm" name="confirmationForm" method="post">
+								<div class="modal-body">
+									<h4 class="modal-title">Do you really want to remove this?</h4>
+									<input type="hidden" class="form-control" id="deletableId"
+										name="deletableId" />
+								</div>
+								<div class="modal-footer">
+									<a class="btn btn-default" data-dismiss="modal">No</a> <input
+										type="submit" class="btn btn-success" role="button"
+										value="Yes" />
+								</div>
+							</form>
 						</div>
-						<form id="confirmationForm" name="confirmationForm" method="post">
+					</div>
+				</div>
+				<!-- 			Confirmation dialog before delete END -->
+
+				<!-- 		Cannot delete warning START -->
+				<div class="modal fade" id="warningDialog" role="dialog">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h4 class="modal-title">No can do!!!</h4>
+							</div>
 							<div class="modal-body">
-								<h4 class="modal-title">Do you really want to remove this?</h4>
-								<input type="hidden" class="form-control" id="deletableId"  name="deletableId" />
+								<h4 class="modal-title">It seems that the topic is not
+									empty. You cannot delete this topic.</h4>
 							</div>
 							<div class="modal-footer">
-								<a class="btn btn-default" data-dismiss="modal">No</a>
-								<input type="submit" class="btn btn-success" role="button" value="Yes"/>
+								<a class="btn btn-danger" data-dismiss="modal">OK</a>
 							</div>
-						</form>
-					</div>
-				</div>
-			</div>
-<!-- 			Confirmation dialog before delete END -->
-
-<!-- 		Cannot delete warning START -->
-			<div class="modal fade" id="warningDialog" role="dialog">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h4 class="modal-title">No can do!!!</h4>
-						</div>
-						<div class="modal-body">
-							<h4 class="modal-title">It seems that the topic is not empty. You cannot delete this topic.</h4>
-						</div>
-						<div class="modal-footer">
-							<a class="btn btn-danger" data-dismiss="modal">OK</a>
 						</div>
 					</div>
 				</div>
-			</div>
-<!-- 		Cannot delete warning  END -->
+				<!-- 		Cannot delete warning  END -->
 
 
 
-			<!-- 			Loading image Under progress -->
-			<div id="loadingDiv" class="modal">
-				<img alt="loading" src="Images/loading.gif">
+				<!-- 			Loading image Under progress -->
+				<div id="loadingDiv" class="modal">
+					<img alt="loading" src="Images/loading.gif">
+				</div>
 			</div>
 		</div>
-	</div>
-	<form name="editForm" id="editForm" action="#" method="post">
-		<input type="hidden" id="id" name="id" value="" />
-	</form>
+		<form name="editForm" id="editForm" action="#" method="post">
+			<input type="hidden" id="id" name="id" value="" />
+		</form>
 
-	<div class="container-fluid bg-3 text-right">
+		<div class="container-fluid bg-3 text-right">
 
-	<!--  Adding New Topic Disabled as off now -->
-	<!-- 	<div class="row">
+			<!--  Adding New Topic Disabled as off now -->
+			<!-- 	<div class="row">
 			<div class="col-sm-8">
 				<a class="btn btn-warning" data-toggle="modal"
 					data-target="#addNewTopic" role="button">Add New Topic</a>
@@ -551,145 +547,157 @@ h6:before {
 			</div>
 		</div>
 	</div> -->
-	<!-- 		Add Admin START -->
-<div class="modal fade" id="addNewAdmin" role="dialog">
-		<div class="modal-dialog">
-			<div class="modal-content col-lg-10">
+			<!-- 		Add Admin START -->
+			<div class="modal fade" id="addNewAdmin" role="dialog">
+				<div class="modal-dialog">
+					<div class="modal-content col-lg-10">
 
-				<form:form action="addNewAdmin.action" method="post"
-					modelAttribute="userAuthentication">
-					<div class="modal-header">
-						<h4>Add new Admin</h4>
-					</div>
+						<form:form action="addNewAdmin.action" method="post"
+							modelAttribute="userAuthentication">
+							<div class="modal-header">
+								<h4>Add new Admin</h4>
+							</div>
 
-					<div class="modal-body">
-						<div class="form-group">
-							<div class="col-lg-5">
-								<form:input type="text" path="user.firstName" maxlength = "80"
-									class="form-control" name="Firstname" placeholder="First name"
-									required="true" />
-							</div>
-							<div class="col-lg-5">
-								<form:input type="text" path="user.lastName" maxlength = "80"
-									class="form-control" name="Lastname" placeholder="Last Name"
-									required="true" />
-							</div>
-							<br></br>
-						</div>
-						<div class="form-group left-inner-addon ">
-							<div class="col-lg-10 ">
-								<i class="glyphicon glyphicon-envelope"></i>
-								<form:input type="email" path="user.email" maxlength = "80"
-									class="form-control" id = "adminEmail"  name="emailID" placeholder="Email"
-									required="true" />
-							</div>
-							<span id="adminEmailMsg"></span>
-							<br></br>
-						</div>
-						<div class="form-group left-inner-addon">
-							<div class="col-lg-10">
-								<i class="glyphicon glyphicon-user"></i>
-								<form:input type="text" path="username" class="form-control" maxlength = "80" minlength = "6"
-									name="userName" id = "adminUname" placeholder="Username" required="true" />
-									<div id="loadingDiv" class="modal">
-									<img alt="loading" src="Images/loading.gif">
+							<div class="modal-body">
+								<div class="form-group">
+									<div class="col-lg-5">
+										<form:input type="text" path="user.firstName" maxlength="80"
+											class="form-control" name="Firstname"
+											placeholder="First name" required="true" />
 									</div>
-								<span id="usernameMsg"></span>
-							</div>
-							<br></br>
-						</div>
-						<div class="form-group left-inner-addon">
-							<div class="col-lg-10">
-								<i class="glyphicon glyphicon-lock"></i>
-								<form:input type="password" path="password" class="form-control" maxlength = "80" minlength = "6"
-									name="password" placeholder="password" required="true" />
-							</div>
-						</div>
-						<br></br>
-						<div class="modal-footer">
-							<a class="btn btn-default" data-dismiss="modal">Cancel</a> <input
-								class="btn btn-primary" type="submit" value="Register" />
+									<div class="col-lg-5">
+										<form:input type="text" path="user.lastName" maxlength="80"
+											class="form-control" name="Lastname" placeholder="Last Name"
+											required="true" />
+									</div>
+									<br></br>
+								</div>
+								<div class="form-group left-inner-addon ">
+									<div class="col-lg-10 ">
+										<i class="glyphicon glyphicon-envelope"></i>
+										<form:input type="email" path="user.email" maxlength="80"
+											class="form-control" id="adminEmail" name="emailID"
+											placeholder="Email" required="true" />
+									</div>
+									<span id="adminEmailMsg"></span> <br></br>
+								</div>
+								<div class="form-group left-inner-addon">
+									<div class="col-lg-10">
+										<i class="glyphicon glyphicon-user"></i>
+										<form:input type="text" path="username" class="form-control"
+											maxlength="80" minlength="6" name="userName" id="adminUname"
+											placeholder="Username" required="true" />
+										<div id="loadingDiv" class="modal">
+											<img alt="loading" src="Images/loading.gif">
+										</div>
+										<span id="usernameMsg"></span>
+									</div>
+									<br></br>
+								</div>
+								<div class="form-group left-inner-addon">
+									<div class="col-lg-10">
+										<i class="glyphicon glyphicon-lock"></i>
+										<form:input type="password" path="password"
+											class="form-control" maxlength="80" minlength="6"
+											name="password" placeholder="password" required="true" />
+									</div>
+								</div>
+								<br></br>
+								<div class="modal-footer">
+									<a class="btn btn-default" data-dismiss="modal">Cancel</a> <input
+										class="btn btn-primary" type="submit" value="Register" />
 
-						</div>
+								</div>
+							</div>
+						</form:form>
 					</div>
-				</form:form>
+				</div>
 			</div>
-		</div>
-</div>
-<!-- 		Add Admin  END -->
-	<!-- Footer -->
-	<%@ include file="footer.jsp" %>
-<%-- 	<jsp:include page="footer.jsp"> --%>
+			<!-- 		Add Admin  END -->
+			<!-- Footer -->
+			<%@ include file="footer.jsp"%>
+			<%-- 	<jsp:include page="footer.jsp"> --%>
 
-	<!-- jQuery -->
-		<script src="js/jquery.js"></script>
+			<!-- jQuery -->
+			<script src="js/jquery.js"></script>
 
-		<!-- Bootstrap Core JavaScript -->
-		<script src="js/bootstrap.min.js"></script>
-		<script>
-			$("#adminUname").change(function() {
-					userName = $('#adminUname').val();
-					$("#loadingDiv").modal("toggle");
-					$("#usernameMsg")[0].innerHTML = "Checking username availability.";
-					$.ajax({
-			            type : "POST",
-			            url : "checkUsernameAvailability.action",
-			            data : "userName=" + userName,
-			            success : function(data) {
-			            	$("#loadingDiv").modal("toggle");
-			            	$("#usernameMsg")[0].innerHTML = data;
+			<!-- Bootstrap Core JavaScript -->
+			<script src="js/bootstrap.min.js"></script>
+			<script>
+				$("#adminUname")
+						.change(
+								function() {
+									userName = $('#adminUname').val();
+									$("#loadingDiv").modal("toggle");
+									$("#usernameMsg")[0].innerHTML = "Checking username availability.";
+									$
+											.ajax({
+												type : "POST",
+												url : "checkUsernameAvailability.action",
+												data : "userName=" + userName,
+												success : function(data) {
+													$("#loadingDiv").modal(
+															"toggle");
+													$("#usernameMsg")[0].innerHTML = data;
 
-			            	if(data.indexOf('available') == -1){
-			            		$("#adminUname").val('');
-			            	}else{
+													if (data
+															.indexOf('available') == -1) {
+														$("#adminUname")
+																.val('');
+													} else {
 
-			            	}
-			            }
-			        })
-			    });
+													}
+												}
+											})
+								});
 
-				$("#newUserName").change(function() {
-					userName = $('#newUserName').val();
-					$("#loadingDiv").modal("toggle");
-					$("#newusernameMsg")[0].innerHTML = "Checking username availability.";
-					$.ajax({
-			            type : "POST",
-			            url : "checkUsernameAvailability.action",
-			            data : "userName=" + userName,
-			            success : function(data) {
-			            	$("#loadingDiv").modal("toggle");
-			            	$("#newusernameMsg")[0].innerHTML = data;
+				$("#newUserName")
+						.change(
+								function() {
+									userName = $('#newUserName').val();
+									$("#loadingDiv").modal("toggle");
+									$("#newusernameMsg")[0].innerHTML = "Checking username availability.";
+									$
+											.ajax({
+												type : "POST",
+												url : "checkUsernameAvailability.action",
+												data : "userName=" + userName,
+												success : function(data) {
+													$("#loadingDiv").modal(
+															"toggle");
+													$("#newusernameMsg")[0].innerHTML = data;
 
-			            	if(data.indexOf('available') == -1){
-			            		$("#newUserName").val('');
-			            	}else{
+													if (data
+															.indexOf('available') == -1) {
+														$("#newUserName").val(
+																'');
+													} else {
 
-			            	}
-			            }
-			        })
-//			    });
+													}
+												}
+											})
+									//			    });
 
-// 				$("#adminEmail").change(function() {
-// 					email = $('#adminEmail').val();
-// 					$("#loadingDiv").modal("toggle");
-// 					$("#adminEmailMsg")[0].innerHTML = "";
-// 					$.ajax({
-// 			            type : "POST",
-// 			            url : "checkEmailExists.action",
-// 			            data : "email=" + email,
-// 			            success : function(data) {
-// 			            	$("#loadingDiv").modal("toggle");
-// 			            	$("#adminEmailMsg")[0].innerHTML = data;
+									// 				$("#adminEmail").change(function() {
+									// 					email = $('#adminEmail').val();
+									// 					$("#loadingDiv").modal("toggle");
+									// 					$("#adminEmailMsg")[0].innerHTML = "";
+									// 					$.ajax({
+									// 			            type : "POST",
+									// 			            url : "checkEmailExists.action",
+									// 			            data : "email=" + email,
+									// 			            success : function(data) {
+									// 			            	$("#loadingDiv").modal("toggle");
+									// 			            	$("#adminEmailMsg")[0].innerHTML = data;
 
-// 			            	if(data != ""){
-// 			            		$("#adminEmail").val('');
-// 			            	}else{
+									// 			            	if(data != ""){
+									// 			            		$("#adminEmail").val('');
+									// 			            	}else{
 
-// 			            	}
-// 			            }
-// 			        })
-			});
-		</script>
+									// 			            	}
+									// 			            }
+									// 			        })
+								});
+			</script>
 </body>
 </html>
-	

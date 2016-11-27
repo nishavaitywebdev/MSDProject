@@ -104,7 +104,8 @@ public class UserController {
 				//System.out.println(weigh[b++]);
 			}*/
 			for (Integer a : scores.getScores()) {
-				if (a != null)
+				/*if (a != null)*/
+				if (a != 0)
 					score += (double) (((double) (a - 1)) / (double) weigh[b]);
 					System.out.println("Inside UserController score is"+(double) weigh[b]);
 				b++;

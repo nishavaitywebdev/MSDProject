@@ -582,6 +582,16 @@ public class AdminDaoImpl implements AdminDao {
 			}
 
 			reorderActivityContainers(connection, orderNo, topicId);
+			
+			int records;
+			//Adding new Changes here
+			connection = dataSource.getConnection();
+			sql = "delete from version_activity_container where activity_container_id=?";
+			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			stmt.setInt(1, deletableId);
+			records = stmt.executeUpdate();
+			
+			//Changes End Here
 
 			connection = dataSource.getConnection();
 
@@ -590,7 +600,7 @@ public class AdminDaoImpl implements AdminDao {
 
 			stmt.setInt(1, deletableId);
 
-			int records = stmt.executeUpdate();
+			records = stmt.executeUpdate();
 
 			System.out.println("Activity container with activity container id:"+deletableId+", deleted. No. of records deleted: "+records);
 
