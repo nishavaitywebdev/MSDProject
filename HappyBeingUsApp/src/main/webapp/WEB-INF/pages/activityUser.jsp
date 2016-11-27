@@ -1,4 +1,4 @@
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+	<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page isELIgnored="false"%>
@@ -474,12 +474,14 @@ h3.cardTitle {
 
 				<c:if test="${fn:length(answers) > 0}">
 					<c:forEach var="answer" items="${answers}">
+						
 						<div id="check-info" class="checkbox">
 							<div class="row">
 								<div class="col-sm-4">
 								<label><input type="checkbox" name="selectedAnswer" class="sanwser"
 								value='${answer.id}' ${answer.isCorrect?"checked":""} required/>${answer.answerText}</label>
 								</div>
+								
 								<div class="col-sm-2"><span class="rtAnswer btn-success text-center" style='display: none'>${answer.isRightanswer?"Correct Answer":""}</span></div>
 								<div class="col-sm-6"></div>
 							</div>

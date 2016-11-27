@@ -74,7 +74,7 @@ public class UserController {
 				List<Topic> topics = new ArrayList<Topic>();
 				topics = userService.getTopicsOfUser(user);
 				for(Topic t:topics){
-					System.out.println(t.getTopicName());
+					System.out.println(t);
 				}
 				model.addAttribute("topics", topics);
 			}
@@ -133,27 +133,31 @@ public class UserController {
 			String[] id = actcon.split("_");
 			int tId = Integer.parseInt(id[0]);
 			int cId = Integer.parseInt(id[1]);
-			System.out.println("tId: "+tId+" and cIs is: "+cId);
+			System.out.println("Inside getActivity page: ");
+			//System.out.println("tId: "+tId+" and cIs is: "+cId);
 			Topic topic = userService.settopic(tId);
 			List<ActivityContainer> containers = new ArrayList<ActivityContainer>();
 			containers = topic.getActivityContainers();
 			List<ActivityContainer> p_containers = new ArrayList<ActivityContainer>();
 			List<ActivityContainer> n_containers = new ArrayList<ActivityContainer>();
 			ActivityContainer c_container = new ActivityContainer();
-
 			int next = 0;
 			for (ActivityContainer contain : containers) {
 				if (next == 0) {
 					if (cId != contain.getActivityContainerId()) {
+						System.out.println("Entered Condition 1 ");
 						p_containers.add(contain);
 					} else {
+						System.out.println("Entered condition 2 ");
 						c_container = contain;
 						next = 1;
 					}
 				} else {
+					System.out.println("Entered condition 3 ");
 					n_containers.add(contain);
 				}
 			}
+			
 
 			List<Activity> p_act = new ArrayList<Activity>();
 
@@ -168,7 +172,7 @@ public class UserController {
 					n_act.add(act);
 				}
 			}
-			System.out.println(c_act.getId());
+			
 			User user = (User) session.getAttribute("user");
 			int userId = 0;
 			if(null != user){
@@ -185,6 +189,7 @@ public class UserController {
 			session.setAttribute("c_container", c_container);
 			session.setAttribute("answers", answers);
 			session.setAttribute("topicId", tId);
+			System.out.println(" The answers fetched are: ");
 			System.out.println(answers);
 			return "activityUser";
 		} catch (Exception e) {
