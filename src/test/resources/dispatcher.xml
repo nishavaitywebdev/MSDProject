@@ -27,7 +27,7 @@
 
 		<!-- <property name="password" value="root" /> -->
 
-		<property name="password" value="root" /><!--Change this later before final push  -->
+		<property name="password" value="password" /><!--Change this later before final push  -->
 
 	</bean>
 	
