@@ -24,7 +24,11 @@
 		<property name="url" value="jdbc:mysql://localhost:3306/hbu" />
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="username" value="root" />
-		<property name="password" value="password" /><!-- Change this before final push -->
+
+		<!-- <property name="password" value="root" /> -->
+
+		<property name="password" value="root" /><!-- Change this before final push -->
+
 	</bean>
 
 	<bean id="viewResolver"
@@ -48,4 +52,5 @@
 <!-- 	<bean id="adminDao" class="com.neu.msd.dao.impl.AdminDaoImpl"/> -->
 <!-- 	<bean id="authenticateDao" class="com.neu.msd.dao.impl.AuthenticateDaoImpl"/> -->
 	<!-- Dao Beans End -->	
+	
 </beans>

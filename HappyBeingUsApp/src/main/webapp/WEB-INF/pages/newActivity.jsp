@@ -6,6 +6,13 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Upload Activity here</title>
+<!-- <style>
+.activityTemplate{
+	width: 300px;
+	position:center;
+}
+</style> -->
+
 <script
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
 	
@@ -69,10 +76,11 @@
 		$('#mcqMaxOptions').val(newVal);
 	});
 </script>
+
 </head>
 <body>
 	<label>Template type : </label>
-
+	
 	<select name="activityTemplate" id="activityTemplate">
 		<option value="-1">--SELECT--</option>
 		<c:forEach items="${activityTemplates}" var="template">
