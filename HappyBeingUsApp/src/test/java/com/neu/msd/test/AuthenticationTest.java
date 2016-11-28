@@ -81,7 +81,7 @@ public class AuthenticationTest {
 	}
 
 
-	/* Mohsen Nabian*/
+	 Mohsen Nabian
 
 
 	@Test
@@ -97,7 +97,7 @@ public class AuthenticationTest {
 		}
 	}
 
-	/* Mohsen Nabian*/
+	 Mohsen Nabian
 
 
 	@Test
@@ -123,7 +123,7 @@ public class AuthenticationTest {
 		}
 	}
 
-	/* Mohsen Nabian*/
+	 Mohsen Nabian
 
 
 //	@Test
@@ -153,7 +153,7 @@ public class AuthenticationTest {
 //		}
 //	}
 
-	/* Mohsen Nabian*/
+	 Mohsen Nabian
 
 
 	@Test
@@ -172,7 +172,7 @@ public class AuthenticationTest {
 		}
 	}
 
-	/* Mohsen Nabian*/
+	 Mohsen Nabian
 
 
 	@Test
@@ -186,7 +186,7 @@ public class AuthenticationTest {
 		assertEquals(6, q);
 	}
 
-	/* Nisha Vaity*/
+	 Nisha Vaity
 	
 	@Test
 	public void test_getTopicsUser2(){
@@ -200,7 +200,7 @@ public class AuthenticationTest {
 		}
 	}
 
-	/* Nisha Vaity*/
+	 Nisha Vaity
 
 
 	@Test
@@ -215,7 +215,7 @@ public class AuthenticationTest {
 		assertEquals(6, q);
 	}
 
-	/* Nisha Vaity*/
+	 Nisha Vaity
 
 
 	@Test
@@ -230,7 +230,7 @@ public class AuthenticationTest {
 		}
 	}
 
-	/* Nisha Vaity*/
+	 Nisha Vaity
 
 
 	@Test
