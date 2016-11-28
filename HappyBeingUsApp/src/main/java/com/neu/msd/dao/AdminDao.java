@@ -56,10 +56,10 @@ public interface AdminDao {
 	public int renameActivityContainer(String containerName, int containerId) throws AdminException;
 
 	public List<Version> loadAllVersion() throws AdminException;
-    
-	// ---------- Changes to add version to Activity Container ----------
+
 //	public int assignTopicToVersion(int topicId, int versionId) throws AdminException;
-	
+		
+	// ---------- Changes to add version to Activity Container ----------
 	public int assignActivityContainerToVersion(int actConId, int versionId, int topicId) throws AdminException;
 	// ---------- Changes to add version to Activity Container end here----------
 
@@ -100,5 +100,10 @@ public interface AdminDao {
 	public int saveDiagnosticQuestion(Activity activity) throws AdminException;
 	
 	public int deleteDiagnosticQuestionById(int activityId) throws AdminException;
+	
+	public List<ActivityContainer> filterActivityContainers(List<ActivityContainer> activityContainers, int versionId) throws AdminException;
+
+	public int assignTopicToUsers(int topicId) throws AdminException;
+		
 
 }

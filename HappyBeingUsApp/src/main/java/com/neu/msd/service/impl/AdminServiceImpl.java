@@ -67,7 +67,7 @@ public class AdminServiceImpl implements AdminService {
 		
 		List<Topic> allTopics = adminDao.loadTopics();
 		
-		loadTopicsWithActivityContainers(containerMap, allTopics);
+		loadTopicsWithActivityContainers(containerMap, allTopics, -1);
 		
 		LOGGER.debug("AdminServiceImpl: loadTopics: END");
 		return allTopics;
@@ -79,13 +79,24 @@ public class AdminServiceImpl implements AdminService {
 	 * @param allTopics
 	 * @throws AdminException
 	 */
-	public void loadTopicsWithActivityContainers(Map<Integer, ActivityContainer> containerMap, List<Topic> allTopics) throws AdminException {
+	public void loadTopicsWithActivityContainers(Map<Integer, ActivityContainer> containerMap, List<Topic> allTopics, int versionId) throws AdminException {
 		LOGGER.debug("AdminServiceImpl: loadTopicsWithActivityContainers: START");
 			
 		for(Topic topic : allTopics){
 			List<ActivityContainer> activityContainers = adminDao.loadActivityContainersByTopicId(topic.getId());
-			topic.setActivityContainers(activityContainers);
-			loadActivityContainersWithActivities(containerMap, activityContainers);
+			//If versionId is -1, then the activity containers are not filtered by the version Id. If versionId is
+			//not -1, then the activity containers are filtered by versionId's
+			if(versionId != -1){
+				List<ActivityContainer> activityContainersByVersion = adminDao.filterActivityContainers(activityContainers, versionId);
+				topic.setActivityContainers(activityContainersByVersion);
+				loadActivityContainersWithActivities(containerMap, activityContainersByVersion);
+			}
+			else
+			{
+				topic.setActivityContainers(activityContainers);
+				loadActivityContainersWithActivities(containerMap, activityContainers);			
+			}
+																				
 		}
 		LOGGER.debug("AdminServiceImpl: loadTopicsWithActivityContainers: END");
 	}
@@ -157,21 +168,29 @@ public class AdminServiceImpl implements AdminService {
 		return adminDao.loadAllVersion();
 	}
 
-	// ---------- Changes to add version to Activity Container ----------
+
 //	public void assignTopicToVersion(int topicId, String[] versionIds) throws AdminException {
 //		for(int i = 0; i< versionIds.length; i++){
 //			adminDao.assignTopicToVersion(topicId, Integer.valueOf(versionIds[i]));
 //		}
 //	}
 	
+	// ---------- Changes to add version to Activity Container ----------
 	public void assignActivityContainerToVersion(int actConId, String[] versionIds, int topicId) throws AdminException {
-		for(int i = 0; i< versionIds.length; i++){
-			adminDao.assignActivityContainerToVersion(actConId, Integer.valueOf(versionIds[i]), topicId);
-		}
+	for(int i = 0; i< versionIds.length; i++){
+	adminDao.assignActivityContainerToVersion(actConId, Integer.valueOf(versionIds[i]), topicId);
+	}
 	}
 	
 	// ---------- Changes to add version to Activity Container end here----------
-
+	
+	// Adding AssignTopictoUsers here: Neha and Vinay
+	public int assignTopicToUsers(int topicId) throws AdminException
+	{
+		int numRecords = adminDao.assignTopicToUsers(topicId);
+		return numRecords;		
+	}
+	
 	public AdminActivityAnswer saveAdminActivityAnswer(AdminActivityAnswer adminActivityAnswer) throws AdminException {
 		
 		Activity activity = adminDao.saveActivity(adminActivityAnswer.getActivity());

@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.neu.msd.controllers;
 
@@ -47,29 +47,29 @@ import com.neu.msd.service.AuthenticateService;
  */
 @Controller
 public class AdminController {
-	
+
 	Logger LOGGER = Logger.getLogger(AdminController.class);
-	
+
 //	TODO renameActivityContainer.action
-	
+
 //	TODO avoid reinsertion of records on refresh from both the topic and activity container page.
-	
+
 //	TODO Design issue, need a back button from the container page to topics page.
-	
-	
+
+
 	@Autowired
 	private AdminService adminService;
-	
+
 	@Autowired
 	private AuthenticateService authenticateService;
-	
+
 	@RequestMapping(value="/adminHome.action", method=RequestMethod.POST)
-	public String adminLogin(@RequestParam("username") String username, 
-			@RequestParam("password") String password, 
+	public String adminLogin(@RequestParam("username") String username,
+			@RequestParam("password") String password,
 			HttpSession session, Model model){
 		LOGGER.debug("AdminController: adminLogin: START");
 		try {
-			
+
 			UserAuthentication userAuthentication = new UserAuthentication();
 			userAuthentication.setUsername(username);
 			userAuthentication.setPassword(password);
@@ -79,7 +79,7 @@ public class AdminController {
 			{
 				session.setAttribute("user", admin);
 				return loadHome(session, model);
-								
+
 			}
 			else
 			{
@@ -92,12 +92,12 @@ public class AdminController {
 			LOGGER.debug("AdminController: adminLogin: END");
 		}
 	}
-	
+
 	@RequestMapping(value="/addNewAdmin.action", method=RequestMethod.POST)
-	public String registerAdmin(@ModelAttribute("userAuthentication") UserAuthentication userAuthentication, 
+	public String registerAdmin(@ModelAttribute("userAuthentication") UserAuthentication userAuthentication,
 			Model model, HttpSession httpSession){
 		try {
-			
+
 			int uId = adminService.registerAdmin(userAuthentication);
 			User user = userAuthentication.getUser();
 			user.setId(uId);
@@ -106,18 +106,18 @@ public class AdminController {
 			user.setUserType(userType);
 			user.setDiagnosticTaken(false);
 			httpSession.setAttribute("user", user);
-			return adminLogin(userAuthentication.getUsername(), 
-					userAuthentication.getPassword(), 
+			return adminLogin(userAuthentication.getUsername(),
+					userAuthentication.getPassword(),
 					httpSession, model);
-			
+
 		} catch (AdminException e) {
 			return "errorPage";
 		}
 	}
-	
+
 	@RequestMapping(value="/adminLoadHome.action", method=RequestMethod.POST)
 	public String loadHome(HttpSession session, Model model) throws AdminException{
-		
+
 		LOGGER.debug("AdminController: loadHome: START");
 		// Here Topics fetched by previous team
 		List<Topic> topics = (List<Topic>) session.getAttribute("topics");
@@ -129,17 +129,23 @@ public class AdminController {
 			session.setAttribute("containerMap", containerMap);
 			session.setAttribute("versions", versions);
 		}
+		//Inside loadHome
+		System.out.println("Inside Load Home ");
+		for(Topic t:topics){
+			System.out.println(t);
+		}
+		System.out.println("End inside load home");
 		session.removeAttribute("activityContainer");
 		LOGGER.debug("AdminController: loadHome: END");
 		return "adminHome2";
-		
+
 	}
 
 	@RequestMapping(value="/editActivityContainer.action", method=RequestMethod.POST)
 	public String loadContainerById(@RequestParam("id") int activityContainerId, HttpSession session){
-		
+
 		LOGGER.debug("AdminController: loadContainerById: START");
-		
+
 		ActivityContainer activityContainer = (ActivityContainer) session.getAttribute("activityContainer");
 		if(null == activityContainer){
 			Map<Integer, ActivityContainer> containerMap = (Map<Integer, ActivityContainer>) session.getAttribute("containerMap");
@@ -163,29 +169,29 @@ public class AdminController {
 		LOGGER.debug("AdminController: loadContainerById: END");
 		return "activityContainer";
 	}
-	
+
 	@RequestMapping(value="/newActivityLink.action", method=RequestMethod.POST)
 	public String goToNewActivity(@RequestParam("id") int activityContainerId, Model model){
-		
+
 		LOGGER.debug("AdminController: goToNewActivity: START");
 		Activity activity = new Activity();
 		ActivityType activityType = new ActivityType();
 		activityType.setId(3);
 		activity.setActivityType(activityType);
 		activity.getActivityContainer().setActivityContainerId(Integer.valueOf(activityContainerId));
-		
+
 		try {
 			List<ActivityTemplate> activityTemplates = adminService.getAllActivityTemplates();
 			model.addAttribute("activityTemplates", activityTemplates);
 			model.addAttribute("activity", activity);
-			
+
 			LOGGER.debug("AdminController: goToNewActivity: END");
 			return "activity";
 		} catch (AdminException e1) {
 			return "errorPage";
 		}
 	}
-	
+
 	/**
 	* The following three functions.
 	* 1. adminLoadDiagnosticQuestions
@@ -194,48 +200,49 @@ public class AdminController {
 	*
 	* @author  Mukul Bichkar
 	* @version 1.0
-	* @since   2016-09-11 
+	* @since   2016-09-11
 	*/
-	
-	
+
+
 	// Function added for loading diagnostic questions
 	@RequestMapping(value="/adminDiagnostic.action", method=RequestMethod.GET)
 	public String adminLoadDiagnosticQuestions(HttpSession session, Model model) throws AdminException{
 		LOGGER.debug("AdminController: adminDiagnosticLoadQuestions: START");
-			
+
 				return loadDiagnosticHome(session,model);
-			
-								
+
+			//return "diagnosticModule";
+
 	}
-	
+
 	@RequestMapping(value="/adminLoadDiagnostic.action", method=RequestMethod.POST)
 	public String loadDiagnosticHome(HttpSession session, Model model) throws AdminException{
-		
+
 		LOGGER.debug("AdminController: loadDiagnosticHome: START");
 		// Here Topics fetched by previous team
 		List<AdminActivityAnswer> diagnosticQuestions = null;//(List<AdminActivityAnswer>) session.getAttribute("diagnosticQuestions");
 		// If diagnostic questions are null
 		if(diagnosticQuestions == null){
-			
+
 			diagnosticQuestions = adminService.getDiagnosticQuestions();
 			session.setAttribute("diagnosticQuestions",diagnosticQuestions);
-						
+
 		}
-		
+
 		LOGGER.debug("AdminController: loadDiagnosticHome: END");
 		return "diagnosticModule";
-		
+
 	}
-	
-	
+
+
 	//Delete Diagnostic Questions
 	@RequestMapping(value="/deleteDiagnosticQuestion.action", method=RequestMethod.POST)
 	public String deleteDiagnosticQuestion(@RequestParam("deletableId") int deletableId, HttpSession session, Model model){
-		
-		
+
+
 		System.out.println("Id to be deleted is: "+deletableId);
 		LOGGER.debug("AdminController: deleteDiagnosticQuestion: START");
-		
+
 		List<AdminActivityAnswer> diagnosticQuestions = (List<AdminActivityAnswer>) session.getAttribute("diagnosticQuestions");
 		List<AdminActivityAnswer> updateddiagnosticQuestions = new ArrayList<AdminActivityAnswer>();
 		try {
@@ -244,7 +251,7 @@ public class AdminController {
 				if(q.getActivity().getId() != deletableId)
 					updateddiagnosticQuestions.add(q);
 			}
-			
+
 			session.setAttribute("diagnosticQuestions", updateddiagnosticQuestions);
 
 			LOGGER.debug("AdminController: deleteActivity: END");
@@ -252,27 +259,27 @@ public class AdminController {
 		} catch (AdminException e) {
 			return "errorPage";
 		}
-		
-		
+
+
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 	// Activities
 	@RequestMapping(value="/addActivity.action", method=RequestMethod.POST)
-	public String addNewActivity(@ModelAttribute("activity") Activity activity, 
+	public String addNewActivity(@ModelAttribute("activity") Activity activity,
 			@RequestParam(value="uploadFile",required=false) MultipartFile uploadFile,
 			@RequestParam(value="card1File",required=false) MultipartFile card1File,
 			@RequestParam(value="card2File",required=false) MultipartFile card2File,
 			@RequestParam(value="card3File",required=false) MultipartFile card3File,
 			Model model, HttpSession session, HttpServletRequest request){
-		
-		
+
+
 		LOGGER.debug("AdminController: addNewActivity: START");
 		Activity act = new Activity();
-		
+
 		try {
 			if(activity.getActivityTemplate().getId() == 1){
 				AdminActivityAnswer adminActivityAnswer = getAdminActivityAnswerForFile(activity, request, uploadFile, "video");
@@ -290,7 +297,7 @@ public class AdminController {
 		} catch (AdminException e) {
 			return "errorPage";
 		}
-		
+
 		ActivityContainer activityContainer = (ActivityContainer) session.getAttribute("activityContainer");
 		Map<Integer, ActivityContainer> containerMap = (Map<Integer, ActivityContainer>) session.getAttribute("containerMap");
 		if(null==activityContainer || null == containerMap)
@@ -300,36 +307,36 @@ public class AdminController {
 		activities.add(act);
 		activityContainer.setActivities(activities);
 		containerMap.put(activityContainer.getActivityContainerId(), activityContainer);
-		
+
 		session.setAttribute("activityContainer", activityContainer);
 		session.setAttribute("containerMap", containerMap);
-		
+
 		LOGGER.debug(activity);
 
 		LOGGER.debug("AdminController: addNewActivity: END");
 		return loadContainerById(activityContainer.getActivityContainerId(), session);
 	}
-	
+
 	private Activity addInfoActivity(Activity activity) throws AdminException{
 		AdminActivityAnswer adminActivityAnswer = new AdminActivityAnswer();
 		adminActivityAnswer.setActivity(activity);
-		
+
 		adminActivityAnswer = adminService.saveAdminActivityAnswer(adminActivityAnswer);
 
 		return adminActivityAnswer.getActivity();
 	}
 
-	private Activity addFlipActivity(Activity activity, HttpServletRequest request, 
+	private Activity addFlipActivity(Activity activity, HttpServletRequest request,
 			MultipartFile card1File, MultipartFile card2File, MultipartFile card3File) throws AdminException{
-		
-		
+
+
 		List<Answer> answers = new ArrayList<Answer>();
 		for(int i = 1; i<= 6; i=i+2){
 			Answer frontCard = new Answer();
 			frontCard.setAnswerText(request.getParameter("card"+i+"Front"));
 			frontCard.setOrderNo(i);
 			answers.add(frontCard);
-			
+
 			String imageUrl = null;
 			if(i==1){
 				imageUrl = adminService.generateFilePath(card1File, "image");
@@ -338,13 +345,13 @@ public class AdminController {
 			}else if(i==5){
 				imageUrl = adminService.generateFilePath(card3File, "image");
 			}
-			
+
 			if(null != imageUrl){
 				Answer imageFile = new Answer();
 				imageFile.setAnswerText(imageUrl);
 				imageFile.setOrderNo(i+1);
 				answers.add(imageFile);
-				
+
 			}else{
 				Answer backCard = new Answer();
 				backCard.setAnswerText(request.getParameter("card"+(i+1)+"Back"));
@@ -353,22 +360,22 @@ public class AdminController {
 			}
 
 		}
-		
+
 		AdminActivityAnswer adminActivityAnswer = new AdminActivityAnswer();
 		adminActivityAnswer.setActivity(activity);
 		adminActivityAnswer.setAnswers(answers);
-		
+
 		adminActivityAnswer = adminService.saveAdminActivityAnswer(adminActivityAnswer);
 
 		return adminActivityAnswer.getActivity();
 	}
 
-	private AdminActivityAnswer getAdminActivityAnswerForFile(Activity activity, HttpServletRequest request, 
+	private AdminActivityAnswer getAdminActivityAnswerForFile(Activity activity, HttpServletRequest request,
 			MultipartFile uploadFile, String fileType) throws AdminException {
-		
+
 		AdminActivityAnswer adminActivityAnswer = new AdminActivityAnswer();
 		String idealAnswer = request.getParameter("idealAnswer").trim();
-		
+
 		adminActivityAnswer.setActivity(activity);
 		Answer answer = new Answer();
 		answer.setAnswerText(idealAnswer);
@@ -381,18 +388,18 @@ public class AdminController {
 			Answer imageFile = new Answer();
 			imageFile.setAnswerText(imageUrl);
 			imageFile.setOrderNo(1);
-			
+
 			adminActivityAnswer.getAnswers().add(imageFile);
 		}
-			
+
 		return adminActivityAnswer;
 	}
 
-		//Replaced 
+		//Replaced
 /*	private Activity addMCQActivity(Activity activity, HttpServletRequest request) throws AdminException {
-		
+
 		List<String> correctAnswers = new ArrayList<String>(Arrays.asList(request.getParameterValues("correctAnswer")));
-		
+
 		Enumeration<String> parameters = request.getParameterNames();
 		List<Answer> answers = new ArrayList<Answer>();
 		while(parameters.hasMoreElements()){
@@ -405,33 +412,39 @@ public class AdminController {
 				answers.add(answer);
 			}
 		}
-		
+
 		AdminActivityAnswer adminActivityAnswer = new AdminActivityAnswer();
 		adminActivityAnswer.setActivity(activity);
 		adminActivityAnswer.setAnswers(answers);
-		
+
 		adminActivityAnswer = adminService.saveAdminActivityAnswer(adminActivityAnswer);
 
 		return adminActivityAnswer.getActivity();
 	}*/
-	
-	
+
+
 	private Activity addMCQActivity(Activity activity, HttpServletRequest request) throws AdminException {
-		
+
 		List<Answer> answers = getMCQAnswers(request);
-		
+
 		AdminActivityAnswer adminActivityAnswer = new AdminActivityAnswer();
 		adminActivityAnswer.setActivity(activity);
 		adminActivityAnswer.setAnswers(answers);
-		
+
 		adminActivityAnswer = adminService.saveAdminActivityAnswer(adminActivityAnswer);
 
 		return adminActivityAnswer.getActivity();
 	}
 
 	private List<Answer> getMCQAnswers(HttpServletRequest request) {
-		List<String> correctAnswers = new ArrayList<String>(Arrays.asList(request.getParameterValues("correctAnswer")));
-		
+//		List<String> correctAnswers = new ArrayList<String>(Arrays.asList(request.getParameterValues("correctAnswer")));
+		List<String> correctAnswers = new ArrayList<String>();
+		if(request.getParameterValues("correctAnswer") != null)
+		{
+			correctAnswers = new ArrayList<String>(Arrays.asList(request.getParameterValues("correctAnswer")));
+		}
+
+
 		Enumeration<String> parameters = request.getParameterNames();
 		List<Answer> answers = new ArrayList<Answer>();
 		while(parameters.hasMoreElements()){
@@ -447,81 +460,81 @@ public class AdminController {
 		return answers;
 	}
 	//Done with replacement
-	
-	
+
+
 	// ---------- Changes for diagnostic module begin here ----------
-	
+
 		// Add diagnostic question --> Neha
-		
+
 		@RequestMapping(value="/addDiagnosticQuestion.action", method=RequestMethod.POST)
-		private String addDiagnosticQuestion(@RequestParam("Question") String questionString, 
+		private String addDiagnosticQuestion(@RequestParam("Question") String questionString,
 				HttpServletRequest request,HttpSession session, Model model) throws AdminException {
-		
+
 		List<Answer> answers = getMCQAnswers(request);
-		
+
 		adminService.addDiagnosticQuestion(questionString, answers);
-		
+
 		//List<AdminActivityAnswer> diagnosticQuestions = adminService.getDiagnosticQuestions();
 		//session.setAttribute("diagnosticQuestions",diagnosticQuestions);
-		
+
 		return loadDiagnosticHome(session,model);
 		}
-		
-		
+
+
 		// Update diagnostic question --> Neha
-		
+
 		@RequestMapping(value="/editDiagnosticQuestion.action")
 		public String goToEditDiagnosticQuestion(@RequestParam("id") String parameter, HttpSession session, Model model){
-			
+
 			LOGGER.debug("AdminController: goToEditDiagnosticQuestion: START");
-			
+
 			int activityId = Integer.valueOf(parameter);
-			
+
 			try {
 				AdminActivityAnswer adminActivityAnswer = adminService.getAdminActivityAnswerByActivityId(activityId);
 
 				model.addAttribute("adminActivity", adminActivityAnswer);
-				
+
 				LOGGER.debug(adminActivityAnswer);
 				LOGGER.debug("AdminController: goToEditDiagnosticQuestion: END");
 				return "updateDiagnosticQuestion";
 			} catch (AdminException e) {
 				return "errorPage";
 			}
-			
+
 		}
-		
+
 		@RequestMapping(value="/updateDiagnosticQuestion.action", method=RequestMethod.POST)
-		private String updateDiagnosticQuestion(@ModelAttribute("activity") AdminActivityAnswer adminActivityAnswer, 
+		private String updateDiagnosticQuestion(@ModelAttribute("activity") AdminActivityAnswer adminActivityAnswer,
 				HttpServletRequest request, HttpSession session, Model model) throws AdminException {
-			
+
 			//AdminActivityAnswer adminActAns = new AdminActivityAnswer();
-		
+
 			List<Answer> answers = getMCQAnswers(request);
-		
+
 			Activity act = adminActivityAnswer.getActivity();
 			AdminActivityAnswer newAdminActivityAnswer = new AdminActivityAnswer();
 			newAdminActivityAnswer.setActivity(act);
 			newAdminActivityAnswer.setAnswers(answers);
 			adminService.updateDiagnosticQuestion(newAdminActivityAnswer);
-		
+
 			return loadDiagnosticHome(session, model);
 		}
-		
-		// This is just to redirect to test the create diagnostic questions page	
+
+		// This is just to redirect to test the create diagnostic questions page
 		@RequestMapping(value="/redirectToAddDQ.action", method=RequestMethod.GET)
 		public String redirectToDiagModule() throws AdminException{
 			return "createDiagnosticQuestions";
 		}
-			
-		
+
+
 		// ---------- Changes for diagnostic module end here ----------
 
 
 	@ResponseBody
 	@RequestMapping(value="/renameTopic.action", method=RequestMethod.POST)
 	public String renameTopic(@RequestParam("topicName") String topicName, @RequestParam("topicId") int topicId, HttpSession session){
-		
+
 		LOGGER.debug("AdminController: renameTopic: START");
 		try {
 			int returnVal = adminService.renameTopic(topicName, topicId);
@@ -540,21 +553,27 @@ public class AdminController {
 			return "error";
 		}
 	}
-	
+
 	@RequestMapping(value="/addNewTopic.action", method=RequestMethod.POST)
 	public String addNewTopic(@RequestParam("topicName") String topicName, HttpServletRequest request, HttpSession session, Model model){
-		
+
 		LOGGER.debug("AdminController: addNewTopic: START");
 		try {
 			int topicId = adminService.addNewTopic(topicName);
 			Topic topic = new Topic(topicId, topicName);
 			
-			// Removing version assignment from module
+			//Commented out
 //			String[] versionIds = request.getParameterValues("versionIds");
 //			adminService.assignTopicToVersion(topicId, versionIds);
-			
+			adminService.assignTopicToUsers(topicId);
+
 			List<Topic> topics = (List<Topic>) session.getAttribute("topics");
 			topics.add(topic);
+			System.out.println("Adding new topic in AdminController");
+			for(Topic t:topics){
+				System.out.println(t);
+			}
+			System.out.println("End of addNewTopic");
 			session.setAttribute("topics", topics);
 
 			 LOGGER.debug("AdminController: addNewTopic: END");
@@ -563,10 +582,10 @@ public class AdminController {
 			return "errorPage";
 		}
 	}
-	
+
 	@RequestMapping(value="/deleteTopic.action", method=RequestMethod.POST)
 	public String deleteTopic(@RequestParam("deletableId") int deletableId, HttpSession session, Model model){
-		
+
 		LOGGER.debug("AdminController: deleteTopic: START");
 		try {
 			adminService.deleteTopic(deletableId);
@@ -585,10 +604,10 @@ public class AdminController {
 			return "errorPage";
 		}
 	}
-	
+
 	@RequestMapping(value="/deleteActivityContainer.action", method=RequestMethod.POST)
 	public String deleteActivityContainer(@RequestParam("deletableId") int deletableId, HttpSession session, Model model){
-		
+
 		LOGGER.debug("AdminController: deleteActivityContainer: START");
 		try {
 			ActivityContainer activityContainer = (ActivityContainer) session.getAttribute("activityContainer");
@@ -606,20 +625,21 @@ public class AdminController {
 			return "errorPage";
 		}
 	}
-	
+
 	@RequestMapping(value="/addNewActivityContainer.action", method=RequestMethod.POST)
-	public String addNewActivityContainer(@RequestParam("containerName") String containerName, @RequestParam("topicId") int topicId, 
-			HttpSession session, HttpServletRequest request, Model model){
-		
+	public String addNewActivityContainer(@RequestParam("containerName") String containerName, @RequestParam("topicId") int topicId,
+			HttpSession session,HttpServletRequest request ,Model model){
+
 		LOGGER.debug("AdminController: addNewActivityContainer: START");
 		try {
 			ActivityContainer activityContainer = adminService.addNewActivityContainer(containerName, topicId);
-			
+
 			// ---------- Changes to add version to Activity Container ----------
 			String[] versionIds = request.getParameterValues("versionIds");
+			//System.out.println("Inside AdminController addNewActivity: version is: "+versionIds[0]);
 			adminService.assignActivityContainerToVersion(activityContainer.getActivityContainerId(), versionIds, topicId);
 			// ---------- Changes to add version to Activity Container end here ----------
-			
+
 			session.removeAttribute("activityContainer");
 			List<Topic> topics = (List<Topic>) session.getAttribute("topics");
 			List<Topic> newTopics = new ArrayList<Topic>();
@@ -637,10 +657,10 @@ public class AdminController {
 			return "errorPage";
 		}
 	}
-	
+
 	@RequestMapping(value="/deleteActivity.action", method=RequestMethod.POST)
 	public String deleteActivity(@RequestParam("deletableId") int deletableId, HttpSession session, Model model){
-		
+
 		LOGGER.debug("AdminController: deleteActivity: START");
 		ActivityContainer activityContainer = (ActivityContainer) session.getAttribute("activityContainer");
 		Map<Integer, ActivityContainer> containerMap = (Map<Integer, ActivityContainer>) session.getAttribute("containerMap");
@@ -656,27 +676,27 @@ public class AdminController {
 			return "errorPage";
 		}
 	}
-	
+
 	@ResponseBody
 	@RequestMapping(value="/renameActivityContainer.action", method=RequestMethod.POST)
 	public String renameActivityContainer(@RequestParam("containerName") String containerName, @RequestParam("containerId") int containerId, HttpSession session){
-		
+
 		LOGGER.debug("AdminController: renameActivityContainer: START");
 		try {
 			int returnVal = adminService.renameActivityContainer(containerName, containerId);
 			ActivityContainer activityContainer = (ActivityContainer) session.getAttribute("activityContainer");
 			Map<Integer, ActivityContainer> containerMap = (Map<Integer, ActivityContainer>) session.getAttribute("containerMap");
 			List<Topic> topics = (List<Topic>) session.getAttribute("topics");
-			
+
 			activityContainer.setContainerName(containerName);
 			containerMap.put(containerId, activityContainer);
-			
+
 			List<Topic> newTopics = new ArrayList<Topic>();
 			for(Topic topic : topics){
 				List<ActivityContainer> containers = new ArrayList<ActivityContainer>();
 				for(ActivityContainer container : topic.getActivityContainers()){
 					if(container.getActivityContainerId() == containerId)
-						container.setContainerName(containerName);
+						container.setContainerName(containerName); //Made changes by mukul
 					containers.add(container);
 				}
 				newTopics.add(topic);
@@ -691,41 +711,41 @@ public class AdminController {
 			return "error";
 		}
 	}
-	
+
 	@RequestMapping(value="/editActivity.action", method=RequestMethod.POST)
 	public String goToEditActivity(@RequestParam("id") String parameter, HttpSession session, Model model){
-		
+
 		LOGGER.debug("AdminController: goToEditActivity: START");
-		
+
 		int activityId = Integer.valueOf(parameter.split("_")[0]);
 		String templateId = parameter.split("_")[1];
-		
+
 		try {
 			AdminActivityAnswer adminActivityAnswer = adminService.getAdminActivityAnswerByActivityId(activityId);
 
 			model.addAttribute("adminActivity", adminActivityAnswer);
 			model.addAttribute("templateId", templateId);
-			
+
 			LOGGER.debug("AdminController: goToEditActivity: END");
 			return "editActivity";
 		} catch (AdminException e) {
 			return "errorPage";
 		}
-		
+
 	}
-	
+
 	@RequestMapping(value="/updateActivity.action", method=RequestMethod.POST)
-	public String updateActivity(@ModelAttribute("activity") AdminActivityAnswer adminActivityAnswer, 
+	public String updateActivity(@ModelAttribute("activity") AdminActivityAnswer adminActivityAnswer,
 			@RequestParam(value="uploadFile",required=false) MultipartFile uploadFile,
 			@RequestParam(value="card1File",required=false) MultipartFile card1File,
 			@RequestParam(value="card2File",required=false) MultipartFile card2File,
 			@RequestParam(value="card3File",required=false) MultipartFile card3File,
 			Model model, HttpSession session, HttpServletRequest request){
-		
-		
+
+
 		LOGGER.debug("AdminController: updateActivity: START");
 		Activity act = new Activity();
-		
+
 		try {
 			if(adminActivityAnswer.getActivity().getActivityTemplate().getId() == 1){
 				adminActivityAnswer = getAdminActivityAnswerForFile(adminActivityAnswer.getActivity(), request, uploadFile, "video");
@@ -743,24 +763,24 @@ public class AdminController {
 		} catch (AdminException e) {
 			return "errorPage";
 		}
-		
+
 		ActivityContainer activityContainer = (ActivityContainer) session.getAttribute("activityContainer");
 		Map<Integer, ActivityContainer> containerMap = (Map<Integer, ActivityContainer>) session.getAttribute("containerMap");
 		if(null==activityContainer || null == containerMap)
 			return "errorPage";
-		
+
 		containerMap.remove(activityContainer.getActivityContainerId());
 		session.removeAttribute("activityContainer");
 		session.setAttribute("containerMap", containerMap);
-		
+
 		LOGGER.debug(adminActivityAnswer);
 
 		LOGGER.debug("AdminController: updateActivity: END");
 		return loadContainerById(activityContainer.getActivityContainerId(), session);
 	}
-	
+
 	private Activity updateInfoActivity(AdminActivityAnswer adminActivityAnswer) throws AdminException{
-		
+
 		adminActivityAnswer = adminService.updateAdminActivityAnswer(adminActivityAnswer);
 
 		return adminActivityAnswer.getActivity();
@@ -768,16 +788,16 @@ public class AdminController {
 
 	private Activity updateFlipActivity(Activity activity, HttpServletRequest request, MultipartFile card1File,
 			MultipartFile card2File, MultipartFile card3File) throws AdminException{
-		
+
 		List<Answer> answers = new ArrayList<Answer>();
 		for(int i = 1; i<= 6; i=i+2){
 			Answer frontCard = new Answer();
 			frontCard.setAnswerText(request.getParameter("card"+i+"Front"));
 			frontCard.setOrderNo(i);
 			answers.add(frontCard);
-			
+
 			String backCardParam = request.getParameter("card"+(i+1)+"Back");
-			
+
 			if(backCardParam.isEmpty()){
 				String imageUrl = null;
 				if(i==1){
@@ -792,7 +812,7 @@ public class AdminController {
 					imageFile.setAnswerText(imageUrl);
 					imageFile.setOrderNo(i+1);
 					answers.add(imageFile);
-					
+
 				}
 			}else{
 				Answer backCard = new Answer();
@@ -801,20 +821,20 @@ public class AdminController {
 				answers.add(backCard);
 			}
 		}
-		
+
 		AdminActivityAnswer adminActivityAnswer = new AdminActivityAnswer();
 		adminActivityAnswer.setActivity(activity);
 		adminActivityAnswer.setAnswers(answers);
-		
+
 		adminActivityAnswer = adminService.updateAdminActivityAnswer(adminActivityAnswer);
 
 		return adminActivityAnswer.getActivity();
 	}
 
 	private Activity updateMCQActivity(Activity activity, HttpServletRequest request) throws AdminException {
-		
+
 		List<String> correctAnswers = new ArrayList<String>(Arrays.asList(request.getParameterValues("correctAnswer")));
-		
+
 		Enumeration<String> parameters = request.getParameterNames();
 		List<Answer> answers = new ArrayList<Answer>();
 		while(parameters.hasMoreElements()){
@@ -827,20 +847,20 @@ public class AdminController {
 				answers.add(answer);
 			}
 		}
-		
+
 		AdminActivityAnswer adminActivityAnswer = new AdminActivityAnswer();
 		adminActivityAnswer.setActivity(activity);
 		adminActivityAnswer.setAnswers(answers);
-		
+
 		adminActivityAnswer = adminService.updateAdminActivityAnswer(adminActivityAnswer);
 
 		return adminActivityAnswer.getActivity();
 	}
-	
+
 	@RequestMapping(value="/forgotAdminPassword.action", method=RequestMethod.POST)
-	public String resetUnamePassword(@RequestParam("emailID") String emailID, @RequestParam("username") String username, 
+	public String resetUnamePassword(@RequestParam("emailID") String emailID, @RequestParam("username") String username,
 			@RequestParam("password") String password, Model model, HttpSession httpSession) throws AuthenticationException{
-		
+
 		try {
 			String status = authenticateService.resetUnamePassword(emailID,username,password);
 			httpSession.removeAttribute("user");
@@ -850,7 +870,7 @@ public class AdminController {
 			return "errorPage";
 		}
 	}
-	
+
 	@RequestMapping(value="/adminLogout.action", method=RequestMethod.GET)
 	public String logoutUser(HttpSession httpSession, Model model){
 		if(httpSession != null)

@@ -303,9 +303,9 @@ public class UserDaoImpl implements UserDao {
 			int records = stmt3.executeUpdate();
 			System.out.println("No. of records inserted: " + records);
 
-			sql = "select topic_id from version_topic where version_id= ?";
+			sql = "select topic_id from topic";
 			stmt = connection.prepareStatement(sql);
-			stmt.setInt(1, version_id);
+			//stmt.setInt(1, version_id);
 			rs = stmt.executeQuery();
 			List<Integer> topics = new ArrayList<Integer>();
 			while (rs.next()) {
