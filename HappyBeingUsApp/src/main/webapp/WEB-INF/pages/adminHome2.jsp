@@ -278,10 +278,15 @@ h6:before {
 
 
 								</table>
-								<a class="btn btn-warning" role="button" data-toggle="modal"
+								<a class="btn btn-success" role="button" data-toggle="modal"
 									data-target="#addNewContainer"
 									id="new_container_under-${topic.id}"
-									onclick="addContainer(this)"> Add New Activity Container</a>
+									onclick="addContainer(this)"> Add New Activity Container to <span>${topic.topicName}</span></a>
+								 <a
+									class="btn btn-danger" id="deleteId_${topic.id}" role="button"
+									onclick="deleteTopic(this)">Delete <span>${topic.topicName}</span></a> <input type="hidden"
+									id="topicNotEmpty_${topic.id}"
+									value="${fn:length(topic.activityContainers)>0}" />
 							</div>
 						</c:forEach>
 
@@ -359,7 +364,7 @@ h6:before {
 				<!-- Added this on 11/25-->
 				<a class="btn btn-warning" data-toggle="modal"
 					data-target="#addNewTopic" role="button">Add New Topic</a>
-
+				 
 				<!-- 			<div class="col-sm-4"></div> -->
 				<!-- 			Renaming the topic pop up modal  START-->
 				<div class="modal fade" id="renameTopic" role="dialog">
@@ -436,11 +441,7 @@ h6:before {
 									<input type="text" class="form-control" id="topicName"
 										name="topicName" placeholder="Enter new topic name" required />
 								</div>
-								<%-- <div class="modal-body">
-							<c:forEach items="${versions}" var="version">
-								<span><input type="checkbox" name="versionIds" value="${version.id}"/> ${version.versionName}</span> 
-							</c:forEach>
-							</div> --%>
+								
 								<div class="modal-footer">
 									<input type="submit" class="btn btn-success" role="button"
 										value="Add" />
