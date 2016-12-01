@@ -281,7 +281,7 @@ public class AdminController {
 		//fetch already loaded topics from loadHome i.e. load all the topics
 		List<Topic> alltopics = (List<Topic>) session.getAttribute("topics");
 		//filter out the topics that belong to mother
-		// Create a 
+		// Create a mother user
 		User user = new User();
 		user.setUserType(new UserType());
 		user.getUserType().setId(2);
@@ -293,12 +293,7 @@ public class AdminController {
 		System.out.println("---------------------");
 		session.setAttribute("mothertopics", motherTopics); //Update the topics
 		
-		/*System.out.println("---------------------");
-		System.out.println("Inside Mother Module's Page In Admin: ");
-		for(Topic t:topics){
-			System.out.println(t);
-		}
-		System.out.println("---------------------");*/
+		
 		return "motherAdmin";
 
 
@@ -324,12 +319,6 @@ public class AdminController {
 			System.out.println("---------------------");
 			session.setAttribute("daughtertopics", daughterTopics); //Update the topics
 			
-			/*System.out.println("---------------------");
-			System.out.println("Inside Mother Module's Page In Admin: ");
-			for(Topic t:topics){
-				System.out.println(t);
-			}
-			System.out.println("---------------------");*/
 			return "daughterAdmin";
 
 
@@ -467,33 +456,7 @@ public class AdminController {
 		return adminActivityAnswer;
 	}
 
-		//Replaced
-/*	private Activity addMCQActivity(Activity activity, HttpServletRequest request) throws AdminException {
-
-		List<String> correctAnswers = new ArrayList<String>(Arrays.asList(request.getParameterValues("correctAnswer")));
-
-		Enumeration<String> parameters = request.getParameterNames();
-		List<Answer> answers = new ArrayList<Answer>();
-		while(parameters.hasMoreElements()){
-			String param = (String) parameters.nextElement();
-			if(param.contains("option")){
-				Answer answer = new Answer();
-				answer.setAnswerText(request.getParameter(param).trim());
-				answer.setOrderNo(Integer.valueOf(param.split("_")[1]));
-				answer.setIsCorrect(correctAnswers.contains(param)?true:false);
-				answers.add(answer);
-			}
-		}
-
-		AdminActivityAnswer adminActivityAnswer = new AdminActivityAnswer();
-		adminActivityAnswer.setActivity(activity);
-		adminActivityAnswer.setAnswers(answers);
-
-		adminActivityAnswer = adminService.saveAdminActivityAnswer(adminActivityAnswer);
-
-		return adminActivityAnswer.getActivity();
-	}*/
-
+	
 
 	private Activity addMCQActivity(Activity activity, HttpServletRequest request) throws AdminException {
 
@@ -635,10 +598,14 @@ public class AdminController {
 			System.out.println("Inside add new topic version id is: "+versioning);
 			int topicId = adminService.addNewTopic(topicName,versioning);
 			Topic topic = new Topic(topicId, topicName);
-			//Commented out
-//			String[] versionIds = request.getParameterValues("versionIds");
-//			adminService.assignTopicToVersion(topicId, versionIds);
-			adminService.assignTopicToUsers(topicId);
+			//Changes start here
+			Integer id = null;
+			if(versioning.equals("YES"))
+				id = 2;
+			else
+				id = 3;				
+			adminService.assignTopicToUsers(topicId,id);
+			// End
 			List<Topic> topics = (List<Topic>) session.getAttribute("topics");
 			topics.add(topic);
 			System.out.println("Adding new topic in AdminController");
@@ -650,7 +617,8 @@ public class AdminController {
 
 			 LOGGER.debug("AdminController: addNewTopic: END");
 			return loadHome(session, model);
-		} catch (AdminException e) {
+			
+		}catch (AdminException e) {
 			return "errorPage";
 		}
 	}

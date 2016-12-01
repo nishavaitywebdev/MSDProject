@@ -45,8 +45,18 @@ function deleteDiagnosticQuestion(deletedTag){
 	$("#deletableId").val(deleteId);
 	$("#confirmationDialog").modal("toggle");
 	
+	
 
 }
+
+
+$(".goBack").on("click",function(e) {
+    e.preventDefault(); // cancel the link itself
+    $("#editForm").attr('action', this.href);
+    console.log(this.href);
+	$("#editForm").submit();
+  });
+
 
 
 </script>
@@ -68,10 +78,15 @@ function deleteDiagnosticQuestion(deletedTag){
 						class="icon-bar"></span>
 				</button>
 				
-				<a class="navbar-brand">Admin</a>
+				<!-- <a class="navbar-brand">Admin</a> -->
 			</div>
+				<form name="editForm" id="editForm" action="#" method="post">
+					<input type="hidden" id="id" name="id" value="" />
+				</form>
+			
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav">
+					<li><a href="#" class="goBack">Admin</a></li>
 <!-- 					<li class="active"><a href="#">Topics and Blocks</a></li> -->
 					<li><a data-toggle="modal" id ="addAdmin" href="#addNewAdmin">Add New Admin</a></li>
 				</ul>
@@ -83,6 +98,7 @@ function deleteDiagnosticQuestion(deletedTag){
 				</ul>
 			</div>
 		</div>
+		
 </nav>
 
 <div>
@@ -205,6 +221,8 @@ function deleteDiagnosticQuestion(deletedTag){
 			
 </div>	
 </div>
+ 
+
 
 
 
