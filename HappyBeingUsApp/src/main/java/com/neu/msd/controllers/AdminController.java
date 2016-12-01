@@ -136,8 +136,8 @@ public class AdminController {
 		System.out.println("End inside load home");
 		session.removeAttribute("activityContainer");
 		LOGGER.debug("AdminController: loadHome: END");
-		return "adminHome2";
-
+		//return "adminHome2";
+		return "adminHomeRefactoredTest";
 	}
 
 	@RequestMapping(value="/editActivityContainer.action", method=RequestMethod.POST)
@@ -258,6 +258,18 @@ public class AdminController {
 		} catch (AdminException e) {
 			return "errorPage";
 		}
+
+
+	}
+	
+	
+	//Adding new action for directing the admin to mother's module
+	@RequestMapping(value="/mother.action", method=RequestMethod.GET)
+	public String adminLoadMotherModule(HttpSession session, Model model) throws AdminException{
+		LOGGER.debug("AdminController: adminMotherModule: START");
+
+		return "motherAdmin";
+
 
 
 	}
@@ -563,6 +575,13 @@ public class AdminController {
 			//Commented out
 //			String[] versionIds = request.getParameterValues("versionIds");
 //			adminService.assignTopicToVersion(topicId, versionIds);
+			String versioning = request.getParameter("versionIdsForMother");
+			System.out.println("Inside addNewTopic for Mother the version id is: "+versioning);
+			/*String[] versionId = request.getParameterValues("versionIdsForMother");
+			for(String s:versionId){
+				System.out.println("Inside addNewTopic for Mother the version id should be: "+s);
+			}*/
+			//Changes end here
 			adminService.assignTopicToUsers(topicId);
 			List<Topic> topics = (List<Topic>) session.getAttribute("topics");
 			topics.add(topic);
@@ -636,7 +655,8 @@ public class AdminController {
 			//System.out.println("Inside AdminController addNewActivity: version is: "+versionIds[0]);
 			adminService.assignActivityContainerToVersion(activityContainer.getActivityContainerId(), versionIds, topicId);
 			// ---------- Changes to add version to Activity Container end here ----------
-
+			String versionIdforMother = request.getParameter("versionIdForActivityContainer");
+			System.out.println("Version Id fetched from Mothe's Page is : "+versionIdforMother);
 
 			session.removeAttribute("activityContainer");
 			List<Topic> topics = (List<Topic>) session.getAttribute("topics");
