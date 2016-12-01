@@ -290,6 +290,9 @@ h6:before {
 									onclick="deleteTopic(this)">Delete <span>${topic.topicName}</span></a> <input type="hidden"
 									id="topicNotEmpty_${topic.id}"
 									value="${fn:length(topic.activityContainers)>0}" />
+									</br>
+									</br> <a class="btn btn-warning" data-toggle="modal"
+									data-target="#addNewTopic" role="button">Add New Topic</a>
 							</div>
 						</c:forEach>
 
@@ -365,8 +368,7 @@ h6:before {
 
 				</br> </br>
 				<!-- Added this on 11/25-->
-				<a class="btn btn-warning" data-toggle="modal"
-					data-target="#addNewTopic" role="button">Add New Topic</a>
+				
 				 
 				<!-- 			<div class="col-sm-4"></div> -->
 				<!-- 			Renaming the topic pop up modal  START-->
