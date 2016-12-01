@@ -36,7 +36,8 @@ public interface AdminService {
 	
 	public User adminAuthenticate(UserAuthentication userAuthentication) throws AdminException;
 
-	public int addNewTopic(String topicName) throws AdminException;
+	//Made change to associate a topic with the user i.e. mother or daughter
+	public int addNewTopic(String topicName,String isMothers) throws AdminException;
 
 	public int deleteTopic(int deletableId) throws AdminException;
 

@@ -210,7 +210,7 @@ h6:before {
 			<div class="col-sm-12">
 
 
-				<h2>Inside Mother's Module</h2>
+				
 				<!-- Making changes here -->
 				<div class="container">
 					<ul class="nav nav-pills nav-justified">
@@ -446,7 +446,7 @@ h6:before {
 								</div>
 								<div class="modal-body">
 								
-									 <input type="hidden" name="versionIdsForMother" value="YES">
+									 <input type="hidden" name="userId" value="YES">
 									
 								</div>								
 								<div class="modal-footer">

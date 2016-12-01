@@ -437,7 +437,7 @@ public class AdminDaoImpl implements AdminDao {
 		}
 	}
 
-	public int addTopic(String topicName) throws AdminException {
+	public int addTopic(String topicName, String isMothers) throws AdminException {
 
 		LOGGER.debug("AdminDaoImpl: addTopic: START");
 
@@ -446,11 +446,12 @@ public class AdminDaoImpl implements AdminDao {
 			connection = dataSource.getConnection();
 
 			int nextTopicId = getNextTopicId(connection);
-			String sql = "insert into topic values(?, ?)";
+			String sql = "insert into topic values(?, ?, ?)";
 			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
 			stmt.setInt(1, nextTopicId);
 			stmt.setString(2, topicName);
+			stmt.setString(3, isMothers);
 
 			int records = stmt.executeUpdate();
 

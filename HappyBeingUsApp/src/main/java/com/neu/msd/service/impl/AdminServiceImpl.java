@@ -138,8 +138,8 @@ public class AdminServiceImpl implements AdminService {
 		return adminDao.authenticateAdminByUsernamePassword(userAuthentication);
 	}
 
-	public int addNewTopic(String topicName) throws AdminException {
-		return adminDao.addTopic(topicName); 
+	public int addNewTopic(String topicName,String isMothers) throws AdminException {
+		return adminDao.addTopic(topicName, isMothers); 
 	}
 
 	public int deleteTopic(int deletableId) throws AdminException {

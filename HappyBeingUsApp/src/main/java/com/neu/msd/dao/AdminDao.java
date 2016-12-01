@@ -43,7 +43,7 @@ public interface AdminDao {
 
 	public User authenticateAdminByUsernamePassword(UserAuthentication userAuthentication) throws AdminException;
 
-	public int addTopic(String topicName) throws AdminException;
+	public int addTopic(String topicName, String isMothers) throws AdminException;
 
 	public int deleteTopic(int deletableId) throws AdminException;
 	

@@ -631,18 +631,13 @@ public class AdminController {
 
 		LOGGER.debug("AdminController: addNewTopic: START");
 		try {
-			int topicId = adminService.addNewTopic(topicName);
+			String versioning = request.getParameter("userId");
+			System.out.println("Inside add new topic version id is: "+versioning);
+			int topicId = adminService.addNewTopic(topicName,versioning);
 			Topic topic = new Topic(topicId, topicName);
 			//Commented out
 //			String[] versionIds = request.getParameterValues("versionIds");
 //			adminService.assignTopicToVersion(topicId, versionIds);
-			String versioning = request.getParameter("versionIdsForMother");
-			System.out.println("Inside addNewTopic for Mother the version id is: "+versioning);
-			/*String[] versionId = request.getParameterValues("versionIdsForMother");
-			for(String s:versionId){
-				System.out.println("Inside addNewTopic for Mother the version id should be: "+s);
-			}*/
-			//Changes end here
 			adminService.assignTopicToUsers(topicId);
 			List<Topic> topics = (List<Topic>) session.getAttribute("topics");
 			topics.add(topic);
