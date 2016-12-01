@@ -267,7 +267,7 @@ public class AdminTest {
 	public void test_addTopic(){
 		int q = 0;
 		try {
-			q = adminService.addNewTopic("Test Topic Add");
+			q = adminService.addNewTopic("Test Topic Add","YES");
 			q = adminService.deleteTopic(q);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -281,7 +281,7 @@ public class AdminTest {
 	public void test_deleteTopic(){
 		int q = 0;
 		try {
-			q = adminService.addNewTopic("Test Topic Add");
+			q = adminService.addNewTopic("Test Topic Add","YES");
 			q = adminService.deleteTopic(q);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -597,17 +597,14 @@ public class AdminTest {
 	}
 	
 	
-	
 	@Test
 	public void test_assignTopicToUsers() throws AdminException{
 		
-				
-		
 		String topicName = "TestTopic";
-		int topicId = adminService.addNewTopic(topicName);
+		int topicId = adminService.addNewTopic(topicName,"NO");
 		Topic newTopic = new Topic(topicId, topicName);
 		
-		int numRecords = adminService.assignTopicToUsers(newTopic.getId());
+		int numRecords = adminService.assignTopicToUsers(newTopic.getId(),3);
 		assertEquals(true, numRecords > 0);
 	}
 	

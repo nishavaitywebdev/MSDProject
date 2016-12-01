@@ -47,4 +47,6 @@ public interface UserDao {
 
 	void saveUserProgressToBigTable(int userId, int topicId, int activityContainerId, int activityId) throws UserException;
 
+	List<Topic> filterTopicForUsers(List<Topic> topics,User user) throws UserException;
+	
 }

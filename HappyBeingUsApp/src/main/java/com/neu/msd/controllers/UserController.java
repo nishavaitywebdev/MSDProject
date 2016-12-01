@@ -99,18 +99,27 @@ public class UserController {
 			int b = -1;
 			double score = 0;
 			System.out.println("Inside redirectToUserHome");
+			
 			/*for(Integer s:scores.getScores()){
 				System.out.println("scores are: "+s);
 				//System.out.println(weigh[b++]);
 			}*/
+		
+			
 			for (Integer a : scores.getScores()) {
-				/*if (a != null)*/
-				if (a != 0)
+				System.out.println("Score "+a);
+				
+				if (a != null){
+					b++;
 					score += (double) (((double) (a - 1)) / (double) weigh[b]);
 					System.out.println("Inside UserController score is"+(double) weigh[b]);
-				b++;
+				}
+				
 			}
-			score = score / 5 * 100;
+			
+			List<AdminActivityAnswer> activityAnswers = userService.getDiagnosticQuestions();
+			
+			score = score / activityAnswers.size() * 100;
 			user=userService.addscore(user, score);
 
 			// List<AdminActivityAnswer> activityAnswers =

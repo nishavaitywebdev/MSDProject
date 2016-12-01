@@ -43,7 +43,7 @@ public interface AdminDao {
 
 	public User authenticateAdminByUsernamePassword(UserAuthentication userAuthentication) throws AdminException;
 
-	public int addTopic(String topicName) throws AdminException;
+	public int addTopic(String topicName,String isMothers) throws AdminException;
 
 	public int deleteTopic(int deletableId) throws AdminException;
 	
@@ -104,7 +104,7 @@ public interface AdminDao {
 	
 	public List<ActivityContainer> filterActivityContainers(List<ActivityContainer> activityContainers, int versionId) throws AdminException;
 
-	public int assignTopicToUsers(int topicId) throws AdminException;
+	public int assignTopicToUsers(int topicId,int user_type_id) throws AdminException;
 		
-
+	public List<Topic> filterTopicForUsers(List<Topic> topics, User user) throws AdminException;
 }

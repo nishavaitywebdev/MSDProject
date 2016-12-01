@@ -5,6 +5,9 @@ package com.neu.msd.service.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -32,6 +35,7 @@ import com.neu.msd.entities.User;
 import com.neu.msd.entities.UserAuthentication;
 import com.neu.msd.entities.Version;
 import com.neu.msd.exception.AdminException;
+import com.neu.msd.exception.UserException;
 import com.neu.msd.service.AdminService;
 
 /**
@@ -138,8 +142,8 @@ public class AdminServiceImpl implements AdminService {
 		return adminDao.authenticateAdminByUsernamePassword(userAuthentication);
 	}
 
-	public int addNewTopic(String topicName) throws AdminException {
-		return adminDao.addTopic(topicName); 
+	public int addNewTopic(String topicName,String isMothers) throws AdminException {
+		return adminDao.addTopic(topicName,isMothers); 
 	}
 
 	public int deleteTopic(int deletableId) throws AdminException {
@@ -173,12 +177,12 @@ public class AdminServiceImpl implements AdminService {
 //			adminDao.assignTopicToVersion(topicId, Integer.valueOf(versionIds[i]));
 //		}
 //	}
-	
+
 	// ---------- Changes to add version to Activity Container ----------
 	public void assignActivityContainerToVersion(int actConId, String[] versionIds, int topicId) throws AdminException {
-	for(int i = 0; i< versionIds.length; i++){
-	adminDao.assignActivityContainerToVersion(actConId, Integer.valueOf(versionIds[i]), topicId);
-	}
+		for(int i = 0; i< versionIds.length; i++){
+			adminDao.assignActivityContainerToVersion(actConId, Integer.valueOf(versionIds[i]), topicId);
+		}
 	}
 
 	// ---------- Changes to add version to Activity Container end here----------
@@ -186,9 +190,9 @@ public class AdminServiceImpl implements AdminService {
 
 	
 	// Adding AssignTopictoUsers here: Neha and Vinay
-	public int assignTopicToUsers(int topicId) throws AdminException
+	public int assignTopicToUsers(int topicId,int user_type_id) throws AdminException
 	{
-		int numRecords = adminDao.assignTopicToUsers(topicId);
+		int numRecords = adminDao.assignTopicToUsers(topicId,user_type_id);
 		return numRecords;		
 	}
 	
@@ -399,4 +403,12 @@ public class AdminServiceImpl implements AdminService {
 			return 0;
 	}
 	
+	
+
+
+	@Override
+	public List<Topic> filterTopicForUsers(List<Topic> topics, User user) throws AdminException {
+		// TODO Auto-generated method stub
+		return adminDao.filterTopicForUsers(topics, user);	
+	}
 }	

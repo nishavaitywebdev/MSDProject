@@ -437,7 +437,7 @@ public class AdminDaoImpl implements AdminDao {
 		}
 	}
 
-	public int addTopic(String topicName) throws AdminException {
+	public int addTopic(String topicName,String isMothers) throws AdminException {
 
 		LOGGER.debug("AdminDaoImpl: addTopic: START");
 
@@ -446,11 +446,12 @@ public class AdminDaoImpl implements AdminDao {
 			connection = dataSource.getConnection();
 
 			int nextTopicId = getNextTopicId(connection);
-			String sql = "insert into topic values(?, ?)";
+			String sql = "insert into topic values(?, ?,?)";
 			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
 			stmt.setInt(1, nextTopicId);
 			stmt.setString(2, topicName);
+			stmt.setString(3, isMothers);
 
 			int records = stmt.executeUpdate();
 
@@ -989,7 +990,7 @@ public class AdminDaoImpl implements AdminDao {
 //	}
 	
 	//Adding assignTopicToUsers: Neha and Vinay
-	public int assignTopicToUsers(int topicId) throws AdminException
+	public int assignTopicToUsers(int topicId,int user_type_id) throws AdminException
 	{
 		LOGGER.debug("AdminDaoImpl: assignTopicToUsers: START");
 
@@ -1000,8 +1001,9 @@ public class AdminDaoImpl implements AdminDao {
 							
 			//			linking the new topic with the users associated to this topic's vesion
 
-			String sql = "select user_id from user";
+			String sql = "select user_id from user where user_type_id = ?";
 			stmt = connection.prepareStatement(sql);			
+			stmt.setInt(1, user_type_id);
 			rs = stmt.executeQuery();
 			List<Integer> users = new ArrayList<Integer>();
 			int records = 0;
@@ -1887,7 +1889,9 @@ public class AdminDaoImpl implements AdminDao {
 		LOGGER.debug("AdminDaoImpl: saveDiagnostic: START");
 
 		PreparedStatement stmt = null;
+		PreparedStatement stmt2 = null;
 
+		
 		try {
 			connection = dataSource.getConnection();
 
@@ -1906,10 +1910,16 @@ public class AdminDaoImpl implements AdminDao {
 			stmt.setInt(3, activityTemplateId);
 			stmt.setString(4, questionText);
 			stmt.setInt(5, nextOrderNo);						
-
-
 			int records = stmt.executeUpdate();
 
+			
+			String sqlActivityScore = "insert into activity_score (activity_id,score) values(?,?)";
+			stmt2 = connection.prepareStatement(sqlActivityScore);
+			stmt2.setInt(1, nextActivityId);
+			stmt2.setInt(2, 4);
+			
+			int insert = stmt2.executeUpdate();
+			
 			return nextActivityId;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1937,11 +1947,19 @@ public class AdminDaoImpl implements AdminDao {
 			
 			connection = dataSource.getConnection();
 
+			String sqlActivityScore = "delete from activity_score where activity_id=?";
+			stmt = connection.prepareStatement(sqlActivityScore,Statement.RETURN_GENERATED_KEYS);
+			stmt.setInt(1, activityId);
+			
+			int records1 = stmt.executeUpdate();
+			
+			
 			String sql = "delete from activity where activity_id=?";
 			stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			stmt.setInt(1, activityId);
 
 			int records = stmt.executeUpdate();
+			
 			
 			return records;
 
@@ -2027,6 +2045,61 @@ public class AdminDaoImpl implements AdminDao {
 
 	}
 	
+
+
+	@Override
+	public List<Topic> filterTopicForUsers(List<Topic> topics, User user) throws AdminException {
+		// TODO Auto-generated method stub
+		LOGGER.debug("AdminDaoImpl: filterTopicsForUsers: START");
+		PreparedStatement stmt = null;
+		List<Topic> filteredTopics = new ArrayList<Topic>();
+		
+		try {
+			connection = dataSource.getConnection();
+			ResultSet rs = null;
+			
+			for(Topic topic:topics){
+				System.out.println("FOR THE TOPIC ***** "+topic.getTopicName());
+				String sql = "select is_mothers from topic where topic_id = ?";
+				stmt = connection.prepareStatement(sql);
+				stmt.setInt(1, topic.getId());
+				rs = stmt.executeQuery();
+				
+				while(rs.next()){
+					System.out.println(rs.getString(1));
+					
+					
+					if(user.getUserType().getId() == 2 && rs.getString(1).equals("YES"))
+						filteredTopics.add(topic);
+					
+					else if(user.getUserType().getId() == 3 && rs.getString(1).equals("NO"))
+						filteredTopics.add(topic);
+				}
+			}
+			
+			
+			for(Topic topic:filteredTopics){
+				System.out.println("~~~~~~~~~~~~~~~~~~~"+topic.getTopicName());
+			}
+			
+			
+			return filteredTopics;
+
+			
+		} catch (SQLException e) {
+			throw new AdminException(e);
+		}finally{
+			try {
+				if(null != stmt) stmt.close();
+				if(null != connection) connection.close();
+				LOGGER.debug("UserDaoImpl: filterTopicsForUsers: END");
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new AdminException(e);
+			}
+		}
+		
+	}
 	
 	
 }

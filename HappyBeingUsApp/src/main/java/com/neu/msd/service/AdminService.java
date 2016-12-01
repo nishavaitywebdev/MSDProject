@@ -17,6 +17,8 @@ import com.neu.msd.entities.User;
 import com.neu.msd.entities.UserAuthentication;
 import com.neu.msd.entities.Version;
 import com.neu.msd.exception.AdminException;
+import com.neu.msd.exception.UserException;
+
 import java.util.ArrayList;
 /**
  * @author Harsh
@@ -36,7 +38,7 @@ public interface AdminService {
 	
 	public User adminAuthenticate(UserAuthentication userAuthentication) throws AdminException;
 
-	public int addNewTopic(String topicName) throws AdminException;
+	public int addNewTopic(String topicName,String isMothers) throws AdminException;
 
 	public int deleteTopic(int deletableId) throws AdminException;
 
@@ -75,5 +77,7 @@ public interface AdminService {
 	
 	public int updateDiagnosticQuestion(AdminActivityAnswer adminActivity) throws AdminException;
 
-	public int assignTopicToUsers(int topicId) throws AdminException;
+	public int assignTopicToUsers(int topicId,int user_type_id) throws AdminException;
+	
+	public List<Topic> filterTopicForUsers(List<Topic> topics,User user) throws AdminException;
 }

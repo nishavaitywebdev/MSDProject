@@ -294,6 +294,10 @@ public class UserDaoImpl implements UserDao {
 
 			}
 
+			// Irrelevant of the Diagnostic Module, assign mothers same topics
+			if(user.getUserType().getId() == 2)
+				version_id = 3;
+			
 			sql = "update user set is_diagnostic_taken = ?, version_id = ?, score= ? where user_id = ?";
 			stmt3 = connection.prepareStatement(sql);
 			stmt3.setInt(1, 1);
@@ -681,6 +685,51 @@ public class UserDaoImpl implements UserDao {
 				throw new UserException(e);
 			}
 		}
+	}
+
+	@Override
+	public List<Topic> filterTopicForUsers(List<Topic> topics, User user) throws UserException {
+		// TODO Auto-generated method stub
+		LOGGER.debug("UserDaoImpl: filterTopicsForUsers: START");
+		PreparedStatement stmt = null;
+		List<Topic> filteredTopics = new ArrayList<Topic>();
+		
+		try {
+			connection = dataSource.getConnection();
+			ResultSet rs = null;
+			
+			for(Topic topic:topics){
+				String sql = "select is_mothers from topic where topic_id = ?";
+				stmt = connection.prepareStatement(sql);
+				stmt.setInt(1, topic.getId());
+				rs = stmt.executeQuery();
+				
+				while(rs.next()){
+					
+					if(user.getUserType().getId() == 2 && rs.getString(1).equals("YES"))
+						filteredTopics.add(topic);
+					
+					else if(user.getUserType().getId() == 3 && rs.getString(1).equals("NO"))
+						filteredTopics.add(topic);
+				}
+			}
+			
+			return filteredTopics;
+
+			
+		} catch (SQLException e) {
+			throw new UserException(e);
+		}finally{
+			try {
+				if(null != stmt) stmt.close();
+				if(null != connection) connection.close();
+				LOGGER.debug("UserDaoImpl: filterTopicsForUsers: END");
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new UserException(e);
+			}
+		}
+		
 	}
 
 }

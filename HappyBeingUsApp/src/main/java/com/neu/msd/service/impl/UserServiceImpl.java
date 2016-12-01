@@ -78,13 +78,16 @@ public class UserServiceImpl implements UserService {
 
 	public List<Topic> getTopicsOfUser(User user) throws UserException {
 		List<Topic> topics = new ArrayList<Topic>();
+		List<Topic> filteredTopics = new ArrayList<Topic>();
 		int versionId = -1;
 		if(user.getVersion() != null)			
 			versionId = user.getVersion().getId();
 		
 		topics = userDao.getTopicsOfUser(user.getId());
+		filteredTopics = userDao.filterTopicForUsers(topics, user);
+		
 		try {
-			adminService.loadTopicsWithActivityContainers(new HashMap<Integer, ActivityContainer>(), topics, versionId);
+			adminService.loadTopicsWithActivityContainers(new HashMap<Integer, ActivityContainer>(), filteredTopics, versionId);
 		} catch (AdminException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

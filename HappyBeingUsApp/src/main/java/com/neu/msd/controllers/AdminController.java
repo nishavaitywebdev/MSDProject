@@ -120,24 +120,32 @@ public class AdminController {
 		LOGGER.debug("AdminController: loadHome: START");
 		// Here Topics fetched by previous team
 		List<Topic> topics = (List<Topic>) session.getAttribute("topics");
+		
+		
 		if(null == topics){
 			Map<Integer, ActivityContainer> containerMap = new HashMap<Integer, ActivityContainer>();
 			topics = adminService.loadTopics(containerMap);
 			List<Version> versions = adminService.loadAllVersion();
-			session.setAttribute("topics", topics);
+			//session.setAttribute("topics", topics);
 			session.setAttribute("containerMap", containerMap);
 			session.setAttribute("versions", versions);
 		}
 		//Inside loadHome
-		System.out.println("Inside Load Home ");
+		System.out.println("Inside Load Home ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+		User user = new User();
+		user.setUserType(new UserType());
+		user.getUserType().setId(2);
+		topics = adminService.filterTopicForUsers(topics, user);
+	
 		for(Topic t:topics){
 			System.out.println(t);
 		}
+		session.setAttribute("topics", topics);
 		System.out.println("End inside load home");
 		session.removeAttribute("activityContainer");
 		LOGGER.debug("AdminController: loadHome: END");
-		return "adminHome2";
-
+		//return "adminHome2";
+		return "adminHomeRefactoredTest";
 	}
 
 	@RequestMapping(value="/editActivityContainer.action", method=RequestMethod.POST)
@@ -258,6 +266,18 @@ public class AdminController {
 		} catch (AdminException e) {
 			return "errorPage";
 		}
+
+
+	}
+	
+	
+	//Adding new action for directing the admin to mother's module
+	@RequestMapping(value="/mother.action", method=RequestMethod.GET)
+	public String adminLoadMotherModule(HttpSession session, Model model) throws AdminException{
+		LOGGER.debug("AdminController: adminMotherModule: START");
+
+		return "motherAdmin";
+
 
 
 	}
@@ -558,12 +578,26 @@ public class AdminController {
 
 		LOGGER.debug("AdminController: addNewTopic: START");
 		try {
-			int topicId = adminService.addNewTopic(topicName);
+			String versioning = request.getParameter("versionIdsForMother");
+			int topicId = adminService.addNewTopic(topicName,versioning);
 			Topic topic = new Topic(topicId, topicName);
 			//Commented out
 //			String[] versionIds = request.getParameterValues("versionIds");
 //			adminService.assignTopicToVersion(topicId, versionIds);
-			adminService.assignTopicToUsers(topicId);
+			
+			System.out.println("Inside addNewTopic for Mother the version id is: "+versioning);
+			/*String[] versionId = request.getParameterValues("versionIdsForMother");
+			for(String s:versionId){
+				System.out.println("Inside addNewTopic for Mother the version id should be: "+s);
+			}*/
+			//Changes end here
+			Integer id = null;
+			if(versioning.equals("YES"))
+				id = 2;
+			else
+				id = 3;
+				
+			adminService.assignTopicToUsers(topicId,id);
 			List<Topic> topics = (List<Topic>) session.getAttribute("topics");
 			topics.add(topic);
 			System.out.println("Adding new topic in AdminController");
@@ -636,7 +670,8 @@ public class AdminController {
 			//System.out.println("Inside AdminController addNewActivity: version is: "+versionIds[0]);
 			adminService.assignActivityContainerToVersion(activityContainer.getActivityContainerId(), versionIds, topicId);
 			// ---------- Changes to add version to Activity Container end here ----------
-
+			String versionIdforMother = request.getParameter("versionIdForActivityContainer");
+			System.out.println("Version Id fetched from Mothe's Page is : "+versionIdforMother);
 
 			session.removeAttribute("activityContainer");
 			List<Topic> topics = (List<Topic>) session.getAttribute("topics");
