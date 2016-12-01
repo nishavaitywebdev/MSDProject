@@ -61,12 +61,19 @@ h6:before {
 	height: 200px;
 	z-index: 50;
 }
-/* .btn .btn-default .dropdown-toggle{
-	width:100%;
-}
-.dropdown-menu {
-	width: 100%	
+
+/* For Circles being Displayed */
+/* .btn-circle.btn-xl {
+  width: 250px;
+  height: 250px;
+  padding: 40px 56px;
+  font-size: 24px;
+  line-height: 1.33;
+  border-radius: 35px;
 } */
+.circlemother{width:200px;text-align:center;height:200px;border-radius:50px;font-size:20px;color:#fff;line-height:100px;text-align:center;background:pink}
+.circledaughter{width:200px;text-align:center;height:200px;border-radius:50px;font-size:20px;color:#fff;line-height:100px;text-align:center;background:#BCED91}
+
 </style>
 
 
@@ -207,10 +214,21 @@ h6:before {
 			<div class="col-sm-12">
 
 
-					<h1>Inside Refactored Page in Branch Mukul</h1>
-					<a href="mother.action">Mother Module</a></li>
 					
-					<!-- <form action="mother.action" method="post">
+				<!-- <button type="button" class="btn btn-default btn-circle btn-xl"></button> -->
+				<div class="col-sm-6">
+					<div class="circlemother" style= "margin: auto;">
+						<a href="mother.action" style="color: black;text-align:center'">Mother Module</a>
+					</div>
+				</div>
+
+				<div class="col-sm-6">
+					<div class="circledaughter" style= "margin: auto;">
+						<a href="daughter.action" style="color: black">Daughter Module</a>
+					</div>
+				</div>
+
+				<!-- <form action="mother.action" method="post">
 					
 					
 					</form> -->
@@ -370,9 +388,9 @@ h6:before {
 
 				</br> </br>
 				<!-- Added this on 11/25-->
-				<a class="btn btn-warning" data-toggle="modal"
+			<!-- 	<a class="btn btn-warning" data-toggle="modal"
 					data-target="#addNewTopic" role="button">Add New Topic</a>
-				 
+				  -->
 				<!-- 			<div class="col-sm-4"></div> -->
 				<!-- 			Renaming the topic pop up modal  START-->
 				<div class="modal fade" id="renameTopic" role="dialog">

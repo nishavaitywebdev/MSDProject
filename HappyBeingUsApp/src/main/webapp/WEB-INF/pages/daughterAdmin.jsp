@@ -210,13 +210,13 @@ h6:before {
 			<div class="col-sm-12">
 
 
-				<h2>Inside Mother's Module</h2>
+				<h2>Inside Daughter's Module</h2>
 				<!-- Making changes here -->
 				<div class="container">
 					<ul class="nav nav-pills nav-justified">
 						<c:choose>
-							<c:when test="${fn:length(topics)>0}">
-								<c:forEach items="${mothertopics}" var="topic" varStatus="topicNo">
+							<c:when test="${fn:length(daughtertopics)>0}">
+								<c:forEach items="${daughtertopics}" var="topic" varStatus="topicNo">
 
 									<li role="presentation"><a href="#"
 										id="#${topic.topicName}" class="Topics" data-toggle="tab">
@@ -233,7 +233,7 @@ h6:before {
 					<%-- <div class="panel-collapse collapse ${topicNo.index+1 == 1?'in':''}"
 									id="container_for-${topic.id}"> --%>
 					<div class="tab-content" class="tab-pane fade in active">
-						<c:forEach items="${mothertopics}" var="topic" varStatus="topicNo">
+						<c:forEach items="${daughtertopics}" var="topic" varStatus="topicNo">
 
 							<div id="${topic.topicName}" class="topiccontentcontainer"
 								style="display: none">

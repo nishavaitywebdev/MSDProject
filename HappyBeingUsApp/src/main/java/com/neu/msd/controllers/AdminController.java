@@ -266,7 +266,8 @@ public class AdminController {
 	/**
 	* The following three functions.
 	* 1. adminLoadMotherModule
-	* 	*
+	* 2. adminLoadDaughterModule
+	* 	
 	* @author  Mukul Bichkar
 	* @version 1.0
 	* @since   2016-01-12
@@ -290,7 +291,7 @@ public class AdminController {
 			System.out.println(t);
 		}
 		System.out.println("---------------------");
-		session.setAttribute("topics", motherTopics); //Update the topics
+		session.setAttribute("mothertopics", motherTopics); //Update the topics
 		
 		/*System.out.println("---------------------");
 		System.out.println("Inside Mother Module's Page In Admin: ");
@@ -304,6 +305,36 @@ public class AdminController {
 
 	}
 
+	//Adding new action for directing the admin to mother's module
+		@RequestMapping(value="/daughter.action", method=RequestMethod.GET)
+		public String adminLoadDaughterModule(HttpSession session, Model model) throws AdminException{
+			LOGGER.debug("AdminController: adminDaughterModule: START");
+			//fetch already loaded topics from loadHome i.e. load all the topics
+			List<Topic> alltopics = (List<Topic>) session.getAttribute("topics");
+			//filter out the topics that belong to mother
+			// Create a new user of type daughter
+			User user = new User();
+			user.setUserType(new UserType());
+			user.getUserType().setId(3);
+			List<Topic> daughterTopics = adminService.filterTopicForUsers(alltopics, user);
+			System.out.println("--------- Daughter Topics ------------");
+			for(Topic t:daughterTopics){
+				System.out.println(t);
+			}
+			System.out.println("---------------------");
+			session.setAttribute("daughtertopics", daughterTopics); //Update the topics
+			
+			/*System.out.println("---------------------");
+			System.out.println("Inside Mother Module's Page In Admin: ");
+			for(Topic t:topics){
+				System.out.println(t);
+			}
+			System.out.println("---------------------");*/
+			return "daughterAdmin";
+
+
+
+		}
 
 
 
