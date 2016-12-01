@@ -144,11 +144,7 @@ h6:before {
 			e.preventDefault(); // cancel the link itself
 		});
 
-		$(".goBack").on("click", function(e) {
-			e.preventDefault(); // cancel the link itself
-			$("#editForm").attr('action', this.href);
-			$("#editForm").submit();
-		});
+		
 		$(".nav li").click(function() {
 			$(".nav li").removeClass('active');
 			$(this).addClass('active');
@@ -157,6 +153,12 @@ h6:before {
 		});
 
 		$('.nav-tabs li:first-child a').tab('show');
+		
+		$(".goBack").on("click",function(e) {
+		    e.preventDefault(); // cancel the link itself
+		    $("#editForm").attr('action', this.href);
+			$("#editForm").submit();
+		  });
 
 	});
 </script>
@@ -172,11 +174,12 @@ h6:before {
 					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#" class="goBack">Admin</a>
+				
+				<!-- <a class="navbar-brand" href="#" class="goBack"> -->
 			</div>
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav">
-
+					<li><a href="adminLoadHome.action" class="goBack">Admin</a></li>	
 					<li><a data-toggle="modal" id="addAdmin" href="#addNewAdmin">Add
 							New Admin</a></li>
 

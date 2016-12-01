@@ -398,5 +398,12 @@ public class AdminServiceImpl implements AdminService {
 		else
 			return 0;
 	}
+
+	@Override
+	public List<Topic> filterTopicForUsers(List<Topic> topics, User user) throws AdminException {
+		// TODO Auto-generated method stub
+		return adminDao.filterTopicForUsers(topics, user);
+		
+	}
 	
 }	

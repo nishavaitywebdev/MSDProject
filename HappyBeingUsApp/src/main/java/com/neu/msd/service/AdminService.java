@@ -76,4 +76,8 @@ public interface AdminService {
 	public int updateDiagnosticQuestion(AdminActivityAnswer adminActivity) throws AdminException;
 
 	public int assignTopicToUsers(int topicId) throws AdminException;
+	
+	//Adding new filtering criteria for mothers
+	public List<Topic> filterTopicForUsers(List<Topic> topics,User user) throws AdminException;
+	
 }

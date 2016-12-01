@@ -2026,6 +2026,59 @@ public class AdminDaoImpl implements AdminDao {
 		}
 
 	}
+
+	@Override
+	public List<Topic> filterTopicForUsers(List<Topic> topics, User user) throws AdminException {
+		// TODO Auto-generated method stub
+				LOGGER.debug("AdminDaoImpl: filterTopicsForUsers: START");
+				PreparedStatement stmt = null;
+				List<Topic> filteredTopics = new ArrayList<Topic>();
+				
+				try {
+					connection = dataSource.getConnection();
+					ResultSet rs = null;
+					
+					for(Topic topic:topics){
+						System.out.println("FOR THE TOPIC ***** "+topic.getTopicName());
+						String sql = "select is_mothers from topic where topic_id = ?";
+						stmt = connection.prepareStatement(sql);
+						stmt.setInt(1, topic.getId());
+						rs = stmt.executeQuery();
+						
+						while(rs.next()){
+							System.out.println(rs.getString(1));
+							
+							
+							if(user.getUserType().getId() == 2 && rs.getString(1).equals("YES"))
+								filteredTopics.add(topic);
+							
+							else if(user.getUserType().getId() == 3 && rs.getString(1).equals("NO"))
+								filteredTopics.add(topic);
+						}
+					}
+					
+					
+					for(Topic topic:filteredTopics){
+						System.out.println("~~~~~~~~~~~~~~~~~~~"+topic.getTopicName());
+					}
+					
+					
+					return filteredTopics;
+
+					
+				} catch (SQLException e) {
+					throw new AdminException(e);
+				}finally{
+					try {
+						if(null != stmt) stmt.close();
+						if(null != connection) connection.close();
+						LOGGER.debug("UserDaoImpl: filterTopicsForUsers: END");
+					} catch (SQLException e) {
+						e.printStackTrace();
+						throw new AdminException(e);
+					}
+				}
+	}
 	
 	
 	

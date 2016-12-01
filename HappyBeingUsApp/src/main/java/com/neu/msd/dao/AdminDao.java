@@ -105,6 +105,9 @@ public interface AdminDao {
 	public List<ActivityContainer> filterActivityContainers(List<ActivityContainer> activityContainers, int versionId) throws AdminException;
 
 	public int assignTopicToUsers(int topicId) throws AdminException;
+	
+	//Adding Filtering Topics Based on the User i.e. mother or daughter
+	public List<Topic> filterTopicForUsers(List<Topic> topics, User user) throws AdminException;
 		
 
 }

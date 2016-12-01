@@ -118,7 +118,7 @@ public class AdminController {
 	public String loadHome(HttpSession session, Model model) throws AdminException{
 
 		LOGGER.debug("AdminController: loadHome: START");
-		// Here Topics fetched by previous team
+		// Here Topics fetched by previous team   
 		List<Topic> topics = (List<Topic>) session.getAttribute("topics");
 		if(null == topics){
 			Map<Integer, ActivityContainer> containerMap = new HashMap<Integer, ActivityContainer>();
@@ -263,11 +263,41 @@ public class AdminController {
 	}
 	
 	
+	/**
+	* The following three functions.
+	* 1. adminLoadMotherModule
+	* 	*
+	* @author  Mukul Bichkar
+	* @version 1.0
+	* @since   2016-01-12
+	*/
+
+	
 	//Adding new action for directing the admin to mother's module
 	@RequestMapping(value="/mother.action", method=RequestMethod.GET)
 	public String adminLoadMotherModule(HttpSession session, Model model) throws AdminException{
 		LOGGER.debug("AdminController: adminMotherModule: START");
-
+		//fetch already loaded topics from loadHome i.e. load all the topics
+		List<Topic> alltopics = (List<Topic>) session.getAttribute("topics");
+		//filter out the topics that belong to mother
+		// Create a 
+		User user = new User();
+		user.setUserType(new UserType());
+		user.getUserType().setId(2);
+		List<Topic> motherTopics = adminService.filterTopicForUsers(alltopics, user);
+		System.out.println("--------- Mother Topics ------------");
+		for(Topic t:motherTopics){
+			System.out.println(t);
+		}
+		System.out.println("---------------------");
+		session.setAttribute("topics", motherTopics); //Update the topics
+		
+		/*System.out.println("---------------------");
+		System.out.println("Inside Mother Module's Page In Admin: ");
+		for(Topic t:topics){
+			System.out.println(t);
+		}
+		System.out.println("---------------------");*/
 		return "motherAdmin";
 
 
