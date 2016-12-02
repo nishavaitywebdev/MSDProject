@@ -354,7 +354,7 @@ public class AdminServiceImpl implements AdminService {
 		question.setActivityTemplate(activityTemplate);
 		
 		
-		int recentActivityId = adminDao.saveDiagnosticQuestion(question);
+		int recentActivityId = adminDao.saveDiagnosticQuestion(question,options.size());
 		
 		for(Answer ans : options)
 		{

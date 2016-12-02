@@ -98,7 +98,7 @@ public interface AdminDao {
 
 	public int getMaxOrderNumberForDiagnosticQuestion(int activityTypeId) throws AdminException;
 	
-	public int saveDiagnosticQuestion(Activity activity) throws AdminException;
+	public int saveDiagnosticQuestion(Activity activity,int numOptions) throws AdminException;
 	
 	public int deleteDiagnosticQuestionById(int activityId) throws AdminException;
 	
