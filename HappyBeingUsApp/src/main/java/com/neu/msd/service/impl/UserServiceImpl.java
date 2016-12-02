@@ -79,9 +79,15 @@ public class UserServiceImpl implements UserService {
 	public List<Topic> getTopicsOfUser(User user) throws UserException {
 		List<Topic> topics = new ArrayList<Topic>();
 		List<Topic> filteredTopics = new ArrayList<Topic>();
-		int versionId = -1;
+		Integer versionId = -1;
 		if(user.getVersion() != null)			
 			versionId = user.getVersion().getId();
+		
+		else{
+			versionId = userDao.getVersionTypeForUser(user);
+			if(versionId == null)
+				versionId = -1;
+		}
 		
 		topics = userDao.getTopicsOfUser(user.getId());
 		filteredTopics = userDao.filterTopicForUsers(topics, user);
@@ -92,7 +98,7 @@ public class UserServiceImpl implements UserService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return topics;
+		return filteredTopics;
 	}
 
 

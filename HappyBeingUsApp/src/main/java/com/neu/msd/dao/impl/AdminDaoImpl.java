@@ -2092,7 +2092,7 @@ public class AdminDaoImpl implements AdminDao {
 			try {
 				if(null != stmt) stmt.close();
 				if(null != connection) connection.close();
-				LOGGER.debug("UserDaoImpl: filterTopicsForUsers: END");
+				LOGGER.debug("AdminDaoImpl: filterTopicsForUsers: END");
 			} catch (SQLException e) {
 				e.printStackTrace();
 				throw new AdminException(e);

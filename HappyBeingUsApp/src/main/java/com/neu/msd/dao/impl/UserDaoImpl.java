@@ -44,9 +44,9 @@ import com.neu.msd.service.impl.SortByorder;
  */
 @Repository("userDao")
 public class UserDaoImpl implements UserDao {
-	
+
 	Logger LOGGER = Logger.getLogger(UserDaoImpl.class);
-	
+
 	@Autowired
 	DataSource dataSource;
 	private Connection connection;
@@ -103,7 +103,7 @@ public class UserDaoImpl implements UserDao {
 
 		List<Activity> activities = new ArrayList<Activity>();
 		try {
-			 connection = dataSource.getConnection();
+			connection = dataSource.getConnection();
 
 			String sql = "select * from activity where activity_type_id = ?";
 			stmt = connection.prepareStatement(sql);
@@ -143,8 +143,8 @@ public class UserDaoImpl implements UserDao {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		try {
-			 connection = dataSource.getConnection();
-			
+			connection = dataSource.getConnection();
+
 			String sql = "select * from answer where answer_id = ?";
 			stmt = connection.prepareStatement(sql);
 			stmt.setInt(1, answerId);
@@ -183,7 +183,7 @@ public class UserDaoImpl implements UserDao {
 		ResultSet rs_topics_status = null;
 		List<Topic> list_of_topics = new ArrayList<Topic>();
 		try {
-			 connection = dataSource.getConnection();
+			connection = dataSource.getConnection();
 			String sql = "SELECT uts.user_id, uts.topic_id, t.topic_name, ts.topic_status_id, ts.topic_status_desc "
 					+ "FROM hbu.user_topic_status as uts " + "INNER JOIN topic as t " + "ON uts.topic_id = t.topic_id "
 					+ "INNER JOIN topic_status as ts "
@@ -261,14 +261,14 @@ public class UserDaoImpl implements UserDao {
 		ResultSet rs=null;
 		PreparedStatement stmt =null;
 		PreparedStatement stmt3=null;
-		
+
 		try {
 			int sco = (int) score;
-			 connection = dataSource.getConnection();
+			connection = dataSource.getConnection();
 			String sql = "select score_range from score where usertype = ?";
-			 stmt = connection.prepareStatement(sql);
+			stmt = connection.prepareStatement(sql);
 			stmt.setInt(1, 2);
-			 rs = stmt.executeQuery();
+			rs = stmt.executeQuery();
 			List<Integer> score_range = new ArrayList<Integer>();
 			while (rs.next()) {
 
@@ -297,7 +297,7 @@ public class UserDaoImpl implements UserDao {
 			// Irrelevant of the Diagnostic Module, assign mothers same topics
 			if(user.getUserType().getId() == 2)
 				version_id = 3;
-			
+
 			sql = "update user set is_diagnostic_taken = ?, version_id = ?, score= ? where user_id = ?";
 			stmt3 = connection.prepareStatement(sql);
 			stmt3.setInt(1, 1);
@@ -347,7 +347,7 @@ public class UserDaoImpl implements UserDao {
 
 		} finally {
 			try {
-				
+
 				if (null != rs)
 					rs.close();
 				if (null != stmt3)
@@ -356,21 +356,21 @@ public class UserDaoImpl implements UserDao {
 					stmt.close();
 				if (null != connection)
 					connection.close();
-				
+
 			} catch (SQLException e) {
 				e.printStackTrace();
 				throw new UserException(e);
 			}
-			
+
 		}
 		return null;
-		
+
 	}
 
 	@Override
 	public Integer[] getweigh() throws SQLException, AuthenticationException {
 		// TODO Auto-generated method stub
-		 connection = dataSource.getConnection();
+		connection = dataSource.getConnection();
 		String sql = "Select * from activity_score";
 		PreparedStatement stmt = connection.prepareStatement(sql);
 		ResultSet rs = stmt.executeQuery();
@@ -477,7 +477,7 @@ public class UserDaoImpl implements UserDao {
 	public String getUserAnswerFromBigTable(int userId, int topicId, int containerId, int activityId)
 			throws UserException {
 		LOGGER.debug("UserDaoImpl: getUserAnswerFromBigTable: END");
-		
+
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 
@@ -492,7 +492,7 @@ public class UserDaoImpl implements UserDao {
 			stmt.setInt(4, activityId);
 
 			rs = stmt.executeQuery();
-			
+
 			if (rs.next()) {
 
 				return rs.getString(1);
@@ -516,7 +516,7 @@ public class UserDaoImpl implements UserDao {
 	public List<Integer> getSelectedAnswerFromBigTable(int userId, int topicId, int containerId, int activityId)
 			throws UserException {
 		LOGGER.debug("UserDaoImpl: getSelectedAnswerFromBigTable: END");
-		
+
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		List<Integer> selectedAnswers = new ArrayList<Integer>();
@@ -532,7 +532,7 @@ public class UserDaoImpl implements UserDao {
 			stmt.setInt(4, activityId);
 
 			rs = stmt.executeQuery();
-			
+
 			while(rs.next()){
 				selectedAnswers.add(rs.getInt("answer_id"));
 			}
@@ -555,7 +555,7 @@ public class UserDaoImpl implements UserDao {
 	public void saveUserAnswerToBigTable(int userId, int topicId, int activityContainerId, int activityId,
 			String userResponse) throws UserException {
 		LOGGER.debug("UserDaoImpl: saveUserAnswerToBigTable: END");
-		
+
 		PreparedStatement stmt = null;
 
 		try {
@@ -569,7 +569,7 @@ public class UserDaoImpl implements UserDao {
 			stmt.setInt(4, activityId);
 
 			int records = stmt.executeUpdate();
-			
+
 			sql = "insert into user_topic_container_activity_answer "
 					+ "(user_id, topic_id, activity_container_id, activity_id, answer_id, answer_desc) "
 					+ "values (?, ?, ?, ?, 1, ?)";
@@ -579,9 +579,9 @@ public class UserDaoImpl implements UserDao {
 			stmt.setInt(3, activityContainerId);
 			stmt.setInt(4, activityId);
 			stmt.setString(5, userResponse.substring(0, Math.min(userResponse.length(), 999)));
-			
+
 			records = stmt.executeUpdate();
-			
+
 		} catch (SQLException e) {
 			throw new UserException(e);
 		}finally{
@@ -599,12 +599,12 @@ public class UserDaoImpl implements UserDao {
 	public void saveUserSelectionsToBigTable(int userId, int topicId, int activityContainerId, int activityId,
 			String[] selectedAnswers) throws UserException {
 		LOGGER.debug("UserDaoImpl: saveUserSelectionsToBigTable: END");
-		
+
 		PreparedStatement stmt = null;
 
 		try {
 			connection = dataSource.getConnection();
-			
+
 			String sql = "delete from user_topic_container_activity_answer "
 					+ "where user_id=? and topic_id=? and activity_container_id=? and activity_id=?";
 			stmt = connection.prepareStatement(sql);
@@ -614,7 +614,7 @@ public class UserDaoImpl implements UserDao {
 			stmt.setInt(4, activityId);
 
 			int records = stmt.executeUpdate();
-			
+
 			sql = "insert into user_topic_container_activity_answer "
 					+ "(user_id, topic_id, activity_container_id, activity_id, answer_id) "
 					+ "values (?, ?, ?, ?, ?)";
@@ -623,12 +623,12 @@ public class UserDaoImpl implements UserDao {
 			stmt.setInt(2, topicId);
 			stmt.setInt(3, activityContainerId);
 			stmt.setInt(4, activityId);
-			
+
 			for(int i=0; i<selectedAnswers.length; i++){
 				stmt.setString(5, selectedAnswers[i]);
 				records = stmt.executeUpdate();
 			}
-			
+
 		} catch (SQLException e) {
 			throw new UserException(e);
 		}finally{
@@ -646,12 +646,12 @@ public class UserDaoImpl implements UserDao {
 	public void saveUserProgressToBigTable(int userId, int topicId, int activityContainerId, int activityId)
 			throws UserException {
 		LOGGER.debug("UserDaoImpl: saveUserProgressToBigTable: START");
-		
+
 		PreparedStatement stmt = null;
 
 		try {
 			connection = dataSource.getConnection();
-			
+
 			String sql = "delete from user_topic_container_activity_answer "
 					+ "where user_id=? and topic_id=? and activity_container_id=? and activity_id=?";
 			stmt = connection.prepareStatement(sql);
@@ -661,7 +661,7 @@ public class UserDaoImpl implements UserDao {
 			stmt.setInt(4, activityId);
 
 			int records = stmt.executeUpdate();
-			
+
 			sql = "insert into user_topic_container_activity_answer "
 					+ "(user_id, topic_id, activity_container_id, activity_id, answer_id) "
 					+ "values (?, ?, ?, ?, 1)";
@@ -670,9 +670,9 @@ public class UserDaoImpl implements UserDao {
 			stmt.setInt(2, topicId);
 			stmt.setInt(3, activityContainerId);
 			stmt.setInt(4, activityId);
-			
+
 			records = stmt.executeUpdate();
-			
+
 		} catch (SQLException e) {
 			throw new UserException(e);
 		}finally{
@@ -693,30 +693,30 @@ public class UserDaoImpl implements UserDao {
 		LOGGER.debug("UserDaoImpl: filterTopicsForUsers: START");
 		PreparedStatement stmt = null;
 		List<Topic> filteredTopics = new ArrayList<Topic>();
-		
+
 		try {
 			connection = dataSource.getConnection();
 			ResultSet rs = null;
-			
+
 			for(Topic topic:topics){
 				String sql = "select is_mothers from topic where topic_id = ?";
 				stmt = connection.prepareStatement(sql);
 				stmt.setInt(1, topic.getId());
 				rs = stmt.executeQuery();
-				
+
 				while(rs.next()){
-					
+
 					if(user.getUserType().getId() == 2 && rs.getString(1).equals("YES"))
 						filteredTopics.add(topic);
-					
+
 					else if(user.getUserType().getId() == 3 && rs.getString(1).equals("NO"))
 						filteredTopics.add(topic);
 				}
 			}
-			
+
 			return filteredTopics;
 
-			
+
 		} catch (SQLException e) {
 			throw new UserException(e);
 		}finally{
@@ -729,7 +729,44 @@ public class UserDaoImpl implements UserDao {
 				throw new UserException(e);
 			}
 		}
-		
+
+	}
+
+	@Override
+	public int getVersionTypeForUser(User user) throws UserException {
+		// TODO Auto-generated method stub
+
+		LOGGER.debug("UserDaoImpl: getVersionTypeForUser: START");
+		PreparedStatement stmt = null;
+		Integer versionId = null;
+		try {
+			connection = dataSource.getConnection();
+			ResultSet rs = null;
+
+			String sql = "select version_id from user where user_id = ?";
+			stmt = connection.prepareStatement(sql);
+			stmt.setInt(1, user.getId());
+			rs = stmt.executeQuery();
+
+			while(rs.next()){
+				versionId = rs.getInt(1);
+			}
+			
+			return versionId;
+
+		} catch (SQLException e) {
+			throw new UserException(e);
+		}finally{
+			try {
+				if(null != stmt) stmt.close();
+				if(null != connection) connection.close();
+				LOGGER.debug("UserDaoImpl: getVersionTypeForUser: END");
+			} catch (SQLException e) {
+				e.printStackTrace();
+				throw new UserException(e);
+			}
+		}
+
 	}
 
 }
