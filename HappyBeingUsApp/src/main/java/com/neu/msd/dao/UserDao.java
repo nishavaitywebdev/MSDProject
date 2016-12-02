@@ -101,4 +101,6 @@ public interface UserDao {
 
 	List<Topic> filterTopicForUsers(List<Topic> topics,User user) throws UserException;
 	
+	int getVersionTypeForUser(User user) throws UserException;
+	
 }

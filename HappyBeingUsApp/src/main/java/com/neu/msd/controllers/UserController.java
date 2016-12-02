@@ -422,9 +422,11 @@ public class UserController {
 			} else {
 				List<Topic> topics = new ArrayList<Topic>();
 				topics = userService.getTopicsOfUser(user);
+				System.out.println("----------Topics---------------------");
 				for(Topic t:topics){
 					System.out.println(t);
 				}
+				System.out.println("----------Topics End---------------------");
 				model.addAttribute("topics", topics);
 			}
 
@@ -469,6 +471,8 @@ public class UserController {
 			List<AdminActivityAnswer> activityAnswers = userService.getDiagnosticQuestions();
 			
 			score = score / activityAnswers.size() * 100;
+			System.out.println("Score is !!!!!!!!!!!!!!!!!!!! " + score);
+			System.out.println("User type is " + user.getUserType().getId());
 			user=userService.addscore(user, score);
 
 			// List<AdminActivityAnswer> activityAnswers =
@@ -476,9 +480,15 @@ public class UserController {
 			// model.addAttribute("activityAnswers", activityAnswers);
 			List<Topic> topics = new ArrayList<Topic>();
 			topics = userService.getTopicsOfUser(user);
+			System.out.println("---------------------- Inside dgaction -------------------------------");
+			for(Topic t : topics)
+			{
+				System.out.println(t.getTopicName());
+			}
+			System.out.println("---------------------- Inside dgaction -------------------------------");
 			session.setAttribute("user", user);
 			model.addAttribute("topics", topics);
-			return "topics";
+			return "topics2";
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "errorPage";

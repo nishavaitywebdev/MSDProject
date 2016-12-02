@@ -676,11 +676,12 @@ public class AdminController {
 
 			// ---------- Changes to add version to Activity Container ----------
 			String[] versionIds = request.getParameterValues("versionIds");
+			
 			//System.out.println("Inside AdminController addNewActivity: version is: "+versionIds[0]);
 			adminService.assignActivityContainerToVersion(activityContainer.getActivityContainerId(), versionIds, topicId);
 			// ---------- Changes to add version to Activity Container end here ----------
-			String versionIdforMother = request.getParameter("versionIdForActivityContainer");
-			System.out.println("Version Id fetched from Mothe's Page is : "+versionIdforMother);
+			String userTypeId = request.getParameter("usertype");
+			//System.out.println("Version Id fetched from Mothe's Page is : "+versionIdforMother);
 
 			session.removeAttribute("activityContainer");
 			List<Topic> topics = (List<Topic>) session.getAttribute("topics");

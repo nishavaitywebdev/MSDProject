@@ -476,10 +476,10 @@ h6:before {
 										type="hidden" name="topicId" id="topicId" />
 								</div>
 								<div class="modal-body">
-									<c:forEach items="${versions}" var="version">
-										<span><input type="checkbox" name="versionIds"
-											value="${version.id}" /> ${version.versionName}</span>
-									</c:forEach>
+									
+										<input type="hidden" name="versionIds"
+											value="3" /> 
+									
 								</div>
 								 <input type="hidden" name="versionIdForActivityContainer" value="3">
 								<div class="modal-footer">

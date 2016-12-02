@@ -61,12 +61,7 @@ h6:before {
 	height: 200px;
 	z-index: 50;
 }
-/* .btn .btn-default .dropdown-toggle{
-	width:100%;
-}
-.dropdown-menu {
-	width: 100%	
-} */
+
 </style>
 
 
@@ -477,8 +472,11 @@ h6:before {
 								</div>
 								<div class="modal-body">
 									<c:forEach items="${versions}" var="version">
+										<c:set var="no" value="${no + 1}" scope="page"/>
+										<c:if test="${no <= 2}">
 										<span><input type="checkbox" name="versionIds"
 											value="${version.id}" /> ${version.versionName}</span>
+										</c:if>
 									</c:forEach>
 								</div>
 								 <input type="hidden" name="versionIdForActivityContainer" value="3">
