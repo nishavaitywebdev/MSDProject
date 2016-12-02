@@ -483,16 +483,27 @@ public class UserServiceImpl implements UserService {
 		
 		System.out.println("HERE VERSION ID"+versionId);
 		//user.getVersion().setId(versionId);
-		Version version = new Version();
-		version.setId(versionId);	
-		user.setVersion(version);
-		UserType ut = new UserType();
-		if(versionId == 3)
-			ut.setId(2);
-		else
-			ut.setId(3);
+
+		if(user.getVersion() == null){
+			Version version = new Version();
+			version.setId(versionId);	
+			user.setVersion(version);
+		}
 		
-		user.setUserType(ut);
+		if(user.getUserType() == null || user.getUserType().getId() == 0){
+			UserType ut = new UserType();
+			if(versionId == 3){
+				ut.setId(2);
+				ut.setUserType("Mother");
+			}
+			else{
+				ut.setId(3);
+				ut.setUserType("Daughter");
+			}
+			
+			user.setUserType(ut);
+		}
+		
 		topics = userDao.getTopicsOfUser(user.getId());
 		filteredTopics = userDao.filterTopicForUsers(topics, user);
 		
