@@ -1,5 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ page isELIgnored="false"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -537,83 +538,98 @@ h6:before {
 			<input type="hidden" id="id" name="id" value="" />
 		</form>
 
-		<div class="container-fluid bg-3 text-right">
+		
+	
+			
+			
+				<!-- 		Add Admin START -->
+<div class="modal fade" id="addNewAdmin" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content col-lg-10">
 
-			<!--  Adding New Topic Disabled as off now -->
-			<!-- 	<div class="row">
-			<div class="col-sm-8">
-				<a class="btn btn-warning" data-toggle="modal"
-					data-target="#addNewTopic" role="button">Add New Topic</a>
+				<form:form action="addNewAdmin.action" method="post"
+					modelAttribute="newAdminAuthentication">
+					<div class="modal-header">
+						<h4>Add new Admin</h4>
+					</div>
 
+					<div class="modal-body">
+						<div class="form-group">
+							<div class="col-lg-5">
+								<form:input type="text" path="user.firstName" maxlength = "80"
+									class="form-control" name="Firstname" placeholder="First name"
+									required="true" />
+							</div>
+							<div class="col-lg-5">
+								<form:input type="text" path="user.lastName" maxlength = "80"
+									class="form-control" name="Lastname" placeholder="Last Name"
+									required="true" />
+							</div>
+							<br></br>
+						</div>
+						<div class="form-group left-inner-addon ">
+							<div class="col-lg-10 ">
+								<i class="glyphicon glyphicon-envelope"></i>
+								<form:input type="email" path="user.email" maxlength = "80"
+									class="form-control" id = "adminEmail"  name="emailID" placeholder="Email"
+									required="true" />
+							</div>
+							<span id="adminEmailMsg"></span>
+							<br></br>
+						</div>
+						<div class="form-group left-inner-addon">
+							<div class="col-lg-10">
+								<i class="glyphicon glyphicon-user"></i>
+								<form:input type="text" path="username" class="form-control" maxlength = "80" minlength = "6"
+									name="userName" id = "adminUname" placeholder="Username" required="true" />
+									<div id="loadingDiv" class="modal">
+									<img alt="loading" src="Images/loading.gif">
+									</div>
+								<span id="usernameMsg"></span>
+							</div>
+							<br></br>
+						</div>
+						<div class="form-group left-inner-addon">
+							<div class="col-lg-10">
+								<i class="glyphicon glyphicon-lock"></i>
+								<form:input type="password" path="password" class="form-control" maxlength = "80" minlength = "6"
+									name="password" placeholder="password" required="true" />
+							</div>
+						</div>
+						<br></br>
+						<div class="modal-footer">
+							<a class="btn btn-default" data-dismiss="modal">Cancel</a> <input
+								class="btn btn-primary" type="submit" value="Register" />
+
+						</div>
+					</div>
+				</form:form>
 			</div>
 		</div>
-	</div> -->
-			<!-- 		Add Admin START -->
-			<div class="modal fade" id="addNewAdmin" role="dialog">
-				<div class="modal-dialog">
-					<div class="modal-content col-lg-10">
-
-						<form:form action="addNewAdmin.action" method="post"
-							modelAttribute="userAuthentication">
-							<div class="modal-header">
-								<h4>Add new Admin</h4>
-							</div>
-
-							<div class="modal-body">
-								<div class="form-group">
-									<div class="col-lg-5">
-										<form:input type="text" path="user.firstName" maxlength="80"
-											class="form-control" name="Firstname"
-											placeholder="First name" required="true" />
-									</div>
-									<div class="col-lg-5">
-										<form:input type="text" path="user.lastName" maxlength="80"
-											class="form-control" name="Lastname" placeholder="Last Name"
-											required="true" />
-									</div>
-									<br></br>
-								</div>
-								<div class="form-group left-inner-addon ">
-									<div class="col-lg-10 ">
-										<i class="glyphicon glyphicon-envelope"></i>
-										<form:input type="email" path="user.email" maxlength="80"
-											class="form-control" id="adminEmail" name="emailID"
-											placeholder="Email" required="true" />
-									</div>
-									<span id="adminEmailMsg"></span> <br></br>
-								</div>
-								<div class="form-group left-inner-addon">
-									<div class="col-lg-10">
-										<i class="glyphicon glyphicon-user"></i>
-										<form:input type="text" path="username" class="form-control"
-											maxlength="80" minlength="6" name="userName" id="adminUname"
-											placeholder="Username" required="true" />
-										<div id="loadingDiv" class="modal">
-											<img alt="loading" src="Images/loading.gif">
-										</div>
-										<span id="usernameMsg"></span>
-									</div>
-									<br></br>
-								</div>
-								<div class="form-group left-inner-addon">
-									<div class="col-lg-10">
-										<i class="glyphicon glyphicon-lock"></i>
-										<form:input type="password" path="password"
-											class="form-control" maxlength="80" minlength="6"
-											name="password" placeholder="password" required="true" />
-									</div>
-								</div>
-								<br></br>
-								<div class="modal-footer">
-									<a class="btn btn-default" data-dismiss="modal">Cancel</a> <input
-										class="btn btn-primary" type="submit" value="Register" />
-
-								</div>
-							</div>
-						</form:form>
-					</div>
-				</div>
-			</div>
+</div>
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 			<!-- 		Add Admin  END -->
 			<!-- Footer -->
 			<%@ include file="footer.jsp"%>

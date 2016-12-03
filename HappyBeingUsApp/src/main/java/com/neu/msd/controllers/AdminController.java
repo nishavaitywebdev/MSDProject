@@ -77,6 +77,8 @@ public class AdminController {
 			if (admin.getId()!=0)
 			{
 				session.setAttribute("user", admin);
+				UserAuthentication newAdminAuthentication = new UserAuthentication();
+				model.addAttribute("newAdminAuthentication",newAdminAuthentication);
 				return loadHome(session, model);
 
 			}
@@ -93,10 +95,12 @@ public class AdminController {
 	}
 
 	@RequestMapping(value="/addNewAdmin.action", method=RequestMethod.POST)
-	public String registerAdmin(@ModelAttribute("userAuthentication") UserAuthentication userAuthentication,
+	public String registerAdmin(@ModelAttribute("newAdminAuthentication") UserAuthentication userAuthentication,
 			Model model, HttpSession httpSession){
 		try {
 
+			System.out.println("Entering Admin Controller for Add New Admin: ");
+			//System.out.println("UserAuthentication Object is: "+userAuthentication.toString());
 			int uId = adminService.registerAdmin(userAuthentication);
 			User user = userAuthentication.getUser();
 			user.setId(uId);
@@ -105,6 +109,7 @@ public class AdminController {
 			user.setUserType(userType);
 			user.setDiagnosticTaken(false);
 			httpSession.setAttribute("user", user);
+			
 			return adminLogin(userAuthentication.getUsername(),
 					userAuthentication.getPassword(),
 					httpSession, model);
@@ -136,8 +141,8 @@ public class AdminController {
 		System.out.println("End inside load home");
 		session.removeAttribute("activityContainer");
 		LOGGER.debug("AdminController: loadHome: END");
-		//return "adminHome2";
-		return "adminHomeRefactoredTest";
+		return "adminHome2";
+		//return "adminHomeRefactoredTest";
 	}
 
 	@RequestMapping(value="/editActivityContainer.action", method=RequestMethod.POST)
