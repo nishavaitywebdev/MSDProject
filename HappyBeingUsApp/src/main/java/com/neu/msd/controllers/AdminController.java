@@ -77,6 +77,7 @@ public class AdminController {
 			if (admin.getId()!=0)
 			{
 				session.setAttribute("user", admin);
+				System.out.println("The user admin after authentication is: "+admin.toString());
 				UserAuthentication newAdminAuthentication = new UserAuthentication();
 				model.addAttribute("newAdminAuthentication",newAdminAuthentication);
 				return loadHome(session, model);
@@ -215,7 +216,7 @@ public class AdminController {
 
 				return loadDiagnosticHome(session,model);
 
-			//return "diagnosticModule";
+			
 
 	}
 
@@ -235,7 +236,7 @@ public class AdminController {
 
 		LOGGER.debug("AdminController: loadDiagnosticHome: END");
 		return "diagnosticModule";
-
+		//return "diagnosticModuleTest";
 	}
 
 
