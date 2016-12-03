@@ -141,8 +141,8 @@ public class AdminController {
 		System.out.println("End inside load home");
 		session.removeAttribute("activityContainer");
 		LOGGER.debug("AdminController: loadHome: END");
-		return "adminHome2";
-		//return "adminHomeRefactoredTest";
+		//return "adminHome2";
+		return "adminHomeRefactoredTest";
 	}
 
 	@RequestMapping(value="/editActivityContainer.action", method=RequestMethod.POST)

@@ -1,5 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+
 <%@ page isELIgnored="false"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -175,8 +176,8 @@ h6:before {
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav">
 					<li><a href="adminLoadHome.action" class="goBack">Admin</a></li>	
-					<li><a data-toggle="modal" id="addAdmin" href="#addNewAdmin">Add
-							New Admin</a></li>
+					<!-- <li><a data-toggle="modal" id="addAdmin" href="#addNewAdmin">Add
+							New Admin</a></li> -->
 
 				</ul>
 				<ul class="nav navbar-nav">
