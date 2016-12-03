@@ -88,6 +88,8 @@ public class Topic {
 	}
 	
 	public void setProgress() {
+		
+		
 		this.progress = (int)(((double)completedActContainers/ (double) maxActContainers) * 100);
 	}
 

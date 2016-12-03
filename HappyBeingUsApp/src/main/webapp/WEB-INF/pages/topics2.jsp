@@ -228,12 +228,13 @@ h6:before {
 
 										<c:forEach items="${topic.activityContainers}"
 											var="activityContainer" varStatus="currCount">
-											<%-- <p>${topic}</p> --%>
+											
 											<tr>
 												<td><h6></h6></td>
-												<td><c:if
+												<td>
+												<c:if
 														test="${fn:length(activityContainer.activities) > 0}">
-
+														
 														<a
 															id="${topic.id}_${activityContainer.activityContainerId}"
 															class="btn ${currCount.index+1 <= topic.completedActContainers+1?"

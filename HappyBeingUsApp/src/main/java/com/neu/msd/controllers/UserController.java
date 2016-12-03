@@ -362,6 +362,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.SystemPropertyUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -415,7 +416,7 @@ public class UserController {
 	@RequestMapping(value = "/loadUserTopicsPage.action", method = RequestMethod.GET)
 	public String loadTopicsOfUser(HttpSession session, Model model) {
 		try {
-			User user = new User();
+			User user = new User();	
 			user = (User) session.getAttribute("user");
 			if (user.isDiagnosticTaken() == false) {
 				return redirectToDiagnostic(model);
@@ -499,45 +500,60 @@ public class UserController {
 	public String showActivity(@RequestParam("actcon") String actcon, Model model, HttpSession session) {
 
 		try {
+			
 			String[] id = actcon.split("_");
-			int tId = Integer.parseInt(id[0]);
-			int cId = Integer.parseInt(id[1]);
+			int tId = Integer.parseInt(id[0]); //Topic Id
+			int cId = Integer.parseInt(id[1]); //Container Id
+			
 			System.out.println("Inside getActivity page: ");
 			//System.out.println("tId: "+tId+" and cIs is: "+cId);
 			Topic topic = userService.settopic(tId);
+			
 			List<ActivityContainer> containers = new ArrayList<ActivityContainer>();
 			containers = topic.getActivityContainers();
-			List<ActivityContainer> p_containers = new ArrayList<ActivityContainer>();
-			List<ActivityContainer> n_containers = new ArrayList<ActivityContainer>();
-			ActivityContainer c_container = new ActivityContainer();
+			int max_activities_per_topic = 0;
+			int activities_covered = 1; //Since Current page is also a activity
+			for(ActivityContainer c:containers){
+				max_activities_per_topic += c.getActivities().size();
+				//System.out.println("Each activity container with name:" + c.getContainerName() +"has: "+c.getActivities().size());
+				
+			}
+			System.out.println("Max Activities per Topic is: "+max_activities_per_topic);
+			List<ActivityContainer> p_containers = new ArrayList<ActivityContainer>(); //Previous Activity Container
+			List<ActivityContainer> n_containers = new ArrayList<ActivityContainer>(); //Next Activity Containers
+			ActivityContainer c_container = new ActivityContainer(); //Current Activity Container
 			int next = 0;
 			for (ActivityContainer contain : containers) {
 				if (next == 0) {
 					if (cId != contain.getActivityContainerId()) {
-						System.out.println("Entered Condition 1 ");
+						//System.out.println("Entered Condition 1 "+contain.getActivityContainerId());
 						p_containers.add(contain);
 					} else {
-						System.out.println("Entered condition 2 ");
+						//System.out.println("Entered condition 2 "+contain.getActivityContainerId());
 						c_container = contain;
 						next = 1;
 					}
 				} else {
-					System.out.println("Entered condition 3 ");
+					//System.out.println("Entered condition 3 "+contain.getActivityContainerId());
 					n_containers.add(contain);
 				}
 			}
 			
+			
+			
+			//Now Activities Start
+			List<Activity> p_act = new ArrayList<Activity>(); //previous activity
 
-			List<Activity> p_act = new ArrayList<Activity>();
-
-			Activity c_act = new Activity();
-			List<Activity> n_act = new ArrayList<Activity>();
+			Activity c_act = new Activity();   //Current activity
+			List<Activity> n_act = new ArrayList<Activity>(); //Contains next activities
 			int first = 0;
 			for (Activity act : c_container.getActivities()) {
 				if (first == 0) {
 					c_act = act;
+					System.out.println("First Activity : "+act.getId());
 					first = 1;
 				} else {
+					System.out.println("Next activities: "+act.getId());
 					n_act.add(act);
 				}
 			}
@@ -549,17 +565,29 @@ public class UserController {
 			}
 			List<Answer> answers = userService.getAnwser(userId, tId, c_container.getActivityContainerId(), c_act);
 			session.setAttribute("act_max", 1 + p_act.size() + n_act.size());
+			System.out.println("act_max is set to: "+1 + p_act.size() + n_act.size());
 			session.setAttribute("con_max", 1 + p_containers.size() + n_containers.size());
+			System.out.println("con_max is set to: "+1 + p_containers.size() + n_containers.size());
+			//Setting size of current topic max activities
+			session.setAttribute("max_activities_curr_topic", max_activities_per_topic); 
+			session.setAttribute("activities_covered",activities_covered);
+			System.out.println("Max Activities for Current Container is: "+1+n_act.size());
 			session.setAttribute("p_act", p_act);
+			
 			session.setAttribute("n_act", n_act);
+			
 			session.setAttribute("c_act", c_act);
+			
 			session.setAttribute("p_containers", p_containers);
+			
+			
 			session.setAttribute("n_containers", n_containers);
+			
 			session.setAttribute("c_container", c_container);
+			
 			session.setAttribute("answers", answers);
 			session.setAttribute("topicId", tId);
-			System.out.println(" The answers fetched are: ");
-			System.out.println(answers);
+			
 			return "activityUser";
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -600,7 +628,7 @@ public class UserController {
 				userService.saveUserProgressToBigTable(userId, topicId, currentContainer.getActivityContainerId(), 
 							currentActivity.getId());
 			}
-
+			System.out.println("Act Con is: "+actcon);
 			if (actcon == 1) {
 				Activity old_c_act = (Activity) session.getAttribute("c_act");
 				List<Activity> p_act = (List<Activity>) session.getAttribute("p_act");
@@ -634,6 +662,12 @@ public class UserController {
 				session.setAttribute("n_act", n_act);
 				session.setAttribute("c_act", new_c_act);
 				session.setAttribute("answers", answers);
+				System.out.println("Inside reload page act_max in 2: ");
+				int activities_covered = (Integer) session.getAttribute("activities_covered");
+				System.out.println("Activities Covered So Far: "+activities_covered);
+				session.setAttribute("activities_covered", activities_covered+1);
+				
+				
 			} else if (actcon == 3) {
 				ActivityContainer old_c_container = (ActivityContainer) session.getAttribute("c_container");
 				List<ActivityContainer> p_containers = (List<ActivityContainer>) session.getAttribute("p_containers");
@@ -659,7 +693,9 @@ public class UserController {
 				List<String> rightanswers=new ArrayList<String>();
 				
 				session.setAttribute("act_max", 1 + p_act.size() + n_act.size());
+				System.out.println("Inside reload page act_max in 3: "+1 + p_act.size() + n_act.size());
 				session.setAttribute("con_max", 1 + p_containers.size() + n_containers.size());
+				System.out.println("Inside reload page act_max in 3: "+1 + p_containers.size() + n_containers.size());
 				session.setAttribute("p_act", p_act);
 				session.setAttribute("n_act", n_act);
 				session.setAttribute("c_act", c_act);
@@ -692,7 +728,9 @@ public class UserController {
 				List<Answer> answers = userService.getAnwser(userId, topicId, new_c_container.getActivityContainerId(), c_act);
 
 				session.setAttribute("act_max", 1 + p_act.size() + n_act.size());
+				
 				session.setAttribute("con_max", 1 + p_containers.size() + n_containers.size());
+				
 				session.setAttribute("p_act", p_act);
 				session.setAttribute("n_act", n_act);
 				session.setAttribute("c_act", c_act);
@@ -701,6 +739,9 @@ public class UserController {
 				session.setAttribute("c_container", new_c_container);
 				session.setAttribute("answers", answers);
 				System.out.println(answers);
+				int activities_covered = (Integer) session.getAttribute("activities_covered");
+				System.out.println("Activities Covered So Far: "+activities_covered);
+				session.setAttribute("activities_covered", activities_covered+1);
 			}
 			else if(actcon==5){
 				return loadTopicsOfUser(session, model);
