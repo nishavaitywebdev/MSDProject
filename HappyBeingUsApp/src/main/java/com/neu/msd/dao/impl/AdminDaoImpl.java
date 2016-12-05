@@ -3972,7 +3972,7 @@ public class AdminDaoImpl implements AdminDao {
 	//Description : This functions takes in an activity object and saves the newly created diagnostic question
 	//				to the database by inserting appropriate values to the activity table, answer table and the 
 	//				admin_activity_answer table.
-	public int saveDiagnosticQuestion(Activity activity) throws AdminException
+	public int saveDiagnosticQuestion(Activity activity, int numOptions) throws AdminException
 	{
 		LOGGER.debug("AdminDaoImpl: saveDiagnostic: START");
 
@@ -4004,7 +4004,19 @@ public class AdminDaoImpl implements AdminDao {
 			String sqlActivityScore = "insert into activity_score (activity_id,score) values(?,?)";
 			stmt2 = connection.prepareStatement(sqlActivityScore);
 			stmt2.setInt(1, nextActivityId);
-			stmt2.setInt(2, 4);
+			
+			int questionWeight = 0;
+			
+			if(numOptions <=3)
+				questionWeight = 6;
+			
+			else if(numOptions >= 4 && numOptions <6)
+				questionWeight = 4;
+			
+			else
+				questionWeight = 3;
+			
+			stmt2.setInt(2, questionWeight);
 			
 			int insert = stmt2.executeUpdate();
 			
@@ -4188,6 +4200,8 @@ public class AdminDaoImpl implements AdminDao {
 		}
 		
 	}
+
+	
 	
 	
 }

@@ -764,7 +764,7 @@ public class AdminServiceImpl implements AdminService {
 		question.setActivityTemplate(activityTemplate);
 		
 		
-		int recentActivityId = adminDao.saveDiagnosticQuestion(question);
+		int recentActivityId = adminDao.saveDiagnosticQuestion(question, options.size());
 		
 		for(Answer ans : options)
 		{
@@ -804,13 +804,13 @@ public class AdminServiceImpl implements AdminService {
 		if(i > 0){
 			int rows = addDiagnosticQuestion(adminActivity.getActivity().getActivityText(), adminActivity.getAnswers());
 			if (rows > 0)
-				return rows + i;
+				return rows;
 			else
-				return 0;
+				return -1;
 		
 		}
 		else
-			return 0;
+			return -1;
 	}
 	
 	

@@ -213,7 +213,8 @@ public interface AdminDao {
 
 	public int getMaxOrderNumberForDiagnosticQuestion(int activityTypeId) throws AdminException;
 	
-	public int saveDiagnosticQuestion(Activity activity) throws AdminException;
+	//Development for dynamic scoring
+	public int saveDiagnosticQuestion(Activity activity, int numOptions) throws AdminException;
 	
 	public int deleteDiagnosticQuestionById(int activityId) throws AdminException;
 	
@@ -222,4 +223,6 @@ public interface AdminDao {
 	public int assignTopicToUsers(int topicId,int user_type_id) throws AdminException;
 		
 	public List<Topic> filterTopicForUsers(List<Topic> topics, User user) throws AdminException;
+	
+	
 }

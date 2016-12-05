@@ -967,32 +967,32 @@ public class AdminTest {
 	/* Mohsen Nabian*/
 
 
-//	@Test
-//
-//
-//	public void test_getDiagnostic(){
-//
-//
-//		try {
-//
-//			int q = userService.getDiagnosticQuestions().size();
-//
-//			assertEquals(5, q);
-//
-//		} catch (UserException e) {
-//
-//			// TODO Auto-generated catch block
-//
-//			e.printStackTrace();
-//
-//		} catch (AdminException e) {
-//
-//			// TODO Auto-generated catch block
-//
-//			e.printStackTrace();
-//
-//		}
-//	}
+	@Test
+
+
+	public void test_getDiagnostic(){
+
+
+		try {
+
+			int q = userService.getDiagnosticQuestions().size();
+
+			assertEquals(true, q > 0);
+
+		} catch (UserException e) {
+
+			// TODO Auto-generated catch block
+
+			e.printStackTrace();
+
+		} catch (AdminException e) {
+
+			// TODO Auto-generated catch block
+
+			e.printStackTrace();
+
+		}
+	}
 
 	/* Mohsen Nabian*/
 
@@ -1392,6 +1392,7 @@ public class AdminTest {
 		adminActivityAnswer.setAnswers(adminAnswers);
 			
 		int numRowsAffected = adminService.updateDiagnosticQuestion(adminActivityAnswer);
+		adminService.deleteDiagnosticQuestion(numRowsAffected);
 		assertEquals(true, numRowsAffected > 0);		
 	}
 	

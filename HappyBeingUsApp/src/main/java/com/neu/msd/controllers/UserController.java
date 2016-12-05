@@ -471,6 +471,8 @@ public class UserController {
 			
 			List<AdminActivityAnswer> activityAnswers = userService.getDiagnosticQuestions();
 			
+			
+			
 			score = score / activityAnswers.size() * 100;
 			System.out.println("Score is !!!!!!!!!!!!!!!!!!!! " + score);
 			System.out.println("User type is " + user.getUserType().getId());
