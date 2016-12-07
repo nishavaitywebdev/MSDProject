@@ -688,6 +688,29 @@ public class AdminController {
 			// ---------- Changes to add version to Activity Container end here ----------
 			String userTypeId = request.getParameter("usertype");
 			//System.out.println("Version Id fetched from Mothe's Page is : "+versionIdforMother);
+			
+			
+			//---------------Neha: For version display: 2--------
+            //Files affected for this change: Next change in AdminDaoImpl (loadActivityContainersByTopicId)
+            List<Version> versionsForDisplay = (List<Version>) session.getAttribute("versions");
+            Version versionToSet = new Version();
+            int versionIdToSet = Integer.parseInt(versionIds[0]);
+            for(Version ver: versionsForDisplay){
+                if(ver.getId() == versionIdToSet){
+                    versionToSet.setId(ver.getId());
+                    versionToSet.setVersionName(ver.getVersionName());                  
+                }               
+            }
+            
+            if(versionToSet != null)
+                activityContainer.setActivityContainerVersion(versionToSet);
+            
+            //---------------Neha: For version display:2 End-------- 
+			
+			
+			
+			
+			
 
 			session.removeAttribute("activityContainer");
 			List<Topic> topics = (List<Topic>) session.getAttribute("topics");

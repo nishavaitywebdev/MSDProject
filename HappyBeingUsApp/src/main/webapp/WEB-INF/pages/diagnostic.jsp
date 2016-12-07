@@ -28,19 +28,7 @@
 </style>
 
 <script type="text/javascript">
-function validateForm() {
-    var radios = document.getElementsByName("answeryesno");
-    //console.log("The number of answers are: "+radios.length);
-    var formValid = false;
-    var i = 0;
-    while (!formValid && i < radios.length) {
-        if (radios[i].checked) formValid = true;
-        i++;        
-    }
 
-    if (!formValid) alert("Must answer all the questions before Submitting!");
-    return formValid;
-}
 </script>​
 
 
@@ -56,7 +44,7 @@ function validateForm() {
 		</div>
 	</div>
 <body>
-	<form name="form1" action="#" onsubmit="return validateForm()" method="post"> 
+	<%-- <form name="form1" action="#" onsubmit="return validateForm()" method="post">  --%>
 	<form:form action="dg.action" method="post">
 		<c:set var="questionno" value="0" scope="page" />
 		<c:forEach items="${activityAnswers}" var="activityAnswer">
@@ -66,9 +54,10 @@ function validateForm() {
 				<p>${activityAnswer.activity.activityText}</p>
 				<c:forEach items="${activityAnswer.answers}" var="answer">
 					<div class="radio">
-						<label><input type="radio"
+						<label ><input type="radio"
 							name="scores[${activityAnswer.activity.orderNo}]"
-							value="${answer.orderNo}" name="answeryesno">${answer.answerText}</label>
+							value="${answer.orderNo}">${answer.answerText}</label>
+							
 					</div>
 				</c:forEach>
 			</div>
@@ -78,7 +67,7 @@ function validateForm() {
 
 		</div>
 	</form:form>
-	</form>
+	<%-- </form> --%>
 
 
 	<!-- Footer -->

@@ -1618,18 +1618,25 @@ public class UserDaoImpl implements UserDao {
 			stmt.setInt(1, id);
 			rs_topics_status = stmt.executeQuery();
 
-			String sqlTopicProgress = "select max_activity.activity_container_id, max_activity.curr_activity_count, "
-					+ "max_activity.max_activity_count, "
-					+ "activity_container.order_no as curr_container_count, max_container.order_no as max_container_count "
-					+ "from activity_container, "
-					+ "(select curr_activity.activity_container_id, curr_activity.curr_activity_count, "
-					+ "count(*) max_activity_count " + "from activity, "
-					+ "(select activity_container_id, count(*) as curr_activity_count "
-					+ "from user_topic_container_activity_answer " + "where user_id = ? and topic_id = ? "
-					+ "group by activity_container_id " + "order by activity_container_id desc limit 1) as curr_activity "
-					+ "where activity.activity_container_id = curr_activity.activity_container_id) max_activity, "
-					+ "(select order_no from activity_container where topic_id=? order by order_no desc limit 1) max_container "
-					+ "where activity_container.activity_container_id = max_activity.activity_container_id";
+	//---------------Neha: For topic progress: 1--------
+			
+			String sqlTopicProgress = "select max_containers.containers_count max_activity_containers_count, "
+					+ "activity_containers_attempted.activity_container_attempted_count attempted_activity_containers_count, "
+					+ "last_activity_container.activity_attempted_count activities_attempted_in_last_container_count, "
+					+ "last_activity_container.max_activity_count max_activities_in_last_container_count "
+					+ "from (select activities_attempted_in_last_container.activity_container_id, "
+					+ "activities_attempted_in_last_container.activity_attempted_count, count(*) max_activity_count "
+					+ "from activity, (select activity_container_id, count(distinct activity_id) as "
+					+ "activity_attempted_count from user_topic_container_activity_answer where "
+					+ "user_id = ? and topic_id = ? group by activity_container_id "
+					+ "order by activity_container_id desc limit 1) activities_attempted_in_last_container "
+					+ "where activity.activity_container_id = activities_attempted_in_last_container.activity_container_id) last_activity_container, "
+					+ "(select count(distinct activity_container_id) as activity_container_attempted_count "
+					+ "from user_topic_container_activity_answer where user_id = ? and topic_id = ?) activity_containers_attempted, "
+					+ "(select count(*) containers_count from activity_container ac join (select activity_container_id "
+					+ "from user u join version_activity_container vac on u.version_id = vac.version_id where u.user_id = ?) as a_container_ids "
+					+ "on ac.activity_container_id = a_container_ids.activity_container_id where ac.topic_id = ?) max_containers";
+			
 			PreparedStatement stmtTopicProgress = connection.prepareStatement(sqlTopicProgress);
 
 			while (rs_topics_status.next()) {
@@ -1641,21 +1648,42 @@ public class UserDaoImpl implements UserDao {
 				ts.setTopicStatus(rs_topics_status.getString("topic_status_desc"));
 
 				topic.setTopicStatus(ts);
-
+				
+//				stmtTopicProgress.setInt(1, id);
+//				stmtTopicProgress.setInt(2, rs_topics_status.getInt("topic_id"));
+//				stmtTopicProgress.setInt(3, rs_topics_status.getInt("topic_id"));
+//
 				stmtTopicProgress.setInt(1, id);
 				stmtTopicProgress.setInt(2, rs_topics_status.getInt("topic_id"));
-				stmtTopicProgress.setInt(3, rs_topics_status.getInt("topic_id"));
+				stmtTopicProgress.setInt(3, id);
+				stmtTopicProgress.setInt(4, rs_topics_status.getInt("topic_id"));
+				stmtTopicProgress.setInt(5, id);
+				stmtTopicProgress.setInt(6, rs_topics_status.getInt("topic_id"));
 				ResultSet rsTopicProgress = stmtTopicProgress.executeQuery();
+				
+//				if (rsTopicProgress.next()) {
+//					if (rsTopicProgress.getInt("curr_activity_count") < 
+//							rsTopicProgress.getInt("max_activity_count")) {
+//						topic.setCompletedActContainers(rsTopicProgress.getInt("curr_container_count") - 1);
+//					} else {
+//						topic.setCompletedActContainers(rsTopicProgress.getInt("curr_container_count"));
+//					}
+//
+//					topic.setMaxActContainers(rsTopicProgress.getInt("max_container_count"));
+//				}
 
 				if (rsTopicProgress.next()) {
-					if (rsTopicProgress.getInt("curr_activity_count") < rsTopicProgress.getInt("max_activity_count")) {
-						topic.setCompletedActContainers(rsTopicProgress.getInt("curr_container_count") - 1);
+					if (rsTopicProgress.getInt("activities_attempted_in_last_container_count") < 
+							rsTopicProgress.getInt("max_activities_in_last_container_count")) {
+						topic.setCompletedActContainers(rsTopicProgress.getInt("attempted_activity_containers_count") - 1);
 					} else {
-						topic.setCompletedActContainers(rsTopicProgress.getInt("curr_container_count"));
+						topic.setCompletedActContainers(rsTopicProgress.getInt("attempted_activity_containers_count"));
 					}
 
-					topic.setMaxActContainers(rsTopicProgress.getInt("max_container_count"));
+					topic.setMaxActContainers(rsTopicProgress.getInt("max_activity_containers_count"));
 				}
+				
+				//---------------Neha: For topic progress: 1 End--------
 				topic.setProgress();
 				list_of_topics.add(topic);
 			}

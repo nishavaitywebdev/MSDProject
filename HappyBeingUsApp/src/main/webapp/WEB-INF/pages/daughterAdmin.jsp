@@ -150,6 +150,18 @@ h6:before {
 
 		$('.nav-tabs li:first-child a').tab('show');
 		
+		
+		
+	/* 	//Adding Validation
+		$("#validateModal").validate({
+    ignore: [],  // <-- allows for validation of hidden fields
+    rules: {
+        'versionIds[]': {
+            required: true
+        }
+    } 
+});*/
+		
 		$(".goBack").on("click",function(e) {
 		    e.preventDefault(); // cancel the link itself
 		    $("#editForm").attr('action', this.href);
@@ -214,9 +226,15 @@ h6:before {
 							<c:when test="${fn:length(daughtertopics)>0}">
 								<c:forEach items="${daughtertopics}" var="topic" varStatus="topicNo">
 
-									<li role="presentation"><a href="#"
+									<%-- <li role="presentation"><a href="#"
 										id="#${topic.topicName}" class="Topics" data-toggle="tab">
+											${topic.topicName} </a></li> --%>
+
+									<!-- ---------------Neha: For accepting Topic name with spaces--------Part1 -->
+									<li role="presentation"><a href="#"
+										id="#topic_${topic.id}" class="Topics" data-toggle="tab">
 											${topic.topicName} </a></li>
+									<!-- ---------------Neha: For accepting Topic name with spaces--------Part1 End -->
 
 								</c:forEach>
 							</c:when>
@@ -231,9 +249,14 @@ h6:before {
 					<div class="tab-content" class="tab-pane fade in active">
 						<c:forEach items="${daughtertopics}" var="topic" varStatus="topicNo">
 
-							<div id="${topic.topicName}" class="topiccontentcontainer"
-								style="display: none">
+							<%-- <div id="${topic.topicName}" class="topiccontentcontainer"
+								style="display: none"> --%>
 								<%-- <p>${topic}</p> --%>
+							<!-- ---------------Neha: For accepting Topic name with spaces--------Part2 -->
+							<div id="topic_${topic.id}" class="topiccontentcontainer"
+								style="display: none">
+								<!-- ---------------Neha: For accepting Topic name with spaces--------Part2 End -->
+
 								<table class="table table-striped table-bordered">
 									<tr>
 										<th>Sr. No</th>
@@ -247,7 +270,17 @@ h6:before {
 													var="activityContainer">
 													<tr>
 														<td><h6></h6></td>
-														<td>${activityContainer.containerName}</td>
+														<td>
+															<!-- ---------------Neha: For version display: 1-------- -->
+															<div class="row">
+																<div class="col-sm-8">${activityContainer.containerName}</div>
+																<div class="col-sm-4">
+																	<span class="label label-default">
+																		${activityContainer.activityContainerVersion.getVersionName()}
+																	</span>
+																</div>
+															</div> <!-- ---------------Neha: For version display: 1-------- -->
+														</td>
 														<td>
 															<%-- <a class="btn btn-success" role="button"
 														id="${activityContainer.activityContainerId}"
@@ -280,14 +313,13 @@ h6:before {
 								<a class="btn btn-success" role="button" data-toggle="modal"
 									data-target="#addNewContainer"
 									id="new_container_under-${topic.id}"
-									onclick="addContainer(this)"> Add New Activity Container to <span>${topic.topicName}</span></a>
-								 <a
-									class="btn btn-danger" id="deleteId_${topic.id}" role="button"
-									onclick="deleteTopic(this)">Delete <span>${topic.topicName}</span></a> <input type="hidden"
-									id="topicNotEmpty_${topic.id}"
-									value="${fn:length(topic.activityContainers)>0}" />
-									</br>
-									</br> <a class="btn btn-warning" data-toggle="modal"
+									onclick="addContainer(this)"> Add New Activity Container to
+									<span>${topic.topicName}</span>
+								</a> <a class="btn btn-danger" id="deleteId_${topic.id}"
+									role="button" onclick="deleteTopic(this)">Delete <span>${topic.topicName}</span></a>
+								<input type="hidden" id="topicNotEmpty_${topic.id}"
+									value="${fn:length(topic.activityContainers)>0}" /> </br> </br> <a
+									class="btn btn-warning" data-toggle="modal"
 									data-target="#addNewTopic" role="button">Add New Topic</a>
 							</div>
 						</c:forEach>
@@ -440,7 +472,7 @@ h6:before {
 							<form action="addNewTopic.action" method="post">
 								<div class="modal-body">
 									<input type="text" class="form-control" id="topicName"
-										name="topicName" placeholder="Enter new topic name" required />
+										name="topicName" placeholder="Enter new topic name"/>
 								</div>
 								<div class="modal-body">
 								
@@ -471,19 +503,23 @@ h6:before {
 										placeholder="Enter new Activity container name" required /> <input
 										type="hidden" name="topicId" id="topicId" />
 								</div>
+								
 								<div class="modal-body">
+									
 									<c:forEach items="${versions}" var="version">
 										<c:set var="no" value="${no + 1}" scope="page"/>
 										<c:if test="${no <= 2}">
-										<span><input type="checkbox" name="versionIds"
-											value="${version.id}" /> ${version.versionName}</span>
+										<span><input type="radio" name="versionIds"
+											value="${version.id}"/> ${version.versionName}</span>
 										</c:if>
 									</c:forEach>
+									
 								</div>
+							
 								 <input type="hidden" name="versionIdForActivityContainer" value="3">
 								<div class="modal-footer">
 									<input type="submit" class="btn btn-success" role="button"
-										value="Add" />
+										value="Add"/>
 								</div>
 							</form>
 						</div>

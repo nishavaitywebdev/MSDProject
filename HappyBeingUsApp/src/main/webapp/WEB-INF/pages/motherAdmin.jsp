@@ -219,9 +219,14 @@ h6:before {
 							<c:when test="${fn:length(topics)>0}">
 								<c:forEach items="${mothertopics}" var="topic" varStatus="topicNo">
 
-									<li role="presentation"><a href="#"
+									<%-- <li role="presentation"><a href="#"
 										id="#${topic.topicName}" class="Topics" data-toggle="tab">
+											${topic.topicName} </a></li> --%>
+									<!-- //---------------Neha: For accepting topic name with spaces: Part 1 End-------- -->
+									<li role="presentation"><a href="#"
+										id="#topic_${topic.id}" class="Topics" data-toggle="tab">
 											${topic.topicName} </a></li>
+									<!-- //---------------Neha: For For acceptingtopic name with spaces: Part 1 End-------- -->
 
 								</c:forEach>
 							</c:when>
@@ -235,9 +240,14 @@ h6:before {
 									id="container_for-${topic.id}"> --%>
 					<div class="tab-content" class="tab-pane fade in active">
 						<c:forEach items="${mothertopics}" var="topic" varStatus="topicNo">
-
-							<div id="${topic.topicName}" class="topiccontentcontainer"
+							<!-- //---------------Neha: For accepting topic name with spaces: Part 2 End-------- -->
+							<div id="topic_${topic.id}" class="topiccontentcontainer"
 								style="display: none">
+
+						<!-- //---------------Neha: For accepting topic name with spaces: Part 2 End-------- -->
+<%-- 
+							<div id="${topic.topicName}" class="topiccontentcontainer"
+								style="display: none"> --%>
 								<%-- <p>${topic}</p> --%>
 								<table class="table table-striped table-bordered">
 									<tr>

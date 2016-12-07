@@ -193,7 +193,7 @@ h6:before {
 								<c:forEach items="${topics}" var="topic" varStatus="topicNo">
 
 									<li role="presentation"><a href="#"
-										id="#${topic.topicName}" class="Topics" data-toggle="tab">
+										id="#topic_${topic.id}" class="Topics" data-toggle="tab">
 											${topic.topicName} </a></li>
 
 								</c:forEach>
@@ -207,7 +207,7 @@ h6:before {
 					<div class="tab-content" class="tab-pane fade in active">
 						<c:forEach items="${topics}" var="topic" varStatus="topicNo">
 
-							<div id="${topic.topicName}" class="topiccontentcontainer"
+							<div id="topic_${topic.id}" class="topiccontentcontainer"
 								style="display: none">
 								<%-- <p>${topic}</p> --%>
 								<table class="table table-striped table-bordered">

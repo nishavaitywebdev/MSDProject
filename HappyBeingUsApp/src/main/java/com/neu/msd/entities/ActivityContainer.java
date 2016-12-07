@@ -15,6 +15,7 @@ public class ActivityContainer {
 	private String containerName;
 	private int orderNo;
 	private List<Activity> activities;
+	private Version activityContainerVersion;
 	
 	public ActivityContainer() {
 	}
@@ -125,7 +126,21 @@ public class ActivityContainer {
 	public String toString() {
 		return "ActivityContainer [activityContainerId=" + activityContainerId + ", containerName=" + containerName
 				+ ", orderNo=" + orderNo + ", activities=" + activities + "]";
+	}	
+	
+
+	//---------------Neha: For version display: 4--------
+	public Version getActivityContainerVersion() {
+		return activityContainerVersion;
 	}
+
+	public void setActivityContainerVersion(Version activityContainerVersion) {
+		this.activityContainerVersion = activityContainerVersion;
+	}
+
+	//---------------Neha: For version display: 2 End--------	
+
+	
 
 	
 }
