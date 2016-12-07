@@ -8,11 +8,15 @@
 
 <title>Landing page</title>
 
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Bootstrap Core CSS -->
 <link href="css/bootstrap.min.css" rel="stylesheet">
 
 <!-- Custom CSS -->
 <link href="css/half-slider.css" rel="stylesheet">
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
 
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -118,30 +122,34 @@
 <!-- 			</div> -->
 <!-- 		</div> -->
 	<!-- Page Content -->
-	<div class="container">
+	<div class="container-fluid">
 
 		<div class="row">
-			<div class="col-lg-12">
-				<img src="Images/landingPageImage.png" style="margin-left: 150px" />
+			
+			<div class="col-sm-6">
+				<img src="Images/landingPageImage.png" style="margin-left: 150px; " />
 			</div>
-		</div>
+		
 
-		<hr>
+			<hr>
+		</div>
 	</div>
-
 	<!-- Footer -->
-	<footer>
-		<div class="row" style="background-color: #952D54; height: 20px;"></div>
-		<div class="row">
-			<div class="col-lg-12">
-				<p style="margin-left: 50px;">Copyright &copy; HappyBeingUs
-					2016</p>
+	<div class="container-fluid">
+		<footer>
+			<div class="row" style="background-color: #952D54; height: 20px;"></div>
+			<div class="row">
+				<div class="col-sm-6">
+					<p style="margin-left: 50px;">Copyright &copy; HappyBeingUs
+						2016</p>
+				</div>
 			</div>
+			<!-- /.row -->
+		</footer>
 		</div>
-		<!-- /.row -->
-</footer>
 
-	<div class="modal fade" id="Login" role="dialog">
+
+		<div class="modal fade" id="Login" role="dialog">
 		<div class="modal-dialog">
 			<div class="modal-content col-lg-10">
 				<form action="Login.action" method="post"

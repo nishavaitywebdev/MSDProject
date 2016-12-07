@@ -1,6 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+
 <%@ page isELIgnored="false"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -62,12 +62,7 @@ h6:before {
 	height: 200px;
 	z-index: 50;
 }
-/* .btn .btn-default .dropdown-toggle{
-	width:100%;
-}
-.dropdown-menu {
-	width: 100%	
-} */
+
 </style>
 
 
@@ -145,11 +140,7 @@ h6:before {
 			e.preventDefault(); // cancel the link itself
 		});
 
-		$(".goBack").on("click", function(e) {
-			e.preventDefault(); // cancel the link itself
-			$("#editForm").attr('action', this.href);
-			$("#editForm").submit();
-		});
+		
 		$(".nav li").click(function() {
 			$(".nav li").removeClass('active');
 			$(this).addClass('active');
@@ -158,6 +149,24 @@ h6:before {
 		});
 
 		$('.nav-tabs li:first-child a').tab('show');
+		
+		
+		
+	/* 	//Adding Validation
+		$("#validateModal").validate({
+    ignore: [],  // <-- allows for validation of hidden fields
+    rules: {
+        'versionIds[]': {
+            required: true
+        }
+    } 
+});*/
+		
+		$(".goBack").on("click",function(e) {
+		    e.preventDefault(); // cancel the link itself
+		    $("#editForm").attr('action', this.href);
+			$("#editForm").submit();
+		  });
 
 	});
 </script>
@@ -173,13 +182,14 @@ h6:before {
 					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#" class="goBack">Admin</a>
+				
+				<!-- <a class="navbar-brand" href="#" class="goBack"> -->
 			</div>
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav">
-
-					<li><a data-toggle="modal" id="addAdmin" href="#addNewAdmin">Add
-							New Admin</a></li>
+					<li><a href="adminLoadHome.action" class="goBack">Admin</a></li>	
+					<!-- <li><a data-toggle="modal" id="addAdmin" href="#addNewAdmin">Add
+							New Admin</a></li> -->
 
 				</ul>
 				<ul class="nav navbar-nav">
@@ -208,17 +218,23 @@ h6:before {
 			<div class="col-sm-12">
 
 
-
+				
 				<!-- Making changes here -->
 				<div class="container">
 					<ul class="nav nav-pills nav-justified">
 						<c:choose>
-							<c:when test="${fn:length(topics)>0}">
-								<c:forEach items="${topics}" var="topic" varStatus="topicNo">
+							<c:when test="${fn:length(daughtertopics)>0}">
+								<c:forEach items="${daughtertopics}" var="topic" varStatus="topicNo">
 
-									<li role="presentation"><a href="#"
+									<%-- <li role="presentation"><a href="#"
 										id="#${topic.topicName}" class="Topics" data-toggle="tab">
+											${topic.topicName} </a></li> --%>
+
+									<!-- ---------------Neha: For accepting Topic name with spaces--------Part1 -->
+									<li role="presentation"><a href="#"
+										id="#topic_${topic.id}" class="Topics" data-toggle="tab">
 											${topic.topicName} </a></li>
+									<!-- ---------------Neha: For accepting Topic name with spaces--------Part1 End -->
 
 								</c:forEach>
 							</c:when>
@@ -231,11 +247,16 @@ h6:before {
 					<%-- <div class="panel-collapse collapse ${topicNo.index+1 == 1?'in':''}"
 									id="container_for-${topic.id}"> --%>
 					<div class="tab-content" class="tab-pane fade in active">
-						<c:forEach items="${topics}" var="topic" varStatus="topicNo">
+						<c:forEach items="${daughtertopics}" var="topic" varStatus="topicNo">
 
-							<div id="${topic.topicName}" class="topiccontentcontainer"
-								style="display: none">
+							<%-- <div id="${topic.topicName}" class="topiccontentcontainer"
+								style="display: none"> --%>
 								<%-- <p>${topic}</p> --%>
+							<!-- ---------------Neha: For accepting Topic name with spaces--------Part2 -->
+							<div id="topic_${topic.id}" class="topiccontentcontainer"
+								style="display: none">
+								<!-- ---------------Neha: For accepting Topic name with spaces--------Part2 End -->
+
 								<table class="table table-striped table-bordered">
 									<tr>
 										<th>Sr. No</th>
@@ -249,7 +270,17 @@ h6:before {
 													var="activityContainer">
 													<tr>
 														<td><h6></h6></td>
-														<td>${activityContainer.containerName}</td>
+														<td>
+															<!-- ---------------Neha: For version display: 1-------- -->
+															<div class="row">
+																<div class="col-sm-8">${activityContainer.containerName}</div>
+																<div class="col-sm-4">
+																	<span class="label label-default">
+																		${activityContainer.activityContainerVersion.getVersionName()}
+																	</span>
+																</div>
+															</div> <!-- ---------------Neha: For version display: 1-------- -->
+														</td>
 														<td>
 															<%-- <a class="btn btn-success" role="button"
 														id="${activityContainer.activityContainerId}"
@@ -282,12 +313,14 @@ h6:before {
 								<a class="btn btn-success" role="button" data-toggle="modal"
 									data-target="#addNewContainer"
 									id="new_container_under-${topic.id}"
-									onclick="addContainer(this)"> Add New Activity Container to <span>${topic.topicName}</span></a>
-								 <a
-									class="btn btn-danger" id="deleteId_${topic.id}" role="button"
-									onclick="deleteTopic(this)">Delete <span>${topic.topicName}</span></a> <input type="hidden"
-									id="topicNotEmpty_${topic.id}"
-									value="${fn:length(topic.activityContainers)>0}" />
+									onclick="addContainer(this)"> Add New Activity Container to
+									<span>${topic.topicName}</span>
+								</a> <a class="btn btn-danger" id="deleteId_${topic.id}"
+									role="button" onclick="deleteTopic(this)">Delete <span>${topic.topicName}</span></a>
+								<input type="hidden" id="topicNotEmpty_${topic.id}"
+									value="${fn:length(topic.activityContainers)>0}" /> </br> </br> <a
+									class="btn btn-warning" data-toggle="modal"
+									data-target="#addNewTopic" role="button">Add New Topic</a>
 							</div>
 						</c:forEach>
 
@@ -363,8 +396,7 @@ h6:before {
 
 				</br> </br>
 				<!-- Added this on 11/25-->
-				<a class="btn btn-warning" data-toggle="modal"
-					data-target="#addNewTopic" role="button">Add New Topic</a>
+				
 				 
 				<!-- 			<div class="col-sm-4"></div> -->
 				<!-- 			Renaming the topic pop up modal  START-->
@@ -440,9 +472,13 @@ h6:before {
 							<form action="addNewTopic.action" method="post">
 								<div class="modal-body">
 									<input type="text" class="form-control" id="topicName"
-										name="topicName" placeholder="Enter new topic name" required />
+										name="topicName" placeholder="Enter new topic name"/>
 								</div>
+								<div class="modal-body">
 								
+									 <input type="hidden" name="userId" value="NO">
+									
+								</div>								
 								<div class="modal-footer">
 									<input type="submit" class="btn btn-success" role="button"
 										value="Add" />
@@ -467,15 +503,23 @@ h6:before {
 										placeholder="Enter new Activity container name" required /> <input
 										type="hidden" name="topicId" id="topicId" />
 								</div>
+								
 								<div class="modal-body">
+									
 									<c:forEach items="${versions}" var="version">
-										<span><input type="checkbox" name="versionIds"
-											value="${version.id}" /> ${version.versionName}</span>
+										<c:set var="no" value="${no + 1}" scope="page"/>
+										<c:if test="${no <= 2}">
+										<span><input type="radio" name="versionIds"
+											value="${version.id}"/> ${version.versionName}</span>
+										</c:if>
 									</c:forEach>
+									
 								</div>
+							
+								 <input type="hidden" name="versionIdForActivityContainer" value="3">
 								<div class="modal-footer">
 									<input type="submit" class="btn btn-success" role="button"
-										value="Add" />
+										value="Add"/>
 								</div>
 							</form>
 						</div>
@@ -538,98 +582,83 @@ h6:before {
 			<input type="hidden" id="id" name="id" value="" />
 		</form>
 
-		
-	
-			
-			
-				<!-- 		Add Admin START -->
-<div class="modal fade" id="addNewAdmin" role="dialog">
-		<div class="modal-dialog">
-			<div class="modal-content col-lg-10">
+		<div class="container-fluid bg-3 text-right">
 
-				<form:form action="addNewAdmin.action" method="post"
-					modelAttribute="newAdminAuthentication">
-					<div class="modal-header">
-						<h4>Add new Admin</h4>
-					</div>
+			<!--  Adding New Topic Disabled as off now -->
+			<!-- 	<div class="row">
+			<div class="col-sm-8">
+				<a class="btn btn-warning" data-toggle="modal"
+					data-target="#addNewTopic" role="button">Add New Topic</a>
 
-					<div class="modal-body">
-						<div class="form-group">
-							<div class="col-lg-5">
-								<form:input type="text" path="user.firstName" maxlength = "80"
-									class="form-control" name="Firstname" placeholder="First name"
-									required="true" />
-							</div>
-							<div class="col-lg-5">
-								<form:input type="text" path="user.lastName" maxlength = "80"
-									class="form-control" name="Lastname" placeholder="Last Name"
-									required="true" />
-							</div>
-							<br></br>
-						</div>
-						<div class="form-group left-inner-addon ">
-							<div class="col-lg-10 ">
-								<i class="glyphicon glyphicon-envelope"></i>
-								<form:input type="email" path="user.email" maxlength = "80"
-									class="form-control" id = "adminEmail"  name="emailID" placeholder="Email"
-									required="true" />
-							</div>
-							<span id="adminEmailMsg"></span>
-							<br></br>
-						</div>
-						<div class="form-group left-inner-addon">
-							<div class="col-lg-10">
-								<i class="glyphicon glyphicon-user"></i>
-								<form:input type="text" path="username" class="form-control" maxlength = "80" minlength = "6"
-									name="userName" id = "adminUname" placeholder="Username" required="true" />
-									<div id="loadingDiv" class="modal">
-									<img alt="loading" src="Images/loading.gif">
-									</div>
-								<span id="usernameMsg"></span>
-							</div>
-							<br></br>
-						</div>
-						<div class="form-group left-inner-addon">
-							<div class="col-lg-10">
-								<i class="glyphicon glyphicon-lock"></i>
-								<form:input type="password" path="password" class="form-control" maxlength = "80" minlength = "6"
-									name="password" placeholder="password" required="true" />
-							</div>
-						</div>
-						<br></br>
-						<div class="modal-footer">
-							<a class="btn btn-default" data-dismiss="modal">Cancel</a> <input
-								class="btn btn-primary" type="submit" value="Register" />
-
-						</div>
-					</div>
-				</form:form>
 			</div>
 		</div>
-</div>
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
+	</div> -->
+			<!-- 		Add Admin START -->
+			<div class="modal fade" id="addNewAdmin" role="dialog">
+				<div class="modal-dialog">
+					<div class="modal-content col-lg-10">
+
+						<form:form action="addNewAdmin.action" method="post"
+							modelAttribute="userAuthentication">
+							<div class="modal-header">
+								<h4>Add new Admin</h4>
+							</div>
+
+							<div class="modal-body">
+								<div class="form-group">
+									<div class="col-lg-5">
+										<form:input type="text" path="user.firstName" maxlength="80"
+											class="form-control" name="Firstname"
+											placeholder="First name" required="true" />
+									</div>
+									<div class="col-lg-5">
+										<form:input type="text" path="user.lastName" maxlength="80"
+											class="form-control" name="Lastname" placeholder="Last Name"
+											required="true" />
+									</div>
+									<br></br>
+								</div>
+								<div class="form-group left-inner-addon ">
+									<div class="col-lg-10 ">
+										<i class="glyphicon glyphicon-envelope"></i>
+										<form:input type="email" path="user.email" maxlength="80"
+											class="form-control" id="adminEmail" name="emailID"
+											placeholder="Email" required="true" />
+									</div>
+									<span id="adminEmailMsg"></span> <br></br>
+								</div>
+								<div class="form-group left-inner-addon">
+									<div class="col-lg-10">
+										<i class="glyphicon glyphicon-user"></i>
+										<form:input type="text" path="username" class="form-control"
+											maxlength="80" minlength="6" name="userName" id="adminUname"
+											placeholder="Username" required="true" />
+										<div id="loadingDiv" class="modal">
+											<img alt="loading" src="Images/loading.gif">
+										</div>
+										<span id="usernameMsg"></span>
+									</div>
+									<br></br>
+								</div>
+								<div class="form-group left-inner-addon">
+									<div class="col-lg-10">
+										<i class="glyphicon glyphicon-lock"></i>
+										<form:input type="password" path="password"
+											class="form-control" maxlength="80" minlength="6"
+											name="password" placeholder="password" required="true" />
+									</div>
+								</div>
+								<br></br>
+								<div class="modal-footer">
+									<a class="btn btn-default" data-dismiss="modal">Cancel</a> <input
+										class="btn btn-primary" type="submit" value="Register" />
+
+								</div>
+							</div>
+						</form:form>
+					</div>
+				</div>
+			</div>
 			<!-- 		Add Admin  END -->
 			<!-- Footer -->
 			<%@ include file="footer.jsp"%>

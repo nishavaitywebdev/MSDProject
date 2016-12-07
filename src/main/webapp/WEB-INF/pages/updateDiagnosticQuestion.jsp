@@ -119,13 +119,64 @@
 			$('#mcqMoreOptions').css("display", "block");
 			$('#mcqMaxOptions').val(newVal);
 		});
+		
+		$(document).ready(function() {
+	        //      Ajax for renaming the topic name
+	        $("#changeTopicName").click(function() {
+	            topicName = $('#renameTopic input[name=renameTopicName]').val();
+	            topicId = $('#renameTopic input[name=renameTopicId]').val();
+	            $("#loadingDiv").modal("toggle");
+	            $("#renameTopic").modal("toggle");
+	            $.ajax({
+	                type : "POST",
+	                url : "renameTopic.action",
+	                data : "topicName=" + topicName + "&topicId=" + topicId,
+	                success : function(data) {
+	                    $("#loadingDiv").modal("toggle");
+	                    $("#topic_name_" + topicId)[0].innerHTML = topicName;
+	                    $('#' + topicId).attr('name', topicName);
+	                }
+	            });
+	        });
+	 
+	        $('.Topics').on('click', function(e) {
+	 
+	            $(this).parent().addClass('active');
+	            var id = $(this)[0].id.split('#')[1];
+	            $('.topiccontentcontainer').each(function() {
+	                $(this).css("display", "none");
+	            });
+	            $('#' + id).css("display", "block");
+	            e.preventDefault(); // cancel the link itself
+	        });
+	 
+	        
+	        $(".nav li").click(function() {
+	            $(".nav li").removeClass('active');
+	            $(this).addClass('active');
+	            $('.nav-tabs a:first').tab('show')
+	 
+	        });
+	 
+	        $('.nav-tabs li:first-child a').tab('show');
+	        
+	 
+	        $(".goBack").on("click",function(e) {
+	            e.preventDefault(); // cancel the link itself
+	            $("#editForm").attr('action', this.href);
+	 
+	            $("#editForm").submit();
+	          });
+	 
+	    });
 	
 	</script>
 </head>
 <body>
 
 
-<nav class="navbar navbar-inverse">
+
+	<nav class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container-fluid">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse"
@@ -133,20 +184,22 @@
 					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#" class="goBack">Admin Home</a>
+				
+				<!-- <a class="navbar-brand" href="#" class="goBack"> -->
 			</div>
 			<div class="collapse navbar-collapse" id="myNavbar">
+				
 				<ul class="nav navbar-nav">
- 					
-					<li><a data-toggle="modal" id ="addAdmin" href="#addNewAdmin">Add New Admin</a></li>
-					<li class="active"><a href="adminDiagnostic">Diagnostic Questions</a></li> 
+					<li><a href="adminDiagnostic.action">Diagnostic Questions</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="adminLogout.action"><span class="glyphicon glyphicon-log-out"></span> Logout </a></li>
+					<li><a href="adminLogout.action"><span
+							class="glyphicon glyphicon-log-out"></span> Logout </a></li>
 				</ul>
 			</div>
 		</div>
 	</nav>
+	
 	
 	<div class="jumbotron">
 		<div class="container text-center">

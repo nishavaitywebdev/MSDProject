@@ -27,6 +27,10 @@
 /* } */
 </style>
 
+<script type="text/javascript">
+
+</script>​
+
 
 
 </head>
@@ -40,16 +44,20 @@
 		</div>
 	</div>
 <body>
+	<%-- <form name="form1" action="#" onsubmit="return validateForm()" method="post">  --%>
 	<form:form action="dg.action" method="post">
+		<c:set var="questionno" value="0" scope="page" />
 		<c:forEach items="${activityAnswers}" var="activityAnswer">
+			<c:set var="questionno" value="${questionno + 1}" scope="page" />
 			<div class="container">
-				<h2>Question ${activityAnswer.activity.orderNo}</h2>
+				<h2>Question <c:out value="${questionno}" /></h2>
 				<p>${activityAnswer.activity.activityText}</p>
 				<c:forEach items="${activityAnswer.answers}" var="answer">
 					<div class="radio">
-						<label><input type="radio"
+						<label ><input type="radio"
 							name="scores[${activityAnswer.activity.orderNo}]"
 							value="${answer.orderNo}">${answer.answerText}</label>
+							
 					</div>
 				</c:forEach>
 			</div>
@@ -59,6 +67,7 @@
 
 		</div>
 	</form:form>
+	<%-- </form> --%>
 
 
 	<!-- Footer -->

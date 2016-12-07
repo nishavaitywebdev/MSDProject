@@ -62,12 +62,19 @@ h6:before {
 	height: 200px;
 	z-index: 50;
 }
-/* .btn .btn-default .dropdown-toggle{
-	width:100%;
-}
-.dropdown-menu {
-	width: 100%	
+
+/* For Circles being Displayed */
+/* .btn-circle.btn-xl {
+  width: 250px;
+  height: 250px;
+  padding: 40px 56px;
+  font-size: 24px;
+  line-height: 1.33;
+  border-radius: 35px;
 } */
+.circlemother{width:200px;text-align:center;height:200px;border-radius:50px;font-size:20px;color:#fff;line-height:100px;text-align:center;background:pink}
+.circledaughter{width:200px;text-align:center;height:200px;border-radius:50px;font-size:20px;color:#fff;line-height:100px;text-align:center;background:#BCED91}
+
 </style>
 
 
@@ -180,12 +187,15 @@ h6:before {
 
 					<li><a data-toggle="modal" id="addAdmin" href="#addNewAdmin">Add
 							New Admin</a></li>
+							
+							
 
 				</ul>
 				<ul class="nav navbar-nav">
 					<li><a href="adminDiagnostic.action">Diagnostic Questions</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
+				<li><a><span class="glyphicon glyphicon-user"></span>  Welcome Admin, <b> ${user.firstName}</b></a></li>
 					<li><a href="adminLogout.action"><span
 							class="glyphicon glyphicon-log-out"></span> Logout </a></li>
 				</ul>
@@ -208,164 +218,27 @@ h6:before {
 			<div class="col-sm-12">
 
 
-
-				<!-- Making changes here -->
-				<div class="container">
-					<ul class="nav nav-pills nav-justified">
-						<c:choose>
-							<c:when test="${fn:length(topics)>0}">
-								<c:forEach items="${topics}" var="topic" varStatus="topicNo">
-
-									<li role="presentation"><a href="#"
-										id="#${topic.topicName}" class="Topics" data-toggle="tab">
-											${topic.topicName} </a></li>
-
-								</c:forEach>
-							</c:when>
-
-						</c:choose>
-					</ul>
-
-					</br> </br>
-
-					<%-- <div class="panel-collapse collapse ${topicNo.index+1 == 1?'in':''}"
-									id="container_for-${topic.id}"> --%>
-					<div class="tab-content" class="tab-pane fade in active">
-						<c:forEach items="${topics}" var="topic" varStatus="topicNo">
-
-							<div id="${topic.topicName}" class="topiccontentcontainer"
-								style="display: none">
-								<%-- <p>${topic}</p> --%>
-								<table class="table table-striped table-bordered">
-									<tr>
-										<th>Sr. No</th>
-										<th>Activity Title</th>
-										<th>Action</th>
-									</tr>
-									<tbody>
-										<c:choose>
-											<c:when test="${fn:length(topic.activityContainers)>0}">
-												<c:forEach items="${topic.activityContainers}"
-													var="activityContainer">
-													<tr>
-														<td><h6></h6></td>
-														<td>${activityContainer.containerName}</td>
-														<td>
-															<%-- <a class="btn btn-success" role="button"
-														id="${activityContainer.activityContainerId}"
-														onclick="editContainer(id)">Edit</a> --%> <a
-															class="btn btn-info" style="margin-left: 10px"
-															id="${activityContainer.activityContainerId}"
-															onclick="editContainer(id)"> Edit Details</a>
-
-														</td>
-														<!-- 													<td><a href="#" class="btn btn-danger" data-toggle="modal" -->
-														<%-- 										 					data-target="#confirmationDialog" id="deleteId_${activityContainer.activityContainerId}"  --%>
-														<!-- 										 					role="button" onclick="deleteActivityContainer(this)">Delete</a></td> -->
-
-													</tr>
-												</c:forEach>
-											</c:when>
-											<c:otherwise>
-												<div class="jumbotron">
-													<h4>No activity containers available right now. You
-														might want to add some activity container first.</h4>
-												</div>
-											</c:otherwise>
-										</c:choose>
-
-
-									</tbody>
-
-
-								</table>
-								<a class="btn btn-success" role="button" data-toggle="modal"
-									data-target="#addNewContainer"
-									id="new_container_under-${topic.id}"
-									onclick="addContainer(this)"> Add New Activity Container to <span>${topic.topicName}</span></a>
-								 <a
-									class="btn btn-danger" id="deleteId_${topic.id}" role="button"
-									onclick="deleteTopic(this)">Delete <span>${topic.topicName}</span></a> <input type="hidden"
-									id="topicNotEmpty_${topic.id}"
-									value="${fn:length(topic.activityContainers)>0}" />
-							</div>
-						</c:forEach>
-
+					
+				<!-- <button type="button" class="btn btn-default btn-circle btn-xl"></button> -->
+				<div class="col-sm-6">
+					<div class="circlemother" style= "margin: auto;">
+						<a href="mother.action" style="color: black;text-align:center'">Mother Module</a>
 					</div>
-					<%-- </div> -->
-				
-
-
-		<%-- 			<c:choose>
-					<c:when test="${fn:length(topics)>0}">
-						<c:forEach items="${topics}" var="topic" varStatus="topicNo">
-							<div class="jumbotron">
-								<div class="topic_holder">
-									<h2>
-										<span	
-											class="topic_name ${topicNo.index+1 == 1?'':'collapsed'}"
-											data-toggle="collapse"
-											data-target="#container_for-${topic.id}"
-											id="topic_name_${topic.id}">${topic.topicName}</span>
-
-										<button type="button" class="btn btn-success"
-											id="${topic.id}" name="${topic.topicName}"
-											onclick="renameTopic(this)">Rename</button>
-										<a class="btn btn-danger" id="deleteId_${topic.id}"
-										 role="button" onclick="deleteTopic(this)">Delete</a>
-										 <input type="hidden" id="topicNotEmpty_${topic.id}" value="${fn:length(topic.activityContainers)>0}"/>
-									</h2>
-								</div>
-								<div class="panel-collapse collapse ${topicNo.index+1 == 1?'in':''}"
-									id="container_for-${topic.id}">
-									<table class="table table-hover">
-										<tbody>
-										<c:choose>
-										<c:when test="${fn:length(topic.activityContainers)>0}">
-											<c:forEach items="${topic.activityContainers}" var="activityContainer">
-												<tr>
-													<td><h5>${activityContainer.containerName}</h5></td>
-													<td><a class="btn btn-success" role="button"
-														id="${activityContainer.activityContainerId}"
-														onclick="editContainer(id)">Edit</a></td>
-<!-- 													<td><a href="#" class="btn btn-danger" data-toggle="modal" -->
-										 					data-target="#confirmationDialog" id="deleteId_${activityContainer.activityContainerId}" 
-<!-- 										 					role="button" onclick="deleteActivityContainer(this)">Delete</a></td> -->
-												</tr>
-											</c:forEach>
-											</c:when>
-											<c:otherwise>
-												<div class="jumbotron">
-													<h4>No activity containers available right now. You might want to add some activity container first.</h4>
-												</div>
-											</c:otherwise>
-										</c:choose>
-											<tr>
-												<td></td>
-												<td></td>
-												<td><a class="btn btn-warning" role="button" data-toggle="modal"
-										 					data-target="#addNewContainer" id="new_container_under-${topic.id}" onclick="addContainer(this)">Add New Activity Container</a></td>
-											</tr>
-										</tbody>
-
-									</table>
-								</div>
-							</div>
-						</c:forEach>
-					</c:when>
-					<c:otherwise>
-						<div class="jumbotron">
-							<h2>No topics available right now. You might want to add topics first.</h2>
-						</div>
-					</c:otherwise>
-				</c:choose> --%>
 				</div>
+
+				<div class="col-sm-6">
+					<div class="circledaughter" style= "margin: auto;">
+						<a href="daughter.action" style="color: black">Daughter Module</a>
+					</div>
+				</div>
+
+				
 
 				</br> </br>
 				<!-- Added this on 11/25-->
-				<a class="btn btn-warning" data-toggle="modal"
+			<!-- 	<a class="btn btn-warning" data-toggle="modal"
 					data-target="#addNewTopic" role="button">Add New Topic</a>
-				 
+				  -->
 				<!-- 			<div class="col-sm-4"></div> -->
 				<!-- 			Renaming the topic pop up modal  START-->
 				<div class="modal fade" id="renameTopic" role="dialog">
@@ -538,98 +411,75 @@ h6:before {
 			<input type="hidden" id="id" name="id" value="" />
 		</form>
 
+		<div class="container-fluid bg-3 text-right">
+
 		
-	
-			
-			
-				<!-- 		Add Admin START -->
-<div class="modal fade" id="addNewAdmin" role="dialog">
-		<div class="modal-dialog">
-			<div class="modal-content col-lg-10">
+			<!-- 		Add Admin START -->
+			<div class="modal fade" id="addNewAdmin" role="dialog">
+				<div class="modal-dialog">
+					<div class="modal-content col-lg-10">
 
-				<form:form action="addNewAdmin.action" method="post"
-					modelAttribute="newAdminAuthentication">
-					<div class="modal-header">
-						<h4>Add new Admin</h4>
-					</div>
+						<form:form action="addNewAdmin.action" method="post"
+							modelAttribute="userAuthentication">
+							<div class="modal-header">
+								<h4>Add new Admin</h4>
+							</div>
 
-					<div class="modal-body">
-						<div class="form-group">
-							<div class="col-lg-5">
-								<form:input type="text" path="user.firstName" maxlength = "80"
-									class="form-control" name="Firstname" placeholder="First name"
-									required="true" />
-							</div>
-							<div class="col-lg-5">
-								<form:input type="text" path="user.lastName" maxlength = "80"
-									class="form-control" name="Lastname" placeholder="Last Name"
-									required="true" />
-							</div>
-							<br></br>
-						</div>
-						<div class="form-group left-inner-addon ">
-							<div class="col-lg-10 ">
-								<i class="glyphicon glyphicon-envelope"></i>
-								<form:input type="email" path="user.email" maxlength = "80"
-									class="form-control" id = "adminEmail"  name="emailID" placeholder="Email"
-									required="true" />
-							</div>
-							<span id="adminEmailMsg"></span>
-							<br></br>
-						</div>
-						<div class="form-group left-inner-addon">
-							<div class="col-lg-10">
-								<i class="glyphicon glyphicon-user"></i>
-								<form:input type="text" path="username" class="form-control" maxlength = "80" minlength = "6"
-									name="userName" id = "adminUname" placeholder="Username" required="true" />
-									<div id="loadingDiv" class="modal">
-									<img alt="loading" src="Images/loading.gif">
+							<div class="modal-body">
+								<div class="form-group">
+									<div class="col-lg-5">
+										<form:input type="text" path="user.firstName" maxlength="80"
+											class="form-control" name="Firstname"
+											placeholder="First name" required="true" />
 									</div>
-								<span id="usernameMsg"></span>
-							</div>
-							<br></br>
-						</div>
-						<div class="form-group left-inner-addon">
-							<div class="col-lg-10">
-								<i class="glyphicon glyphicon-lock"></i>
-								<form:input type="password" path="password" class="form-control" maxlength = "80" minlength = "6"
-									name="password" placeholder="password" required="true" />
-							</div>
-						</div>
-						<br></br>
-						<div class="modal-footer">
-							<a class="btn btn-default" data-dismiss="modal">Cancel</a> <input
-								class="btn btn-primary" type="submit" value="Register" />
+									<div class="col-lg-5">
+										<form:input type="text" path="user.lastName" maxlength="80"
+											class="form-control" name="Lastname" placeholder="Last Name"
+											required="true" />
+									</div>
+									<br></br>
+								</div>
+								<div class="form-group left-inner-addon ">
+									<div class="col-lg-10 ">
+										<i class="glyphicon glyphicon-envelope"></i>
+										<form:input type="email" path="user.email" maxlength="80"
+											class="form-control" id="adminEmail" name="emailID"
+											placeholder="Email" required="true" />
+									</div>
+									<span id="adminEmailMsg"></span> <br></br>
+								</div>
+								<div class="form-group left-inner-addon">
+									<div class="col-lg-10">
+										<i class="glyphicon glyphicon-user"></i>
+										<form:input type="text" path="username" class="form-control"
+											maxlength="80" minlength="6" name="userName" id="adminUname"
+											placeholder="Username" required="true" />
+										<div id="loadingDiv" class="modal">
+											<img alt="loading" src="Images/loading.gif">
+										</div>
+										<span id="usernameMsg"></span>
+									</div>
+									<br></br>
+								</div>
+								<div class="form-group left-inner-addon">
+									<div class="col-lg-10">
+										<i class="glyphicon glyphicon-lock"></i>
+										<form:input type="password" path="password"
+											class="form-control" maxlength="80" minlength="6"
+											name="password" placeholder="password" required="true" />
+									</div>
+								</div>
+								<br></br>
+								<div class="modal-footer">
+									<a class="btn btn-default" data-dismiss="modal">Cancel</a> <input
+										class="btn btn-primary" type="submit" value="Register" />
 
-						</div>
+								</div>
+							</div>
+						</form:form>
 					</div>
-				</form:form>
+				</div>
 			</div>
-		</div>
-</div>
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
 			<!-- 		Add Admin  END -->
 			<!-- Footer -->
 			<%@ include file="footer.jsp"%>

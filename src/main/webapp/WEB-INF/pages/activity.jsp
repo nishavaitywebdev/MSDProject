@@ -100,9 +100,10 @@
 					+'</div>'
 				+'</div>');
 		$('#mcqMaxOptions').val(nxtVal);
-		if(nxtVal == 5){
+		//Unlimited Options for answers
+		/* if(nxtVal == 5){
 			$('#mcqMoreOptions').css("display", "none");
-		}
+		} */
 	});
 	
 	//		mcq template, remove option

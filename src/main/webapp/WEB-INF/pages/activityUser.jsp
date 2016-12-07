@@ -327,24 +327,7 @@ h3.cardTitle {
 </head>
 <body>
 
-<!-- 	<nav class="navbar navbar-inverse"> -->
-<!-- 		<div class="container-fluid"> -->
-<!-- 			<div class="navbar-header"> -->
-<!-- 				<button type="button" class="navbar-toggle" data-toggle="collapse" -->
-<!-- 					data-target="#myNavbar"> -->
-<!-- 					<span class="icon-bar"></span> <span class="icon-bar"></span> <span -->
-<!-- 						class="icon-bar"></span> -->
-<!-- 				</button> -->
-<!-- 				<a class="navbar-brand" href="#">Home</a> -->
-<!-- 			</div> -->
-<!-- 			<div class="collapse navbar-collapse" id="myNavbar"> -->
-<!-- 				<ul class="nav navbar-nav navbar-right"> -->
-<!-- 					<li><a href="#"><span class="glyphicon glyphicon-log-in"></span> -->
-<!-- 							Logout</a></li> -->
-<!-- 				</ul> -->
-<!-- 			</div> -->
-<!-- 		</div> -->
-<!-- 	</nav> -->
+
 	<%@ include file="header.jsp" %>
 	<c:if test="${c_act.activityTemplate.id ==1}">
 		<div class="jumbotron">
@@ -720,9 +703,13 @@ h3.cardTitle {
 	</c:if>
 	<!-- container -->
 	<tr>
-		<td><br /></td>
+		<td>		
+		<br /></td>
 	</tr>
+	
+	
 	<ul class="pager">
+		
 		<c:if test="${c_act.orderNo == 1 && c_container.orderNo !=1}">
 			<li><a id="3" class="btn navigate-btn">Previous Block</a></li>
 		</c:if>
@@ -733,12 +720,14 @@ h3.cardTitle {
 			<li><a id="2" class="btn navigate-btn">Next</a></li>
 		</c:if>
 		<c:if
-			test="${c_act.orderNo==act_max && c_container.orderNo!= con_max}">
+			test="${c_act.orderNo==act_max && (max_activities_curr_topic-activities_covered) > 0}">
 			<li><a id="4" class="btn navigate-btn">Next Block</a></li>
 		</c:if>
-		<c:if test="${c_act.orderNo==act_max && c_container.orderNo== con_max}">
+		<c:if test="${(c_act.orderNo==act_max && c_container.orderNo== con_max) 
+		    || ((max_activities_curr_topic-act_max) == 0 && c_act.orderNo==act_max)}">
 		<li><a id="5" class="btn navigate-btn"> Finish </a></li>
-		</c:if>
+		</c:if> 
+		
 	</ul>
 	<tr>
 		<td><br /></td>
