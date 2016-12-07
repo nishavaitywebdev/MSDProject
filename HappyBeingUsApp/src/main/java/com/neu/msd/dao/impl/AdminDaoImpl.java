@@ -2076,12 +2076,16 @@ public class AdminDaoImpl implements AdminDao {
 		PreparedStatement stmt = null;
 		List<Topic> filteredTopics = new ArrayList<Topic>();
 		
+		
+		if(topics == null || user == null)
+			return filteredTopics;
+		
 		try {
 			connection = dataSource.getConnection();
 			ResultSet rs = null;
 			
 			for(Topic topic:topics){
-				System.out.println("FOR THE TOPIC ***** "+topic.getTopicName());
+				//System.out.println("FOR THE TOPIC ***** "+topic.getTopicName());
 				String sql = "select is_mothers from topic where topic_id = ?";
 				stmt = connection.prepareStatement(sql);
 				stmt.setInt(1, topic.getId());
