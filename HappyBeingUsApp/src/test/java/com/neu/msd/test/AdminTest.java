@@ -853,11 +853,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import com.neu.msd.dao.AdminDao;
+import com.neu.msd.dao.UserDao;
+import com.neu.msd.entities.Activity;
+//import com.neu.msd.entities.User;
 import com.neu.msd.entities.ActivityContainer;
 import com.neu.msd.entities.ActivityTemplate;
-import com.neu.msd.entities.Mother;
-
-import com.neu.msd.entities.MotherRegistration;
+import com.neu.msd.entities.AdminActivityAnswer;
+import com.neu.msd.entities.Answer;
 import com.neu.msd.entities.Topic;
 import com.neu.msd.entities.User;
 import com.neu.msd.entities.UserAuthentication;
@@ -868,20 +877,6 @@ import com.neu.msd.exception.UserException;
 import com.neu.msd.service.AdminService;
 import com.neu.msd.service.AuthenticateService;
 import com.neu.msd.service.UserService;
-import com.neu.msd.entities.AdminActivityAnswer;
-import com.neu.msd.entities.Answer;
-import com.neu.msd.dao.AdminDao;
-import com.neu.msd.dao.UserDao;
-import com.neu.msd.entities.Activity;
-//import com.neu.msd.entities.User;
-
-
-import org.apache.log4j.Logger;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 
@@ -1469,6 +1464,56 @@ public class AdminTest {
 		}
 		
 		assertEquals(0, activityContainersByVersion.size());										
+	}
+	
+	@Test
+	public void test_filterTopicsForUsersMothers() throws AdminException{
+		
+		List<Topic> topics = adminDao.loadTopics();
+		User user = new User();
+		UserType ut = new UserType();
+		ut.setId(2);
+		user.setUserType(ut);
+		List<Topic> tps = new ArrayList<Topic>();
+		tps = adminDao.filterTopicForUsers(topics, user);
+		
+		assertEquals(true, tps.size() > 0);													
+	}
+	
+	@Test
+	public void test_filterTopicsForUsersDaughters() throws AdminException{
+		
+		List<Topic> topics = adminDao.loadTopics();
+		User user = new User();
+		UserType ut = new UserType();
+		ut.setId(3);
+		user.setUserType(ut);
+		List<Topic> tps = new ArrayList<Topic>();
+		tps = adminDao.filterTopicForUsers(topics, user);
+		
+		assertEquals(true, tps.size() > 0);										
+	}
+	
+
+	@Test
+	public void test_filterTopicsForUsersInput() throws AdminException{
+		
+		List<Topic> topics = new ArrayList<Topic>();
+		User user = null;
+		List<Topic> tps = new ArrayList<Topic>();
+		tps = adminDao.filterTopicForUsers(topics, user);
+		assertEquals(0, tps.size());									
+	}
+	
+
+	@Test
+	public void test_filterTopicsForUsersInput2() throws AdminException{
+		
+		List<Topic> topics = null;
+		User user = new User();
+		List<Topic> tps = new ArrayList<Topic>();
+		tps = adminDao.filterTopicForUsers(topics, user);
+		assertEquals(0, tps.size());										
 	}
 	
 	
