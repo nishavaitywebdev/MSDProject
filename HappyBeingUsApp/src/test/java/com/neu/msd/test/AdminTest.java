@@ -8,6 +8,7 @@ package com.neu.msd.test;
 
 import static org.junit.Assert.assertEquals;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,6 +32,7 @@ import com.neu.msd.entities.Topic;
 import com.neu.msd.entities.User;
 import com.neu.msd.entities.UserAuthentication;
 import com.neu.msd.entities.UserType;
+import com.neu.msd.entities.Version;
 import com.neu.msd.exception.AdminException;
 import com.neu.msd.exception.AuthenticationException;
 import com.neu.msd.exception.UserException;
@@ -649,7 +651,7 @@ public class AdminTest {
 		ut.setId(3);
 		user.setUserType(ut);
 		List<Topic> tps = new ArrayList<Topic>();
-		tps = adminDao.filterTopicForUsers(topics, user);
+		tps = adminService.filterTopicForUsers(topics, user);
 		
 		assertEquals(true, tps.size() > 0);										
 	}
@@ -661,7 +663,7 @@ public class AdminTest {
 		List<Topic> topics = new ArrayList<Topic>();
 		User user = null;
 		List<Topic> tps = new ArrayList<Topic>();
-		tps = adminDao.filterTopicForUsers(topics, user);
+		tps = adminService.filterTopicForUsers(topics, user);
 		assertEquals(0, tps.size());									
 	}
 	
@@ -672,9 +674,34 @@ public class AdminTest {
 		List<Topic> topics = null;
 		User user = new User();
 		List<Topic> tps = new ArrayList<Topic>();
-		tps = adminDao.filterTopicForUsers(topics, user);
+		tps = adminService.filterTopicForUsers(topics, user);
 		assertEquals(0, tps.size());										
+		
 	}
 	
+	@Test
+	public void version_controlTest() throws AdminException{
+		
+		List<Version> ver = adminService.loadAllVersion();
+		assertEquals(true, ver.size() > 0);			
+		
+	}
+	
+	@Test
+	public void user_score_getWeight() throws UserException, SQLException{
+		
+		Integer[] weight = userService.getweigh();
+		assertEquals(true, weight.length > 0);
+		
+	}
+	
+	@Test
+	public void user_DiagnosticQuestions() throws UserException, SQLException, AdminException{
+		
+		List<AdminActivityAnswer> lst = userService.getDiagnosticQuestions();
+		assertEquals(true, lst!=null);
+		
+	}
+
 	
 }
