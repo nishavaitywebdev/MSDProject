@@ -76,7 +76,10 @@ public class UserServiceImpl implements UserService {
 		return adminActivityAnswers;
 	}
 
-	public List<Topic> getTopicsOfUser(User user) throws UserException {
+	public List<Topic> 
+
+
+(User user) throws UserException {
 		List<Topic> topics = new ArrayList<Topic>();
 		int versionId = -1;
 		if(user.getVersion() != null)			

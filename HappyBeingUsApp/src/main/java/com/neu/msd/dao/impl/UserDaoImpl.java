@@ -2030,7 +2030,7 @@ public class UserDaoImpl implements UserDao {
 
 			sql = "insert into user_topic_container_activity_answer "
 					+ "(user_id, topic_id, activity_container_id, activity_id, answer_id, answer_desc) "
-					+ "values (?, ?, ?, ?, 1, ?)";
+					+ "values (?, ?, ?, ?, -1, ?)";
 			stmt = connection.prepareStatement(sql);
 			stmt.setInt(1, userId);
 			stmt.setInt(2, topicId);

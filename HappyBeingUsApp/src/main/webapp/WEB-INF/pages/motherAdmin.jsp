@@ -128,8 +128,10 @@ h6:before {
 				data : "topicName=" + topicName + "&topicId=" + topicId,
 				success : function(data) {
 					$("#loadingDiv").modal("toggle");
-					$("#topic_name_" + topicId)[0].innerHTML = topicName;
+					//window.location.href = "http://localhost:8080/HappyBeingUsApp/adminLoadHome.action";
+					$("#topic_" + topicId)[0].innerHTML = topicName;
 					$('#' + topicId).attr('name', topicName);
+					
 				}
 			});
 		});
@@ -216,7 +218,7 @@ h6:before {
 				<div class="container">
 					<ul class="nav nav-pills nav-justified">
 						<c:choose>
-							<c:when test="${fn:length(topics)>0}">
+							<c:when test="${fn:length(mothertopics)>0}">
 								<c:forEach items="${mothertopics}" var="topic" varStatus="topicNo">
 
 									<%-- <li role="presentation"><a href="#"
@@ -230,12 +232,16 @@ h6:before {
 
 								</c:forEach>
 							</c:when>
-
+							<c:otherwise>
+								
+								<a class="btn btn-warning" data-toggle="modal"
+									data-target="#addNewTopic" role="button">Add New Topic</a>
+							</c:otherwise>
 						</c:choose>
 					</ul>
 
 					</br> </br>
-
+					
 					<%-- <div class="panel-collapse collapse ${topicNo.index+1 == 1?'in':''}"
 									id="container_for-${topic.id}"> --%>
 					<div class="tab-content" class="tab-pane fade in active">
@@ -264,9 +270,8 @@ h6:before {
 														<td><h6></h6></td>
 														<td>${activityContainer.containerName}</td>
 														<td>
-															<%-- <a class="btn btn-success" role="button"
+															<a role="button"
 														id="${activityContainer.activityContainerId}"
-														onclick="editContainer(id)">Edit</a> --%> <a
 															class="btn btn-info" style="margin-left: 10px"
 															id="${activityContainer.activityContainerId}"
 															onclick="editContainer(id)"> Edit Details</a>
@@ -304,10 +309,21 @@ h6:before {
 									</br>
 									</br> <a class="btn btn-warning" data-toggle="modal"
 									data-target="#addNewTopic" role="button">Add New Topic</a>
+									<%-- <form action="adminLoadHome.action" method="post">
+									<a class="btn btn-primary" data-toggle="modal" id="${topic.id}"
+									name="${topic.topicName}" role="button" onclick="renameTopic(this)">Edit Topic</a>
+									</form> --%>
+									
+									<%-- <button type="button" class="btn btn-success"
+											id="${topic.id}" name="${topic.topicName}"
+											onclick="renameTopic(this)">Rename</button> --%>
 							</div>
 						</c:forEach>
+						
+						
 
 					</div>
+					
 					<%-- </div> -->
 				
 
@@ -375,7 +391,9 @@ h6:before {
 						</div>
 					</c:otherwise>
 				</c:choose> --%>
+				
 				</div>
+				
 
 				</br> </br>
 				<!-- Added this on 11/25-->

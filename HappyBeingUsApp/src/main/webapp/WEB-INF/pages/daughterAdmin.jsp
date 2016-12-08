@@ -238,6 +238,10 @@ h6:before {
 
 								</c:forEach>
 							</c:when>
+							<c:otherwise>								
+								<a class="btn btn-warning" data-toggle="modal"
+									data-target="#addNewTopic" role="button">Add New Topic</a>
+							</c:otherwise>
 
 						</c:choose>
 					</ul>

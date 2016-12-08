@@ -40,7 +40,7 @@
 	<div class="jumbotron">
 		<div class="container text-center">
 			<h1>Happy Profile Quiz</h1>
-			<p>Please answer to the following questions and click on SUBMIT !</p>
+			<p>Please answer the following questions and click on SUBMIT !</p>
 		</div>
 	</div>
 <body>

@@ -298,7 +298,7 @@ public class AdminController {
 		}
 		System.out.println("---------------------");
 		session.setAttribute("mothertopics", motherTopics); //Update the topics
-		
+		//model.addAttribute("mothertopics", motherTopics);
 		
 		return "motherAdmin";
 
@@ -587,7 +587,7 @@ public class AdminController {
 				newTopics.add(topic);
 			}
 			session.setAttribute("topics", newTopics);
-
+			
 			LOGGER.debug("AdminController: renameTopic: END");
 			return String.valueOf(returnVal);
 		} catch (AdminException e) {

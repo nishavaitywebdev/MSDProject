@@ -53,9 +53,10 @@
 					+'</div>'
 				+'</div>');
 		$('#mcqMaxOptions').val(nxtVal);
-		if(nxtVal == 5){
+		//Removing for Infinite Options
+		/* if(nxtVal == 5){
 			$('#mcqMoreOptions').css("display", "none");
-		}
+		} */
 	});
 	
 	//		mcq template, remove option
