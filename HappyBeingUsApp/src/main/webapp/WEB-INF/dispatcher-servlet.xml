@@ -25,9 +25,9 @@
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="username" value="root" />
 
-		<!-- <property name="password" value="root" />  -->
+		<property name="password" value="root" /> 
 
-		 <property name="password" value="password" /> <!-- Change this before final push -->
+		 <!-- <property name="password" value="password" /> --> <!-- Change this before final push -->
 
 	</bean>
 

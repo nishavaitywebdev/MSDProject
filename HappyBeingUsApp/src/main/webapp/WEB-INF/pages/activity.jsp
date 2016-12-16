@@ -186,12 +186,13 @@
 					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#" class="goBack">Admin Home</a>
+				<!-- <a class="navbar-brand" href="#" class="goBack">Admin Home</a> -->
 			</div>
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav">
- 					<li class="active"><a href="#" class="goBack">Topics and Blocks</a></li> 
-					<li><a data-toggle="modal" id ="addAdmin" href="#addNewAdmin">Add New Admin</a></li>
+					<li><a href="mother.action">Back To Topics</a></li>
+ 					<!-- <li class="active"><a href="#" class="goBack">Topics and Blocks</a></li>  -->
+					<!-- <li><a data-toggle="modal" id ="addAdmin" href="#addNewAdmin">Add New Admin</a></li> -->
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="adminLogout.action"><span class="glyphicon glyphicon-log-out"></span> Logout </a></li>
@@ -326,12 +327,13 @@
 										class="form-control" rows="5" id="commentMCQ"
 										placeholder="Enter Question Contents Here."></form:textarea>
 								</div>
-
-								<div id="mcqOptions">
 								
+								<div id="mcqOptions">
+									
 									<div class="mcqOption" id="mcqOption_1" class="form-group">
 										<div class="row">
 											<div class="col-sm-1">
+												
 												<input type="Checkbox" name="correctAnswer" class="chkbx"
 													id="checkBox_1" />
 											</div> 
@@ -346,6 +348,7 @@
 											</div>
 										</div>
 									</div>
+									</br>
 									<div class="mcqOption" id="mcqOption_2" class="form-group">
 										<div class="row">
 											<div class="col-sm-1">
@@ -363,6 +366,7 @@
 											</div>
 										</div>
 									</div>
+									</br>
 									
 								<div class="mcqOption" id="mcqOption_3" class="form-group">
 									<div class="row">
@@ -382,6 +386,7 @@
 									</div>
 								</div>
 								</div>
+								</br>
 								<tr>
 									<td><br /></td>
 								</tr>
@@ -396,7 +401,7 @@
 										</div>
 										<div class="col-sm-6">
 											<div class="text-right">
-												<button type="submit" class="btn btn-primary btn_lg">Add</button>
+												<button type="submit" class="btn btn-primary btn_lg">Add Question</button>
 											</div>
 										</div>
 									</div>
@@ -409,10 +414,13 @@
 								<footer class="container-fluid text-right"> </footer>
 							</div>
 							<form:input type="hidden" path="activityType.id" />
+							</br>
 							<form:input type="hidden" path="activityTemplate.id"
 								value="${template.id}" />
+								</br>
 							<form:input type="hidden"
 								path="activityContainer.activityContainerId" />
+								</br> 
 
 						</div>
 					</form:form>

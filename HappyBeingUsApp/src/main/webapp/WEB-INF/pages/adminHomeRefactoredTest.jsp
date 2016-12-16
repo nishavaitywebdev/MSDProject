@@ -195,7 +195,7 @@ h6:before {
 					<li><a href="adminDiagnostic.action">Diagnostic Questions</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
-				<li><a><span class="glyphicon glyphicon-user"></span>  Welcome Admin, <b> ${user.firstName}</b></a></li>
+				<li><a><span class="glyphicon glyphicon-user"></span>  Welcome Admin</a></li>
 					<li><a href="adminLogout.action"><span
 							class="glyphicon glyphicon-log-out"></span> Logout </a></li>
 				</ul>

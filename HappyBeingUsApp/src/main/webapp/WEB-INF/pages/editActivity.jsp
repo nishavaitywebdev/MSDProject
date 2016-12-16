@@ -182,12 +182,12 @@
 					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#" class="goBack">Admin Home</a>
+				<!-- <a class="navbar-brand" href="#" class="goBack">Admin Home</a> -->
 			</div>
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav">
-				<li class="active"><a href="adminLoadHome.action" class="goBack">Topics and Blocks</a></li>
-					<li><a data-toggle="modal" id ="addAdmin" href="#addNewAdmin">Add New Admin</a></li>
+				<li><a href="mother.action">Back To Topics</a></li>
+					<!-- <li><a data-toggle="modal" id ="addAdmin" href="#addNewAdmin">Add New Admin</a></li> -->
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="adminLogout.action"><span class="glyphicon glyphicon-log-out"></span> Logout </a></li>
@@ -198,8 +198,8 @@
 
 	<div class="jumbotron">
 		<div class="container text-center">
-			<h2>Create Activity</h2>
-			<p>Create Activities here:
+			<h2>Edit Activity</h2>
+			<p>Edit the Activity here:
 			<p>
 		</div>
 	</div>
@@ -261,7 +261,7 @@
 						</c:if>
 					</div>
 
-					<input type="submit" class="btn btn-primary btn_lg" value="Add" />
+					<input type="submit" class="btn btn-success btn_lg" value="Add" />
 				</div>
 				<tr>
 					<td><br /></td>
@@ -330,7 +330,7 @@
 						</c:if>
 					</div>
 
-					<input type="submit" class="btn btn-primary btn_lg" value="Add" />
+					<input type="submit" class="btn btn-success btn_lg" value="Add" />
 				</div>
 				<tr>
 					<td><br /></td>
@@ -380,10 +380,11 @@
 											placeholder="Content for this choice" required />
 									</div>
 									<div class="col-sm-1">
-										<button class="removeOption btn btn-primary btn_lg"
+										<button class="removeOption btn btn-danger btn_lg"
 											id="removeOption_${answer.orderNo}" type="button">Remove</button>
 									</div>
 								</div>
+								</br>
 							</div>
 						</c:forEach>
 					</div>
@@ -400,13 +401,14 @@
 							</div>
 							<div class="col-sm-6">
 								<div class="text-right">
-									<button type="submit" class="btn btn-primary btn_lg">Add</button>
+									<button type="submit" class="btn btn-success btn_lg">Save Changes</button>
 								</div>
 							</div>
 						</div>
 					</div>
+					
 				</div>
-				<tr>
+				<tr>	
 					<td><br /></td>
 				</tr>
 				<div class="jumbotron">
@@ -439,7 +441,7 @@
 					</div>
 
 					<div class="container text-right">
-						<button type="submit" class="btn btn-primary btn_lg">Add</button>
+						<button type="submit" class="btn btn-success btn_lg">Save Changes</button>
 					</div>
 				</div>
 				<tr>
@@ -628,7 +630,7 @@
 					</tr>
 
 					<div class="container text-right">
-						<button type="submit" class="btn btn-primary btn_lg">Add</button>
+						<button type="submit" class="btn btn-success btn_lg">Save Changes</button>
 					</div>
 				</div>
 				<tr>
@@ -663,7 +665,7 @@
 					</div>
 
 					<div class="container text-right">
-						<button type="submit" class="btn btn-primary btn_lg">Add</button>
+						<button type="submit" class="btn btn-success btn_lg">Save Changes</button>
 					</div>
 				</div>
 				<tr>
@@ -688,3 +690,11 @@
 	<%@ include file="footer.jsp" %>
 </body>
 </html>
+
+
+
+
+
+ 
+ 
+ 

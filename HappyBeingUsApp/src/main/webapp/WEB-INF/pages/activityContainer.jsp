@@ -149,9 +149,10 @@
 			</div>
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav">
-					<li><a href="adminLoadHome.action" class="goBack">Topics and Blocks</a></li>
-<!-- 					<li class="active"><a href="#">Blocks and Activities</a></li> -->
-					<li><a data-toggle="modal" id ="addAdmin" href="#addNewAdmin">Add New Admin</a></li>
+					<!-- <li><a href="adminLoadHome.action" class="goBack">Topics and Blocks</a></li> -->
+					<li><a href="mother.action">Back to Topic</a></li>
+
+					<!-- <li><a data-toggle="modal" id ="addAdmin" href="#addNewAdmin">Add New Admin</a></li> -->
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="adminLogout.action"><span class="glyphicon glyphicon-log-out"></span> Logout </a></li>
