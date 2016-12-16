@@ -89,13 +89,14 @@
 				+'<input class="option  form-control" type="text" name="option_'+nxtVal+'" id="option_'+nxtVal+'" placeholder="Content for this choice" required/> '
 				+'</div>'
 				+'<div class="col-sm-1">'
-				+'<button class="removeOption btn btn-primary btn_lg" id="removeOption_'+nxtVal+'" type="button">Remove</button><br> '
+				+'<button class="removeOption btn btn-danger btn_lg" id="removeOption_'+nxtVal+'" type="button">Remove</button><br> '
 				+'</div>'
-			+'</div>');
+				+'</div>'
+				+'</br>');
 		$('#mcqMaxOptions').val(nxtVal);
-		if(nxtVal == 5){
+		/* if(nxtVal == 5){
 			$('#mcqMoreOptions').css("display", "none");
-		}
+		} */
 	});
 	
 	//		mcq template, remove option
