@@ -88,6 +88,7 @@
 		var nxtVal = parseInt(maxVal)+1;
 		$('#mcqOptions').append(
 				'<div class="mcqOption" id="mcqOption_'+nxtVal+'"  class="form-group"> '
+					+'</br>'
 					+ '<div class="row"> '
 					+ '<div class="col-sm-1"> '
 					+'<input type="Checkbox" name="correctAnswer" class="chkbx" id="checkBox_'+nxtVal+'" /> '
@@ -96,7 +97,7 @@
 					+'<input class="option  form-control" type="text" name="option_'+nxtVal+'" id="option_'+nxtVal+'" placeholder="Content for this choice" required/> '
 					+'</div>'
 					+'<div class="col-sm-1">'
-					+'<button class="removeOption btn btn-primary btn_lg" id="removeOption_'+nxtVal+'" type="button">Remove</button><br> '
+					+'<button class="removeOption btn btn-danger btn_lg" id="removeOption_'+nxtVal+'" type="button">Remove</button><br> '
 					+'</div>'
 				+'</div>');
 		$('#mcqMaxOptions').val(nxtVal);
@@ -190,8 +191,8 @@
 			</div>
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav">
-					<li><a href="mother.action">Back To Topics</a></li>
- 					<!-- <li class="active"><a href="#" class="goBack">Topics and Blocks</a></li>  -->
+					<!-- <li><a href="mother.action">Back To Topics</a></li> -->
+ 					<!-- <li class="active"><a href="#" class="goBack">Topics and Blocks</a></li> -->
 					<!-- <li><a data-toggle="modal" id ="addAdmin" href="#addNewAdmin">Add New Admin</a></li> -->
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
@@ -343,7 +344,7 @@
 													placeholder="Content for this choice" required />
 											</div>
 											<div class="col-sm-1">
-												<button class="removeOption btn btn-primary btn_lg"
+												<button class="removeOption btn btn-danger btn_lg"
 													id="removeOption_1" type="button">Remove</button>
 											</div>
 										</div>
@@ -361,7 +362,7 @@
 													placeholder="Content for this choice" required />
 											</div>
 											<div class="col-sm-1">
-												<button class="removeOption btn btn-primary btn_lg"
+												<button class="removeOption btn btn-danger btn_lg"
 													id="removeOption_2" type="button">Remove</button>
 											</div>
 										</div>
@@ -380,16 +381,16 @@
 												placeholder="Content for this choice" required />
 										</div>
 										<div class="col-sm-1">
-											<button class="removeOption btn btn-primary btn_lg"
+											<button class="removeOption btn btn-danger btn_lg"
 												id="removeOption_3" type="button">Remove</button>
 										</div>
 									</div>
 								</div>
 								</div>
-								</br>
 								<tr>
 									<td><br /></td>
 								</tr>
+								</br>
 								<div class="container">
 									<div class="row">
 										<div class="col-sm-6">
@@ -425,6 +426,7 @@
 						</div>
 					</form:form>
 					<input type="hidden" id="mcqMaxOptions" value="3" />
+					
 				</c:if>
 				<c:if test="${template.id==4}">
 					<form:form action="addActivity.action" method="post" name="mcqForm"

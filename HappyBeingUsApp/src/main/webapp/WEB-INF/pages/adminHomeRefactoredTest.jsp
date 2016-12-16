@@ -235,12 +235,7 @@ h6:before {
 				
 
 				</br> </br>
-				<!-- Added this on 11/25-->
-			<!-- 	<a class="btn btn-warning" data-toggle="modal"
-					data-target="#addNewTopic" role="button">Add New Topic</a>
-				  -->
-				<!-- 			<div class="col-sm-4"></div> -->
-				<!-- 			Renaming the topic pop up modal  START-->
+				
 				<div class="modal fade" id="renameTopic" role="dialog">
 					<div class="modal-dialog">
 						<div class="modal-content">
@@ -470,9 +465,10 @@ h6:before {
 									</div>
 								</div>
 								<br></br>
+								</br>
 								<div class="modal-footer">
-									<a class="btn btn-default" data-dismiss="modal">Cancel</a> <input
-										class="btn btn-primary" type="submit" value="Register" />
+									<a class="btn btn-danger" data-dismiss="modal">Cancel</a> <input
+										class="btn btn-success" type="submit" value="Register" />
 
 								</div>
 							</div>

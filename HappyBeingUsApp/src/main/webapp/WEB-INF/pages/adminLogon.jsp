@@ -111,6 +111,8 @@
 						
 						<br></br>
 					</div>
+					</br>
+					</br>
 					<div class="modal-footer">
 						<a class="btn btn-default" data-dismiss="modal">Cancel</a>
 						<button class="btn btn-primary" type="submit">Login</button>

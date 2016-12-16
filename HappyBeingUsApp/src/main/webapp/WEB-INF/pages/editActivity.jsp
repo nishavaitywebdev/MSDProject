@@ -94,9 +94,7 @@
 				+'</div>'
 				+'</br>');
 		$('#mcqMaxOptions').val(nxtVal);
-		/* if(nxtVal == 5){
-			$('#mcqMoreOptions').css("display", "none");
-		} */
+		
 	});
 	
 	//		mcq template, remove option
@@ -187,7 +185,7 @@
 			</div>
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav">
-				<li><a href="mother.action">Back To Topics</a></li>
+				
 					<!-- <li><a data-toggle="modal" id ="addAdmin" href="#addNewAdmin">Add New Admin</a></li> -->
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
